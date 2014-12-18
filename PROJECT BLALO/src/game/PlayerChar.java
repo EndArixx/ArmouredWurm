@@ -1,0 +1,253 @@
+package game;
+
+import java.awt.Graphics;
+
+public class PlayerChar extends Sprite 
+{
+	protected int gravity;
+	protected int headhitbox[] = new int[4];
+	protected int feethitbox[] = new int[4];
+	protected int backhitbox[] = new int[4];
+	protected int fronthitbox[] = new int[4];
+	protected int legA[] = new int[2];
+	protected int topA[] = new int[2];
+	protected Sprite legs;
+	protected boolean jumping, forward, backward,FF, falling,hasR;
+	protected gun rifle;
+
+	public PlayerChar(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col)
+	{
+		super(spriteloc,x,y,width,height,row,col,15);
+		
+		jumping= false;
+		forward = false;
+		backward = false;
+		FF = true;
+		falling = false;
+		this.speedX = 15;
+		this.speedY = 15;
+		this.gravity = 10;
+		this.timerspeed = 5;
+		this.legA[0] = 10;
+		this.legA[1] = 10;
+		this.topA[0] = 10;
+		this.topA[1] = 10;
+		this.hasR = false;
+		legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
+		this.setHitbox(0, 0, width, height);
+	}
+	public void setlegA(int S)
+	{
+		this.legA[0]= S;
+		this.legA[1] = S;
+	}
+	public void settopA(int S)
+	{
+		this.topA[0] = S;
+		this.topA[1] = S;
+	}
+	public void giveGun(gun rifle)
+	{
+		this.hasR = true;
+		this.rifle = rifle;
+	}
+
+	public void damage() 
+	{
+		System.out.println("OUCH! THAT HURT!");
+	}
+	public void fire(World theWorld)
+	{
+		if(hasR)
+		{
+			rifle.Fire(theWorld);
+		}
+	}
+	public void update()
+	{
+		if (FF)
+		{
+			this.row = 0;
+			legs.setRow(0);
+			legs.setColN(0);
+		}
+		else
+		{
+			this.row = 1;
+			legs.setRow(2);
+			legs.setColN(0);
+		}
+		if(jumping || forward || backward)
+		{
+			if(forward)
+			{
+				if(jumping)
+				{
+					legs.setRow(4);
+					legs.setColN(0);
+					this.row = 2;
+					this.col = 1;
+					this.colN = 0;
+				}
+				else if(falling)
+				{
+					legs.setRow(4);
+					legs.setColN(0);
+					this.row = 2;
+					this.col = 1;
+					this.colN = 0;
+				}
+				else
+				{
+					legs.setRow(1);
+					legs.setColN(legA[0]);
+					this.row = 2;
+					this.colN = topA[0];
+				}
+			}
+			else if(backward)
+			{
+				if  (jumping)
+				{
+					legs.setRow(5);
+					legs.setColN(0);
+					this.row = 3;
+					this.col = 1;
+					this.colN = 0;
+				}
+				else if(falling)
+				{
+					legs.setRow(5);
+					legs.setColN(0);
+					this.row = 3;
+					this.col = 1;
+					this.colN = 0;
+				}
+				else
+				{
+					legs.setRow(3);
+					legs.setColN(legA[1]);
+					this.row = 3;
+					this.colN = topA[1];
+				}
+			}
+		}
+		else
+		{
+			this.col = 0;
+			this.colN =0;
+		}
+		legs.setX(x);
+		legs.setY(y);
+		if(hasR)
+		{
+			rifle.update();
+		}
+		this.animateCol();
+		legs.animateCol();
+	}
+	public void render(Graphics g)
+	{	
+			
+			if(hasR)
+			{
+				rifle.render(g);
+			}
+			legs.render(g);
+			super.render(g);
+	}
+	
+	public void fall()
+		{
+			this.y = this.y + gravity;
+			this.falling = true;
+		}
+	public int getGravity()
+		{return this.gravity;}
+	public void moveXp()
+		{this.x = this.x + speedX;}
+	public void moveYp()
+		{this.y = this.y + speedY;}
+	public void moveXn()
+		{this.x = this.x - speedX;}
+	public void moveYn()
+		{this.y = this.y - speedY;}
+	public void setFaceForward(boolean FF)
+		{this.FF = FF;}
+	public void setJumping(boolean jumping)
+		{this.jumping = jumping;}
+	public void setForward(boolean forward)
+		{this.forward = forward;}
+	public void setbackward(boolean backward)
+		{this.backward = backward;}
+	public void setfalling(boolean falling)
+		{this.falling = falling;}
+	public boolean getFacingForward()
+		{return this.FF;}
+	public boolean getJumping()
+		{return this.jumping;}
+	public boolean getForward()
+		{return this.forward;}
+	public boolean getBackward()
+		{return this.backward;}
+	public void setHitbox(int x, int y, int width, int height)
+	{
+		this.hitbox[0] = x;
+		this.hitbox[1] = y;
+		this.hitbox[2] = width;
+		this.hitbox[3] = height;
+		this.headhitbox[0] = x;
+		this.headhitbox[1] = y;
+		this.headhitbox[2] = width;
+		this.headhitbox[3] = height/4;
+		this.fronthitbox[0] = x + width/2;
+		this.fronthitbox[1] = y + height/8;
+		this.fronthitbox[2] = width/2;
+		this.fronthitbox[3] = 3*height/4;
+		this.backhitbox[0] = x;
+		this.backhitbox[1] = y + height/8;
+		this.backhitbox[2] = width/2;
+		this.backhitbox[3] = 3*height/4;
+		this.feethitbox[0] = x;
+		this.feethitbox[1] = y + 3* height/4;
+		this.feethitbox[2] = width;
+		this.feethitbox[3] = height/4;
+	}
+	public int[] getheadHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + headhitbox[0];
+		outbox[1] = y + headhitbox[1];
+		outbox[2] = headhitbox[2];
+		outbox[3] = headhitbox[3];
+		return outbox;
+	}
+	public int[] getfrontHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + fronthitbox[0];
+		outbox[1] = y + fronthitbox[1];
+		outbox[2] = fronthitbox[2];
+		outbox[3] = fronthitbox[3];
+		return outbox;
+	}
+	public int[] getbackHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + backhitbox[0];
+		outbox[1] = y + backhitbox[1];
+		outbox[2] = backhitbox[2];
+		outbox[3] = backhitbox[3];
+		return outbox;
+	}
+	public int[] getfeetHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + feethitbox[0];
+		outbox[1] = y + feethitbox[1];
+		outbox[2] = feethitbox[2];
+		outbox[3] = feethitbox[3];
+		return outbox;
+	}
+	
+}
