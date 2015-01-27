@@ -1,0 +1,10 @@
+mountain
+res/mount-,2,2,1280,720
+2560,1440
+0,0,6,0,0,0
+res/1-1grass0.png,300,600
+res/1-1grass1.png,600,800
+res/1-1grass2.png,1000,1300
+res/1-1grass3.png,2300,600
+res/1-1grass2.png,300,1200
+res/1-1grass3.png,700,600

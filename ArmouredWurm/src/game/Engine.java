@@ -41,6 +41,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private Image screen;
 	private static String windowName = "PROJECT BLALO";
 	private boolean N,S,W,E,F;
+	private String lvl = "res/mountain.txt";
+	private boolean isLoading = false;
 	
 //constructor---------------------------------------------------------------------------------------	
 	public Engine()
@@ -119,8 +121,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			windowHB[1]= 0;
 			windowHB[2]= window.width;
 			windowHB[3]= window.height;
-		
-			loadLevel("res/testlevel.txt");
+			isLoading = true;
+			loadLevel("res/mountain.txt");
+			isLoading = false;
 			
 			player = new PlayerChar("playerOne","res/BroTop.png","res/BroLeg.png",50,150,202,191,2,0);
 			player.setHitbox(50, 0, 100, 180);	
@@ -257,15 +260,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    
 		while (isRunning)
 		{
-			loops = 0;
-			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) {
-				movement();
-				update();
-				
-				next_game_tick += SKIP_TICKS;
-				loops++;
+			if(!isLoading)
+			{
+				loops = 0;
+				while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) {
+					movement();
+					update();
+					
+					next_game_tick += SKIP_TICKS;
+					loops++;
+				}
+				render();
 			}
-			render();
 			
 		}
 		
@@ -457,6 +463,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					
 			case KeyEvent.VK_Q: //Quit
 				isRunning = false;
+					break;
+					
+			case KeyEvent.VK_L: //DEV_BUTTON Load debug level           DEV!!!!!!!
+				player.setX(0);
+				player.setY(0);
+				theWorld.setX(0);
+				theWorld.setY(0);
+				isLoading = true;
+				loadLevel("res/testlevel.txt");
+				isLoading = false;
 					break;
 					
 		}
