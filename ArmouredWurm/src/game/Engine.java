@@ -8,7 +8,10 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -48,24 +51,96 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		this.addKeyListener(this);	
 	}
 	
-	
-	private void setUp() 
+	public void loadLevel(String lvlname)
 	{
+		String name;
+		String[] temp;
+		BufferedReader br;
+	    try {
+	    	br = new BufferedReader(new FileReader(lvlname));
+	        String line = br.readLine();
+	        name = line;
+	        
+	        	//Load in the TileData
+	        line = br.readLine();
+	        temp = line.split(",");
+	        partyboat = new TileMap(temp[0],
+	        		Integer.parseInt(temp[1]),
+	        		Integer.parseInt(temp[2]), 
+	        		Integer.parseInt(temp[3]), 
+	        		Integer.parseInt(temp[4]));
+	        
+	        	//Load in World Data
+	        line = br.readLine();
+	        temp = line.split(",");
+	        theWorld = new World(Integer.parseInt(temp[0]),
+	        		Integer.parseInt(temp[1])); 
+	        
+	        	//Load in Lvl object
+	        line = br.readLine();
+	        temp = line.split(",");
+	        
+	        weather = new Looper[Integer.parseInt(temp[0])];
+	        int wnum = Integer.parseInt(temp[0]);
+	        ladders = new Platform[Integer.parseInt(temp[1])];
+	        int lnum  = Integer.parseInt(temp[1]);
+	        platforms = new Platform[Integer.parseInt(temp[2])];
+	        int pnum  = Integer.parseInt(temp[2]);
+	        
+	        for (int i= 0; i < wnum; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	        	weather[i] = new Looper(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	        }
+	        
+	        for (int i= 0; i < lnum; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	        	ladders[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	        }
+	        for (int i= 0; i < pnum; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	        }
+	        
+	        br.close();
+	    } catch (IOException e) {e.printStackTrace();}
+	    
+	}
+	private void setUp() 
+	{	
+		/*Goals 1/26/15
+		 * create a preference file []
+		 * create a level file []
+		 * connect two or more levels together []
+		 */
+		
+				//First load the options 
+			
 				//window hitbox
 			windowHB[0]= 0;
 			windowHB[1]= 0;
 			windowHB[2]= window.width;
 			windowHB[3]= window.height;
-			String platf = "res/platform0-1.png";
+
+			
+			
+		
+			loadLevel("res/testlevel.txt");
+			
+			player = new PlayerChar("playerOne","res/BroTop.png","res/BroLeg.png",50,150,202,191,2,0);
+			player.setHitbox(50, 0, 100, 180);
+			
+			
+			/*String platf = "res/platform0-1.png";
 			String wall = "res/wall0-1.png";
 			String ladd = "res/ladder0-1.png";
 			partyboat = new TileMap("res/map0-", 2, 5, 1280, 720);
-			theWorld = new World(6400,1440);
-		
-			
-			
-			
-			
+			theWorld = new World(6400,1440); 
 			weather = new Looper[3];
 			weather[2] = new Looper("res/loop0-1.png",-5,450);
 			weather[1] = new Looper("res/loop0-2.png",-2,10);
@@ -76,7 +151,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			ladders[1] = new Platform(ladd ,900,610);
 			ladders[2] = new Platform(ladd ,4000,610);
 			ladders[3] = new Platform(ladd ,4500,260);
-			
 			platforms = new Platform[24];
 				//TOP
 			platforms[0] = new Platform(platf,300,350);
@@ -106,9 +180,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			platforms[20] = new Platform(wall ,300,450);
 			platforms[21] = new Platform(wall ,350,700);
 			platforms[22] = new Platform(wall ,325+len*6,450);
-			platforms[23] = new Platform(wall ,225+len*6,700);
-			player = new PlayerChar("playerOne","res/BroTop.png","res/BroLeg.png",50,150,202,191,2,0);
-			player.setHitbox(50, 0, 100, 180);
+			platforms[23] = new Platform(wall ,225+len*6,700);*/
+			
 			
 	}
 

@@ -1,0 +1,3 @@
+This is the Startup file for John Mark Stanley's Java Game Engine
+1280
+720
