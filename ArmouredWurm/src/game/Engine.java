@@ -113,76 +113,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	private void setUp() 
 	{	
-		/*Goals 1/26/15
-		 * create a preference file []
-		 * create a level file []
-		 * connect two or more levels together []
-		 */
-		
-				//First load the options 
-			
+
 				//window hitbox
 			windowHB[0]= 0;
 			windowHB[1]= 0;
 			windowHB[2]= window.width;
 			windowHB[3]= window.height;
-
-			
-			
 		
 			loadLevel("res/testlevel.txt");
 			
 			player = new PlayerChar("playerOne","res/BroTop.png","res/BroLeg.png",50,150,202,191,2,0);
-			player.setHitbox(50, 0, 100, 180);
-			
-			
-			/*String platf = "res/platform0-1.png";
-			String wall = "res/wall0-1.png";
-			String ladd = "res/ladder0-1.png";
-			partyboat = new TileMap("res/map0-", 2, 5, 1280, 720);
-			theWorld = new World(6400,1440); 
-			weather = new Looper[3];
-			weather[2] = new Looper("res/loop0-1.png",-5,450);
-			weather[1] = new Looper("res/loop0-2.png",-2,10);
-			weather[0] = new Looper("res/loop0-2.png",-2,weather[1].height + 5);
-			
-			ladders = new Platform[4];
-			ladders[0] = new Platform(ladd ,600,260);
-			ladders[1] = new Platform(ladd ,900,610);
-			ladders[2] = new Platform(ladd ,4000,610);
-			ladders[3] = new Platform(ladd ,4500,260);
-			platforms = new Platform[24];
-				//TOP
-			platforms[0] = new Platform(platf,300,350);
-			int len = platforms[0].getWidth();
-			platforms[1] = new Platform(platf,300+ len,350);
-			platforms[2] = new Platform(platf,300+ len*2,350);
-			platforms[3] = new Platform(platf,300+ len*3,350);
-			platforms[4] = new Platform(platf,300+ len*4,350);
-			platforms[5] = new Platform(platf,300+ len*5,350);
-			platforms[6] = new Platform(platf,300+ len*6,350);
-			platforms[7] = new Platform(platf,len*7,350);
-				//MIDDLE
-			platforms[8] =  new Platform(platf,300,700);
-			platforms[9] =  new Platform(platf,300+ len,700);
-			platforms[10] = new Platform(platf,300+ len*2,700);
-			platforms[11] = new Platform(platf,300+ len*3,700);
-			platforms[12] = new Platform(platf,300+ len*4,700);
-			platforms[13] = new Platform(platf,300+ len*5,700);
-				//Bottem
-			platforms[14] = new Platform(platf,350,1050);
-			platforms[15] = new Platform(platf,350+ len,1050);
-			platforms[16] = new Platform(platf,350+ len*2,1050);
-			platforms[17] = new Platform(platf,350+ len*3,1050);
-			platforms[18] = new Platform(platf,350+ len*4,1050);
-			platforms[19] = new Platform(platf,350+ len*5,1050);
-			
-			platforms[20] = new Platform(wall ,300,450);
-			platforms[21] = new Platform(wall ,350,700);
-			platforms[22] = new Platform(wall ,325+len*6,450);
-			platforms[23] = new Platform(wall ,225+len*6,700);*/
-			
-			
+			player.setHitbox(50, 0, 100, 180);	
 	}
 
 	public  void update()
