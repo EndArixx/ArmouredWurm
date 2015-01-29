@@ -37,13 +37,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Explosive missiles[] = new Explosive[4];
 	public static Dimension window  = new Dimension(1280,720);
 	public int windowHB[] = new int[4];
+	public Sprite loading;
 	private boolean isRunning = false;
 	private Image screen;
-	private static String windowName = "PROJECT BLALO";
+	private static String windowName = "Armored Wurm";
 	private boolean N,S,W,E,F;
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
 	
+		//Pause Menu Data
+	private boolean isPaused = false;
+	private int pauseButnum = 0;
+	private int pauseMax = 2;
+	public Sprite pauseMenu;
+	public Sprite pauseButtons[];
 //constructor---------------------------------------------------------------------------------------	
 	public Engine()
 	{
@@ -52,6 +59,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		setUp();
 		this.addKeyListener(this);	
 	}
+	
 	
 	public void loadLevel(String lvlname)
 	{
@@ -125,69 +133,79 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			loadLevel("res/mountain.txt");
 			isLoading = false;
 			
+			pauseMenu = new Sprite("res/Pause.png",0,0);
+			pauseButtons = new Sprite[3];
+			pauseButtons[0] = new Sprite("res/pb0.png",135,160);
+			pauseButtons[1] = new Sprite("res/pb1.png",156,274);
+			pauseButtons[2] = new Sprite("res/pb2.png",156,407);
+			
+		
+			loading = new Sprite("res/loading.png",0,0);
 			player = new PlayerChar("playerOne","res/BroTop.png","res/BroLeg.png",50,150,202,191,2,0);
 			player.setHitbox(50, 0, 100, 180);	
 	}
 
 	public  void update()
 	{	
-		theWorld.update();
-		player.update(); 
-		int i;
-		for(i = 0; i < platforms.length;i++)
+		if(!isLoading && !isPaused)
 		{
-			platforms[i].update(theWorld);
-		}
-		for(i = 0; i < ladders.length;i++)
-		{
-			ladders[i].update(theWorld);
-		}
-		partyboat.update(theWorld);
-		for(i =0; i < weather.length; i++)
-		{
-			weather[i].update(theWorld);
-		}
-			//this is the first step in the game loop.
-		/*for(i = 0; i < badguys.length; i++)
-		{
-			if(Tools.check_collision(player.getHitbox(),badguys[i].getHitbox()))
+			theWorld.update();
+			player.update(); 
+			int i;
+			for(i = 0; i < platforms.length;i++)
 			{
-				player.damage();
-				//gameover();
+				platforms[i].update(theWorld);
 			}
-		}
+			for(i = 0; i < ladders.length;i++)
+			{
+				ladders[i].update(theWorld);
+			}
+			partyboat.update(theWorld);
+			for(i =0; i < weather.length; i++)
+			{
+				weather[i].update(theWorld);
+			}
+				//this is the first step in the game loop.
+			/*for(i = 0; i < badguys.length; i++)
+			{
+				if(Tools.check_collision(player.getHitbox(),badguys[i].getHitbox()))
+				{
+					player.damage();
+					//gameover();
+				}
+			}
+			
+			for(i = 0; i < badguys.length; i++)
+			{
+				badguys[i].update(theWorld);
+			}
+			
+			for(i = 0; i < bullets.length; i++)
+			{
+				bullets[i].animateCol();
+				bullets[i].update(theWorld);
+			}
+			for( i = 0; i < bomb.length; i++)
+			{
+				bomb[i].proxy(player, badguys, bomb, bullets);
+				bomb[i].update(theWorld);
+			}
+			for( i = 0; i < missiles.length; i++)
+			{
+				missiles[i].proxy(player, badguys, bomb, platforms);
+				missiles[i].update(theWorld);
+			}
+			for( i = 0; i < bullets.length; i++)
+			{
+				bullets[i].proxy(player, badguys, bomb, platforms);
+				bullets[i].update(theWorld);
+			}*/
 		
-		for(i = 0; i < badguys.length; i++)
-		{
-			badguys[i].update(theWorld);
+			//baddy.update(theWorld,platforms);
+			//baddy.sight(player, theWorld);
+			//forground.update();
+			
 		}
-		
-		for(i = 0; i < bullets.length; i++)
-		{
-			bullets[i].animateCol();
-			bullets[i].update(theWorld);
-		}
-		for( i = 0; i < bomb.length; i++)
-		{
-			bomb[i].proxy(player, badguys, bomb, bullets);
-			bomb[i].update(theWorld);
-		}
-		for( i = 0; i < missiles.length; i++)
-		{
-			missiles[i].proxy(player, badguys, bomb, platforms);
-			missiles[i].update(theWorld);
-		}
-		for( i = 0; i < bullets.length; i++)
-		{
-			bullets[i].proxy(player, badguys, bomb, platforms);
-			bullets[i].update(theWorld);
-		}*/
-	
-		//baddy.update(theWorld,platforms);
-		//baddy.sight(player, theWorld);
-		//forground.update();
-		
-		
 	}
 	public void render()
 	{
@@ -196,49 +214,60 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		Graphics g = screen.getGraphics();
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, window.width, window.height);
+
+		if(!isLoading && !isPaused)
+		{
+				//background
+			for(i =0; i < weather.length; i++)
+			{
+				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
+			}
+			partyboat.render(g, windowHB);
 			
-		
-			//background
-		for(i =0; i < weather.length; i++)
-		{
-			if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
+				//render the player
+			player.render(g);
+			
+				//render the platforms]
+			for(i = 0; i < platforms.length;i++)
+			{
+				if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
+			}
+			for(i = 0; i < ladders.length;i++)
+			{
+				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
+			}
+			
+				//render the player
+			player.render(g);
+			/*
+			if(Tools.check_collision(windowHB,baddy.getHitbox())){baddy.render(g);}
+			for(i = 0; i < badguys.length; i++)
+			{
+				if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g);}
+			}
+			for(i = 0; i < bomb.length; i++)
+			{
+				if(Tools.check_collision(windowHB,bomb[i].getHitbox())){bomb[i].render(g);}
+			}
+			for(i = 0; i < bullets.length; i++)
+			{
+				if(Tools.check_collision(windowHB,bullets[i].getHitbox())){bullets[i].render(g);}
+			}
+			for(i = 0; i < missiles.length; i++)
+			{
+				if(Tools.check_collision(windowHB,missiles[i].getHitbox())){missiles[i].render(g);}
+			}
+			*/
 		}
-		partyboat.render(g, windowHB);
-		
-			//render the player
-		player.render(g);
-		
-			//render the platforms]
-		for(i = 0; i < platforms.length;i++)
+		else if (isPaused == true)
 		{
-			if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
+			pauseMenu.render(g);
+			pauseButtons[pauseButnum].render(g);
 		}
-		for(i = 0; i < ladders.length;i++)
+		else
 		{
-			if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
+			loading.render(g);
 		}
-		
-			//render the player
-		player.render(g);
-		/*
-		if(Tools.check_collision(windowHB,baddy.getHitbox())){baddy.render(g);}
-		for(i = 0; i < badguys.length; i++)
-		{
-			if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g);}
-		}
-		for(i = 0; i < bomb.length; i++)
-		{
-			if(Tools.check_collision(windowHB,bomb[i].getHitbox())){bomb[i].render(g);}
-		}
-		for(i = 0; i < bullets.length; i++)
-		{
-			if(Tools.check_collision(windowHB,bullets[i].getHitbox())){bullets[i].render(g);}
-		}
-		for(i = 0; i < missiles.length; i++)
-		{
-			if(Tools.check_collision(windowHB,missiles[i].getHitbox())){missiles[i].render(g);}
-		}
-		*/
 			// Get window's graphics object. 
 		g = getGraphics();
 			// Draw backbuffer to window. 
@@ -257,22 +286,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    
 	    long  next_game_tick =  System.currentTimeMillis();
 	    int loops;
+
 	    
 		while (isRunning)
 		{
-			if(!isLoading)
+			loops = 0;
+			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
 			{
-				loops = 0;
-				while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) {
-					movement();
-					update();
-					
-					next_game_tick += SKIP_TICKS;
-					loops++;
-				}
-				render();
+				movement();
+				update();
+				
+				next_game_tick += SKIP_TICKS;
+				loops++;
 			}
-			
+			render();
 		}
 		
 	}
@@ -291,144 +318,146 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	private void movement()
 	{
-
-		if(F)
+		if(!isLoading && !isPaused)
 		{
-			player.fire(theWorld);
-		}
-		boolean onplatform = false;
-		boolean headbonk = false;
-		boolean frontbonk = false;
-		boolean backbonk = false;
-		boolean onladder = false;
-		boolean falling = true;
-		for(int i = 0; i < ladders.length ; i++)
-		{
-			if(Tools.check_collision(ladders[i].getHitbox(), player.getHitbox()))
+			if(F)
 			{
-				onladder = true;
+				player.fire(theWorld);
 			}
-		}
-		for(int i = 0; i < platforms.length; i++)
-		{
-			if(!onladder){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
-				{headbonk = true;}}
-			if (Tools.check_collision(platforms[i].getHitbox(), player.getfrontHitbox()))
-				{frontbonk = true;}
-			if (Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
-				{backbonk = true;}
-			if(!onladder){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
-				{onplatform = true;}}
-			
-		}
-			//gravity
-		if (!N && !onplatform && !onladder)
-		{
-			if(player.getY() < 8*window.height/9-player.getHeight())
+			boolean onplatform = false;
+			boolean headbonk = false;
+			boolean frontbonk = false;
+			boolean backbonk = false;
+			boolean onladder = false;
+			boolean falling = true;
+			for(int i = 0; i < ladders.length ; i++)
 			{
-				player.fall();
+				if(Tools.check_collision(ladders[i].getHitbox(), player.getHitbox()))
+				{
+					onladder = true;
+				}
 			}
-			else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
+			for(int i = 0; i < platforms.length; i++)
 			{
-				theWorld.moveYn(player.getGravity());
-				player.setfalling(true);
+				if(!onladder){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
+					{headbonk = true;}}
+				if (Tools.check_collision(platforms[i].getHitbox(), player.getfrontHitbox()))
+					{frontbonk = true;}
+				if (Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
+					{backbonk = true;}
+				if(!onladder){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
+					{onplatform = true;}}
+				
 			}
-			else if(player.getY() < window.height-player.getHeight())
+				//gravity
+			if (!N && !onplatform && !onladder)
 			{
-				player.fall();
+				if(player.getY() < 8*window.height/9-player.getHeight())
+				{
+					player.fall();
+				}
+				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
+				{
+					theWorld.moveYn(player.getGravity());
+					player.setfalling(true);
+				}
+				else if(player.getY() < window.height-player.getHeight())
+				{
+					player.fall();
+				}
+				else
+				{
+					player.setfalling(false);
+				}
+	
 			}
 			else
 			{
 				player.setfalling(false);
+				falling = false;
 			}
-
-		}
-		else
-		{
-			player.setfalling(false);
-			falling = false;
-		}
-			//NORTH
-		
-		if (N && !headbonk)
-		{
-			player.setJumping(true);
-			if(player.getY() > window.height/9)
+				//NORTH
+			
+			if (N && !headbonk)
 			{
-				player.moveYn();
+				player.setJumping(true);
+				if(player.getY() > window.height/9)
+				{
+					player.moveYn();
+				}
+				else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < -player.speedY)
+				{
+					theWorld.moveYp(player.speedY);
+				}
+				else if(player.getY() > 0)
+				{
+					player.moveYn();
+				}
+			}	
+			else
+			{
+				player.setJumping(false);
 			}
-			else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < -player.speedY)
-			{
-				theWorld.moveYp(player.speedY);
+	
+				//WEST
+			if (W && !backbonk)
+			{ 
+				player.setFaceForward(false);
+				player.setbackward(true);
+				if(player.getX() > 2*window.width/16)
+				{
+					player.moveXn();
+				}
+				else if(theWorld.getX() < 0)
+				{
+					theWorld.moveXp(player.speedX);
+				}
+				else if(player.getX() > 0)
+				{
+					player.moveXn();
+				}
 			}
-			else if(player.getY() > 0)
+			else
 			{
-				player.moveYn();
+				player.setbackward(false);
 			}
-		}	
-		else
-		{
-			player.setJumping(false);
-		}
-
-			//WEST
-		if (W && !backbonk)
-		{ 
-			player.setFaceForward(false);
-			player.setbackward(true);
-			if(player.getX() > 2*window.width/16)
+				//EAST
+			if (E && !frontbonk)
 			{
-				player.moveXn();
+				player.setFaceForward(true);
+				player.setForward(true);
+				if(player.getX() < 6*window.width/16)
+				{
+					player.moveXp();
+				}
+				else if(-theWorld.getX() < theWorld.getWidth()-window.width)
+				{
+					theWorld.moveXn(player.speedX);
+				}
+				else if (player.getX() < window.width -player.getWidth())
+				{
+					player.moveXp();
+				}
 			}
-			else if(theWorld.getX() < 0)
+			else
 			{
-				theWorld.moveXp(player.speedX);
+				player.setForward(false);
 			}
-			else if(player.getX() > 0)
+			//SOUTH
+			if(S && !onplatform && !falling)
 			{
-				player.moveXn();
-			}
-		}
-		else
-		{
-			player.setbackward(false);
-		}
-			//EAST
-		if (E && !frontbonk)
-		{
-			player.setFaceForward(true);
-			player.setForward(true);
-			if(player.getX() < 6*window.width/16)
-			{
-				player.moveXp();
-			}
-			else if(-theWorld.getX() < theWorld.getWidth()-window.width)
-			{
-				theWorld.moveXn(player.speedX);
-			}
-			else if (player.getX() < window.width -player.getWidth())
-			{
-				player.moveXp();
-			}
-		}
-		else
-		{
-			player.setForward(false);
-		}
-		//SOUTH
-		if(S && !onplatform && !falling)
-		{
-			if(player.getY() < 8*window.height/9-player.getHeight())
-			{
-				player.moveYp();
-			}
-			else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
-			{
-				theWorld.moveYn(player.speedX);
-			}
-			else if(player.getY() < window.height-player.getHeight())
-			{
-				player.moveYp();
+				if(player.getY() < 8*window.height/9-player.getHeight())
+				{
+					player.moveYp();
+				}
+				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
+				{
+					theWorld.moveYn(player.speedX);
+				}
+				else if(player.getY() < window.height-player.getHeight())
+				{
+					player.moveYp();
+				}
 			}
 		}
 
@@ -444,9 +473,31 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=true;
+				if(isPaused)
+				{
+					if(pauseButnum != 0)
+					{
+						pauseButnum--;
+					}
+					else
+					{
+						pauseButnum = pauseMax;
+					}
+				}
 					break;
 			case KeyEvent.VK_S: //DOWN
 				S=true;
+				if(isPaused)
+				{
+					if(pauseButnum != pauseMax)
+					{
+						pauseButnum++;
+					}
+					else
+					{
+						pauseButnum = 0;
+					}
+				}
 					break;
 			//-------------------------(X)
 			case KeyEvent.VK_A: //LEFT
@@ -464,6 +515,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			case KeyEvent.VK_Q: //Quit
 				isRunning = false;
 					break;
+			case KeyEvent.VK_P: //Paused
+				if(isPaused)
+				{
+					isPaused = false;
+				}
+				else
+				{
+					isPaused = true;
+				}
+				break;
 					
 			case KeyEvent.VK_L: //DEV_BUTTON Load debug level           DEV!!!!!!!
 				player.setX(0);
@@ -520,7 +581,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		primeGame.start();
 		while(primeGame.isRunning)
 		{
-			//this will close it after the game has ended...except on ubuntu
+			//this will close it after the game has ended...except on ubuntu...
 		}
 		gameFrame.dispose();
 	}
