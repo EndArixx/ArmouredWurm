@@ -130,7 +130,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			windowHB[2]= window.width;
 			windowHB[3]= window.height;
 			isLoading = true;
-			loadLevel("res/mountain.txt");
+			loadLevel(lvl);
 			isLoading = false;
 			
 			pauseMenu = new Sprite("res/Pause.png",0,0);
@@ -141,8 +141,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 		
 			loading = new Sprite("res/loading.png",0,0);
-			player = new PlayerChar("playerOne","res/BroTop.png","res/BroLeg.png",50,150,202,191,2,0);
-			player.setHitbox(50, 0, 100, 180);	
+			
+					//Player stuff
+			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
+			player.setHitbox(50, 0, 100/2, 180/2);	
 	}
 
 	public  void update()

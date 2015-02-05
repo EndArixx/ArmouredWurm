@@ -14,7 +14,8 @@ public class Sprite{
 	protected BufferedImage spriteImage;
 	protected boolean animate;
 	protected int  x , y, width , height, speedX, speedY;
-	protected int rowN, colN, row, col,timerspeed,timer;
+	protected int rowN, colN, row, col;
+	protected float timerspeed,timer;
 	protected int hitbox[] = new int[4];
 	
 //Constructor---------------------------------------------------------------------------------------

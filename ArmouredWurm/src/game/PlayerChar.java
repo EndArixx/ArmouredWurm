@@ -11,11 +11,13 @@ public class PlayerChar extends Sprite
 	protected int fronthitbox[] = new int[4];
 	protected int legA[] = new int[2];
 	protected int topA[] = new int[2];
-	protected Sprite legs;
+	//protected Sprite legs;
 	protected boolean jumping, forward, backward,FF, falling,hasR;
 	protected gun rifle;
+	
+	protected int checkAni = -1;
 
-	public PlayerChar(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col)
+	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col)
 	{
 		super(spriteloc,x,y,width,height,row,col,15);
 		
@@ -27,13 +29,13 @@ public class PlayerChar extends Sprite
 		this.speedX = 15;
 		this.speedY = 15;
 		this.gravity = 10;
-		this.timerspeed = 5;
-		this.legA[0] = 10;
-		this.legA[1] = 10;
-		this.topA[0] = 10;
-		this.topA[1] = 10;
+		this.timerspeed = 3;
+		//this.legA[0] = 10;
+		//this.legA[1] = 10;
+		this.topA[0] = 20;
+		this.topA[1] = 20;
 		this.hasR = false;
-		legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
+		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
 	}
 	public void setlegA(int S)
@@ -65,68 +67,86 @@ public class PlayerChar extends Sprite
 	}
 	public void update()
 	{
-		if (FF)
+			
+			
+		
+		if (FF)//FF = facing forward
 		{
+				//Idle pose facing Right
 			this.row = 0;
-			legs.setRow(0);
-			legs.setColN(0);
+			this.setColN(0);
+			//legs.setRow(0);
+			//legs.setColN(0);
 		}
 		else
 		{
+				//Idle pose facing Left
 			this.row = 1;
-			legs.setRow(2);
-			legs.setColN(0);
+			this.setColN(0);
+			//legs.setRow(2);
+			//legs.setColN(0);
 		}
+		
+			//Test stuff!
+		if(jumping){this.timerspeed = 2;}
+		else{this.timerspeed = 3;}
+		
 		if(jumping || forward || backward)
 		{
 			if(forward)
 			{
 				if(jumping)
 				{
-					legs.setRow(4);
-					legs.setColN(0);
-					this.row = 2;
-					this.col = 1;
-					this.colN = 0;
+						//Right facing Jump Animation
+					//legs.setRow(4);
+					//legs.setColN(0);
+					this.row = 4;
+					//this.col = 1;
+					this.colN = 20;
 				}
 				else if(falling)
 				{
-					legs.setRow(4);
-					legs.setColN(0);
-					this.row = 2;
+						//Right facing Falling Animation
+					//legs.setRow(4);
+					//legs.setColN(0);
+					this.row = 10;
 					this.col = 1;
 					this.colN = 0;
 				}
 				else
 				{
-					legs.setRow(1);
-					legs.setColN(legA[0]);
+						//Right facing Running Animation
+					//legs.setRow(1);
+					//legs.setColN(legA[0]);
 					this.row = 2;
-					this.colN = topA[0];
+					this.colN = topA[1];
 				}
 			}
 			else if(backward)
 			{
 				if  (jumping)
 				{
-					legs.setRow(5);
-					legs.setColN(0);
-					this.row = 3;
-					this.col = 1;
-					this.colN = 0;
+						//Left facing Jump Animation
+					//legs.setRow(5);
+					//legs.setColN(0);
+					this.row = 5;
+					//this.col = 1;
+					this.colN = 20;
 				}
 				else if(falling)
 				{
-					legs.setRow(5);
-					legs.setColN(0);
-					this.row = 3;
+						//Left facing Falling Animation
+					//legs.setRow(5);
+					//legs.setColN(0);
+					this.row = 11;
 					this.col = 1;
 					this.colN = 0;
 				}
 				else
 				{
-					legs.setRow(3);
-					legs.setColN(legA[1]);
+						//Left facing Running Animation
+					//legs.setRow(3);
+					//legs.setColN(legA[1]);
 					this.row = 3;
 					this.colN = topA[1];
 				}
@@ -134,17 +154,26 @@ public class PlayerChar extends Sprite
 		}
 		else
 		{
+				//This is other, This might become an error Frame.
 			this.col = 0;
-			this.colN =0;
+			this.colN = 0;
 		}
-		legs.setX(x);
-		legs.setY(y);
+		//legs.setX(x);
+		//legs.setY(y);
 		if(hasR)
 		{
 			rifle.update();
 		}
+			//I put this check in to make sure that the animation always starts at the beginning 
+		if(this.checkAni != this.row )
+		{
+			col = 0;
+			this.checkAni= this.row;
+		}
+			
+		
 		this.animateCol();
-		legs.animateCol();
+		//legs.animateCol();
 	}
 	public void render(Graphics g)
 	{	
@@ -153,7 +182,7 @@ public class PlayerChar extends Sprite
 			{
 				rifle.render(g);
 			}
-			legs.render(g);
+			//legs.render(g);
 			super.render(g);
 	}
 	

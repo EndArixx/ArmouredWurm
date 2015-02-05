@@ -6,10 +6,11 @@ public class Soldier extends PlayerChar
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
 	int vision[], reactionT, reactionC;
 	boolean patroling, charging, reacting;
+	protected Sprite legs;
 	public Soldier
 		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col) 
 	{
-		super(name, spriteloc, legloc, x, y, width, height, row, col);
+		super(name, spriteloc, x, y, width, height, row, col); //JOHN THIS MAY BE BROKEN LOOK INTO WHEN RE-DESIGNING AI
 		this.trueX = x;
 		this.trueY = y;
 		this.movingL = new int[2];
