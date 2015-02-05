@@ -63,6 +63,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	public void loadLevel(String lvlname)
 	{
+			//this is designed to load in a specifically designed "Map" file 
 		String name;
 		String[] temp;
 		BufferedReader br;
@@ -123,7 +124,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	private void setUp() 
 	{	
-
+				
 				//window hitbox
 			windowHB[0]= 0;
 			windowHB[1]= 0;
