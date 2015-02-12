@@ -1,5 +1,7 @@
 package game;
-
+//This is the Parent to all rendered objects in the game. 
+//A sprite is simple an image
+//This sprites all have X/Y quards, animation and rendering.
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,12 +17,14 @@ public class Sprite{
 	protected boolean animate;
 	protected int  x , y, width , height, speedX, speedY;
 	protected int rowN, colN, row, col;
-	protected float timerspeed,timer;
+	double timerspeed;
+	protected float timer;
 	protected int hitbox[] = new int[4];
 	
 //Constructor---------------------------------------------------------------------------------------
 	public Sprite(String inImage,int x,int y)
 	{
+			//input is the image of the sprite itself, and its location.
 		try 
 		{
 			spriteMap = ImageIO.read(new File(inImage));
@@ -35,6 +39,7 @@ public class Sprite{
 		this.y = y;
 		this.width = spriteMap.getWidth();
 		this.height = spriteMap.getHeight();
+			//this just sets up a standart hitbox of the image, this can be changed later.
 		this.hitbox[0] = 0;
 		this.hitbox[1] = 0;
 		this.hitbox[2] = width;
@@ -44,6 +49,7 @@ public class Sprite{
 	}
 	public Sprite(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed)
 	{
+			//This input is for sprites with animation and stuff like that.
 		try 
 		{
 			spriteMap = ImageIO.read(new File(inImage));
@@ -67,19 +73,29 @@ public class Sprite{
 		animate = true;
 		row = 0;
 		col = 0;
+			//A subimage is the image that will show on the screen
 		spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 	}
 	
 	public void animateCol()
 	{
+			//This is what makes the sprite move or animate.
+			//		Sprite are animated in a left to right fasion.
+		
+		
+			//this first part is a check so that no timer gets too large and causes an error
 		if (timer > 100000){timer = 0;}
+			//esentually a time increment
 		timer++;
+		
+			//this sees if it is time to switch to the new animation.
 		if (col < colN)
 		{ 
 			if( timerspeed != 0)
 			{
 				if(timer%timerspeed == 0)
 				{
+						//new image is created and will be rendered.
 					timer = 0;
 					spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 					col++;
@@ -105,7 +121,11 @@ public class Sprite{
 	}
 	public void animateRow()
 	{
+		//this will probebly not be used in most cases because sprites are usaually setup 
+		//to be renderd left to right not up and down.
+		
 		row++;
+			//a check to make sure that it doesnt render past the final image.
 		if (row > rowN)
 		{ 
 			row = 0;
@@ -148,19 +168,20 @@ public class Sprite{
 	
 	public void render(Graphics g)
 	{	
-		
-		//g.drawImage(spriteImage, x,y ,  width , height, null);
+			//this prints the sprite to the inputed Graphic
 		g.drawImage(spriteImage, x,y ,  width , height, null);
 			
 	}
 	///--------------------------------------------------------------------------------------------------
 	public void update()
 	{
+			//this updates the position of the sprite based on speed
 		this.x = this.x + speedX;
 		this.y = this.y + speedY;
 	}
 	public void setHitbox(int x, int y, int width, int height)
 	{
+			//creates a new hitbox
 		this.hitbox[0] = x;
 		this.hitbox[1] = y;
 		this.hitbox[2] = width;
@@ -168,6 +189,7 @@ public class Sprite{
 	}
 	public int[] getHitbox()
 	{
+			//returns the hitbox
 		int outbox[] = new int[4];
 		outbox[0] = x + hitbox[0];
 		outbox[1] = y + hitbox[1];

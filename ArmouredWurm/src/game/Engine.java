@@ -144,8 +144,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			loading = new Sprite("res/loading.png",0,0);
 			
 					//Player stuff
-			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
-			player.setHitbox(50, 0, 100/2, 180/2);	
+			player = new PlayerChar("Brodrick","res/Brodrick2015.png",0,0,280,280,12,20);
+			player.setHitbox(50, 0, 100, 180);	
 	}
 
 	public  void update()

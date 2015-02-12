@@ -88,7 +88,7 @@ public class PlayerChar extends Sprite
 		}
 		
 			//Test stuff!
-		if(jumping){this.timerspeed = 2;}
+		if(jumping){this.timerspeed = 1.5;}
 		else{this.timerspeed = 3;}
 		
 		if(jumping || forward || backward)
