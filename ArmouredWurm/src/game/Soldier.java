@@ -2,7 +2,13 @@ package game;
 
 public class Soldier extends PlayerChar
 {
-
+		/*This is a test AI 
+		 * 	currently it can
+		 * 		Patrol
+		 * 		Target and shoot
+		 * 		move
+		 * 		animate
+		 */
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
 	int vision[], reactionT, reactionC;
 	boolean patroling, charging, reacting;
