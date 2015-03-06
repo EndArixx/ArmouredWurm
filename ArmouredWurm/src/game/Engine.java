@@ -44,7 +44,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean N,S,W,E,F;
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
-	
+		//For Testing
+	public final static boolean renderHitBox = true;
 		//Pause Menu Data
 	private boolean isPaused = false;
 	private int pauseButnum = 0;

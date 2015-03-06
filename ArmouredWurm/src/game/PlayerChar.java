@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class PlayerChar extends Sprite 
@@ -177,17 +178,30 @@ public class PlayerChar extends Sprite
 	}
 	public void render(Graphics g)
 	{	
-			
-			if(hasR)
-			{
-				rifle.render(g);
-			}
-			//legs.render(g);
-			super.render(g);
+	
+		
+		if(Engine.renderHitBox)
+		{
+			g.setColor(Color.RED);
+			g.drawRect(this.headhitbox[0]+this.x, this.headhitbox[1]+this.y,this.headhitbox[2], this.headhitbox[3]);
+			g.setColor(Color.BLUE);
+			g.drawRect(this.fronthitbox[0]+this.x, this.fronthitbox[1]+this.y,this.fronthitbox[2], this.fronthitbox[3]);
+			g.setColor(Color.YELLOW);
+			g.drawRect(this.backhitbox[0]+this.x, this.backhitbox[1]+this.y,this.backhitbox[2], this.backhitbox[3]);
+			g.setColor(Color.WHITE);
+			g.drawRect(this.feethitbox[0]+this.x, this.feethitbox[1]+this.y,this.feethitbox[2], this.feethitbox[3]);
+		}
+		if(hasR)
+		{
+			rifle.render(g);
+		}
+		//legs.render(g);
+		super.render(g);
 	}
 	
 	public void fall()
 		{
+				//This is old and no longer used
 			this.y = this.y + gravity;
 			this.falling = true;
 		}

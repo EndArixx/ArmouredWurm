@@ -2,6 +2,7 @@ package game;
 //This is the Parent to all rendered objects in the game. 
 //A sprite is simple an image
 //This sprites all have X/Y quards, animation and rendering.
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -167,7 +168,12 @@ public class Sprite{
 	}
 	
 	public void render(Graphics g)
-	{	
+	{
+		if(Engine.renderHitBox)
+		{
+			g.setColor(Color.GREEN);
+			g.drawRect(this.hitbox[0]+this.x, this.hitbox[1]+this.y,this.hitbox[2], this.hitbox[3]);
+		}
 			//this prints the sprite to the inputed Graphic
 		g.drawImage(spriteImage, x,y ,  width , height, null);
 			
