@@ -16,6 +16,10 @@ public class PlayerChar extends Sprite
 	protected boolean jumping, forward, backward,FF, falling,hasR;
 	protected gun rifle;
 	
+	protected int topRunSpeed;
+	protected int topGravity;
+	protected int topJump;
+	
 	protected int checkAni = -1;
 
 	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col)
@@ -27,9 +31,14 @@ public class PlayerChar extends Sprite
 		backward = false;
 		FF = true;
 		falling = false;
-		this.speedX = 15;
-		this.speedY = 15;
-		this.gravity = 10;
+			//movement stuff
+		this.speedX = 0;
+		this.speedY = 0;
+		this.topRunSpeed = 15;
+		this.gravity = 0;
+		this.topGravity = 10;
+		this.topJump = 10;
+		
 		this.timerspeed = 3;
 		//this.legA[0] = 10;
 		//this.legA[1] = 10;
@@ -233,6 +242,19 @@ public class PlayerChar extends Sprite
 		{return this.forward;}
 	public boolean getBackward()
 		{return this.backward;}
+	public int gettopRunSpeed()
+	{return this.topRunSpeed;}
+	public int gettopGravity()
+		{return this.topGravity;}
+	public int gettopJump()
+		{return this.topJump;}
+	public void settopRunSpeed(int in)
+		{this.topRunSpeed= in;}
+	public void settopGravity(int in)
+		{this.topGravity = in;}
+	public void settopJump(int in)
+		{this.topJump = in;}
+
 	public void setHitbox(int x, int y, int width, int height)
 	{
 		this.hitbox[0] = x;
@@ -292,5 +314,8 @@ public class PlayerChar extends Sprite
 		outbox[3] = feethitbox[3];
 		return outbox;
 	}
+	
+
+	
 	
 }

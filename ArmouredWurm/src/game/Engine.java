@@ -44,8 +44,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean N,S,W,E,F;
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
-		//For Testing
-	public final static boolean renderHitBox = true;
+		//For Testing hitboxes 
+	public final static boolean renderHitBox = false;
 		//Pause Menu Data
 	private boolean isPaused = false;
 	private int pauseButnum = 0;
@@ -98,27 +98,28 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        int lnum  = Integer.parseInt(temp[1]);
 	        platforms = new Platform[Integer.parseInt(temp[2])];
 	        int pnum  = Integer.parseInt(temp[2]);
-	        
+	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
 	        	weather[i] = new Looper(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
 	        }
-	        
+	        	//second load in ladders
 	        for (int i= 0; i < lnum; i++)
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
 	        	ladders[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
 	        }
+	        	//third load in Platforms
 	        for (int i= 0; i < pnum; i++)
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
 	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
 	        }
-	        
+	        	//MORE STUFF COMMING
 	        br.close();
 	    } catch (IOException e) {e.printStackTrace();}
 	    
@@ -146,7 +147,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
-			player.setHitbox(25, 0, 100, 140);	
+			player.setHitbox(17, 10, 100, 120);	
 	}
 
 	public  void update()
