@@ -145,8 +145,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			loading = new Sprite("res/loading.png",0,0);
 			
 					//Player stuff
-			player = new PlayerChar("Brodrick","res/Brodrick2015.png",0,0,280,280,12,20);
-			player.setHitbox(50, 0, 100, 180);	
+			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
+			player.setHitbox(25, 0, 100, 140);	
 	}
 
 	public  void update()
@@ -324,6 +324,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		if(!isLoading && !isPaused)
 		{
+			
+				//redesign movenment
+					//new movement will be acceleration based, that way geting a running start will matter
+					// Terminal velocity will be a thing (aka maxspeed)
 			if(F)
 			{
 				player.fire(theWorld);
@@ -358,8 +362,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(player.getY() < 8*window.height/9-player.getHeight())
 				{
-					player.fall();
-				}
+					player.fall();  //OLD
+	 			}
 				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
 				{
 					theWorld.moveYn(player.getGravity());
@@ -367,7 +371,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 				else if(player.getY() < window.height-player.getHeight())
 				{
-					player.fall();
+					player.fall(); //OLD
 				}
 				else
 				{
