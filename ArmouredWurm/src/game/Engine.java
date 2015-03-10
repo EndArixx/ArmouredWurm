@@ -42,12 +42,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private Image screen;
 	private static String windowName = "Armored Wurm";
 	private boolean N,S,W,E,F;
-	private boolean Multikey = false;
+		//these are holders to smooth out movement
+	private boolean Wh,Eh;
 	
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 		//Pause Menu Data
 	private boolean isPaused = false;
 	private int pauseButnum = 0;
@@ -137,6 +138,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			isLoading = true;
 			loadLevel(lvl);
 			isLoading = false;
+			
+			Wh = false;
+			Eh = false;
 			
 			pauseMenu = new Sprite("res/Pause.png",0,0);
 			pauseButtons = new Sprite[3];
@@ -577,20 +581,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			case KeyEvent.VK_A: //LEFT
 				W = true;
 				if(E == true)
-					{
-						E = false;
-						Multikey = true;
-					}
-					break;
+				{
+					Eh = true;
+					E = false;
+				}
+				break;
 					
 			case KeyEvent.VK_D: //RIGHT
 				E = true;
-				if(W = true)
-					{
-						W = false;
-						Multikey = true;
-					}
-					break;
+				if(W == true)
+				{
+					Wh = true;
+					W = false;
+				}
+				break;
 					
 			case KeyEvent.VK_RIGHT:
 				F = true;
@@ -637,20 +641,24 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//-------------------------(X)
 			case KeyEvent.VK_A: //LEFT
 				W = false;
-				if(Multikey = true)
+				Wh = false;
+				if(Eh)
 				{
+					Eh = false;
 					E = true;
 				}
-				Multikey = false;
-					break;
+				break;
+				
 			case KeyEvent.VK_D: //RIGHT
 				E = false;
-				if(Multikey == true)
+				Eh = false;
+				if(Wh)
 				{
+					Wh = false;
 					W = true;
 				}
-				Multikey = false;
-					break;	
+				break;	
+				
 								//FIRE WEAPON
 			case KeyEvent.VK_RIGHT:
 				F = false;

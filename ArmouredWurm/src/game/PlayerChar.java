@@ -36,11 +36,11 @@ public class PlayerChar extends Sprite
 			//movement stuff
 		this.speedX = 0;
 		this.speedY = 0;
-		this.topRunSpeed = 10;
+		this.topRunSpeed = 15;
 		this.gravity = 0;
 		this.topGravity = 15;
 		this.topJump = 30;
-		this.fallrate = 2;
+		this.fallrate = 1.5;
 		this.runrate = 3;
 		
 		this.timerspeed = 3;
@@ -201,7 +201,7 @@ public class PlayerChar extends Sprite
 			g.drawRect(this.fronthitbox[0]+this.x, this.fronthitbox[1]+this.y,this.fronthitbox[2], this.fronthitbox[3]);
 			g.setColor(Color.YELLOW);
 			g.drawRect(this.backhitbox[0]+this.x, this.backhitbox[1]+this.y,this.backhitbox[2], this.backhitbox[3]);
-			g.setColor(Color.WHITE);
+			g.setColor(Color.RED);
 			g.drawRect(this.feethitbox[0]+this.x, this.feethitbox[1]+this.y,this.feethitbox[2], this.feethitbox[3]);
 		}
 		if(hasR)
@@ -293,9 +293,9 @@ public class PlayerChar extends Sprite
 		this.hitbox[1] = y;
 		this.hitbox[2] = width;
 		this.hitbox[3] = height;
-		this.headhitbox[0] = x;
+		this.headhitbox[0] = x+(width/8);
 		this.headhitbox[1] = y;
-		this.headhitbox[2] = width;
+		this.headhitbox[2] = 3*(width/4);
 		this.headhitbox[3] = height/4;
 		this.fronthitbox[0] = x + width/2;
 		this.fronthitbox[1] = y + height/8;
@@ -305,9 +305,9 @@ public class PlayerChar extends Sprite
 		this.backhitbox[1] = y + height/8;
 		this.backhitbox[2] = width/2;
 		this.backhitbox[3] = 3*height/4;
-		this.feethitbox[0] = x;
+		this.feethitbox[0] = x+(width/8);
 		this.feethitbox[1] = y + 3* height/4;
-		this.feethitbox[2] = width;
+		this.feethitbox[2] = 3*(width/4);
 		this.feethitbox[3] = height/4;
 	}
 	public int[] getheadHitbox()
