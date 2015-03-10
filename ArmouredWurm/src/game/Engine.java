@@ -42,6 +42,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private Image screen;
 	private static String windowName = "Armored Wurm";
 	private boolean N,S,W,E,F;
+	private boolean Multikey = false;
+	
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
 		//For Testing hitboxes 
@@ -574,12 +576,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//-------------------------(X)
 			case KeyEvent.VK_A: //LEFT
 				W = true;
-				if(E == true)E = false;
+				if(E == true)
+					{
+						E = false;
+						Multikey = true;
+					}
 					break;
 					
 			case KeyEvent.VK_D: //RIGHT
 				E = true;
-				if(W = true)W = false;
+				if(W = true)
+					{
+						W = false;
+						Multikey = true;
+					}
 					break;
 					
 			case KeyEvent.VK_RIGHT:
@@ -627,9 +637,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//-------------------------(X)
 			case KeyEvent.VK_A: //LEFT
 				W = false;
+				if(Multikey = true)
+				{
+					E = true;
+				}
+				Multikey = false;
 					break;
 			case KeyEvent.VK_D: //RIGHT
 				E = false;
+				if(Multikey == true)
+				{
+					W = true;
+				}
+				Multikey = false;
 					break;	
 								//FIRE WEAPON
 			case KeyEvent.VK_RIGHT:
