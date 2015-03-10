@@ -57,21 +57,21 @@ public class World
 	{return x;}
 	public int getY()
 	{return y;}
-	public void moveXp(int speed)
+	public void moveXp(double speed)
 	{
-		this.x = this.x + speed;
+		this.x = (int) (this.x + speed);
 	}
-	public void moveYp(int speed)
+	public void moveYp(double speed)
 	{
-		this.y = this.y + speed;
+		this.y = (int) (this.y + speed);
 	}
-	public void moveXn(int speed)
+	public void moveXn(double speed)
 	{
-		this.x = this.x - speed;
+		this.x = (int) (this.x - speed);
 	}
-	public void moveYn(int speed)
+	public void moveYn(double speed)
 	{
-		this.y = this.y - speed;
+		this.y = (int) (this.y - speed);
 	}
 
 }

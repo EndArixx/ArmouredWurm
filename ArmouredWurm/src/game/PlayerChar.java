@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class PlayerChar extends Sprite 
 {
-	protected int gravity;
+	protected double gravity;
 	protected int headhitbox[] = new int[4];
 	protected int feethitbox[] = new int[4];
 	protected int backhitbox[] = new int[4];
@@ -16,9 +16,11 @@ public class PlayerChar extends Sprite
 	protected boolean jumping, forward, backward,FF, falling,hasR;
 	protected gun rifle;
 	
-	protected int topRunSpeed;
-	protected int topGravity;
-	protected int topJump;
+	protected double topRunSpeed;
+	protected double topGravity;
+	protected double topJump;
+	protected double fallrate;
+	protected double runrate;
 	
 	protected int checkAni = -1;
 
@@ -34,10 +36,12 @@ public class PlayerChar extends Sprite
 			//movement stuff
 		this.speedX = 0;
 		this.speedY = 0;
-		this.topRunSpeed = 15;
+		this.topRunSpeed = 10;
 		this.gravity = 0;
-		this.topGravity = 10;
-		this.topJump = 10;
+		this.topGravity = 15;
+		this.topJump = 30;
+		this.fallrate = 2;
+		this.runrate = 3;
 		
 		this.timerspeed = 3;
 		//this.legA[0] = 10;
@@ -209,21 +213,49 @@ public class PlayerChar extends Sprite
 	}
 	
 	public void fall()
+	{			
+
+		if(this.gravity < this.topGravity) 
 		{
-				//This is old and no longer used
-			this.y = this.y + gravity;
-			this.falling = true;
+			this.gravity += this.fallrate;
 		}
-	public int getGravity()
-		{return this.gravity;}
-	public void moveXp()
-		{this.x = this.x + speedX;}
-	public void moveYp()
-		{this.y = this.y + speedY;}
-	public void moveXn()
-		{this.x = this.x - speedX;}
+		
+		this.y = (int) (this.y + gravity);
+		this.falling = true;
+	}
 	public void moveYn()
-		{this.y = this.y - speedY;}
+	{
+		if(this.gravity < this.topGravity) 
+		{	
+			this.gravity += this.fallrate;
+		}
+		this.y = (int) (this.y + gravity);
+	}
+	
+	public void moveXp()
+	{
+		if(this.speedX < this.topRunSpeed)
+		{
+			this.speedX += this.runrate;
+		}
+		this.x = (int) (this.x + speedX);
+	}
+
+	public void moveXn()
+	{
+		if(this.speedX > -this.topRunSpeed)
+		{
+			this.speedX -= this.runrate;
+		}
+		this.x = (int) (this.x + speedX);
+	}
+
+	public double getGravity()
+		{return this.gravity;}	
+	public void setGravity(double in)
+		{this.gravity = in;}
+	public void moveYp()
+		{this.y = (int) (this.y + speedY);}
 	public void setFaceForward(boolean FF)
 		{this.FF = FF;}
 	public void setJumping(boolean jumping)
@@ -242,11 +274,11 @@ public class PlayerChar extends Sprite
 		{return this.forward;}
 	public boolean getBackward()
 		{return this.backward;}
-	public int gettopRunSpeed()
+	public double gettopRunSpeed()
 	{return this.topRunSpeed;}
-	public int gettopGravity()
+	public double gettopGravity()
 		{return this.topGravity;}
-	public int gettopJump()
+	public double gettopJump()
 		{return this.topJump;}
 	public void settopRunSpeed(int in)
 		{this.topRunSpeed= in;}

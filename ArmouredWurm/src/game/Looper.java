@@ -14,7 +14,7 @@ public class Looper extends Platform
 	}
 	public void update(World theWorld)
 	{
-		x = x + speedX;
+		x = (int) (x + speedX);
 		y = theWorld.getY() + trueY;
 	}
 	public void render(Graphics g) 	

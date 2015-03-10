@@ -22,8 +22,8 @@ public class Platform extends Sprite
 	}
 	public void update(World theWorld)
 	{
-		this.trueX = this.trueX + speedX;
-		this.trueY = this.trueY + speedY;
+		this.trueX = (int) (this.trueX + speedX);
+		this.trueY = (int) (this.trueY + speedY);
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
 	}

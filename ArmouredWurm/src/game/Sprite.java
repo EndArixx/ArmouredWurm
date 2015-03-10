@@ -16,7 +16,8 @@ public class Sprite{
 	protected BufferedImage spriteMap;
 	protected BufferedImage spriteImage;
 	protected boolean animate;
-	protected int  x , y, width , height, speedX, speedY;
+	protected int  x , y, width , height;
+	protected double speedX, speedY;
 	protected int rowN, colN, row, col;
 	double timerspeed;
 	protected float timer;
@@ -158,9 +159,9 @@ public class Sprite{
 		{this.speedX = speedX;}
 	public void setYspeed(int speedY)
 		{this.speedY = speedY;}
-	public int getXspeed()
+	public double getXspeed()
 		{return speedX;}
-	public int getYspeed()
+	public double getYspeed()
 		{return speedY;}
 	public void setTimerSpeed(int speed)
 	{
@@ -182,8 +183,8 @@ public class Sprite{
 	public void update()
 	{
 			//this updates the position of the sprite based on speed
-		this.x = this.x + speedX;
-		this.y = this.y + speedY;
+		this.x = (int) (this.x + speedX);
+		this.y = (int) (this.y + speedY);
 	}
 	public void setHitbox(int x, int y, int width, int height)
 	{

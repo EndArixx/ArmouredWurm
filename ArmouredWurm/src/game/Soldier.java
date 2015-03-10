@@ -146,7 +146,7 @@ public class Soldier extends PlayerChar
 	}
 	public void fall()
 	{
-		this.trueY = this.trueY + this.gravity;
+		this.trueY = (int) (this.trueY + this.gravity);
 		this.falling = true;
 	}
 	public void setPatrol(int patrolL, int patrolR )
@@ -218,7 +218,7 @@ public class Soldier extends PlayerChar
 			}
 			else
 			{
-				trueX = trueX + speedX;
+				trueX = (int) (trueX + speedX);
 			}
 		}
 		else
@@ -233,7 +233,7 @@ public class Soldier extends PlayerChar
 			}
 			else
 			{
-				trueX = trueX - speedX;
+				trueX = (int) (trueX - speedX);
 			}
 		}
 	}
