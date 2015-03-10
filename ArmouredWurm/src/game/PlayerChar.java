@@ -255,7 +255,7 @@ public class PlayerChar extends Sprite
 	public void setGravity(double in)
 		{this.gravity = in;}
 	public void moveYp()
-		{this.y = (int) (this.y + speedY);}
+		{this.y = (int) (this.y + this.topRunSpeed);}
 	public void setFaceForward(boolean FF)
 		{this.FF = FF;}
 	public void setJumping(boolean jumping)

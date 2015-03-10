@@ -364,6 +364,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{onplatform = true;}}
 				
 			}
+			if(player.getY() < 1)
+			{
+				headbonk= true;
+			}
+			
+			
 				//gravity
 			if (!player.getJumping() && !onplatform && !onladder)
 			{
@@ -408,42 +414,58 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			if (N && !headbonk)
 			{
-				
-					//This still needs work, ladders are currently like rockets.
-				player.setJumping(true);
-				if(onplatform || onladder|| player.getY() >= window.height-player.getHeight())
-				{
-					player.gravity = -player.gettopJump();
-				}
-				
-				
-				
-				if(player.gravity < 0)
+				if(onladder)
 				{
 					if(player.getY() > window.height/9)
 					{
-						player.moveYn();
+						player.setY((int) (player.getY() - player.gettopRunSpeed()));
 					}
 					else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
 					{
-						//theWorld.moveYp(player.speedY);
-						
-						if(player.gravity < player.gettopGravity()) 
-						{
-							player.gravity = player.gravity + player.fallrate;
-						}
-						theWorld.moveYn(player.getGravity());
+						theWorld.moveYn(-player.gettopRunSpeed());
 					}
 					else if(player.getY() > 0)
 					{
-						player.moveYn();
+						player.setY((int) (player.getY() - player.gettopRunSpeed()));
 					}
 				}
 				else
 				{
-					player.setJumping(false);
-				}
-			}	
+					player.setJumping(true);
+					if(onplatform || onladder|| player.getY() >= window.height-player.getHeight())
+					{
+						player.gravity = -player.gettopJump();
+					}
+					
+					
+					
+					if(player.gravity < 0)
+					{
+						if(player.getY() > window.height/9)
+						{
+							player.moveYn();
+						}
+						else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
+						{
+							//theWorld.moveYp(player.speedY);
+							
+							if(player.gravity < player.gettopGravity()) 
+							{
+								player.gravity = player.gravity + player.fallrate;
+							}
+							theWorld.moveYn(player.getGravity());
+						}
+						else if(player.getY() > 0)
+						{
+							player.moveYn();
+						}
+					}
+					else
+					{
+						player.setJumping(false);
+					}
+				}	
+			}
 			else
 			{
 				player.setJumping(false);
@@ -512,30 +534,28 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			if(S && onladder)
 			{
 				if(player.gravity <0 ) {player.gravity = 0;}
+				//player.setOnladder(true)
+				
 				
 				if(player.getY() < 8*window.height/9-player.getHeight())
 				{
-					player.fall();
+					player.moveYp();
 	 			}
 				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
 				{
 					
-					if(player.gravity < player.gettopGravity()) 
-					{
-						player.gravity = player.gravity + player.fallrate;  
-					}
+					theWorld.moveYn(player.gettopRunSpeed());
 					
-					theWorld.moveYn(player.getGravity());
-					//player.setOnladder(true)
 				}
 				else if(player.getY() < window.height-player.getHeight())
 				{
-					player.fall();
+					player.moveYp();
 				}
-				else
-				{
-					//player.setOnladder(true)
-				}
+				
+			}
+			else
+			{
+				//player.setOnladder(true)
 			}
 		}
 
