@@ -22,6 +22,8 @@ import javax.swing.JPanel;
 
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
+
+	
 		//THESE ARE VARIALBLES!
 	public BadGuy badguys[]= new BadGuy[10];
 	public Platform platforms[];
@@ -39,7 +41,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public static Dimension window  = new Dimension(1280,720);
 	public int windowHB[] = new int[4];
 	public Sprite loading;
+	
+		//it is important that you have both of these so the game closes
+		//	in the correct order.
 	private boolean isRunning = false;
+	public boolean gameRun =true;
+	
 	private Image screen;
 	private static String windowName = "Armored Wurm";
 		//Variables for cardnal directions.
@@ -50,7 +57,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 		//Pause Menu Data
 	private boolean isPaused = false;
 	private int pauseButnum = 0;
@@ -293,7 +300,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public void run()
 	{
 		screen = createVolatileImage(window.width,window.height); 
-		
 		final int TICKS_PER_SECOND = 50;
 	    final int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
 	    final int MAX_FRAMESKIP = 10;
@@ -315,7 +321,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			render();
 		}
-		
+			//this is after game
+		this.gameRun=false;
+		System.exit(0);
 	}
 	public void start() 
 	{
@@ -703,13 +711,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		gameFrame.setVisible(true);
 			//yeah close it when it is done.
 		gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
+		
 		//Game Time
 		primeGame.start();
-		while(primeGame.isRunning)
+		while(primeGame.gameRun)
 		{
-			//this will close it after the game has ended...except on ubuntu...
+			//Close on exit :D
 		}
+		
 		gameFrame.dispose();
+		
 	}
 public void keyTyped(KeyEvent arg0) {}
 }
