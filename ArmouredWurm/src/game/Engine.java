@@ -35,12 +35,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public gun hammer[];
 	public Explosive bullets[] = new Explosive[4];
 	public Explosive missiles[] = new Explosive[4];
+		//this is for the window
 	public static Dimension window  = new Dimension(1280,720);
 	public int windowHB[] = new int[4];
 	public Sprite loading;
 	private boolean isRunning = false;
 	private Image screen;
 	private static String windowName = "Armored Wurm";
+		//Variables for cardnal directions.
 	private boolean N,S,W,E,F;
 		//these are holders to smooth out movement
 	private boolean Wh,Eh;
@@ -141,7 +143,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			Wh = false;
 			Eh = false;
-			
+				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0);
 			pauseButtons = new Sprite[3];
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160);
@@ -222,6 +224,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		int i;
 			//Construct backbuffer. 
+				//this prevents the tearing you get as things are rendered.
 		Graphics g = screen.getGraphics();
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, window.width, window.height);
@@ -332,8 +335,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if(!isLoading && !isPaused)
 		{
 			
-				//redesign movenment
-					//new movement will be acceleration based, that way geting a running start will matter
+				//redesign movement
+					//new movement will be acceleration based, that way getting a running start will matter
 					// Terminal velocity will be a thing (aka maxspeed)
 			if(F)
 			{
@@ -533,6 +536,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//SOUTH
 			if(S && onladder)
 			{
+					//this is so that the ladder movemetns isnt based on gravity.
 				if(player.gravity <0 ) {player.gravity = 0;}
 				//player.setOnladder(true)
 				
