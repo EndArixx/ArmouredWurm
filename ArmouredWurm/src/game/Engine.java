@@ -536,7 +536,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//SOUTH
 			if(S && onladder)
 			{
-					//this is so that the ladder movemetns isnt based on gravity.
+					//this is so that the ladder movements aren't based on gravity.
 				if(player.gravity <0 ) {player.gravity = 0;}
 				//player.setOnladder(true)
 				
@@ -702,7 +702,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		gameFrame.setTitle(windowName);
 		gameFrame.setVisible(true);
 			//yeah close it when it is done.
-		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 		//Game Time
 		primeGame.start();
 		while(primeGame.isRunning)
