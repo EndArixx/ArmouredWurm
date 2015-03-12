@@ -30,7 +30,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Platform ladders[];
 	public Explosive bomb[] = new Explosive[15];
 	public World theWorld;
-	public TileMap partyboat;
+	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
 	public Soldier baddy;
@@ -57,7 +57,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true
+			;
 		//Pause Menu Data
 	private boolean isPaused = false;
 	private int pauseButnum = 0;
@@ -81,14 +82,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		String[] temp;
 		BufferedReader br;
 	    try {
-	    	br = new BufferedReader(new FileReader(lvlname));
+	    	FileReader fr = new FileReader(lvlname);
+	    	br = new BufferedReader(fr);
 	        String line = br.readLine();
 	        name = line;
 	        
 	        	//Load in the TileData
 	        line = br.readLine();
 	        temp = line.split(",");
-	        partyboat = new TileMap(temp[0],
+	        gameWorld = new TileMap(temp[0],
 	        		Integer.parseInt(temp[1]),
 	        		Integer.parseInt(temp[2]), 
 	        		Integer.parseInt(temp[3]), 
@@ -132,7 +134,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
 	        }
 	        	//MORE STUFF COMMING
+	        
+	        fr.close();
 	        br.close();
+	        
 	    } catch (IOException e) {e.printStackTrace();}
 	    
 	}
@@ -180,7 +185,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				ladders[i].update(theWorld);
 			}
-			partyboat.update(theWorld);
+			gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
 			{
 				weather[i].update(theWorld);
@@ -229,7 +234,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	public void render()
 	{
-		int i;
+		int i;		
 			//Construct backbuffer. 
 				//this prevents the tearing you get as things are rendered.
 		Graphics g = screen.getGraphics();
@@ -243,10 +248,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
 			}
-			partyboat.render(g, windowHB);
-			
-				//render the player
-			player.render(g);
+			gameWorld.render(g, windowHB);
 			
 				//render the platforms]
 			for(i = 0; i < platforms.length;i++)
@@ -260,6 +262,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 				//render the player
 			player.render(g);
+			
+			
 			/*
 			if(Tools.check_collision(windowHB,baddy.getHitbox())){baddy.render(g);}
 			for(i = 0; i < badguys.length; i++)
@@ -320,6 +324,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				loops++;
 			}
 			render();
+			
+				//working on fixing memory leak
+			System.gc();
 		}
 			//this is after game
 		this.gameRun=false;
@@ -716,9 +723,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		primeGame.start();
 		while(primeGame.gameRun)
 		{
-			//Close on exit :D
+			//Game is currently running
 		}
-		
+			//Close on exit
 		gameFrame.dispose();
 		
 	}
