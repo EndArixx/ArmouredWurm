@@ -52,7 +52,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//Variables for cardnal directions.
 	private boolean N,S,W,E,F;
 		//these are holders to smooth out movement
-	private boolean Wh,Eh;
+	private boolean Wh,Eh,Jh;
 	
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
@@ -153,8 +153,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			loadLevel(lvl);
 			isLoading = false;
 			
+			
+				//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
+				// the right button if he is still holding left he then starts going left again or visa versa
 			Wh = false;
 			Eh = false;
+				//Jh is used so that when the player presses jump he has to let go and press again to jump again
+				//	instead if him constantly hopping as the player holds jump
+			Jh = true;
 				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0);
 			pauseButtons = new Sprite[3];
@@ -450,9 +456,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				else
 				{
 					player.setJumping(true);
-					if(onplatform || onladder|| player.getY() >= window.height-player.getHeight())
+					if((onplatform || onladder|| player.getY() >= window.height-player.getHeight()) && Jh)
 					{
 						player.gravity = -player.gettopJump();
+						Jh = false;
 					}
 					
 					
@@ -673,6 +680,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=false;
+				Jh = true;
 					break;
 			case KeyEvent.VK_S: //DOWN
 				S=false;
