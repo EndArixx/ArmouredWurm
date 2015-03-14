@@ -44,21 +44,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 		//it is important that you have both of these so the game closes
 		//	in the correct order.
-	private boolean isRunning = false;
+	protected boolean isRunning = false;
 	public boolean gameRun =true;
 	
-	private Image screen;
-	private static String windowName = "Armored Wurm";
-		//Variables for cardnal directions.
-	private boolean N,S,W,E,F;
+	protected Image screen;
+	protected static String windowName = "Armored Wurm";
+		//Variables for cardinal directions.
+	protected boolean N,S,W,E,F;
 		//these are holders to smooth out movement
 	private boolean Wh,Eh,Jh;
 	
 	private String lvl = "res/mountain.txt";
 	private boolean isLoading = false;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true
-			;
+	public final static boolean renderHitBox = false;
+	
+	
 		//Pause Menu Data
 	private boolean isPaused = false;
 	private int pauseButnum = 0;
@@ -249,13 +250,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 
 		if(!isLoading && !isPaused)
 		{
-				//background
+				//this is done before gameWorld because of the way i made the test boat level
 			for(i =0; i < weather.length; i++)
 			{
 				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
 			}
-			gameWorld.render(g, windowHB);
 			
+				//background
+			gameWorld.render(g, windowHB);
+	
 				//render the platforms]
 			for(i = 0; i < platforms.length;i++)
 			{

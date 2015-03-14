@@ -43,5 +43,22 @@ public class Platform extends Sprite
 		{this.trueX = x;}
 	public void setTrueY(int y)
 		{this.trueY = y;}
+	
+	public void moveXp(int speed)
+	{
+		this.trueX = this.trueX + speed;
+	}
+	public void moveYp(int speed)
+	{
+		this.trueY = this.trueY + speed;
+	}
+	public void moveXn(int speed)
+	{
+		this.trueX = this.trueX - speed;
+	}
+	public void moveYn(int speed)
+	{
+		this.trueY = this.trueY - speed;
+	}
 
 }

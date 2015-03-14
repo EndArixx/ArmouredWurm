@@ -41,7 +41,7 @@ public class Sprite{
 		this.y = y;
 		this.width = spriteMap.getWidth();
 		this.height = spriteMap.getHeight();
-			//this just sets up a standart hitbox of the image, this can be changed later.
+			//this just sets up a standard hitbox of the image, this can be changed later.
 		this.hitbox[0] = 0;
 		this.hitbox[1] = 0;
 		this.hitbox[2] = width;
@@ -87,7 +87,7 @@ public class Sprite{
 		
 			//this first part is a check so that no timer gets too large and causes an error
 		if (timer > 100000){timer = 0;}
-			//esentually a time increment
+			//essentualy a time increment
 		timer++;
 		
 			//this sees if it is time to switch to the new animation.
@@ -123,11 +123,11 @@ public class Sprite{
 	}
 	public void animateRow()
 	{
-		//this will probebly not be used in most cases because sprites are usaually setup 
-		//to be renderd left to right not up and down.
+		//this will probably not be used in most cases because sprites are usually setup 
+		//to be rendered left to right not up and down.
 		
 		row++;
-			//a check to make sure that it doesnt render past the final image.
+			//a check to make sure that it doesn't render past the final image.
 		if (row > rowN)
 		{ 
 			row = 0;
