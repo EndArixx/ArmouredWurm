@@ -4,9 +4,23 @@ import java.awt.Graphics;
 
 public class TileMap
 {
+	protected String tileName; 
 	private Platform[] Tiles;
+	
+	protected int tileRow;
+	protected int tileCol;
+	protected int tileWidth;
+	protected int tileHeight;
+	
 	public TileMap(String mapdata, int row, int col,int width ,int height)
 	{
+		tileName = mapdata;
+		tileRow = row;
+		tileCol = col;
+		tileWidth = width;
+		tileHeight = height;
+		
+		
 		Tiles = new Platform[row * col]; 
 		int x = 0;
 		int y;

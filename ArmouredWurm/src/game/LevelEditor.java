@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -48,7 +49,7 @@ import javax.swing.JFrame;
  * 			-ladders		()
  * 			-Other?			()
  * 			-map"Doors"  	()
- * Step yon 		[]
+ * Step yon 		[X]
  * 		add ability to Save
  * 
  * Stem V 		[]
@@ -63,7 +64,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	 */
 
 		//lvl name
-	private String lvl = "res/mountain.txt";
+	private String lvl = "res/testlevel.txt";
 	protected int scrollSpeed = 10;
 	protected int moveSpeed = 10;
 	
@@ -73,7 +74,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private boolean RtargetH;
 	
 		//Movement directions (north,south etc...)
-	boolean MN,MS,ME,MW;
+	boolean MN,MS,ME,MW, saving;
 		//Constructor
 	public LevelEditor()
 	{
@@ -83,6 +84,62 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.addKeyListener(this);	
 	}
 	
+	public void saveLevel(String lvlname)
+	{
+		try
+		{
+			FileWriter fw = new FileWriter("res/" + lvlname);
+				
+				//Write out Name
+			fw.write(lvlname + "\r\n");
+				//Write out background data
+			fw.write(gameWorld.tileName + ","
+					+ gameWorld.tileRow + ","
+					+ gameWorld.tileCol + ","
+					+ gameWorld.tileWidth + ","
+					+ gameWorld.tileHeight + "\r\n" );
+				//Write world Size
+			fw.write(theWorld.width + ","
+					+theWorld.height + "\r\n");
+			
+			
+				//Writeout item data
+			fw.write(weather.length + ","
+					+ladders.length + ","
+					+ platforms.length + ",0,0,0" + "\r\n");
+										//these zeros are for future additions
+			
+				//Write out weathers
+			for(int i = 0;i < weather.length; i++)
+			{
+				fw.write(weather[i].name + ","
+						+(int) weather[i].speedX + ","
+						+(int) weather[i].trueY + "\r\n");
+			}
+			
+				//Write out ladders
+			for(int i = 0;i < ladders.length; i++)
+			{
+				fw.write(ladders[i].name + ","
+						+ ladders[i].trueX + ","
+						+ ladders[i].trueY + "\r\n");
+			}
+			
+				//Write out Platforms
+			for(int i = 0;i < platforms.length; i++)
+			{
+				fw.write(platforms[i].name + ","
+						+ platforms[i].trueX + ","
+						+ platforms[i].trueY + "\r\n");
+			}
+			fw.write(" \r\n");
+			fw.close();
+		
+		}catch (IOException e) {e.printStackTrace();}
+	}
+	
+	
+	
 	private void setUp() 
 	{	
 		windowHB[0]= 0;
@@ -90,6 +147,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		windowHB[2]= window.width;
 		windowHB[3]= window.height;
 		
+		saving = false;
 		MN = false;
 		MS = false;
 		ME = false;
@@ -152,13 +210,16 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, window.width, window.height);
 
-			//background
-		gameWorld.render(g, windowHB);
+
 		
 		for(i =0; i < weather.length; i++)
 		{
 			if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
 		}
+		
+			//background
+		gameWorld.render(g, windowHB);
+		
 			//render the platforms]
 		for(i = 0; i < platforms.length;i++)
 		{
@@ -200,6 +261,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		for(i =0; i < weather.length; i++)
 		{
 			weather[i].update(theWorld);
+		}
+		
+		if(saving) //THIS IS WHERE IT SAVES FOR NOW!
+		{
+			saveLevel("TEST.txt");
 		}
 			
 	}	
@@ -352,6 +418,15 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				ME = true;
 					break;
 					
+			//----------------------------------FILE IO
+					//SAVE
+			case KeyEvent.VK_P:
+				if(!saving)
+				{
+					saving = true;
+				}
+					break;
+					
 		}
 	}
 	public void keyReleased(KeyEvent key) 
@@ -398,6 +473,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					
 			case KeyEvent.VK_RIGHT: //RIGHT
 				ME = false;
+					break;
+					
+			//----------------------------------FILE IO
+					//SAVE
+			case KeyEvent.VK_P:
+				saving = false;
 					break;
 		}
 		

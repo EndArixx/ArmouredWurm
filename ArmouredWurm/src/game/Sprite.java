@@ -23,9 +23,12 @@ public class Sprite{
 	protected float timer;
 	protected int hitbox[] = new int[4];
 	
+	protected String name;
+	
 //Constructor---------------------------------------------------------------------------------------
 	public Sprite(String inImage,int x,int y)
 	{
+		name = inImage;
 			//input is the image of the sprite itself, and its location.
 		try 
 		{
@@ -51,6 +54,7 @@ public class Sprite{
 	}
 	public Sprite(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed)
 	{
+		name = inImage;
 			//This input is for sprites with animation and stuff like that.
 		try 
 		{
