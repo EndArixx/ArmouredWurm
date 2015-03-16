@@ -80,8 +80,16 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private boolean RtargetH;
 	private boolean isLoading = false;
 	protected String genericPlat; 
+	
+	
+		//this will hold all the different types of sprites
+	protected String[] spriteTypes;
+	protected String sTypesLoc = "res/SpriteTypes.txt";
+	protected int stCounter;
+	
 		//Movement directions (north,south etc...)
-	boolean MN,MS,ME,MW, saving, adding, deleting, addH, delH; 
+	boolean MN,MS,ME,MW, saving, adding, deleting, addH, delH, changing, chaH; 
+		
 		//Constructor
 	public LevelEditor()
 	{
@@ -91,6 +99,33 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.addKeyListener(this);	
 	}
 	
+	public void loadSprites(String SpriteDataFile)
+	{
+			/*
+			 * Sprite loader:
+			 * This is meant to load all the different kinds of sprites
+			 *  into the Editor so that they can be changed on the fly.
+			 */
+		String name;
+		String[] temp;
+		BufferedReader br;
+		try {
+	    	FileReader fr = new FileReader(SpriteDataFile);
+	    	br = new BufferedReader(fr);
+	        String line = br.readLine();
+	        name = line;
+	        
+	        line = br.readLine();
+	        spriteTypes = new String[Integer.parseInt(line)];
+	        for(int i = 0;i < spriteTypes.length; i++)
+	        {
+	        	line = br.readLine();
+	        	spriteTypes[i] = line;
+	        }
+	        fr.close();
+	        br.close();
+        } catch (IOException e) {e.printStackTrace();}
+	}
 	public void saveLevel(String lvlname)
 	{
 		try
@@ -149,27 +184,32 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	
 	private void setUp() 
 	{	
-		windowHB[0]= 0;
-		windowHB[1]= 0;
-		windowHB[2]= window.width;
-		windowHB[3]= window.height;
+		this.windowHB[0]= 0;
+		this.windowHB[1]= 0;
+		this.windowHB[2]= window.width;
+		this.windowHB[3]= window.height;
 		
-		saving = false;
-		adding = false;
-		deleting = false;
-		MN = false;
-		MS = false;
-		ME = false;
-		MW = false;
+		this.saving = false;
+		this.adding = false;
+		this.deleting = false;
+		this.changing = false;
+		this.MN = false;
+		this.MS = false;
+		this.ME = false;
+		this.MW = false;
 		
-		addH = true;
-		delH = true;
+		this.addH = true;
+		this.delH = true;
+		this.chaH = true;
+		this.stCounter = 0;
 		
 		this.targetH= true;
 		this.RtargetH = true;
 		this.target=0;
-			//Promt should ask user for level name here
+		
+			//Promt should ask user for level name here #JOHN DO THIS
 		loadLevel(lvl);
+		loadSprites(sTypesLoc);
 		
 		genericPlat = "res/platform0-1.png";
 	}
@@ -192,7 +232,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		platforms = temp;
 		target = platforms.length-1;
 	}
-	public void deletePlatform(int deltarget)
+	public void deletePlatform()
 	{
 		
 		/*
@@ -208,7 +248,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		Platform temp[] = new Platform[platforms.length - 1];
 		for(int i =0; i < platforms.length - 1;i++)
 		{
-			if(i == deltarget && tracker == 0)
+			if(i == target && tracker == 0)
 			{
 				tracker++;
 				i--;
@@ -226,6 +266,24 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 	}
+	public void platformSwitchSprite()
+	{
+		if(platforms.length != 0)
+		{
+			platforms[target] = new Platform(spriteTypes[stCounter],platforms[target].getTrueX(),platforms[target].getTrueY());
+			
+			if(stCounter < spriteTypes.length - 1)
+			{
+				stCounter++;
+			}
+			else
+			{
+				stCounter = 0;
+			}
+		}
+	}
+	
+	
 	
 	public void run()
 	{
@@ -329,7 +387,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				saveLevel("TEST.txt");
 			}
-				//ADDing a new platform
+				//Adding a new platform
 			if(adding && addH)
 			{
 				addH = false;
@@ -339,13 +397,25 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				addPlaform();
 				isLoading = false;
 			}
+				//Deleting
 			if(deleting && delH)
 			{
 				delH = false;
 				deleting = false;
 				 
 				isLoading = true;
-				deletePlatform(target);
+				deletePlatform();
+				isLoading = false;
+			}
+			
+				//changing the Sprite
+			if(changing && chaH)
+			{
+				chaH = false;
+				changing = false;
+				
+				isLoading = true;
+				platformSwitchSprite();
 				isLoading = false;
 			}
 		}
@@ -451,6 +521,14 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_Q: //Quit
 				isRunning = false;
 					break;
+					
+			case KeyEvent.VK_L: //Load new sprite image
+				if(chaH)
+				{
+					this.changing = true;
+				}
+					break;
+					
 			//---------------------------------ADDING/DELETING
 			case KeyEvent.VK_N:	//Adding
 				if(addH)
@@ -574,10 +652,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					break;
 					
 			//----------------------------------FILE IO
-					//SAVE
-			case KeyEvent.VK_P:
+			case KeyEvent.VK_P:	 //SAVE
 				saving = false;
 					break;
+			//------------------------------------OTHER
+			case KeyEvent.VK_L: //Load new sprite image
+				this.chaH = true;
+				break;
 		}
 		
 	}
@@ -596,12 +677,24 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//yeah close it when it is done.
 		gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 		
+			/*
+			 * new Idea:
+			 * 		add ability to test game without saving or closing
+			 * 
+			 *		close level editor and run an engine, 
+			 *		then when the engine closes go back to the editor?
+			 *	
+			 *		use a button to switch from editor. 
+			 *		closing engine will reopen editor.
+			 */
+		
 		//Game Time
 		primeGame.start();
 		while(primeGame.gameRun)
 		{
 			//Game is currently running
 		}
+		
 			//Close on exit
 		gameFrame.dispose();
 		

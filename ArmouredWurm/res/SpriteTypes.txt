@@ -1,0 +1,11 @@
+Sprite Names
+9
+res/1-1grass0.png
+res/1-1grass1.png
+res/1-1grass2.png
+res/1-1grass3.png
+res/door.png
+res/wall0-1.png
+res/platform0-1.png
+res/mountP.png
+res/ladder0-1.png
