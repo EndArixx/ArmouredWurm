@@ -98,22 +98,22 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			FileWriter fw = new FileWriter("res/" + lvlname);
 				
 				//Write out Name
-			fw.write(lvlname + "\r\n");
+			fw.write(lvlname + "\n");
 				//Write out background data
 			fw.write(gameWorld.tileName + ","
 					+ gameWorld.tileRow + ","
 					+ gameWorld.tileCol + ","
 					+ gameWorld.tileWidth + ","
-					+ gameWorld.tileHeight + "\r\n" );
+					+ gameWorld.tileHeight + "\n" );
 				//Write world Size
 			fw.write(theWorld.width + ","
-					+theWorld.height + "\r\n");
+					+theWorld.height + "\n");
 			
 			
 				//Writeout item data
 			fw.write(weather.length + ","
 					+ladders.length + ","
-					+ platforms.length + ",0,0,0" + "\r\n");
+					+ platforms.length + ",0,0,0" + "\n");
 										//these zeros are for future additions
 			
 				//Write out weathers
@@ -121,7 +121,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				fw.write(weather[i].name + ","
 						+(int) weather[i].speedX + ","
-						+(int) weather[i].trueY + "\r\n");
+						+(int) weather[i].trueY + "\n");
 			}
 			
 				//Write out ladders
@@ -129,7 +129,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				fw.write(ladders[i].name + ","
 						+ ladders[i].trueX + ","
-						+ ladders[i].trueY + "\r\n");
+						+ ladders[i].trueY + "\n");
 			}
 			
 				//Write out Platforms
@@ -137,9 +137,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				fw.write(platforms[i].name + ","
 						+ platforms[i].trueX + ","
-						+ platforms[i].trueY + "\r\n");
+						+ platforms[i].trueY + "\n");
 			}
-			fw.write(" \r\n");
+			fw.write(" \n");
 			fw.close();
 		
 		}catch (IOException e) {e.printStackTrace();}
