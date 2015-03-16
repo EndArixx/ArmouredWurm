@@ -41,22 +41,28 @@ import javax.swing.JFrame;
  * 			-load file 		(X)
  * 			-promt user		() 
  * Step Three	[]
- * 		add ability to add objects and move around objects
- * 			-platforms		()
- * 				+add			<>
+ * 		add ability to add/delete objects and move around objects
+ * 			-platforms		(X)
+ * 				+add			<X>
  * 				+move			<X>
+ * 				+delete			<X>
  * 			-weathers		()
  * 			-ladders		()
  * 			-Other?			()
  * 			-map"Doors"  	()
- * Step yon 		[X]
+ * 
+ * Step yon 	[X]
  * 		add ability to Save
+ * 			this will have to keep getting updated
+ * 			as new functionality is added.
  * 
- * Stem V 		[]
+ * Step V 		[]
  * 		add ability to change hitbox
- * 		
- * 
+ * 	
+ * Step 6		[]
+ * 		add ability to change which image an object is using 
  */
+
 public class LevelEditor extends Engine implements Runnable, KeyListener
 {
 	/**
@@ -72,9 +78,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	public int target;
 	public boolean targetH;
 	private boolean RtargetH;
-	
+	private boolean isLoading = false;
+	protected String genericPlat; 
 		//Movement directions (north,south etc...)
-	boolean MN,MS,ME,MW, saving;
+	boolean MN,MS,ME,MW, saving, adding, deleting, addH, delH; 
 		//Constructor
 	public LevelEditor()
 	{
@@ -148,16 +155,23 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		windowHB[3]= window.height;
 		
 		saving = false;
+		adding = false;
+		deleting = false;
 		MN = false;
 		MS = false;
 		ME = false;
 		MW = false;
 		
+		addH = true;
+		delH = true;
+		
 		this.targetH= true;
 		this.RtargetH = true;
 		this.target=0;
-			//Promt uses to load a level here
+			//Promt should ask user for level name here
 		loadLevel(lvl);
+		
+		genericPlat = "res/platform0-1.png";
 	}
 	
 	public void addPlaform()
@@ -167,14 +181,50 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		 * the last one;
 		 * then finally set plat[] = temp
 		 */
+		
+		Platform temp[] = new Platform[platforms.length + 1];
+		for(int i =0; i < platforms.length;i++)
+		{
+			temp[i] = platforms[i];
+		}
+		
+		temp[platforms.length]= new Platform(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2);
+		platforms = temp;
+		target = platforms.length-1;
 	}
-	public void deletePlatform(int target)
+	public void deletePlatform(int deltarget)
 	{
+		
 		/*
 		 * create a tombstone at the target deletion, 
 		 * create temp new array that is 1 smaller then plat[]
 		 * then add everything but tomb 
 		 */
+		if(platforms.length == 0)
+		{
+			return;
+		}
+		int tracker = 0;
+		Platform temp[] = new Platform[platforms.length - 1];
+		for(int i =0; i < platforms.length - 1;i++)
+		{
+			if(i == deltarget && tracker == 0)
+			{
+				tracker++;
+				i--;
+			}
+			else
+			{
+				temp[i] = platforms[i + tracker];
+			}
+		}
+		if(this.target != 0)
+		{
+			this.target--;
+		}
+		platforms = temp;
+		
+		
 	}
 	
 	public void run()
@@ -211,30 +261,40 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		g.fillRect(0, 0, window.width, window.height);
 
 
-		
-		for(i =0; i < weather.length; i++)
+		if(!isLoading)
 		{
-			if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
+			for(i =0; i < weather.length; i++)
+			{
+				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
+			}
+			
+				//background
+			gameWorld.render(g, windowHB);
+			
+				//render the platforms]
+			for(i = 0; i < platforms.length;i++)
+			{
+				if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
+			}
+			for(i = 0; i < ladders.length;i++)
+			{
+				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
+			}
+			
+			
+			if(platforms.length != 0)
+			{
+				g.setColor(Color.RED);
+				g.drawRect(platforms[target].hitbox[0]+platforms[target].x,
+					platforms[target].hitbox[1]+platforms[target].y,
+					platforms[target].hitbox[2], 
+					platforms[target].hitbox[3]);
+			}
 		}
-		
-			//background
-		gameWorld.render(g, windowHB);
-		
-			//render the platforms]
-		for(i = 0; i < platforms.length;i++)
+		if(isLoading)
 		{
-			if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
+			loading.render(g);
 		}
-		for(i = 0; i < ladders.length;i++)
-		{
-			if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
-		}
-		g.setColor(Color.RED);
-		g.drawRect(platforms[target].hitbox[0]+platforms[target].x,
-				platforms[target].hitbox[1]+platforms[target].y,
-				platforms[target].hitbox[2], 
-				platforms[target].hitbox[3]);
-		
 		
 			// Get window's graphics object. 
 		g = getGraphics();
@@ -245,27 +305,49 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	}
 	public  void update()
 	{	
-			//Selected item will have Red hitbox?
-			//	visible hitbox?
-		theWorld.update();
-		int i;
-		for(i = 0; i < platforms.length;i++)
+		if(!isLoading)
 		{
-			platforms[i].update(theWorld);
-		}
-		for(i = 0; i < ladders.length;i++)
-		{
-			ladders[i].update(theWorld);
-		}
-		gameWorld.update(theWorld);
-		for(i =0; i < weather.length; i++)
-		{
-			weather[i].update(theWorld);
-		}
-		
-		if(saving) //THIS IS WHERE IT SAVES FOR NOW!
-		{
-			saveLevel("TEST.txt");
+				//Selected item will have Red hitbox?
+				//visible hitbox?
+			theWorld.update();
+			int i;
+			for(i = 0; i < platforms.length;i++)
+			{
+				platforms[i].update(theWorld);
+			}
+			for(i = 0; i < ladders.length;i++)
+			{
+				ladders[i].update(theWorld);
+			}
+			gameWorld.update(theWorld);
+			for(i =0; i < weather.length; i++)
+			{
+				weather[i].update(theWorld);
+			}
+			
+			if(saving) //THIS IS WHERE IT SAVES FOR NOW!
+			{
+				saveLevel("TEST.txt");
+			}
+				//ADDing a new platform
+			if(adding && addH)
+			{
+				addH = false;
+				adding = false;
+				
+				isLoading = true;
+				addPlaform();
+				isLoading = false;
+			}
+			if(deleting && delH)
+			{
+				delH = false;
+				deleting = false;
+				 
+				isLoading = true;
+				deletePlatform(target);
+				isLoading = false;
+			}
 		}
 			
 	}	
@@ -307,7 +389,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		//PLATFORM MOVEMENT-------------------------------------
 			//MOVE PLATFORM NORTH
-		if(MN)
+		if(MN && platforms.length !=0)
 		{
 			if(platforms[target].getTrueY() > 0)
 			{
@@ -315,7 +397,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 			//MOVE PLATFORM SOUTH
-		if(MS)
+		if(MS && platforms.length !=0)
 		{
 			if(platforms[target].getTrueY() < (theWorld.getHeight() - platforms[target].getHeight()))
 			{
@@ -323,7 +405,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 			//MOVE PLATFORM EAST
-		if(ME)
+		if(ME && platforms.length !=0)
 		{
 			if(platforms[target].getTrueX() < (theWorld.getWidth() - platforms[target].getWidth()))
 			{
@@ -331,7 +413,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 			//MOVE PLATFORM WEST
-		if(MW)
+		if(MW && platforms.length !=0)
 		{
 			if(platforms[target].getTrueX() > 0)
 			{
@@ -369,7 +451,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_Q: //Quit
 				isRunning = false;
 					break;
-					
+			//---------------------------------ADDING/DELETING
+			case KeyEvent.VK_N:	//Adding
+				if(addH)
+				{
+					this.adding = true;
+				}
+				break;
+			case KeyEvent.VK_M:	//Deleting
+				if(delH)
+				{
+					this.deleting = true;
+				}
+				break;
 			//---------------------------TARGETING
 			case KeyEvent.VK_T: //Target
 				if(targetH)
@@ -377,13 +471,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					if(target < platforms.length-1)
 					{
 						this.target++;
-						this.targetH=false;
 					}
 					else
 					{
 						this.target = 0;
-						this.targetH=false;
 					}
+					this.targetH=false;
 				}
 					break;
 			case KeyEvent.VK_R: //reverse Target
@@ -392,13 +485,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					if(target > 0)
 					{
 						this.target--;
-						this.RtargetH=false;
 					}
 					else
 					{
 						this.target = platforms.length-1;
-						this.RtargetH=false;
 					}
+					this.RtargetH=false;
 				}
 					break;
 			//------------------------------------MOVEMENT
@@ -457,7 +549,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_R: //Reverse Target
 				this.RtargetH = true;
 					break;
-					
+			//---------------------------------ADDING/DELETING
+			case KeyEvent.VK_N:	//Adding
+				this.addH = true;
+					break;
+			case KeyEvent.VK_M:	//Deleting
+				this.delH = true;
+					break;
 			//------------------------------------MOVEMENT
 					//-------------------------(Y)
 			case KeyEvent.VK_UP: //UP
