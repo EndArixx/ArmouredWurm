@@ -88,6 +88,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private boolean isLoading = false;
 	protected String genericPlat; 
 	
+	protected boolean shiftmonitor;
 	
 		//this will hold all the different types of sprites
 	protected String[] spriteTypes;
@@ -95,8 +96,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected int stCounter;
 	
 		//Movement directions (north,south etc...)
-	boolean MN,MS,ME,MW, saving, adding, deleting, addH, delH, changing, chaH; 
-	boolean HN,HS,HE,HW,HNG,HSG,HEG,HWG;
+	boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
+	boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
 	
 		//Constructor
 	public LevelEditor()
@@ -180,7 +181,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				fw.write(platforms[i].name + ","
 						+ platforms[i].trueX + ","
-						+ platforms[i].trueY + "\n");
+						+ platforms[i].trueY + ","
+						+ platforms[i].hitbox[0] + ","
+						+ platforms[i].hitbox[1] + ","
+						+ platforms[i].hitbox[2] + ","
+						+ platforms[i].hitbox[3] + "\n");
 			}
 			fw.write(" \n");
 			fw.close();
@@ -201,28 +206,27 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.adding = false;
 		this.deleting = false;
 		this.changing = false;
-		this.MN = false;
-		this.MS = false;
-		this.ME = false;
-		this.MW = false;
+		this.moveN = false;
+		this.moveS = false;
+		this.moveE = false;
+		this.moveW = false;
 		
-		this.HN = false;
-		this.HS = false;
-		this.HE = false;
-		this.HW = false;
-		this.HNG = true;
-		this.HSG = true;
-		this.HEG = true;
-		this.HWG = true;
+		this.hitboxXB = false;
+		this.hitboxXS = false;
+		this.hitboxYB = false;
+		this.hitboxYS = false;
+
 		
-		this.addH = true;
-		this.delH = true;
-		this.chaH = true;
+		this.addL = true;
+		this.delL = true;
+		this.chaL = true;
 		this.stCounter = 0;
 		
 		this.targetH= true;
 		this.RtargetH = true;
 		this.target=0;
+		
+		shiftmonitor = false;
 		
 			//Promt should ask user for level name here #JOHN DO THIS
 		loadLevel(lvl);
@@ -405,9 +409,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				saveLevel("TEST.txt");
 			}
 				//Adding a new platform
-			if(adding && addH)
+			if(adding && addL)
 			{
-				addH = false;
+				addL = false;
 				adding = false;
 				
 				isLoading = true;
@@ -415,9 +419,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				isLoading = false;
 			}
 				//Deleting
-			if(deleting && delH)
+			if(deleting && delL)
 			{
-				delH = false;
+				delL = false;
 				deleting = false;
 				 
 				isLoading = true;
@@ -426,9 +430,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			
 				//changing the Sprite
-			if(changing && chaH)
+			if(changing && chaL)
 			{
-				chaH = false;
+				chaL = false;
 				changing = false;
 				
 				isLoading = true;
@@ -474,100 +478,137 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 		
-		//PLATFORM MOVEMENT-------------------------------------
-			//MOVE PLATFORM NORTH
-		if(MN && platforms.length !=0)
+		if(!shiftmonitor)
 		{
-			if(platforms[target].getTrueY() > 0)
+			//PLATFORM MOVEMENT-------------------------------------
+				//MOVE PLATFORM NORTH
+			if(moveN && platforms.length !=0)
 			{
-				platforms[target].moveYn(this.moveSpeed);
+				if(platforms[target].getTrueY() > 0)
+				{
+					platforms[target].moveYn(this.moveSpeed);
+				}
+			}
+				//MOVE PLATFORM SOUTH
+			if(moveS && platforms.length !=0)
+			{
+				if(platforms[target].getTrueY() < (theWorld.getHeight() - platforms[target].getHeight()))
+				{
+					platforms[target].moveYp(this.moveSpeed);
+				}
+			}
+				//MOVE PLATFORM EAST
+			if(moveE && platforms.length !=0)
+			{
+				if(platforms[target].getTrueX() < (theWorld.getWidth() - platforms[target].getWidth()))
+				{
+					platforms[target].moveXp(this.moveSpeed);
+				}
+			}
+				//MOVE PLATFORM WEST
+			if(moveW && platforms.length !=0)
+			{
+				if(platforms[target].getTrueX() > 0)
+				{
+					platforms[target].moveXn(this.moveSpeed);
+				}
 			}
 		}
-			//MOVE PLATFORM SOUTH
-		if(MS && platforms.length !=0)
+		else
 		{
-			if(platforms[target].getTrueY() < (theWorld.getHeight() - platforms[target].getHeight()))
+			/*
+			 * Hitbox stuff:
+			 * 		First Movement
+			 * 			change location of hitbox
+			 * 		Second Resize
+			 * 			change size of hitbox
+			 */
+			
+			int PHmove = 10;
+				//Hitbox resizing/moving
+			
+			//---------------------------------Moving
+			if(moveN && platforms.length !=0)
 			{
-				platforms[target].moveYp(this.moveSpeed);
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0],
+						platforms[target].hitbox[1] - PHmove,
+						platforms[target].hitbox[2],
+						platforms[target].hitbox[3]);
 			}
-		}
-			//MOVE PLATFORM EAST
-		if(ME && platforms.length !=0)
-		{
-			if(platforms[target].getTrueX() < (theWorld.getWidth() - platforms[target].getWidth()))
+			if(moveS && platforms.length !=0)
 			{
-				platforms[target].moveXp(this.moveSpeed);
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0],
+						platforms[target].hitbox[1] + PHmove,
+						platforms[target].hitbox[2],
+						platforms[target].hitbox[3]);
 			}
-		}
-			//MOVE PLATFORM WEST
-		if(MW && platforms.length !=0)
-		{
-			if(platforms[target].getTrueX() > 0)
+			if(moveE && platforms.length !=0)
 			{
-				platforms[target].moveXn(this.moveSpeed);
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0]+ PHmove,
+						platforms[target].hitbox[1],
+						platforms[target].hitbox[2],
+						platforms[target].hitbox[3]);
 			}
-		}
-		
-		/*
-		 * Hitbox stuff:
-		 * 		First Movement
-		 * 			change location of hitbox
-		 * 		Second Resize
-		 * 			change size of hitbox
-		 */
-		
-		int PHmove = 1;
-			//Hitbox resizing
-		if(HN && platforms.length != 0 && HNG)
-		{
-			HNG = false;
-			HS = false;
-			platforms[target].setHitbox(
-					platforms[target].hitbox[0],
-					platforms[target].hitbox[1] + PHmove,
-					platforms[target].hitbox[2],
-					platforms[target].hitbox[3]);
-		}
-		if(HS && platforms.length != 0 && HSG)
-		{
-			HSG = false;
-			HS = false;
-			platforms[target].setHitbox(
-					platforms[target].hitbox[0],
-					platforms[target].hitbox[1] - PHmove,
-					platforms[target].hitbox[2],
-					platforms[target].hitbox[3]);
-		}
-		if(HE && platforms.length != 0 && HEG)
-		{
-			HEG = false;
-			HE = false;
-			platforms[target].setHitbox(
-					platforms[target].hitbox[0]+ PHmove,
-					platforms[target].hitbox[1],
-					platforms[target].hitbox[2],
-					platforms[target].hitbox[3]);
-		}
-		if(HW && platforms.length != 0 && HWG)
-		{
-			HWG = false;
-			HW = false;
-			platforms[target].setHitbox(
-					platforms[target].hitbox[0]- PHmove,
-					platforms[target].hitbox[1],
-					platforms[target].hitbox[2],
-					platforms[target].hitbox[3]);
+			if(moveW && platforms.length !=0)
+			{
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0]- PHmove,
+						platforms[target].hitbox[1],
+						platforms[target].hitbox[2],
+						platforms[target].hitbox[3]);
+			}
+			
+			//---------------------------------Resizing
+			if(hitboxXB && platforms.length !=0)
+			{
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0],
+						platforms[target].hitbox[1],
+						platforms[target].hitbox[2] + PHmove,
+						platforms[target].hitbox[3]);
+			}
+			if(hitboxXS && platforms.length !=0)
+			{
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0],
+						platforms[target].hitbox[1],
+						platforms[target].hitbox[2] - PHmove,
+						platforms[target].hitbox[3]);
+			}
+			if(hitboxYB && platforms.length !=0)
+			{
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0],
+						platforms[target].hitbox[1],
+						platforms[target].hitbox[2],
+						platforms[target].hitbox[3] + PHmove);
+			}
+			if(hitboxYS && platforms.length !=0)
+			{
+				platforms[target].setHitbox(
+						platforms[target].hitbox[0],
+						platforms[target].hitbox[1],
+						platforms[target].hitbox[2],
+						platforms[target].hitbox[3] - PHmove);
+			}
+			
+			
 		}
 	}
 	
 	public void keyPressed(KeyEvent key) 
 	{
 		
-			//identify which key was pressed
-			//set the correct direction to true
-			//then change the player model 
 		switch (key.getKeyCode())
 		{
+			//------------------------Shift switches to hitbox mode
+			case KeyEvent.VK_SHIFT:
+				shiftmonitor = true;
+					break;
+			
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=true;
@@ -590,7 +631,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					break;
 					
 			case KeyEvent.VK_L: //Load new sprite image
-				if(chaH)
+				if(chaL)
 				{
 					this.changing = true;
 				}
@@ -598,13 +639,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					
 			//---------------------------------ADDING/DELETING
 			case KeyEvent.VK_N:	//Adding
-				if(addH)
+				if(addL)
 				{
 					this.adding = true;
 				}
 				break;
 			case KeyEvent.VK_M:	//Deleting
-				if(delH)
+				if(delL)
 				{
 					this.deleting = true;
 				}
@@ -641,48 +682,37 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//------------------------------------MOVEMENT
 					//-------------------------(Y)
 			case KeyEvent.VK_UP: //UP
-				MN=true;
+				moveN=true;
 					break;
 			case KeyEvent.VK_DOWN: //DOWN
-				MS=true;
+				moveS=true;
 					break;
 					//-------------------------(X)
 			case KeyEvent.VK_LEFT: //LEFT
-				MW = true;
+				moveW = true;
 					break;
 					
 			case KeyEvent.VK_RIGHT: //RIGHT
-				ME = true;
+				moveE = true;
 					break;
 					
-			//---------------------------------HIT BOX RESIZE
+			//---------------------------------HIT BOX STuff
 					//-------------------------(Y)
-			case KeyEvent.VK_C: //UP
-				if(HNG)
-				{
-					HN = true;
-				}
+			case KeyEvent.VK_C: //bigger
+				hitboxXB = true;
 					break;	
-			case KeyEvent.VK_V: //DOWN
-				if(HSG)
-				{
-					HS = true;
-				}
+			case KeyEvent.VK_V: //smaller
+				hitboxXS = true;
 					break;	
 					//-------------------------(X)
-			case KeyEvent.VK_X: //RIGHT
-				if(HEG)
-				{
-					HE=true;
-				}
+			case KeyEvent.VK_X: //bigger
+				hitboxYB=true;
 					break;
-			case KeyEvent.VK_Z: //LEFT
-				if(HWG)
-				{
-					HW=true;
-				}
+			case KeyEvent.VK_Z: //smaller
+				hitboxYS=true;
+
 				break;
-					
+				
 			//----------------------------------FILE IO
 					//SAVE
 			case KeyEvent.VK_P:
@@ -699,6 +729,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//check the key then turn off that direction
 		switch (key.getKeyCode())
 		{
+			//------------------------Shift switches to hitbox mode
+			case KeyEvent.VK_SHIFT:
+				shiftmonitor = false;
+					break;
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=false;
@@ -724,42 +758,42 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					break;
 			//---------------------------------ADDING/DELETING
 			case KeyEvent.VK_N:	//Adding
-				this.addH = true;
+				this.addL = true;
 					break;
 			case KeyEvent.VK_M:	//Deleting
-				this.delH = true;
+				this.delL = true;
 					break;
 			//------------------------------------MOVEMENT
 					//-------------------------(Y)
 			case KeyEvent.VK_UP: //UP
-				MN=false;
+				moveN=false;
 					break;
 			case KeyEvent.VK_DOWN: //DOWN
-				MS=false;
+				moveS=false;
 					break;
 					//-------------------------(X)
 			case KeyEvent.VK_LEFT: //LEFT
-				MW = false;
+				moveW = false;
 					break;
 					
 			case KeyEvent.VK_RIGHT: //RIGHT
-				ME = false;
+				moveE = false;
 					break;
 					
 			//---------------------------------HIT BOX RESIZE
-					//-------------------------(Y)
-			case KeyEvent.VK_C: //UP
-				HNG = true;
-					break;	
-			case KeyEvent.VK_V: //DOWN
-				HSG = true;
-					break;	
 					//-------------------------(X)
-			case KeyEvent.VK_X: //RIGHT
-				HEG=true;
+			case KeyEvent.VK_C: //bigger
+				hitboxXB = false;
+					break;	
+			case KeyEvent.VK_V: //smaller
+				hitboxXS = false;
+					break;	
+					//-------------------------(Y)
+			case KeyEvent.VK_X: //bigger
+				hitboxYB = false;
 					break;
-			case KeyEvent.VK_Z: //LEFT
-				HWG=true;
+			case KeyEvent.VK_Z: //smaller
+				hitboxYS = false;
 					break;
 					
 			//----------------------------------FILE IO
@@ -768,7 +802,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					break;
 			//------------------------------------OTHER
 			case KeyEvent.VK_L: //Load new sprite image
-				this.chaH = true;
+				this.chaL = true;
 				break;
 		}
 		

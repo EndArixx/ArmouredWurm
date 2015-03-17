@@ -54,7 +54,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//these are holders to smooth out movement
 	private boolean Wh,Eh,Jh;
 	
-	private String lvl = "res/mountain.txt";
+	private String lvl = "res/testlevel.txt";
 	private boolean isLoading = false;
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
@@ -132,8 +132,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
-	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
-	        }
+ 	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	 	        if(temp.length == 7)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        }
+	 	        
+ 	        }
 	        	//MORE STUFF COMMING
 	        
 	        fr.close();
