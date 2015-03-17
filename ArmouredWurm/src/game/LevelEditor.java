@@ -58,6 +58,13 @@ import javax.swing.JFrame;
  * 
  * Step V 		[]
  * 		add ability to change hitbox
+ * 			-Move 			(X)
+ * 			-resize			()
+ * 			-SAVE hitbox	()
+ * 			-LOAD hitbox	()
+ * 
+ * 			SHIFT 			()
+ * 				changes so that the controls for the hit box are done pressing shift.
  * 	
  * Step 6		[]
  * 		add ability to change which image an object is using 
@@ -89,7 +96,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	
 		//Movement directions (north,south etc...)
 	boolean MN,MS,ME,MW, saving, adding, deleting, addH, delH, changing, chaH; 
-		
+	boolean HN,HS,HE,HW,HNG,HSG,HEG,HWG;
+	
 		//Constructor
 	public LevelEditor()
 	{
@@ -197,6 +205,15 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.MS = false;
 		this.ME = false;
 		this.MW = false;
+		
+		this.HN = false;
+		this.HS = false;
+		this.HE = false;
+		this.HW = false;
+		this.HNG = true;
+		this.HSG = true;
+		this.HEG = true;
+		this.HWG = true;
 		
 		this.addH = true;
 		this.delH = true;
@@ -491,6 +508,56 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 		
+		/*
+		 * Hitbox stuff:
+		 * 		First Movement
+		 * 			change location of hitbox
+		 * 		Second Resize
+		 * 			change size of hitbox
+		 */
+		
+		int PHmove = 1;
+			//Hitbox resizing
+		if(HN && platforms.length != 0 && HNG)
+		{
+			HNG = false;
+			HS = false;
+			platforms[target].setHitbox(
+					platforms[target].hitbox[0],
+					platforms[target].hitbox[1] + PHmove,
+					platforms[target].hitbox[2],
+					platforms[target].hitbox[3]);
+		}
+		if(HS && platforms.length != 0 && HSG)
+		{
+			HSG = false;
+			HS = false;
+			platforms[target].setHitbox(
+					platforms[target].hitbox[0],
+					platforms[target].hitbox[1] - PHmove,
+					platforms[target].hitbox[2],
+					platforms[target].hitbox[3]);
+		}
+		if(HE && platforms.length != 0 && HEG)
+		{
+			HEG = false;
+			HE = false;
+			platforms[target].setHitbox(
+					platforms[target].hitbox[0]+ PHmove,
+					platforms[target].hitbox[1],
+					platforms[target].hitbox[2],
+					platforms[target].hitbox[3]);
+		}
+		if(HW && platforms.length != 0 && HWG)
+		{
+			HWG = false;
+			HW = false;
+			platforms[target].setHitbox(
+					platforms[target].hitbox[0]- PHmove,
+					platforms[target].hitbox[1],
+					platforms[target].hitbox[2],
+					platforms[target].hitbox[3]);
+		}
 	}
 	
 	public void keyPressed(KeyEvent key) 
@@ -588,6 +655,34 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				ME = true;
 					break;
 					
+			//---------------------------------HIT BOX RESIZE
+					//-------------------------(Y)
+			case KeyEvent.VK_C: //UP
+				if(HNG)
+				{
+					HN = true;
+				}
+					break;	
+			case KeyEvent.VK_V: //DOWN
+				if(HSG)
+				{
+					HS = true;
+				}
+					break;	
+					//-------------------------(X)
+			case KeyEvent.VK_X: //RIGHT
+				if(HEG)
+				{
+					HE=true;
+				}
+					break;
+			case KeyEvent.VK_Z: //LEFT
+				if(HWG)
+				{
+					HW=true;
+				}
+				break;
+					
 			//----------------------------------FILE IO
 					//SAVE
 			case KeyEvent.VK_P:
@@ -649,6 +744,22 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					
 			case KeyEvent.VK_RIGHT: //RIGHT
 				ME = false;
+					break;
+					
+			//---------------------------------HIT BOX RESIZE
+					//-------------------------(Y)
+			case KeyEvent.VK_C: //UP
+				HNG = true;
+					break;	
+			case KeyEvent.VK_V: //DOWN
+				HSG = true;
+					break;	
+					//-------------------------(X)
+			case KeyEvent.VK_X: //RIGHT
+				HEG=true;
+					break;
+			case KeyEvent.VK_Z: //LEFT
+				HWG=true;
 					break;
 					
 			//----------------------------------FILE IO
