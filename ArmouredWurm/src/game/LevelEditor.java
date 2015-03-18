@@ -2,6 +2,7 @@ package game;
 
 import java.applet.Applet;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -18,8 +19,10 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 
 //this is a new idea i had to help make lvls
@@ -36,10 +39,10 @@ import javax.swing.JFrame;
  * 		Render a background and allow movement using WASD OR Arrow Keys
  * 			Render back 	(X)
  * 			WASD move		(X)
- * Step Two		[] 
+ * Step Two		[X] 
  * 		add ability to load a level
  * 			-load file 		(X)
- * 			-promt user		() 
+ * 			-promt user		(X) 
  * Step Three	[]
  * 		add ability to add/delete objects and move around objects
  * 			-platforms		(X)
@@ -56,18 +59,19 @@ import javax.swing.JFrame;
  * 			this will have to keep getting updated
  * 			as new functionality is added.
  * 
- * Step V 		[]
+ * Step V 		[X]
  * 		add ability to change hitbox
  * 			-Move 			(X)
- * 			-resize			()
- * 			-SAVE hitbox	()
- * 			-LOAD hitbox	()
+ * 			-resize			(X)
+ * 			-SAVE hitbox	(X)
+ * 			-LOAD hitbox	(X)
  * 
- * 			SHIFT 			()
+ * 			SHIFT 			(X)
  * 				changes so that the controls for the hit box are done pressing shift.
  * 	
- * Step 6		[]
+ * Step 6		[X]
  * 		add ability to change which image an object is using 
+ *			-platforms 		(X)
  */
 
 public class LevelEditor extends Engine implements Runnable, KeyListener
@@ -77,7 +81,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	 */
 
 		//lvl name
-	private String lvl = "res/testlevel.txt";
+	private String lvl = "res/TEST.txt";
 	protected int scrollSpeed = 10;
 	protected int moveSpeed = 10;
 	
@@ -99,12 +103,14 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
 	boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
 	
+	boolean promtformapname = true;
+	 
 		//Constructor
 	public LevelEditor()
 	{
 			//this is the constructor for the main engine
 		setPreferredSize(window);
-		setUp();
+		this.setUp();
 		this.addKeyListener(this);	
 	}
 	
@@ -187,7 +193,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ platforms[i].hitbox[2] + ","
 						+ platforms[i].hitbox[3] + "\n");
 			}
-			fw.write(" \n");
+			//fw.write(" \n");
 			fw.close();
 		
 		}catch (IOException e) {e.printStackTrace();}
@@ -216,10 +222,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.hitboxYB = false;
 		this.hitboxYS = false;
 
-		
+			//the L stands for limiter, this is makes it so it only happens once per key press.
 		this.addL = true;
 		this.delL = true;
 		this.chaL = true;
+			//sprite type counter
 		this.stCounter = 0;
 		
 		this.targetH= true;
@@ -228,7 +235,24 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		shiftmonitor = false;
 		
-			//Promt should ask user for level name here #JOHN DO THIS
+		if(promtformapname)
+		{
+			promtformapname = false;
+			Component frame = null;
+			String s = (String)JOptionPane.showInputDialog(
+			                    frame,
+			                    "Please enter a map name.",
+			                    "File Selector",
+			                    JOptionPane.PLAIN_MESSAGE,
+			                    null, null,
+			                    "map.txt");
+
+			if ((s != null) && (s.length() > 0)) 
+			{
+				lvl = "res/" +  s;
+			}
+		}
+		
 		loadLevel(lvl);
 		loadSprites(sTypesLoc);
 		
@@ -319,12 +343,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			loops = 0;
 			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
 			{
-				movement();
-				update();	
+				this.movement();
+				this.update();	
 				next_game_tick += SKIP_TICKS;
 				loops++;
 			}
-			render();
+			this.render();
 			System.gc();
 		}
 		this.gameRun=false;
@@ -338,8 +362,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		Graphics g = screen.getGraphics();
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, window.width, window.height);
-
-
+		
 		if(!isLoading)
 		{
 			for(i =0; i < weather.length; i++)
@@ -350,7 +373,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				//background
 			gameWorld.render(g, windowHB);
 			
-				//render the platforms]
+				//render the platforms
 			for(i = 0; i < platforms.length;i++)
 			{
 				if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
@@ -386,6 +409,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	{	
 		if(!isLoading)
 		{
+			
 				//Selected item will have Red hitbox?
 				//visible hitbox?
 			theWorld.update();
