@@ -72,6 +72,10 @@ import javax.swing.JTextField;
  * Step 6		[X]
  * 		add ability to change which image an object is using 
  *			-platforms 		(X)
+ *
+ * Step 7		[]
+ * 		add ability to test the Level on the fly 
+ * 		press button, test level, close test goes back to editors
  */
 
 public class LevelEditor extends Engine implements Runnable, KeyListener
@@ -93,6 +97,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected String genericPlat; 
 	
 	protected boolean shiftmonitor;
+	protected boolean controlmonitor;
+	protected boolean tab, tabL;
+	
+	protected int modeCounter,modeTotal;
 	
 		//this will hold all the different types of sprites
 	protected String[] spriteTypes;
@@ -100,17 +108,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected int stCounter;
 	
 		//Movement directions (north,south etc...)
-	boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
-	boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
+	protected boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
+	protected boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
 	
-	boolean promtformapname = true;
+	private boolean promtformapname = true;
 	 
 		//Constructor
-	public LevelEditor()
+	public LevelEditor(boolean test)
 	{
 			//this is the constructor for the main engine
 		setPreferredSize(window);
-		this.setUp();
+		setUp();
 		this.addKeyListener(this);	
 	}
 	
@@ -179,7 +187,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				fw.write(ladders[i].name + ","
 						+ ladders[i].trueX + ","
-						+ ladders[i].trueY + "\n");
+						+ ladders[i].trueY + ","
+						+ ladders[i].hitbox[0] + ","
+						+ ladders[i].hitbox[1] + ","
+						+ ladders[i].hitbox[2] + ","
+						+ ladders[i].hitbox[3] + "\n");
 			}
 			
 				//Write out Platforms
@@ -229,11 +241,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//sprite type counter
 		this.stCounter = 0;
 		
+		
+			//Modes
+		this.modeTotal = 2;
+		this.modeCounter = 0;
+		this.tab = false;
+		this.tabL = true;
+		
 		this.targetH= true;
 		this.RtargetH = true;
 		this.target=0;
 		
 		shiftmonitor = false;
+		controlmonitor = false;
 		
 		if(promtformapname)
 		{
@@ -256,10 +276,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		loadLevel(lvl);
 		loadSprites(sTypesLoc);
 		
-		genericPlat = "res/platform0-1.png";
+		genericPlat =  spriteTypes[0];
 	}
 	
-	public void addPlaform()
+	public Platform[] addPlaform(Platform[] inplat)
 	{
 		/*create temp thats 1 bigger then plat[] 
 		 * add each piece then make a new one for 
@@ -267,17 +287,18 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		 * then finally set plat[] = temp
 		 */
 		
-		Platform temp[] = new Platform[platforms.length + 1];
-		for(int i =0; i < platforms.length;i++)
+		Platform temp[] = new Platform[ inplat.length + 1];
+		for(int i =0; i < inplat.length;i++)
 		{
-			temp[i] = platforms[i];
+			temp[i] = inplat[i];
 		}
 		
-		temp[platforms.length]= new Platform(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2);
-		platforms = temp;
-		target = platforms.length-1;
+		temp[ inplat.length]= new Platform(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2);
+		 inplat = temp;
+		target =  inplat.length-1;
+		return inplat;
 	}
-	public void deletePlatform()
+	public Platform[] deletePlatform(Platform[] inplat)
 	{
 		
 		/*
@@ -285,13 +306,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		 * create temp new array that is 1 smaller then plat[]
 		 * then add everything but tomb 
 		 */
-		if(platforms.length == 0)
+		if(inplat.length == 0)
 		{
-			return;
+			return inplat;
 		}
 		int tracker = 0;
-		Platform temp[] = new Platform[platforms.length - 1];
-		for(int i =0; i < platforms.length - 1;i++)
+		Platform temp[] = new Platform[inplat.length - 1];
+		for(int i =0; i < inplat.length - 1;i++)
 		{
 			if(i == target && tracker == 0)
 			{
@@ -300,22 +321,23 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			else
 			{
-				temp[i] = platforms[i + tracker];
+				temp[i] = inplat[i + tracker];
 			}
 		}
 		if(this.target != 0)
 		{
 			this.target--;
 		}
-		platforms = temp;
+		inplat = temp;
 		
+		return inplat;
 		
 	}
-	public void platformSwitchSprite()
+	public Platform[] platformSwitchSprite(Platform[] inplat)
 	{
-		if(platforms.length != 0)
+		if( inplat.length != 0)
 		{
-			platforms[target] = new Platform(spriteTypes[stCounter],platforms[target].getTrueX(),platforms[target].getTrueY());
+			 inplat[target] = new Platform(spriteTypes[stCounter], inplat[target].getTrueX(), inplat[target].getTrueY());
 			
 			if(stCounter < spriteTypes.length - 1)
 			{
@@ -326,9 +348,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				stCounter = 0;
 			}
 		}
+		return inplat;
 	}
-	
-	
 	
 	public void run()
 	{
@@ -383,14 +404,27 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
 			}
 			
-			
-			if(platforms.length != 0)
+			if(modeCounter == 0)
 			{
-				g.setColor(Color.RED);
-				g.drawRect(platforms[target].hitbox[0]+platforms[target].x,
-					platforms[target].hitbox[1]+platforms[target].y,
-					platforms[target].hitbox[2], 
-					platforms[target].hitbox[3]);
+				if(platforms.length != 0)
+				{
+					g.setColor(Color.RED);
+					g.drawRect(platforms[target].hitbox[0]+platforms[target].x,
+						platforms[target].hitbox[1]+platforms[target].y,
+						platforms[target].hitbox[2], 
+						platforms[target].hitbox[3]);
+				}
+			}
+			if(modeCounter == 1)
+			{
+				if(ladders.length != 0)
+				{
+					g.setColor(Color.GREEN);
+					g.drawRect(ladders[target].hitbox[0]+ladders[target].x,
+							ladders[target].hitbox[1]+ladders[target].y,
+							ladders[target].hitbox[2], 
+							ladders[target].hitbox[3]);
+				}
 			}
 		}
 		if(isLoading)
@@ -410,6 +444,25 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		if(!isLoading)
 		{
 			
+			if(tab && tabL)
+			{
+				System.out.println("BOOOM");
+				
+				tab = false;
+				tabL= false;
+				
+				target = 0;
+				
+				if(modeCounter < modeTotal -1)
+				{
+					modeCounter++;
+				}
+				else
+				{
+					modeCounter= 0;
+				}
+			}
+
 				//Selected item will have Red hitbox?
 				//visible hitbox?
 			theWorld.update();
@@ -432,40 +485,80 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				saveLevel("TEST.txt");
 			}
-				//Adding a new platform
-			if(adding && addL)
-			{
-				addL = false;
-				adding = false;
-				
-				isLoading = true;
-				addPlaform();
-				isLoading = false;
-			}
-				//Deleting
-			if(deleting && delL)
-			{
-				delL = false;
-				deleting = false;
-				 
-				isLoading = true;
-				deletePlatform();
-				isLoading = false;
-			}
 			
-				//changing the Sprite
-			if(changing && chaL)
+			//------------------------------------PLATFORM MODE!
+			if(modeCounter == 0)
 			{
-				chaL = false;
-				changing = false;
+					//Adding a new platform
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					platforms = addPlaform(platforms);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					platforms = deletePlatform(platforms);
+					isLoading = false;
+				}
 				
-				isLoading = true;
-				platformSwitchSprite();
-				isLoading = false;
+					//changing the Sprite
+				if(changing && chaL)
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					platforms = platformSwitchSprite(platforms);
+					isLoading = false;
+				}
+			}
+			if(modeCounter == 1)
+			{
+					//Adding a new platform
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					ladders = addPlaform(ladders);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					ladders = deletePlatform(ladders);
+					isLoading = false;
+				}
+				
+					//changing the Sprite
+				if(changing && chaL)
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					ladders = platformSwitchSprite(ladders);
+					isLoading = false;
+				}
 			}
 		}
 			
-	}	
+	}
+	
 	private void movement()
 	{
 		//WINDOW MOVEMENT-------------------------
@@ -504,37 +597,76 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		if(!shiftmonitor)
 		{
-			//PLATFORM MOVEMENT-------------------------------------
-				//MOVE PLATFORM NORTH
-			if(moveN && platforms.length !=0)
+			if(modeCounter == 0)
 			{
-				if(platforms[target].getTrueY() > 0)
+				//PLATFORM MOVEMENT-------------------------------------
+					//MOVE PLATFORM NORTH
+				if(moveN && platforms.length !=0)
 				{
-					platforms[target].moveYn(this.moveSpeed);
+					if(platforms[target].getTrueY() > 0)
+					{
+						platforms[target].moveYn(this.moveSpeed);
+					}
+				}
+					//MOVE PLATFORM SOUTH
+				if(moveS && platforms.length !=0)
+				{
+					if(platforms[target].getTrueY() < (theWorld.getHeight() - platforms[target].getHeight()))
+					{
+						platforms[target].moveYp(this.moveSpeed);
+					}
+				}
+					//MOVE PLATFORM EAST
+				if(moveE && platforms.length !=0)
+				{
+					if(platforms[target].getTrueX() < (theWorld.getWidth() - platforms[target].getWidth()))
+					{
+						platforms[target].moveXp(this.moveSpeed);
+					}
+				}
+					//MOVE PLATFORM WEST
+				if(moveW && platforms.length !=0)
+				{
+					if(platforms[target].getTrueX() > 0)
+					{
+						platforms[target].moveXn(this.moveSpeed);
+					}
 				}
 			}
-				//MOVE PLATFORM SOUTH
-			if(moveS && platforms.length !=0)
+			else if(modeCounter == 1)
 			{
-				if(platforms[target].getTrueY() < (theWorld.getHeight() - platforms[target].getHeight()))
+				//LADDER MOVEMENT-------------------------------------
+					//MOVE LADDER NORTH
+				if(moveN && ladders.length != 0)
 				{
-					platforms[target].moveYp(this.moveSpeed);
+					if(ladders[target].getTrueY() > 0)
+					{
+						ladders[target].moveYn(this.moveSpeed);
+					}
 				}
-			}
-				//MOVE PLATFORM EAST
-			if(moveE && platforms.length !=0)
-			{
-				if(platforms[target].getTrueX() < (theWorld.getWidth() - platforms[target].getWidth()))
+					//MOVE LADDER SOUTH
+				if(moveS && ladders.length !=0)
 				{
-					platforms[target].moveXp(this.moveSpeed);
+					if(ladders[target].getTrueY() < (theWorld.getHeight() - ladders[target].getHeight()))
+					{
+						ladders[target].moveYp(this.moveSpeed);
+					}
 				}
-			}
-				//MOVE PLATFORM WEST
-			if(moveW && platforms.length !=0)
-			{
-				if(platforms[target].getTrueX() > 0)
+					//MOVE LADDER EAST
+				if(moveE && ladders.length !=0)
 				{
-					platforms[target].moveXn(this.moveSpeed);
+					if(ladders[target].getTrueX() < (theWorld.getWidth() - ladders[target].getWidth()))
+					{
+						ladders[target].moveXp(this.moveSpeed);
+					}
+				}
+					//MOVE LADDER WEST
+				if(moveW && ladders.length !=0)
+				{
+					if(ladders[target].getTrueX() > 0)
+					{
+						ladders[target].moveXn(this.moveSpeed);
+					}
 				}
 			}
 		}
@@ -550,76 +682,148 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 			int PHmove = 10;
 				//Hitbox resizing/moving
-			
+			if(modeCounter == 0)
+			{
 			//---------------------------------Moving
 			if(moveN && platforms.length !=0)
 			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0],
-						platforms[target].hitbox[1] - PHmove,
-						platforms[target].hitbox[2],
-						platforms[target].hitbox[3]);
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0],
+							platforms[target].hitbox[1] - PHmove,
+							platforms[target].hitbox[2],
+							platforms[target].hitbox[3]);
+				}
+				if(moveS && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0],
+							platforms[target].hitbox[1] + PHmove,
+							platforms[target].hitbox[2],
+							platforms[target].hitbox[3]);
+				}
+				if(moveE && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0]+ PHmove,
+							platforms[target].hitbox[1],
+							platforms[target].hitbox[2],
+							platforms[target].hitbox[3]);
+				}
+				if(moveW && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0]- PHmove,
+							platforms[target].hitbox[1],
+							platforms[target].hitbox[2],
+							platforms[target].hitbox[3]);
+				}
+				
+				//---------------------------------Resizing
+				if(hitboxXB && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0],
+							platforms[target].hitbox[1],
+							platforms[target].hitbox[2] + PHmove,
+							platforms[target].hitbox[3]);
+				}
+				if(hitboxXS && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0],
+							platforms[target].hitbox[1],
+							platforms[target].hitbox[2] - PHmove,
+							platforms[target].hitbox[3]);
+				}
+				if(hitboxYB && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0],
+							platforms[target].hitbox[1],
+							platforms[target].hitbox[2],
+							platforms[target].hitbox[3] + PHmove);
+				}
+				if(hitboxYS && platforms.length !=0)
+				{
+					platforms[target].setHitbox(
+							platforms[target].hitbox[0],
+							platforms[target].hitbox[1],
+							platforms[target].hitbox[2],
+							platforms[target].hitbox[3] - PHmove);
+				}
+				
 			}
-			if(moveS && platforms.length !=0)
+			if(modeCounter == 1)
 			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0],
-						platforms[target].hitbox[1] + PHmove,
-						platforms[target].hitbox[2],
-						platforms[target].hitbox[3]);
-			}
-			if(moveE && platforms.length !=0)
+			//---------------------------------Moving
+			if(moveN && ladders.length !=0)
 			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0]+ PHmove,
-						platforms[target].hitbox[1],
-						platforms[target].hitbox[2],
-						platforms[target].hitbox[3]);
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0],
+							ladders[target].hitbox[1] - PHmove,
+							ladders[target].hitbox[2],
+							ladders[target].hitbox[3]);
+				}
+				if(moveS && ladders.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0],
+							ladders[target].hitbox[1] + PHmove,
+							ladders[target].hitbox[2],
+							ladders[target].hitbox[3]);
+				}
+				if(moveE && ladders.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0]+ PHmove,
+							ladders[target].hitbox[1],
+							ladders[target].hitbox[2],
+							ladders[target].hitbox[3]);
+				}
+				if(moveW && ladders.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0]- PHmove,
+							ladders[target].hitbox[1],
+							ladders[target].hitbox[2],
+							ladders[target].hitbox[3]);
+				}
+				
+				//---------------------------------Resizing
+				if(hitboxXB && platforms.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0],
+							ladders[target].hitbox[1],
+							ladders[target].hitbox[2] + PHmove,
+							ladders[target].hitbox[3]);
+				}
+				if(hitboxXS && ladders.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0],
+							ladders[target].hitbox[1],
+							ladders[target].hitbox[2] - PHmove,
+							ladders[target].hitbox[3]);
+				}
+				if(hitboxYB && ladders.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0],
+							ladders[target].hitbox[1],
+							ladders[target].hitbox[2],
+							ladders[target].hitbox[3] + PHmove);
+				}
+				if(hitboxYS && ladders.length !=0)
+				{
+					ladders[target].setHitbox(
+							ladders[target].hitbox[0],
+							ladders[target].hitbox[1],
+							ladders[target].hitbox[2],
+							ladders[target].hitbox[3] - PHmove);
+				}
+				
 			}
-			if(moveW && platforms.length !=0)
-			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0]- PHmove,
-						platforms[target].hitbox[1],
-						platforms[target].hitbox[2],
-						platforms[target].hitbox[3]);
-			}
-			
-			//---------------------------------Resizing
-			if(hitboxXB && platforms.length !=0)
-			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0],
-						platforms[target].hitbox[1],
-						platforms[target].hitbox[2] + PHmove,
-						platforms[target].hitbox[3]);
-			}
-			if(hitboxXS && platforms.length !=0)
-			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0],
-						platforms[target].hitbox[1],
-						platforms[target].hitbox[2] - PHmove,
-						platforms[target].hitbox[3]);
-			}
-			if(hitboxYB && platforms.length !=0)
-			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0],
-						platforms[target].hitbox[1],
-						platforms[target].hitbox[2],
-						platforms[target].hitbox[3] + PHmove);
-			}
-			if(hitboxYS && platforms.length !=0)
-			{
-				platforms[target].setHitbox(
-						platforms[target].hitbox[0],
-						platforms[target].hitbox[1],
-						platforms[target].hitbox[2],
-						platforms[target].hitbox[3] - PHmove);
-			}
-			
-			
 		}
 	}
 	
@@ -632,7 +836,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_SHIFT:
 				shiftmonitor = true;
 					break;
-			
+					
+			case KeyEvent.VK_CONTROL:
+				controlmonitor = true;
+					break;
+					
+			//----------------------------------------TAB mode
+			case KeyEvent.VK_ENTER:
+				if(tabL)
+				{
+					tab = true;
+				}
+				break;
+					
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=true;
@@ -757,6 +973,16 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_SHIFT:
 				shiftmonitor = false;
 					break;
+					
+			case KeyEvent.VK_CONTROL:
+				controlmonitor = false;
+					break;
+					
+			//----------------------------------------TAB mode
+			case KeyEvent.VK_ENTER:
+				tabL = true;
+				break;
+					
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=false;
@@ -835,8 +1061,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	
 	public static void main(String[] args) 
 	{
-		//Set up
-		LevelEditor primeGame = new LevelEditor();
+			//Set up
+		LevelEditor primeGame = new LevelEditor(true);
 		JFrame gameFrame = new JFrame();
 		gameFrame.add(primeGame);
 		gameFrame.pack();
@@ -857,7 +1083,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			 *		closing engine will reopen editor.
 			 */
 		
-		//Game Time
+			//Game Time
 		primeGame.start();
 		while(primeGame.gameRun)
 		{

@@ -126,6 +126,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	line = br.readLine();
 	 	        temp = line.split(",");
 	        	ladders[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	        	if(temp.length == 7)
+	 	        {
+	 	        	ladders[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        }
 	        }
 	        	//third load in Platforms
 	        for (int i= 0; i < pnum; i++)

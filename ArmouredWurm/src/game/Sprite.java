@@ -174,14 +174,14 @@ public class Sprite{
 	
 	public void render(Graphics g)
 	{
+			//this prints the sprite to the inputed Graphic
+		g.drawImage(spriteImage, x,y ,  width , height, null);
+		
 		if(Engine.renderHitBox)
 		{
 			g.setColor(Color.GREEN);
 			g.drawRect(this.hitbox[0]+this.x, this.hitbox[1]+this.y,this.hitbox[2], this.hitbox[3]);
 		}
-			//this prints the sprite to the inputed Graphic
-		g.drawImage(spriteImage, x,y ,  width , height, null);
-			
 	}
 	///--------------------------------------------------------------------------------------------------
 	public void update()
