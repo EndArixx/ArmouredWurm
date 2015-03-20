@@ -171,7 +171,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				//Writeout item data
 			fw.write(weather.length + ","
 					+ladders.length + ","
-					+ platforms.length + ",0,0,0" + "\n");
+					+ platforms.length + "," 
+					+ doors.length +
+					",0,0" + "\n");
 										//these zeros are for future additions
 			
 				//Write out weathers
@@ -204,6 +206,21 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ platforms[i].hitbox[1] + ","
 						+ platforms[i].hitbox[2] + ","
 						+ platforms[i].hitbox[3] + "\n");
+			}
+			for(int i = 0; i < doors.length; i++)
+			{
+				fw.write(doors[i].name + ","
+						+ doors[i].trueX + ","
+						+ doors[i].trueY + ","
+						+ doors[i].playerloc[0] + ","
+						+ doors[i].playerloc[1] + ","
+						+ doors[i].newMap+","
+						+ doors[i].mapstart[0] +","
+						+ doors[i].mapstart[1] +","
+						+ doors[i].hitbox[0] + ","
+						+ doors[i].hitbox[1] + ","
+						+ doors[i].hitbox[2] + ","
+						+ doors[i].hitbox[3] + "\n");
 			}
 			//fw.write(" \n");
 			fw.close();

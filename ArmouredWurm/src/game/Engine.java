@@ -28,6 +28,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public BadGuy badguys[]= new BadGuy[10];
 	public Platform platforms[];
 	public Platform ladders[];
+	public Door doors[];
 	public Explosive bomb[] = new Explosive[15];
 	public World theWorld;
 	public TileMap gameWorld;
@@ -109,10 +110,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        
 	        weather = new Looper[Integer.parseInt(temp[0])];
 	        int wnum = Integer.parseInt(temp[0]);
+	        
 	        ladders = new Platform[Integer.parseInt(temp[1])];
 	        int lnum  = Integer.parseInt(temp[1]);
+	        
 	        platforms = new Platform[Integer.parseInt(temp[2])];
 	        int pnum  = Integer.parseInt(temp[2]);
+	        
+	        doors = new Door[Integer.parseInt(temp[3])];
+	        int dnum =  Integer.parseInt(temp[3]);
+	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
@@ -152,7 +159,27 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        
  	        }
 	        	//MORE STUFF COMMING
-	        
+	        for(int i= 0;i< dnum; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	 	        doors[i] = new Door(temp[0],
+	 	        		Integer.parseInt(temp[1]),
+	 	        		Integer.parseInt(temp[2]),
+	 	        		Integer.parseInt(temp[3]),
+	 	        		Integer.parseInt(temp[4]),
+	 	        		temp[5],
+	 	        		Integer.parseInt(temp[6]),
+	 	        		Integer.parseInt(temp[7]));
+	 	       if(temp.length == 12)
+	 	        {
+	 	    	   doors[i].setHitbox(
+	        			Integer.parseInt(temp[8]),
+	        			Integer.parseInt(temp[9]),
+	        			Integer.parseInt(temp[10]),
+	        			Integer.parseInt(temp[11]));
+	 	        }
+	 	    }
 	        fr.close();
 	        br.close();
 	        
