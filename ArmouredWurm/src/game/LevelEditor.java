@@ -95,7 +95,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private boolean RtargetH;
 	private boolean isLoading = false;
 	protected String genericPlat; 
-	
+	protected String genericMap;
 	protected boolean shiftmonitor;
 	protected boolean controlmonitor;
 	protected boolean tab, tabL;
@@ -260,7 +260,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 			//Modes
-		this.modeTotal = 2;
+		this.modeTotal = 3;
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
@@ -271,6 +271,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		shiftmonitor = false;
 		controlmonitor = false;
+		
+		genericMap = "res/testlevel.txt";
 		
 		if(promtformapname)
 		{
@@ -295,7 +297,23 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		genericPlat =  spriteTypes[0];
 	}
-	
+	public Platform[] platformSwitchSprite(Platform[] inplat)
+	{
+		if( inplat.length != 0)
+		{
+			 inplat[target] = new Platform(spriteTypes[stCounter], inplat[target].getTrueX(), inplat[target].getTrueY());
+			
+			if(stCounter < spriteTypes.length - 1)
+			{
+				stCounter++;
+			}
+			else
+			{
+				stCounter = 0;
+			}
+		}
+		return inplat;
+	}
 	public Platform[] addPlaform(Platform[] inplat)
 	{
 		/*create temp thats 1 bigger then plat[] 
@@ -350,11 +368,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		return inplat;
 		
 	}
-	public Platform[] platformSwitchSprite(Platform[] inplat)
+	public Door[] doorSwitchSprite(Door[] indoor)
 	{
-		if( inplat.length != 0)
+		if( indoor.length != 0)
 		{
-			 inplat[target] = new Platform(spriteTypes[stCounter], inplat[target].getTrueX(), inplat[target].getTrueY());
+			 indoor[target] = new Door(
+					 spriteTypes[stCounter],
+					 indoor[target].getTrueX(),
+					 indoor[target].getTrueY(),
+					 indoor[target].playerloc[0],
+					 indoor[target].playerloc[1],
+					 indoor[target].newMap,
+					 indoor[target].mapstart[0],
+					 indoor[target].mapstart[1]);
 			
 			if(stCounter < spriteTypes.length - 1)
 			{
@@ -365,9 +391,66 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				stCounter = 0;
 			}
 		}
-		return inplat;
+		return indoor;
 	}
-	
+	public Door[] addDoor(Door[] indoor)
+	{
+		/*create temp thats 1 bigger then plat[] 
+		 * add each piece then make a new one for 
+		 * the last one;
+		 * then finally set plat[] = temp
+		 */
+		
+		Door temp[] = new Door[ indoor.length + 1];
+		for(int i =0; i < indoor.length;i++)
+		{
+			temp[i] = indoor[i];
+		}
+		
+		temp[ indoor.length]= new Door(genericPlat,
+				-theWorld.getX() + window.width/2,
+				-theWorld.getY() + window.height/2
+				,0,0,genericMap,0,0);
+		 indoor = temp;
+		target =  indoor.length-1;
+		return indoor;
+	}
+	public Door[] deleteDoor(Door[] inplat)
+	{
+		
+		/*
+		 * create a tombstone at the target deletion, 
+		 * create temp new array that is 1 smaller then plat[]
+		 * then add everything but tomb 
+		 */
+		if(inplat.length == 0)
+		{
+			return inplat;
+		}
+		int tracker = 0;
+		Door temp[] = new Door[inplat.length - 1];
+		for(int i =0; i < inplat.length - 1;i++)
+		{
+			if(i == target && tracker == 0)
+			{
+				tracker++;
+				i--;
+			}
+			else
+			{
+				temp[i] = inplat[i + tracker];
+			}
+		}
+		if(this.target != 0)
+		{
+			this.target--;
+		}
+		inplat = temp;
+		
+		return inplat;
+		
+	}
+
 	public void run()
 	{
 		screen = createVolatileImage(window.width,window.height); 
@@ -420,6 +503,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
 			}
+			for(i = 0; i < doors.length;i++)
+			{
+				if(Tools.check_collision(windowHB,doors[i].getHitbox())){doors[i].render(g);}
+			}
+			
 			
 			if(modeCounter == 0)
 			{
@@ -443,6 +531,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							ladders[target].hitbox[3]);
 				}
 			}
+			if(modeCounter == 2)
+			{
+				if(doors.length != 0)
+				{
+					g.setColor(Color.BLUE);
+					g.drawRect(doors[target].hitbox[0]+doors[target].x,
+							doors[target].hitbox[1]+doors[target].y,
+							doors[target].hitbox[2], 
+							doors[target].hitbox[3]);
+				}
+			}
 		}
 		if(isLoading)
 		{
@@ -462,9 +561,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		{
 			
 			if(tab && tabL)
-			{
-				System.out.println("BOOOM");
-				
+			{				
 				tab = false;
 				tabL= false;
 				
@@ -491,6 +588,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			for(i = 0; i < ladders.length;i++)
 			{
 				ladders[i].update(theWorld);
+			}
+			for(i = 0; i < doors.length;i++)
+			{
+				doors[i].update(theWorld);
 			}
 			gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
@@ -572,6 +673,40 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
+			if(modeCounter == 2)
+			{
+					//Adding a new platform
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					doors = addDoor(doors);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					doors = deleteDoor(doors);
+					isLoading = false;
+				}
+				
+					//changing the Sprite
+				if(changing && chaL)
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					doors = doorSwitchSprite(doors);
+					isLoading = false;
+				}
+			}
 		}
 			
 	}
@@ -626,6 +761,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					//MOVE LADDER NORTH
 				platformMove(ladders);
 			}
+			else if(modeCounter == 2)
+			{
+				platformMove(doors);
+			}
 		}
 		else
 		{
@@ -649,6 +788,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 			//---------------------------------Moving
 				platformHitBox(ladders, PHmove);
+			}
+			else if(modeCounter == 2)
+			{
+				platformHitBox(doors,PHmove);
 			}
 			
 		}

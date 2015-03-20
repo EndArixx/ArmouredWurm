@@ -236,6 +236,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				ladders[i].update(theWorld);
 			}
+			for(i = 0; i < doors.length;i++)
+			{
+				doors[i].update(theWorld);
+			}
 			gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
 			{
@@ -311,6 +315,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < ladders.length;i++)
 			{
 				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
+			}
+			for(i = 0; i < doors.length;i++)
+			{
+				if(Tools.check_collision(windowHB,doors[i].getHitbox())){doors[i].render(g);}
 			}
 			
 				//render the player
