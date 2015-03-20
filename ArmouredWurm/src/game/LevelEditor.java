@@ -618,73 +618,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				//PLATFORM MOVEMENT-------------------------------------
 					//MOVE PLATFORM NORTH
-				if(moveN && platforms.length !=0)
-				{
-					if(platforms[target].getTrueY() > 0)
-					{
-						platforms[target].moveYn(this.moveSpeed);
-					}
-				}
-					//MOVE PLATFORM SOUTH
-				if(moveS && platforms.length !=0)
-				{
-					if(platforms[target].getTrueY() < (theWorld.getHeight() - platforms[target].getHeight()))
-					{
-						platforms[target].moveYp(this.moveSpeed);
-					}
-				}
-					//MOVE PLATFORM EAST
-				if(moveE && platforms.length !=0)
-				{
-					if(platforms[target].getTrueX() < (theWorld.getWidth() - platforms[target].getWidth()))
-					{
-						platforms[target].moveXp(this.moveSpeed);
-					}
-				}
-					//MOVE PLATFORM WEST
-				if(moveW && platforms.length !=0)
-				{
-					if(platforms[target].getTrueX() > 0)
-					{
-						platforms[target].moveXn(this.moveSpeed);
-					}
-				}
+				platformMove(platforms);
 			}
 			else if(modeCounter == 1)
 			{
 				//LADDER MOVEMENT-------------------------------------
 					//MOVE LADDER NORTH
-				if(moveN && ladders.length != 0)
-				{
-					if(ladders[target].getTrueY() > 0)
-					{
-						ladders[target].moveYn(this.moveSpeed);
-					}
-				}
-					//MOVE LADDER SOUTH
-				if(moveS && ladders.length !=0)
-				{
-					if(ladders[target].getTrueY() < (theWorld.getHeight() - ladders[target].getHeight()))
-					{
-						ladders[target].moveYp(this.moveSpeed);
-					}
-				}
-					//MOVE LADDER EAST
-				if(moveE && ladders.length !=0)
-				{
-					if(ladders[target].getTrueX() < (theWorld.getWidth() - ladders[target].getWidth()))
-					{
-						ladders[target].moveXp(this.moveSpeed);
-					}
-				}
-					//MOVE LADDER WEST
-				if(moveW && ladders.length !=0)
-				{
-					if(ladders[target].getTrueX() > 0)
-					{
-						ladders[target].moveXn(this.moveSpeed);
-					}
-				}
+				platformMove(ladders);
 			}
 		}
 		else
@@ -702,148 +642,121 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(modeCounter == 0)
 			{
 			//---------------------------------Moving
-			if(moveN && platforms.length !=0)
-			{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0],
-							platforms[target].hitbox[1] - PHmove,
-							platforms[target].hitbox[2],
-							platforms[target].hitbox[3]);
-				}
-				if(moveS && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0],
-							platforms[target].hitbox[1] + PHmove,
-							platforms[target].hitbox[2],
-							platforms[target].hitbox[3]);
-				}
-				if(moveE && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0]+ PHmove,
-							platforms[target].hitbox[1],
-							platforms[target].hitbox[2],
-							platforms[target].hitbox[3]);
-				}
-				if(moveW && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0]- PHmove,
-							platforms[target].hitbox[1],
-							platforms[target].hitbox[2],
-							platforms[target].hitbox[3]);
-				}
-				
-				//---------------------------------Resizing
-				if(hitboxXB && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0],
-							platforms[target].hitbox[1],
-							platforms[target].hitbox[2] + PHmove,
-							platforms[target].hitbox[3]);
-				}
-				if(hitboxXS && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0],
-							platforms[target].hitbox[1],
-							platforms[target].hitbox[2] - PHmove,
-							platforms[target].hitbox[3]);
-				}
-				if(hitboxYB && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0],
-							platforms[target].hitbox[1],
-							platforms[target].hitbox[2],
-							platforms[target].hitbox[3] + PHmove);
-				}
-				if(hitboxYS && platforms.length !=0)
-				{
-					platforms[target].setHitbox(
-							platforms[target].hitbox[0],
-							platforms[target].hitbox[1],
-							platforms[target].hitbox[2],
-							platforms[target].hitbox[3] - PHmove);
-				}
+				platformHitBox(platforms, PHmove);
 				
 			}
-			if(modeCounter == 1)
+			else if(modeCounter == 1)
 			{
 			//---------------------------------Moving
-			if(moveN && ladders.length !=0)
+				platformHitBox(ladders, PHmove);
+			}
+			
+		}
+	}
+	public void platformMove(Platform[] mover)
+	{
+		if(moveN && mover.length !=0)
+		{
+			if(mover[target].getTrueY() > 0)
 			{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0],
-							ladders[target].hitbox[1] - PHmove,
-							ladders[target].hitbox[2],
-							ladders[target].hitbox[3]);
-				}
-				if(moveS && ladders.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0],
-							ladders[target].hitbox[1] + PHmove,
-							ladders[target].hitbox[2],
-							ladders[target].hitbox[3]);
-				}
-				if(moveE && ladders.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0]+ PHmove,
-							ladders[target].hitbox[1],
-							ladders[target].hitbox[2],
-							ladders[target].hitbox[3]);
-				}
-				if(moveW && ladders.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0]- PHmove,
-							ladders[target].hitbox[1],
-							ladders[target].hitbox[2],
-							ladders[target].hitbox[3]);
-				}
-				
-				//---------------------------------Resizing
-				if(hitboxXB && platforms.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0],
-							ladders[target].hitbox[1],
-							ladders[target].hitbox[2] + PHmove,
-							ladders[target].hitbox[3]);
-				}
-				if(hitboxXS && ladders.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0],
-							ladders[target].hitbox[1],
-							ladders[target].hitbox[2] - PHmove,
-							ladders[target].hitbox[3]);
-				}
-				if(hitboxYB && ladders.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0],
-							ladders[target].hitbox[1],
-							ladders[target].hitbox[2],
-							ladders[target].hitbox[3] + PHmove);
-				}
-				if(hitboxYS && ladders.length !=0)
-				{
-					ladders[target].setHitbox(
-							ladders[target].hitbox[0],
-							ladders[target].hitbox[1],
-							ladders[target].hitbox[2],
-							ladders[target].hitbox[3] - PHmove);
-				}
-				
+				mover[target].moveYn(this.moveSpeed);
+			}
+		}
+			//MOVE PLATFORM SOUTH
+		if(moveS && mover.length !=0)
+		{
+			if(mover[target].getTrueY() < (theWorld.getHeight() - mover[target].getHeight()))
+			{
+				mover[target].moveYp(this.moveSpeed);
+			}
+		}
+			//MOVE PLATFORM EAST
+		if(moveE && platforms.length !=0)
+		{
+			if(mover[target].getTrueX() < (theWorld.getWidth() - mover[target].getWidth()))
+			{
+				mover[target].moveXp(this.moveSpeed);
+			}
+		}
+			//MOVE PLATFORM WEST
+		if(moveW && mover.length !=0)
+		{
+			if(mover[target].getTrueX() > 0)
+			{
+				mover[target].moveXn(this.moveSpeed);
 			}
 		}
 	}
-	
+	public void platformHitBox(Platform[] inplat, int PHmove)
+	{
+			if(moveN && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0],
+						inplat[target].hitbox[1] - PHmove,
+						inplat[target].hitbox[2],
+						inplat[target].hitbox[3]);
+			}
+			if(moveS && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0],
+						inplat[target].hitbox[1] + PHmove,
+						inplat[target].hitbox[2],
+						inplat[target].hitbox[3]);
+			}
+			if(moveE && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0]+ PHmove,
+						inplat[target].hitbox[1],
+						inplat[target].hitbox[2],
+						inplat[target].hitbox[3]);
+			}
+			if(moveW && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0]- PHmove,
+						inplat[target].hitbox[1],
+						inplat[target].hitbox[2],
+						inplat[target].hitbox[3]);
+			}
+			
+			//---------------------------------Resizing
+			if(hitboxXB && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0],
+						inplat[target].hitbox[1],
+						inplat[target].hitbox[2] + PHmove,
+						inplat[target].hitbox[3]);
+			}
+			if(hitboxXS && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0],
+						inplat[target].hitbox[1],
+						inplat[target].hitbox[2] - PHmove,
+						inplat[target].hitbox[3]);
+			}
+			if(hitboxYB && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0],
+						inplat[target].hitbox[1],
+						inplat[target].hitbox[2],
+						inplat[target].hitbox[3] + PHmove);
+			}
+			if(hitboxYS && inplat.length !=0)
+			{
+				inplat[target].setHitbox(
+						inplat[target].hitbox[0],
+						inplat[target].hitbox[1],
+						inplat[target].hitbox[2],
+						inplat[target].hitbox[3] - PHmove);
+			}
+			
+		}
 	public void keyPressed(KeyEvent key) 
 	{
 		
