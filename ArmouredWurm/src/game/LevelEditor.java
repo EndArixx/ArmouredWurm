@@ -50,7 +50,7 @@ import javax.swing.JTextField;
  * 				+move			<X>
  * 				+delete			<X>
  * 			-weathers		()
- * 			-ladders		()
+ * 			-ladders		(X)
  * 			-Other?			()
  * 			-map"Doors"  	()
  * 
