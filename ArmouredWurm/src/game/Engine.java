@@ -57,6 +57,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	private String lvl = "res/TEST.txt";
 	private boolean isLoading = false;
+	private int loadTarget;
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	
@@ -197,7 +198,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			isLoading = true;
 			loadLevel(lvl);
 			isLoading = false;
-			
+			loadTarget = -1;
 			
 				//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
 				// the right button if he is still holding left he then starts going left again or visa versa
@@ -222,9 +223,23 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 
 	public  void update()
-	{	
+	{		
+		
+		
+		
+		
 		if(!isLoading && !isPaused)
-		{
+		{	
+			//I want to rethink this part so that the game has loading screens.
+			for(int i = 0; i < doors.length ; i++)
+			{
+				if(Tools.check_collision(doors[i].getHitbox(),player.getHitbox()))
+				{
+					isLoading = true;
+					this.loadTarget = i;
+					//isLoading = false;
+				}
+			}
 			theWorld.update();
 			player.update(); 
 			int i;
@@ -245,6 +260,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				weather[i].update(theWorld);
 			}
+			
 				//this is the first step in the game loop.
 			/*for(i = 0; i < badguys.length; i++)
 			{
@@ -286,7 +302,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//forground.update();
 			
 		}
+		else if(isLoading && loadTarget != -1)
+		{
+			int[] tplayer = doors[loadTarget].playerloc;
+			int[] tworld = doors[loadTarget].mapstart;
+			loadLevel(doors[loadTarget].newMap);
+			player.setX(tplayer[0]);
+			player.setY(tplayer[1]);
+			theWorld.setX(tworld[0]);
+			theWorld.setY(tworld[1]);
+			isLoading = false;
+		}
 	}
+
 	public void render()
 	{
 		int i;		
@@ -295,7 +323,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		Graphics g = screen.getGraphics();
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, window.width, window.height);
-
+		
+		
 		if(!isLoading && !isPaused)
 		{
 				//this is done before gameWorld because of the way i made the test boat level
@@ -377,7 +406,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			loops = 0;
 			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
-			{
+			{	
 				movement();
 				update();
 				
@@ -410,10 +439,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		if(!isLoading && !isPaused)
 		{
-			
-				//redesign movement
-					//new movement will be acceleration based, that way getting a running start will matter
-					// Terminal velocity will be a thing (aka maxspeed)
+
 			if(F)
 			{
 				player.fire(theWorld);

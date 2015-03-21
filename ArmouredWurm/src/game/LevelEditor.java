@@ -52,7 +52,7 @@ import javax.swing.JTextField;
  * 			-weathers		()
  * 			-ladders		(X)
  * 			-Other?			()
- * 			-map"Doors"  	()
+ * 			-map"Doors"  	(X)
  * 
  * Step yon 	[X]
  * 		add ability to Save
