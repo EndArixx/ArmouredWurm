@@ -741,16 +741,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 				break;
 					
-			case KeyEvent.VK_L: //DEV_BUTTON Load debug level           DEV!!!!!!!
-				player.setX(0);
-				player.setY(0);
-				theWorld.setX(0);
-				theWorld.setY(0);
-				isLoading = true;
-				loadLevel("res/testlevel.txt");
-				isLoading = false;
-					break;
-					
 		}
 	}
 	public void keyReleased(KeyEvent key) 

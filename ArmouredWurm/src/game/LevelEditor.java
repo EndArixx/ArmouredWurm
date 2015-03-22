@@ -290,6 +290,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				lvl = "res/" +  s;
 			}
+			else
+			{
+				//New Map
+			}
 		}
 		
 		loadLevel(lvl);
@@ -400,6 +404,26 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		 * the last one;
 		 * then finally set plat[] = temp
 		 */
+		isLoading = true;
+		promtformapname = false;
+		Component frame = null;
+		String s = (String)JOptionPane.showInputDialog(
+		                    frame,
+		                    "Please enter the Mapdata.",
+		                    "Door Creator",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null, null,
+		                    "map.txt,0,0,0,0");
+		String mapData[] = s.split(",");
+		
+		if ((s != null) && (s.length() > 0)) 
+		{
+			lvl = "res/" +  mapData[0];
+		}
+		else
+		{
+			return indoor;
+		}
 		
 		Door temp[] = new Door[ indoor.length + 1];
 		for(int i =0; i < indoor.length;i++)
@@ -407,11 +431,21 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			temp[i] = indoor[i];
 		}
 		
-		temp[ indoor.length]= new Door(genericPlat,
+		/*temp[ indoor.length]= new Door(genericPlat,
 				-theWorld.getX() + window.width/2,
 				-theWorld.getY() + window.height/2
-				,0,0,genericMap,0,0);
-		 indoor = temp;
+				,0,0,lvl,0,0);*/
+		temp[ indoor.length]= new Door(genericPlat,
+					-theWorld.getX() + window.width/2,
+					-theWorld.getY() + window.height/2
+					,Integer.parseInt(mapData[1]),
+					Integer.parseInt(mapData[2]),
+					lvl,Integer.parseInt(mapData[3]),
+					Integer.parseInt(mapData[4]));
+								
+	
+		indoor = temp;
+	 	isLoading = false;
 		target =  indoor.length-1;
 		return indoor;
 	}

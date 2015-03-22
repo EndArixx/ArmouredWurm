@@ -14,7 +14,7 @@ public class Door extends Platform {
 		this.playerloc[1] = plocy;
 		this.mapstart = new int[2];
 		this.mapstart[0] = mapsx;
-		this.mapstart[1] = mapsx;
+		this.mapstart[1] = mapsy;
 		
 		
 	}
