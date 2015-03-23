@@ -25,7 +25,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 
 	
 		//THESE ARE VARIALBLES!
-	public BadGuy badguys[]= new BadGuy[10];
+	public Soldier badguys[];
 	public Platform platforms[];
 	public Platform ladders[];
 	public Door doors[];
@@ -34,8 +34,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
-	public Soldier baddy;
-	public gun hammer[];
+	public Soldier baddy;    //remove this
+	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
 	public Explosive missiles[] = new Explosive[4];
 		//this is for the window
@@ -121,6 +121,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        doors = new Door[Integer.parseInt(temp[3])];
 	        int dnum =  Integer.parseInt(temp[3]);
 	        
+	        badguys = new Soldier[Integer.parseInt(temp[4])];
+	        int bnum = Integer.parseInt(temp[4]);
+	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
@@ -159,7 +162,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        }
 	 	        
  	        }
-	        	//MORE STUFF COMMING
 	        for(int i= 0;i< dnum; i++)
 	        {
 	        	line = br.readLine();
@@ -181,6 +183,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[11]));
 	 	        }
 	 	    }
+	        
+	        for(int i = 0; i < bnum; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	badguys[i] = new Soldier(
+	        			temp[0],temp[1],temp[2],
+	        			Integer.parseInt(temp[3]),
+	        			Integer.parseInt(temp[4]),
+	        			Integer.parseInt(temp[5]),
+	        			Integer.parseInt(temp[6]),
+	        			Integer.parseInt(temp[7]),
+	        			Integer.parseInt(temp[8]));
+	        }
 	        fr.close();
 	        br.close();
 	        
@@ -216,6 +232,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 		
 			loading = new Sprite("res/loading.png",0,0);
+			
 			
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
@@ -260,7 +277,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				weather[i].update(theWorld);
 			}
-			
+			for(i = 0; i < badguys.length; i++)
+			{
+				badguys[i].update(theWorld);
+			}
 				//this is the first step in the game loop.
 			/*for(i = 0; i < badguys.length; i++)
 			{
@@ -271,10 +291,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 			}
 			
-			for(i = 0; i < badguys.length; i++)
-			{
-				badguys[i].update(theWorld);
-			}
+			
 			
 			for(i = 0; i < bullets.length; i++)
 			{
@@ -297,7 +314,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				bullets[i].update(theWorld);
 			}*/
 		
-			//baddy.update(theWorld,platforms);
 			//baddy.sight(player, theWorld);
 			//forground.update();
 			
@@ -352,14 +368,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 				//render the player
 			player.render(g);
-			
-			
-			/*
-			if(Tools.check_collision(windowHB,baddy.getHitbox())){baddy.render(g);}
 			for(i = 0; i < badguys.length; i++)
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g);}
 			}
+			
+			/*
 			for(i = 0; i < bomb.length; i++)
 			{
 				if(Tools.check_collision(windowHB,bomb[i].getHitbox())){bomb[i].render(g);}

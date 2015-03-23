@@ -1,5 +1,19 @@
 package game;
-
+/* 
+ * BAD GUYS
+ * 
+ * this will be the logic for the enemy AI
+ *	
+ *	needs alot of work.
+ *
+ *	Load/Save		 []
+ *		LOAD (X)
+ *		SAVE ()
+ *
+ *	enemy movement 	[]
+ *  enemy Animation []
+ *  
+ */
 public class Soldier extends PlayerChar
 {
 		/*This is a test AI 
@@ -12,7 +26,7 @@ public class Soldier extends PlayerChar
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
 	int vision[], reactionT, reactionC;
 	boolean patroling, charging, reacting;
-	protected Sprite legs;
+	//protected Sprite legs;
 	public Soldier
 		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col) 
 	{
@@ -118,7 +132,7 @@ public class Soldier extends PlayerChar
 		
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
-		if(patroling && !falling)
+		if(patroling)
 		{
 			patrol();
 		}
@@ -130,14 +144,21 @@ public class Soldier extends PlayerChar
 		{
 			react(theWorld);
 		}
-		legs.setX(x);
-		legs.setY(y);
+		//legs.setX(x);
+		//legs.setY(y);
 		if(hasR)
 		{
 			rifle.update();
 		}
 		this.animateCol();
-		legs.animateCol();
+		//legs.animateCol();
+	}
+	public void update(World theWorld)
+	{
+		this.trueX = (int) (this.trueX + speedX);
+		this.trueY = (int) (this.trueY + speedY);
+		x = theWorld.getX() + trueX;
+		y = theWorld.getY() + trueY;
 	}
 	public void setSightbox(int vwidth, int vheight)
 	{
@@ -154,9 +175,9 @@ public class Soldier extends PlayerChar
 		patroling = true;
 		this.patrolR = patrolR;
 		this.patrolL = patrolL;
-		legs.row = movingR[0];
-		legs.colN = movingR[1];
-		legs.col = 0;
+		//legs.row = movingR[0];
+		//legs.colN = movingR[1];
+		//legs.col = 0;
 	}
 	public void sight(PlayerChar target,World theWorld)
 	{
@@ -211,9 +232,9 @@ public class Soldier extends PlayerChar
 			if(trueX > patrolR)
 			{
 				this.FF = false;
-				legs.row = movingL[0];
-				legs.colN = movingL[1];
-				legs.col = 0;
+				//legs.row = movingL[0];
+				//legs.colN = movingL[1];
+				//legs.col = 0;
 				this.row = 1;
 			}
 			else
@@ -226,9 +247,9 @@ public class Soldier extends PlayerChar
 			if(trueX < patrolL)
 			{
 				this.FF = true;
-				legs.row = movingR[0];
-				legs.colN = movingR[1];
-				legs.col = 0;
+				//legs.row = movingR[0];
+				//legs.colN = movingR[1];
+				//legs.col = 0;
 				this.row = 0;
 			}
 			else
