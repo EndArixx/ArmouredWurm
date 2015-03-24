@@ -4,6 +4,7 @@ import java.applet.Applet;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
@@ -107,6 +108,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected String sTypesLoc = "res/SpriteTypes.txt";
 	protected int stCounter;
 	
+	protected String[] enemyspriteTypes;
+	protected String enemyTypesLoc = "res/EnemyTypes.txt";
+	protected int enemyCounter;
+	protected int[] enemySX;
+	protected int[] enemySY;
+	
 		//Movement directions (north,south etc...)
 	protected boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
 	protected boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
@@ -149,6 +156,39 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	        br.close();
         } catch (IOException e) {e.printStackTrace();}
 	}
+	
+	public void loadEnemySprites(String fileloc)
+	{
+		/* 
+		 * this loads the available sprites for the player.
+		 */
+		String name;
+		String[] temp;
+		BufferedReader br;
+		try {
+	    	FileReader fr = new FileReader(fileloc);
+	    	br = new BufferedReader(fr);
+	        String line = br.readLine();
+	        name = line;
+	        
+	        line = br.readLine();
+	        enemyspriteTypes = new String[Integer.parseInt(line)];
+	        enemySX = new int[Integer.parseInt(line)];
+	        enemySY = new int[Integer.parseInt(line)];
+	        
+	        for(int i = 0;i < enemyspriteTypes.length; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	spriteTypes[i] = temp[0];
+	        	enemySX[i] =Integer.parseInt( temp[1]);
+	        	enemySY[i] =Integer.parseInt( temp[2]);
+	        }
+	        fr.close();
+	        br.close();
+        } catch (IOException e) {e.printStackTrace();}
+		
+	}
 	public void saveLevel(String lvlname)
 	{
 		try
@@ -170,10 +210,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 				//Writeout item data
 			fw.write(weather.length + ","
-					+ladders.length + ","
+					+ ladders.length + ","
 					+ platforms.length + "," 
-					+ doors.length +
-					",0,0" + "\n");
+					+ doors.length + ","
+					+ badguys.length +
+					",0" + "\n");
 										//these zeros are for future additions
 			
 				//Write out weathers
@@ -207,6 +248,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ platforms[i].hitbox[2] + ","
 						+ platforms[i].hitbox[3] + "\n");
 			}
+				//write out doors
 			for(int i = 0; i < doors.length; i++)
 			{
 				fw.write(doors[i].name + ","
@@ -222,6 +264,21 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ doors[i].hitbox[2] + ","
 						+ doors[i].hitbox[3] + "\n");
 			}
+			
+				//write out Soldiers
+			for(int i = 0; i < badguys.length; i++)
+			{
+				fw.write(badguys[i].name + ","
+						+badguys[i].spritetop + ","
+						+badguys[i].spriteleg + ","
+						+badguys[i].trueX + ","
+						+badguys[i].trueY + ","
+						+badguys[i].width + ","
+						+badguys[i].height + ","
+						+badguys[i].row + ","
+						+badguys[i].col + "\n");
+			}
+				
 			//fw.write(" \n");
 			fw.close();
 		
@@ -295,10 +352,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				//New Map
 			}
 		}
-		
 		loadLevel(lvl);
 		loadSprites(sTypesLoc);
-		
+		loadEnemySprites(enemyTypesLoc);
 		genericPlat =  spriteTypes[0];
 	}
 	public Platform[] platformSwitchSprite(Platform[] inplat)
@@ -518,6 +574,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, window.width, window.height);
 		
+
+		
 		if(!isLoading)
 		{
 			for(i =0; i < weather.length; i++)
@@ -527,22 +585,49 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 				//background
 			gameWorld.render(g, windowHB);
-			
+
+			g.setFont(new Font("MonoSpace", Font.PLAIN, 20)); 
+
 				//render the platforms
 			for(i = 0; i < platforms.length;i++)
 			{
-				if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
+				if(Tools.check_collision(windowHB,platforms[i].getHitbox()))
+				{
+					g.setColor(Color.RED);
+					platforms[i].render(g);
+					g.drawString("["+i+"]",platforms[i].getX(),platforms[i].getY());
+				}
 			}
 			for(i = 0; i < ladders.length;i++)
 			{
-				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
+				if(Tools.check_collision(windowHB,ladders[i].getHitbox()))
+				{
+					g.setColor(Color.GREEN);
+					ladders[i].render(g);
+					g.drawString("["+i+"]",ladders[i].getX(),ladders[i].getY());
+				}
 			}
 			for(i = 0; i < doors.length;i++)
 			{
-				if(Tools.check_collision(windowHB,doors[i].getHitbox())){doors[i].render(g);}
+				if(Tools.check_collision(windowHB,doors[i].getHitbox()))
+				{
+					g.setColor(Color.BLUE);
+					doors[i].render(g);
+					g.drawString("["+i+"]",doors[i].getX(),doors[i].getY());
+				}
+			}
+			for(i = 0; i < badguys.length; i++)
+			{
+				if(Tools.check_collision(windowHB,badguys[i].getHitbox()))
+				{
+					g.setColor(Color.YELLOW);
+					badguys[i].render(g);
+					g.drawString("["+i+"]",badguys[i].getX(),badguys[i].getY());
+				}
 			}
 			
 			
+
 			if(modeCounter == 0)
 			{
 				if(platforms.length != 0)
@@ -552,6 +637,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						platforms[target].hitbox[1]+platforms[target].y,
 						platforms[target].hitbox[2], 
 						platforms[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
 				}
 			}
 			if(modeCounter == 1)
@@ -563,6 +649,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							ladders[target].hitbox[1]+ladders[target].y,
 							ladders[target].hitbox[2], 
 							ladders[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
 				}
 			}
 			if(modeCounter == 2)
@@ -574,6 +661,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							doors[target].hitbox[1]+doors[target].y,
 							doors[target].hitbox[2], 
 							doors[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
+				}
+			}
+			if(modeCounter == 3)
+			{	//Soldiers
+				if(badguys.length != 0)
+				{
+					g.setColor(Color.YELLOW);
+					g.drawRect(badguys[target].hitbox[0]+badguys[target].x,
+							badguys[target].hitbox[1]+badguys[target].y,
+							badguys[target].hitbox[2], 
+							badguys[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
 				}
 			}
 		}
@@ -627,11 +727,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				doors[i].update(theWorld);
 			}
+			for(i = 0; i < badguys.length; i++)
+			{
+				badguys[i].update(theWorld);
+			}
+			
 			gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
 			{
 				weather[i].update(theWorld);
 			}
+			
 			
 			if(saving) //THIS IS WHERE IT SAVES FOR NOW!
 			{
@@ -1001,13 +1107,49 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_T: //Target
 				if(targetH)
 				{
-					if(target < platforms.length-1)
+					if(modeCounter == 0)
 					{
-						this.target++;
+						if(target < platforms.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
 					}
-					else
+					if(modeCounter == 1)
 					{
-						this.target = 0;
+						if(target < ladders.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+					if(modeCounter == 2)
+					{
+						if(target < doors.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+					if(modeCounter == 3)
+					{
+						if(target < badguys.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
 					}
 					this.targetH=false;
 				}
@@ -1015,14 +1157,53 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_R: //reverse Target
 				if(RtargetH)
 				{
-					if(target > 0)
+					
+					if(modeCounter == 0)
 					{
-						this.target--;
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = platforms.length-1;
+						}
 					}
-					else
+					if(modeCounter == 1)
 					{
-						this.target = platforms.length-1;
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = ladders.length-1;
+						}
 					}
+					if(modeCounter == 2)
+					{
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = doors.length-1;
+						}
+					}
+					if(modeCounter == 3)
+					{
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = badguys.length-1;
+						}
+					}
+					
+					
 					this.RtargetH=false;
 				}
 					break;

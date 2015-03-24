@@ -13,6 +13,10 @@ package game;
  *	enemy movement 	[]
  *  enemy Animation []
  *  
+ *  what want to do is establish traits
+ *  	things like Fear, curage and stuff like that.
+ *  
+ *  
  */
 public class Soldier extends PlayerChar
 {
@@ -26,11 +30,16 @@ public class Soldier extends PlayerChar
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
 	int vision[], reactionT, reactionC;
 	boolean patroling, charging, reacting;
+	String spritetop;
+	String spriteleg;
 	//protected Sprite legs;
 	public Soldier
 		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col) 
 	{
 		super(name, spriteloc, x, y, width, height, row, col); //JOHN THIS MAY BE BROKEN LOOK INTO WHEN RE-DESIGNING AI
+		this.spritetop = spriteloc;
+		this.spriteleg = legloc;
+		
 		this.trueX = x;
 		this.trueY = y;
 		this.movingL = new int[2];

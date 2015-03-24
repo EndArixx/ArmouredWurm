@@ -34,7 +34,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
-	public Soldier baddy;    //remove this
 	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
 	public Explosive missiles[] = new Explosive[4];
