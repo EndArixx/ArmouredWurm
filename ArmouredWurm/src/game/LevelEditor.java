@@ -92,7 +92,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	
 		//Object targeting
 	public int target;
-	public boolean targetH;
+	public boolean targetH, Tprompt;
 	private boolean RtargetH;
 	private boolean isLoading = false;
 	protected String genericPlat; 
@@ -322,6 +322,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.tab = false;
 		this.tabL = true;
 		
+		Tprompt = true;
 		this.targetH= true;
 		this.RtargetH = true;
 		this.target=0;
@@ -620,9 +621,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox()))
 				{
-					g.setColor(Color.YELLOW);
-					badguys[i].render(g);
-					g.drawString("["+i+"]",badguys[i].getX(),badguys[i].getY());
+					//g.setColor(Color.YELLOW);                                               //JOHN TURN BACK ON
+					//badguys[i].render(g);
+					//g.drawString("["+i+"]",badguys[i].getX(),badguys[i].getY());
 				}
 			}
 			
@@ -729,7 +730,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
-				badguys[i].update(theWorld);
+				//badguys[i].update(theWorld);    //JOHN TURN BACK ON LATER
 			}
 			
 			gameWorld.update(theWorld);
@@ -1103,6 +1104,126 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					this.deleting = true;
 				}
 				break;
+			//----------------------------------TargetPrompt	
+			case KeyEvent.VK_Y:
+				if(Tprompt)
+				{
+					Tprompt = false;
+					Component frame = null;
+					if(modeCounter == 0)
+					{
+						String[] numbs = new String[platforms.length];
+						for(int i =0;i< platforms.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ platforms.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < platforms.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
+					if(modeCounter == 1)
+					{
+						String[] numbs = new String[ladders.length];
+						for(int i =0;i< ladders.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ ladders.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < ladders.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
+					if(modeCounter == 2)
+					{
+						String[] numbs = new String[doors.length];
+						for(int i =0;i< doors.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ doors.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < doors.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
+					if(modeCounter == 3)
+					{
+						String[] numbs = new String[badguys.length];
+						for(int i =0;i< badguys.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ badguys.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < badguys.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
+				}
+				break;
 			//---------------------------TARGETING
 			case KeyEvent.VK_T: //Target
 				if(targetH)
@@ -1286,7 +1407,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_D: //RIGHT
 				E = false;
 					break;	
-					
+
 			//---------------------------TARGETING
 			case KeyEvent.VK_T: //Target
 				this.targetH = true;
@@ -1294,6 +1415,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_R: //Reverse Target
 				this.RtargetH = true;
 					break;
+			case KeyEvent.VK_Y:
+				Tprompt = true;
+				break;
 			//---------------------------------ADDING/DELETING
 			case KeyEvent.VK_N:	//Adding
 				this.addL = true;
