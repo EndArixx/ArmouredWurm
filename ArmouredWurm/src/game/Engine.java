@@ -231,8 +231,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 		
 			loading = new Sprite("res/loading.png",0,0);
-			
-			
+				//TESTING
+			badguys[0].setPatrol(0,1000);
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
 			player.setHitbox(17, 10, 100, 120);	
@@ -278,7 +278,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
-				badguys[i].update(theWorld);
+				badguys[i].update(theWorld,platforms);
 			}
 				//this is the first step in the game loop.
 			/*for(i = 0; i < badguys.length; i++)

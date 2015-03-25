@@ -6,12 +6,14 @@ package game;
  *	
  *	needs alot of work.
  *
- *	Load/Save		 []
+ *	Load/Save		 [X]
  *		LOAD (X)
- *		SAVE ()
+ *		SAVE (X)
  *
  *	enemy movement 	[]
  *  enemy Animation []
+ *  
+ *  	patrolling[x]
  *  
  *  what want to do is establish traits
  *  	things like Fear, curage and stuff like that.
@@ -36,7 +38,7 @@ public class Soldier extends PlayerChar
 	public Soldier
 		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col) 
 	{
-		super(name, spriteloc, x, y, width, height, row, col); //JOHN THIS MAY BE BROKEN LOOK INTO WHEN RE-DESIGNING AI
+		super(name, spriteloc, x, y, width, height, row, col); //---check
 		this.spritetop = spriteloc;
 		this.spriteleg = legloc;
 		
@@ -66,9 +68,14 @@ public class Soldier extends PlayerChar
 		this.reactionT = 50;
 		this.reactionC = 0;
 		this.reacting = false;
+		
+			//acceleration movement
+		this.speedX = 5;
+		this.gravity = 5;
 	}
 	public void aim(PlayerChar target)
 	{
+			//OLD weapon stuff
 		float xs,ys,xt,yt;
 		int projs = rifle.getprojSpeed(); 
 		boolean right, under;
@@ -141,15 +148,15 @@ public class Soldier extends PlayerChar
 		
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
-		if(patroling)
+		if(!f && patroling)
 		{
 			patrol();
 		}
-		if(charging)
+		if(!f && charging)
 		{
 			charge();
 		}
-		if(reacting)
+		if(!f && reacting)
 		{
 			react(theWorld);
 		}
@@ -179,7 +186,7 @@ public class Soldier extends PlayerChar
 		this.trueY = (int) (this.trueY + this.gravity);
 		this.falling = true;
 	}
-	public void setPatrol(int patrolL, int patrolR )
+	public void setPatrol(int patrolL,int patrolR)
 	{
 		patroling = true;
 		this.patrolR = patrolR;
