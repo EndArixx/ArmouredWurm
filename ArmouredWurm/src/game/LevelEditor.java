@@ -34,7 +34,6 @@ import javax.swing.JTextField;
  */
 
 
-
 /*
  * Step one		[X]
  * 		Render a background and allow movement using WASD OR Arrow Keys
@@ -77,6 +76,11 @@ import javax.swing.JTextField;
  * Step 7		[]
  * 		add ability to test the Level on the fly 
  * 		press button, test level, close test goes back to editors
+ * Step 8 		[]
+ * 		bad guys! 
+ * 			load/save  		(X)
+ * 			change			()
+ * 			move			()
  */
 
 public class LevelEditor extends Engine implements Runnable, KeyListener
