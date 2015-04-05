@@ -19,6 +19,8 @@ package game;
  *  	things like Fear, curage and stuff like that.
  *  
  *  
+ *  needs new sprite
+ *  
  */
 public class Soldier extends PlayerChar
 {
