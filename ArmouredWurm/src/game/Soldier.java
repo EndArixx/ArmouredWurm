@@ -11,8 +11,9 @@ package game;
  *		SAVE (X)
  *
  *	enemy movement 	[]
+ *		attack patterns?
  *  enemy Animation []
- *  
+ *  	
  *  	patrolling[x]
  *  
  *  what want to do is establish traits
