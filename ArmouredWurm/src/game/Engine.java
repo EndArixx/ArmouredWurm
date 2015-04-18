@@ -453,6 +453,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	private void movement()
 	{
+			/*
+			 * Todo
+			 * 
+			 * 	- Add checks so the player doesnt get stuck in walls
+			 * 	- add support for moving platforms 
+			 * 	
+			 */
 		if(!isLoading && !isPaused)
 		{
 

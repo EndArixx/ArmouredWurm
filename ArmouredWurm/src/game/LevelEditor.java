@@ -31,7 +31,41 @@ import javax.swing.JTextField;
 /*Level Editor!
  * Goals: to creates a fast and easy way to generate the level txt file that can easily be read in by the main game engine, 
  * this is to help prevent types when creating the level and will also allow the people to see how the level will look visually.
+ * 
+ *
+ *
+ *	CONTROLS
+ *		WASD 	- Movement
+ *	
+ *		T 		- Target Next
+ *		R 		- Target Previous 
+ *	
+ *		Arrow	- Move Object
+ *
+ *		P 		- Save
+ *		
+ *		N 		- Add Object
+ *		M 		- Delete Object
+ *
+ *		L 		- Change sprite
+ *
+ *		Z		- Hitbox Y bigger
+ *		X 		- Hitbox Y smaller
+ *		C 		- Hitbox X bigger
+ *		V		- hitbox X smaller		
+ *
+ *		Shift 	- Hitbox Mode
+ *						(shift plus arrow moves hitbox etc.)
+ *	
+ *		Enter 	- change selected type of object
+ *						(cycle between platforms, doors etc.)
+ *		Y 		- Target Box
+ *						(press Y to get a prompt to select a specific object)
  */
+
+
+
+
 
 
 /*

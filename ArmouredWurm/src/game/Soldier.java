@@ -8,7 +8,6 @@ import java.awt.Graphics;
  * 
  * this will be the logic for the enemy AI
  *	
- *	needs alot of work.
  *
  *	Load/Save		 [X]
  *		LOAD (X)
@@ -17,12 +16,17 @@ import java.awt.Graphics;
  *	enemy movement 	[]
  *		got patrolling animated
  *		attack patterns?
- *  enemy Animation [X]
- *  	
+ *		melee []
+ *		range []
+ *		charge[]
+ *
+ *  enemy Animation []
+ *  	attack []
  *  	patrolling[x]
+ *  	idle	[]
  *  
  *  what want to do is establish traits
- *  	things like Fear, curage and stuff like that.
+ *  	things like Fear and stuff like that.
  *  
  *  
  *  
@@ -32,7 +36,8 @@ public class Soldier extends PlayerChar
 		/*This is a test AI 
 		 * 	currently it can
 		 * 		Patrol
-		 * 		Target and shoot
+		 * 		Target and shoot (old)
+		 * 		charge 			(old)
 		 * 		move
 		 * 		animate
 		 */
