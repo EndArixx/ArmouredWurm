@@ -58,7 +58,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean isLoading = false;
 	private int loadTarget;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 	
 	
 		//Pause Menu Data
@@ -195,6 +195,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[6]),
 	        			Integer.parseInt(temp[7]),
 	        			Integer.parseInt(temp[8]));
+					//TESTING!!!!!!!!!!!!!!!1
+	        	badguys[i].setPatrol(0,1000*(i+1));
+
 	        }
 	        fr.close();
 	        br.close();
@@ -231,8 +234,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 		
 			loading = new Sprite("res/loading.png",0,0);
-				//TESTING
-			badguys[0].setPatrol(0,1000);
+			
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
 			player.setHitbox(17, 10, 100, 120);	

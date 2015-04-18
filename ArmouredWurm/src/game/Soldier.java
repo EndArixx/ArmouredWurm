@@ -11,8 +11,9 @@ package game;
  *		SAVE (X)
  *
  *	enemy movement 	[]
+ *		got patrolling animated
  *		attack patterns?
- *  enemy Animation []
+ *  enemy Animation [X]
  *  	
  *  	patrolling[x]
  *  
@@ -49,10 +50,12 @@ public class Soldier extends PlayerChar
 		this.movingL = new int[2];
 		this.movingR = new int[2];
 		this.idle = new int[4];
+			//animations 
 		this.movingL[0] = 3;
-		this.movingL[1] = 10;
-		this.movingR[0] = 1;
-		this.movingR[1] = 10;
+		this.movingL[1] = 11;
+		this.movingR[0] = 2;
+		this.movingR[1] = 11;
+		
 		this.idle[0] = 0;
 		this.idle[1] = 1;
 		this.idle[2] = 0;
@@ -193,6 +196,8 @@ public class Soldier extends PlayerChar
 		patroling = true;
 		this.patrolR = patrolR;
 		this.patrolL = patrolL;
+		this.row = movingR[0];
+		this.colN = movingR[1];
 		//legs.row = movingR[0];
 		//legs.colN = movingR[1];
 		//legs.col = 0;
@@ -250,10 +255,11 @@ public class Soldier extends PlayerChar
 			if(trueX > patrolR)
 			{
 				this.FF = false;
+				this.row = movingL[0];
+				this.colN = movingL[1];
 				//legs.row = movingL[0];
 				//legs.colN = movingL[1];
 				//legs.col = 0;
-				this.row = 1;
 			}
 			else
 			{
@@ -265,10 +271,11 @@ public class Soldier extends PlayerChar
 			if(trueX < patrolL)
 			{
 				this.FF = true;
+				this.row = movingR[0];
+				this.colN = movingR[1];
 				//legs.row = movingR[0];
 				//legs.colN = movingR[1];
 				//legs.col = 0;
-				this.row = 0;
 			}
 			else
 			{

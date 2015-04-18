@@ -27,4 +27,4 @@ res/platform0-1.png,0,180,0,0,738,119
 res/door.png,100,630,150,160,res/mountain.txt,-550,0,0,0,150,190
 res/door.png,2410,1250,0,0,res/TEST.txt,0,0,0,0,150,190
 res/door.png,0,1250,0,0,res/testlevel.txt,-750,0,60,40,60,100
-baddy,res/50Brodrick2015.png,res/baddy1legs.png,200,60,140,140,12,20
+baddy,res/50skeletonSprite.png,res/baddy1legs.png,200,60,200,200,6,11
