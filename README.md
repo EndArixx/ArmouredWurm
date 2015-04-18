@@ -9,9 +9,9 @@ This is a 2D game engine Created by John Mark Stanley.
   Java Program:
   
        GNU GENERAL PUBLIC LICENSE.
-          http://www.gnu.org/licenses/gpl.txt
+   http://www.gnu.org/licenses/gpl.txt
   
   Artwork:
   
         Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License.
-         http://creativecommons.org/licenses/by-nc-nd/3.0/
+  http://creativecommons.org/licenses/by-nc-nd/3.0/
