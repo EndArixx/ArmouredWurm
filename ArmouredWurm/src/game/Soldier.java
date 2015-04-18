@@ -41,6 +41,11 @@ public class Soldier extends PlayerChar
 	boolean patroling, charging, reacting;
 	String spritetop;
 	String spriteleg;
+	
+	
+		//test varables
+	Sprite alert;
+	
 	//protected Sprite legs;
 	public Soldier
 		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col) 
@@ -48,6 +53,12 @@ public class Soldier extends PlayerChar
 		super(name, spriteloc, x, y, width, height, row, col); //---check
 		this.spritetop = spriteloc;
 		this.spriteleg = legloc;
+		
+		
+			//this is for testing things-----------------------
+		alert = new Sprite("res/icu.png",-50,-50);
+			//end testing--------------------------------------
+		
 		
 		this.trueX = x;
 		this.trueY = y;
@@ -68,8 +79,8 @@ public class Soldier extends PlayerChar
 		this.colN = 1;
 			//this should be an input
 		this.vision = new int[2];
-		this.vision[0] = 800;
-		this.vision[1] = 400;
+		this.vision[0] = 400;
+		this.vision[1] = 200;
 		this.chargeS = 1;
 		this.chargeB = 5;
 		this.chargeM = 400;
@@ -364,7 +375,12 @@ public class Soldier extends PlayerChar
 			sightHitbox[3] = vision[1];
 			g.drawRect(sightHitbox[0], sightHitbox[1],sightHitbox[2], sightHitbox[3]);
 		}
-		
+		if(this.reacting)
+		{
+			alert.x = this.x + (this.width/2) - (alert.width/2);
+			alert.y = this.y - alert.height;
+			alert.render(g);
+		}
 		super.render(g);
 	}
 }

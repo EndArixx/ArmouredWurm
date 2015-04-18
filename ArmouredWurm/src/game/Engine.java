@@ -58,7 +58,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean isLoading = false;
 	private int loadTarget;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 	
 	
 		//Pause Menu Data
