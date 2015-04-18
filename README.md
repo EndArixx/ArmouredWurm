@@ -2,7 +2,7 @@
 Java 2D game engine
 
 This is a 2D game engine Created by John Mark Stanley.
-  It was created using Eclipse for the java programming and Spriter Pro/Open Canvas 6 for the artwork.
+  It was created using Eclipse for the Java programming and Spriter Pro/Open Canvas 6 for the Sprites.
 
 # License:
 
