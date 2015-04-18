@@ -1,4 +1,8 @@
 package game;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 /* 
  * BAD GUYS
  * 
@@ -55,13 +59,14 @@ public class Soldier extends PlayerChar
 		this.movingL[1] = 11;
 		this.movingR[0] = 2;
 		this.movingR[1] = 11;
-		
+			//Check these 
 		this.idle[0] = 0;
 		this.idle[1] = 1;
-		this.idle[2] = 0;
+		this.idle[2] = 1;
 		this.idle[3] = 1;
 		this.col = 0;
 		this.colN = 1;
+			//this should be an input
 		this.vision = new int[2];
 		this.vision[0] = 800;
 		this.vision[1] = 400;
@@ -80,7 +85,8 @@ public class Soldier extends PlayerChar
 	}
 	public void aim(PlayerChar target)
 	{
-			//OLD weapon stuff
+			//this is old and currently not in use.
+			//what this does is basically find the player and draw a line to him.
 		float xs,ys,xt,yt;
 		int projs = rifle.getprojSpeed(); 
 		boolean right, under;
@@ -211,16 +217,27 @@ public class Soldier extends PlayerChar
 		}
 		else
 		{
-			sightHitbox[0] =  theWorld.getX() + trueX - vision[0];
+			sightHitbox[0] =  theWorld.getX() + trueX - vision[0]  + width;
 		}
 		sightHitbox[1] =  theWorld.getY() + trueY - vision[1] + this.getHeight();
 		sightHitbox[2] = vision[0];
 		sightHitbox[3] = vision[1];
-		if(Tools.check_collision(target.getbackHitbox(), sightHitbox) && hasR)
+		
+		if(Tools.check_collision(target.getHitbox(), sightHitbox))
 		{
-			this.aim(target);
-			this.fire(theWorld);
-			//reacting = true;
+			if(this.FF)
+			{
+				this.row = this.idle[0];
+				this.colN = this.idle[1];
+			}
+			else
+			{
+				this.row = this.idle[2];
+				this.colN = this.idle[3];
+			}
+			//this.aim(target);
+			//this.fire(theWorld);
+			reacting = true;
 		}
 		else
 		{	
@@ -240,7 +257,7 @@ public class Soldier extends PlayerChar
 		}
 		else
 		{
-			this.charging = true;	
+			//this.charging = true;	
 			this.reacting = false;
 			this.reactionC = 0;
 		}
@@ -250,6 +267,29 @@ public class Soldier extends PlayerChar
 	{
 		//PREVENT WALKING THROUGH PLATFORMS
 		//GIVE ABILITY TO JUMP ONTOP OR OVER
+		
+		
+			//This should make sure the badguy starts walking again if he stops
+		if(this.FF)
+		{
+			if(this.row != this.movingR[0])
+			{
+				this.row = movingR[0];
+				this.colN = movingR[1];
+				this.col = 0;
+			}
+		}
+		else
+		{
+			if(this.row != this.movingL[0])
+			{
+				this.row = movingL[0];
+				this.colN = movingL[1];
+				this.col = 0;
+			}
+		}
+		
+			//now check to make sure its still within bounds
 		if(this.FF)
 		{
 			if(trueX > patrolR)
@@ -285,6 +325,7 @@ public class Soldier extends PlayerChar
 	}
 	public void charge()
 	{
+			//this works!
 		if (chargeD >= chargeM)
 		{
 			charging = false;
@@ -303,6 +344,28 @@ public class Soldier extends PlayerChar
 		chargeD = chargeD + chargeS;
 		chargeS = chargeS + chargeB;
 		
+	}
+	public void render(Graphics g)
+	{
+		if(Engine.renderHitBox)
+		{
+			int[] sightHitbox = new int[4];
+			g.setColor(Color.BLUE);
+			if(this.FF)
+			{
+				sightHitbox[0] = x;
+			}
+			else
+			{
+				sightHitbox[0] =  x - vision[0] + width;
+			}
+			sightHitbox[1] = y - vision[1] + this.getHeight();
+			sightHitbox[2] = vision[0];
+			sightHitbox[3] = vision[1];
+			g.drawRect(sightHitbox[0], sightHitbox[1],sightHitbox[2], sightHitbox[3]);
+		}
+		
+		super.render(g);
 	}
 }
  

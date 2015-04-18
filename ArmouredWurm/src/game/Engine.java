@@ -58,7 +58,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean isLoading = false;
 	private int loadTarget;
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	
 	
 		//Pause Menu Data
@@ -281,6 +281,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < badguys.length; i++)
 			{
 				badguys[i].update(theWorld,platforms);
+				badguys[i].sight(player, theWorld);
 			}
 				//this is the first step in the game loop.
 			/*for(i = 0; i < badguys.length; i++)
