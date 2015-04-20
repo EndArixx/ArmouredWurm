@@ -42,8 +42,8 @@ public class Soldier extends PlayerChar
 		 * 		animate
 		 */
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
-	int vision[], reactionT, reactionC;
-	boolean patroling, charging, reacting;
+	int vision[], reactionT, reactionC, attackA[];
+	boolean patroling, charging, reacting, attacking;
 	String spritetop;
 	String spriteleg;
 	
@@ -80,6 +80,14 @@ public class Soldier extends PlayerChar
 		this.idle[1] = 1;
 		this.idle[2] = 1;
 		this.idle[3] = 1;
+			//Attack animationframs
+		this.attackA = new int[4];
+		this.attackA[0] = 4;
+		this.attackA[1] = 5;
+		this.attackA[2] = 5;
+		this.attackA[3] = 5;
+		
+		
 		this.col = 0;
 		this.colN = 1;
 			//this should be an input
@@ -94,6 +102,7 @@ public class Soldier extends PlayerChar
 		this.reactionT = 50;
 		this.reactionC = 0;
 		this.reacting = false;
+		this.attacking = false;
 		
 			//acceleration movement
 		this.speedX = 5;
@@ -171,10 +180,33 @@ public class Soldier extends PlayerChar
 		if(f)
 		{
 			fall();
+			if(this.FF)
+			{
+				//BADGUY NEEDS FALL ANIMATIONS
+				patroling = false;
+				this.row = 2;
+				this.col = 9;
+			}
+			else
+			{
+				patroling = false;
+				this.row = 3;
+				this.col = 9;
+			}
 		}
 		
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
+			//should this be an elseif chain?
+		if(!f && attacking)
+		{
+			if(col == colN)
+			{
+				attacking = false;
+				//reacting = true;
+			}
+		}
+		
 		if(!f && patroling)
 		{
 			patrol();
@@ -241,6 +273,7 @@ public class Soldier extends PlayerChar
 		
 		if(Tools.check_collision(target.getHitbox(), sightHitbox))
 		{
+			/*
 			if(this.FF)
 			{
 				this.row = this.idle[0];
@@ -250,14 +283,20 @@ public class Soldier extends PlayerChar
 			{
 				this.row = this.idle[2];
 				this.colN = this.idle[3];
-			}
+			}*/
+			
+			
 			//this.aim(target);
 			//this.fire(theWorld);
-			reacting = true;
+			//reacting = true;
+			if(!attacking)
+			{
+				meleeAttack(); //TEST!
+			}
 		}
 		else
 		{	
-			if(!reacting && !charging)
+			if(!reacting && !charging && !attacking)
 			{
 				patroling = true;
 			}
@@ -278,6 +317,25 @@ public class Soldier extends PlayerChar
 			this.reactionC = 0;
 		}
 			
+	}
+	public void meleeAttack()
+	{
+		//Needs damage hitboxs?
+		patroling = false;
+		if(this.FF)
+		{
+			this.row = attackA[0];
+			this.colN = attackA[1];
+			this.col = 0;
+			this.attacking = true;
+		}
+		else
+		{
+			this.row = attackA[2];
+			this.colN = attackA[3];
+			this.col = 0;
+			this.attacking = true;
+		}
 	}
 	public void patrol()
 	{
