@@ -16,12 +16,12 @@ import java.awt.Graphics;
  *	enemy movement 	[]
  *		got patrolling animated
  *		attack patterns?
- *		melee []
+ *		melee [X]
  *		range []
  *		charge[]
  *
  *  enemy Animation []
- *  	attack []
+ *  	attack [X]
  *  	patrolling[x]
  *  	idle	[]
  *  
@@ -42,7 +42,7 @@ public class Soldier extends PlayerChar
 		 * 		animate
 		 */
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
-	int vision[], reactionT, reactionC, attackA[];
+	int vision[],meleeRange[], reactionT, reactionC, attackA[];
 	boolean patroling, charging, reacting, attacking;
 	String spritetop;
 	String spriteleg;
@@ -90,10 +90,21 @@ public class Soldier extends PlayerChar
 		
 		this.col = 0;
 		this.colN = 1;
-			//this should be an input
+		
+		//THIS ISNT A HITBOX!
+			//this should be a hitbox
 		this.vision = new int[2];
-		this.vision[0] = 400;
-		this.vision[1] = 200;
+		this.vision[0] = 800;
+		this.vision[1] = 400;
+			//melee zone
+		this.meleeRange = new int[4];
+		this.meleeRange[0] = 400;
+		this.meleeRange[1] = 200;
+		this.meleeRange[2] = 0;
+		this.meleeRange[3] = 0;
+		
+		
+		
 		this.chargeS = 1;
 		this.chargeB = 5;
 		this.chargeM = 400;
@@ -182,7 +193,8 @@ public class Soldier extends PlayerChar
 			fall();
 			if(this.FF)
 			{
-				//BADGUY NEEDS FALL ANIMATIONS
+					//BADGUY NEEDS FALL ANIMATIONS
+					//this is Temp I will work on some fall animation.
 				patroling = false;
 				this.row = 2;
 				this.col = 9;
@@ -203,7 +215,7 @@ public class Soldier extends PlayerChar
 			if(col == colN)
 			{
 				attacking = false;
-				//reacting = true;
+					//Pause after attacks or build it in the animations?
 			}
 		}
 		
@@ -273,26 +285,31 @@ public class Soldier extends PlayerChar
 		
 		if(Tools.check_collision(target.getHitbox(), sightHitbox))
 		{
-			/*
 			if(this.FF)
 			{
-				this.row = this.idle[0];
-				this.colN = this.idle[1];
+				sightHitbox[0] = x;
 			}
 			else
 			{
-				this.row = this.idle[2];
-				this.colN = this.idle[3];
-			}*/
-			
-			
-			//this.aim(target);
-			//this.fire(theWorld);
-			//reacting = true;
-			if(!attacking)
-			{
-				meleeAttack(); //TEST!
+				sightHitbox[0] =  x - meleeRange[0] + width;
 			}
+			sightHitbox[1] = y - meleeRange[1] + this.getHeight();
+			sightHitbox[2] = meleeRange[0];
+			sightHitbox[3] = meleeRange[1];
+			if(Tools.check_collision(target.getHitbox(), sightHitbox))
+			{
+				if(!attacking)
+				{
+					meleeAttack(); //TEST!
+				}
+			}
+			else if(!reacting)
+			{	
+					//this is where he moves in close to attack
+				//move();
+				startReact();
+			}
+
 		}
 		else
 		{	
@@ -302,7 +319,21 @@ public class Soldier extends PlayerChar
 			}
 		}
 	}
-	
+	public void startReact()
+	{
+		if(this.FF)
+		{
+			this.row = this.idle[0];
+			this.colN = this.idle[1];
+		}
+		else
+		{
+			this.row = this.idle[2];
+			this.colN = this.idle[3];
+		}
+		this.reacting = true;
+		this.patroling = false;
+	}
 	private void react(World theWorld) 
 	{
 		patroling = false;
@@ -422,7 +453,8 @@ public class Soldier extends PlayerChar
 	public void render(Graphics g)
 	{
 		if(Engine.renderHitBox)
-		{
+		{	
+				//SIGHT RANGE
 			int[] sightHitbox = new int[4];
 			g.setColor(Color.BLUE);
 			if(this.FF)
@@ -437,6 +469,23 @@ public class Soldier extends PlayerChar
 			sightHitbox[2] = vision[0];
 			sightHitbox[3] = vision[1];
 			g.drawRect(sightHitbox[0], sightHitbox[1],sightHitbox[2], sightHitbox[3]);
+			
+				//ATTACK RANGE
+			g.setColor(Color.RED);
+			if(this.FF)
+			{
+				sightHitbox[0] = x;
+			}
+			else
+			{
+				sightHitbox[0] =  x - meleeRange[0] + width;
+			}
+			sightHitbox[1] = y - meleeRange[1] + this.getHeight();
+			sightHitbox[2] = meleeRange[0];
+			sightHitbox[3] = meleeRange[1];
+			g.drawRect(sightHitbox[0], sightHitbox[1],sightHitbox[2], sightHitbox[3]);
+			
+			
 		}
 		if(this.reacting)
 		{
