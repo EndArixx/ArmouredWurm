@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class PlayerChar extends Sprite 
 {
@@ -13,7 +14,7 @@ public class PlayerChar extends Sprite
 	protected int legA[] = new int[2];
 	protected int topA[] = new int[2];
 	//protected Sprite legs;
-	protected boolean jumping, forward, backward,FF, falling,hasR;
+	protected boolean jumping, forward, backward,FF, falling,hasR, hurt, dying, player;
 	protected gun rifle;
 	
 	protected double topRunSpeed;
@@ -23,16 +24,31 @@ public class PlayerChar extends Sprite
 	protected double runrate;
 	
 	protected int checkAni = -1;
-
+	protected double maxHP, HP;
+	protected int  hx, hy;
+	protected Sprite hpImage;
+	
+	
 	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col)
 	{
 		super(spriteloc,x,y,width,height,row,col,15);
+		this.maxHP = 100;
+		this.HP = 100;
+		this.hx = 800;
+		this.hy = 30;
+		this.hpImage = new Sprite("res/hpbar.png",hx,hy);
 		
-		jumping= false;
-		forward = false;
-		backward = false;
-		FF = true;
-		falling = false;
+			//booleans
+		this.jumping= false;
+		this.forward = false;
+		this.backward = false;
+		this.FF = true;
+		this.falling = false;
+		this.hurt = false;
+		this.dying = false;
+			//test
+		this.player = true;
+		
 			//movement stuff
 		this.speedX = 0;
 		this.speedY = 0;
@@ -70,8 +86,34 @@ public class PlayerChar extends Sprite
 
 	public void damage() 
 	{
+			//old test
 		System.out.println("OUCH! THAT HURT!");
 	}
+	public void damage(int amount)
+	{		
+			//heavy damage?
+		this.HP -= amount;
+		if(this.HP > 0)
+		{
+			hpImage.width =(int) (hpImage.width*(HP/maxHP));
+		}
+		if(!hurt)
+		{
+			this.startHurt();
+		}
+	}
+	public void startHurt()
+	{
+		this.hurt = true;
+			//This is going to be used for hurt animations and things of that nature
+	}
+	
+	public void startDie()
+	{
+			//this will animate death
+		this.dying = true;
+	}
+	
 	public void fire(World theWorld)
 	{
 		if(hasR)
@@ -191,7 +233,12 @@ public class PlayerChar extends Sprite
 	}
 	public void render(Graphics g)
 	{	
-	
+			//TEST render HP
+		if(HP > 0 && player)
+		{
+			hpImage.spriteImage = hpImage.spriteImage.getSubimage(0, 0,(int) (hpImage.width*(HP/maxHP)), hpImage.height);
+			hpImage.render(g);
+		}
 		
 		if(Engine.renderHitBox)
 		{

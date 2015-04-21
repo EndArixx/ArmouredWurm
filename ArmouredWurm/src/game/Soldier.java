@@ -62,8 +62,8 @@ public class Soldier extends PlayerChar
 		
 			//this is for testing things-----------------------
 		alert = new Sprite("res/icu.png",-50,-50);
+		this.player = false;
 			//end testing--------------------------------------
-		
 		
 		this.trueX = x;
 		this.trueY = y;
@@ -300,6 +300,8 @@ public class Soldier extends PlayerChar
 			{
 				if(!attacking)
 				{
+					//TEST!
+					target.damage(5);
 					meleeAttack(); //TEST!
 				}
 			}
