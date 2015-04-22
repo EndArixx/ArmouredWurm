@@ -22,7 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unused" })
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
@@ -90,7 +90,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public void loadLevel(String lvlname)
 	{
 			//this is designed to load in a specifically designed "Map" file 
-		@SuppressWarnings("unused")
 		String name;
 		String[] temp;
 		BufferedReader br;
@@ -451,6 +450,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	public void run()
 	{
+		
 		screen = createVolatileImage(window.width,window.height); 
 		final int TICKS_PER_SECOND = 50;
 	    final int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
@@ -462,6 +462,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    
 		while (isRunning)
 		{
+			/*
+			 * This running loop logic is a modified from
+			 * Eli Delventhal's guide "Game loops!"
+			 *
+			 * Link: http://www.java-gaming.org/index.php?topic=24220.0		 
+			 */
 			loops = 0;
 			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
 			{	
@@ -473,7 +479,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			render();
 			
-				//working on fixing memory leak
+				//memory stuff
 			System.gc();
 		}
 			//this is after game

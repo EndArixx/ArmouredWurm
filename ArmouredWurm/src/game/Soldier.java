@@ -104,7 +104,8 @@ public class Soldier extends PlayerChar
 		this.meleeRange[1] = 200;
 		this.meleeRange[2] = 0;
 		this.meleeRange[3] = 0;
-		
+			//Health
+		this.HP = 50;
 		
 		
 		this.chargeS = 1;
@@ -121,6 +122,7 @@ public class Soldier extends PlayerChar
 		this.speedX = 5;
 		this.gravity = 5;
 	}
+	@SuppressWarnings("unused")
 	public void aim(PlayerChar target)
 	{
 			//this is old and currently not in use.

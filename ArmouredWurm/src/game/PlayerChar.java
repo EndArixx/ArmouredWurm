@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+@SuppressWarnings("unused")
 public class PlayerChar extends Sprite 
 {
 	protected double gravity;

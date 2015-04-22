@@ -117,6 +117,7 @@ import javax.swing.JTextField;
  * 			move			()
  */
 
+@SuppressWarnings({ "unused", "serial" })
 public class LevelEditor extends Engine implements Runnable, KeyListener
 {
 	/**
