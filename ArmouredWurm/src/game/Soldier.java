@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Queue;
 
 /* 
  * BAD GUYS
@@ -14,16 +15,16 @@ import java.awt.Graphics;
  *		SAVE (X)
  *
  *	enemy movement 	[]
- *		got patrolling animated
+ *		got patroling animated
  *		attack patterns?
  *		melee [X]
  *		range []
- *		charge[]
+ *		charge[?]
  *
  *  enemy Animation []
  *  	attack [X]
  *  	patrolling[x]
- *  	idle	[]
+ *  	idle	[kinda]
  *  
  *  what want to do is establish traits
  *  	things like Fear and stuff like that.
@@ -43,7 +44,7 @@ public class Soldier extends PlayerChar
 		 */
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
 	int vision[],meleeRange[], reactionT, reactionC, attackA[];
-	boolean patroling, charging, reacting, attacking;
+	boolean patroling, charging, reacting, attacking, patrols ;
 	String spritetop;
 	String spriteleg;
 	
@@ -63,6 +64,7 @@ public class Soldier extends PlayerChar
 			//this is for testing things-----------------------
 		alert = new Sprite("res/icu.png",-50,-50);
 		this.player = false;
+		this.timerspeed = 5;
 			//end testing--------------------------------------
 		
 		this.trueX = x;
@@ -114,7 +116,7 @@ public class Soldier extends PlayerChar
 		this.reactionC = 0;
 		this.reacting = false;
 		this.attacking = false;
-		
+		this.patrols = false;
 			//acceleration movement
 		this.speedX = 5;
 		this.gravity = 5;
@@ -172,7 +174,8 @@ public class Soldier extends PlayerChar
 		}
 		rifle.target(Math.round(xs) ,Math.round(ys));
 	}
-	public void update(World theWorld, Platform[] p)
+	//--------------------------------------------------------------------------------------------UPDATE
+	public void update(World theWorld, Platform[] p, Queue<DamageHitbox> damageQ)
 	{
 		boolean f = true;
 		for(int i = 0; i< p.length ;i++)
@@ -231,6 +234,11 @@ public class Soldier extends PlayerChar
 		{
 			react(theWorld);
 		}
+		if(!f && attacking)
+		{
+			meleeAttack(damageQ);
+		}
+		
 		//legs.setX(x);
 		//legs.setY(y);
 		if(hasR)
@@ -259,7 +267,8 @@ public class Soldier extends PlayerChar
 	}
 	public void setPatrol(int patrolL,int patrolR)
 	{
-		patroling = true;
+		this.patrols = true;
+		this.patroling = true;
 		this.patrolR = patrolR;
 		this.patrolL = patrolL;
 		this.row = movingR[0];
@@ -301,8 +310,7 @@ public class Soldier extends PlayerChar
 				if(!attacking)
 				{
 					//TEST!
-					target.damage(5);
-					meleeAttack(); //TEST!
+					startMelee(); //TEST!
 				}
 			}
 			else if(!reacting)
@@ -351,7 +359,7 @@ public class Soldier extends PlayerChar
 		}
 			
 	}
-	public void meleeAttack()
+	public void startMelee()
 	{
 		//Needs damage hitboxs?
 		patroling = false;
@@ -368,6 +376,24 @@ public class Soldier extends PlayerChar
 			this.colN = attackA[3];
 			this.col = 0;
 			this.attacking = true;
+		}
+	}
+	public void meleeAttack(Queue<DamageHitbox> damageQ)
+	{
+		if(col ==  4)
+		{	
+				//this is all test data and shouldnt be hardcoded!
+			if(this.FF)
+			{
+				DamageHitbox out = new DamageHitbox( this.x+ this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 1);
+				damageQ.add(out);
+			}
+			else
+			{
+				DamageHitbox out = new DamageHitbox( this.x- this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 1);
+				damageQ.add(out);
+			}
+
 		}
 	}
 	public void patrol()

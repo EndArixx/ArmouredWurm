@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
@@ -60,6 +63,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	
+		//DamageHitboxs Zone
+	private Queue<DamageHitbox> damageQ = new LinkedList<DamageHitbox>();
+	private Queue<DamageHitbox> damageQhitbox = new LinkedList<DamageHitbox>();
 	
 		//Pause Menu Data
 	private boolean isPaused = false;
@@ -67,6 +73,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private int pauseMax = 2;
 	public Sprite pauseMenu;
 	public Sprite pauseButtons[];
+	
+		//game over screen
+	public Sprite gameover;
+	public boolean  gamebool;
 //constructor---------------------------------------------------------------------------------------	
 	public Engine()
 	{
@@ -80,6 +90,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public void loadLevel(String lvlname)
 	{
 			//this is designed to load in a specifically designed "Map" file 
+		@SuppressWarnings("unused")
 		String name;
 		String[] temp;
 		BufferedReader br;
@@ -227,6 +238,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			Jh = true;
 				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0);
+			
+			
 			pauseButtons = new Sprite[3];
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160);
 			pauseButtons[1] = new Sprite("res/pb1.png",156,274);
@@ -234,6 +247,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 		
 			loading = new Sprite("res/loading.png",0,0);
+			//gameover = new Sprite("GG")//JOHN FINISH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			gamebool = false;
 			
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
@@ -280,9 +295,26 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
-				badguys[i].update(theWorld,platforms);
+				badguys[i].update(theWorld, platforms, damageQ);
 				badguys[i].sight(player, theWorld);
 			}
+				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT
+			for( DamageHitbox x : damageQ)
+			{
+				if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
+				if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
+					//For Debugin
+				if(renderHitBox )
+				{
+					damageQhitbox.add(x);
+				}
+			}
+				//there might be a better way of doing this
+			damageQ.clear();
+			
+			
+			
+			
 				//this is the first step in the game loop.
 			/*for(i = 0; i < badguys.length; i++)
 			{
@@ -315,8 +347,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				bullets[i].proxy(player, badguys, bomb, platforms);
 				bullets[i].update(theWorld);
 			}*/
-		
-			//baddy.sight(player, theWorld);
+			
 			//forground.update();
 			
 		}
@@ -374,7 +405,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g);}
 			}
-			
+			if(renderHitBox )
+			{
+				for( DamageHitbox x : damageQhitbox)
+				{
+					if(Tools.check_collision(windowHB,x.getHitbox()))
+					{
+						g.setColor(Color.RED);
+						g.drawRect(x.hitbox[0], x.hitbox[1],x.hitbox[2], x.hitbox[3]);
+					}
+				}
+				damageQhitbox.clear();
+			}
 			/*
 			for(i = 0; i < bomb.length; i++)
 			{

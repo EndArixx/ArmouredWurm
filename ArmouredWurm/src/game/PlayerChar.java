@@ -25,9 +25,8 @@ public class PlayerChar extends Sprite
 	
 	protected int checkAni = -1;
 	protected double maxHP, HP;
-	protected int  hx, hy;
+	protected int  hx, hy, HPsW, invol, involtime;
 	protected Sprite hpImage;
-	
 	
 	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col)
 	{
@@ -37,7 +36,7 @@ public class PlayerChar extends Sprite
 		this.hx = 800;
 		this.hy = 30;
 		this.hpImage = new Sprite("res/hpbar.png",hx,hy);
-		
+		this.HPsW = hpImage.width;
 			//booleans
 		this.jumping= false;
 		this.forward = false;
@@ -46,7 +45,11 @@ public class PlayerChar extends Sprite
 		this.falling = false;
 		this.hurt = false;
 		this.dying = false;
-			//test
+		this.invol = 0;
+			//THIS IS STILL TESTING, I might set up something different
+		this.involtime = 25;
+		
+			//useful
 		this.player = true;
 		
 			//movement stuff
@@ -91,15 +94,19 @@ public class PlayerChar extends Sprite
 	}
 	public void damage(int amount)
 	{		
-			//heavy damage?
-		this.HP -= amount;
-		if(this.HP > 0)
+		if(invol == 0)
 		{
-			hpImage.width =(int) (hpImage.width*(HP/maxHP));
-		}
-		if(!hurt)
-		{
-			this.startHurt();
+				//heavy damage?
+			invol++;
+			this.HP -= amount;
+			if(this.HP > 0)
+			{
+				hpImage.width =(int) (hpImage.width*(HP/maxHP));
+			}
+			if(!hurt)
+			{
+				this.startHurt();
+			}
 		}
 	}
 	public void startHurt()
@@ -121,10 +128,22 @@ public class PlayerChar extends Sprite
 			rifle.Fire(theWorld);
 		}
 	}
+	//--------------------------------------------------------------------UPDATE
 	public void update()
 	{
-			
-			
+			//this give the player a short amount of time after taking damage to be invinsible
+		if(invol > 0)
+		{
+			if(invol > involtime)
+			{
+				invol = 0;
+			}
+			else
+			{
+				invol++;
+			}
+		}
+		
 		
 		if (FF)//FF = facing forward
 		{
@@ -236,20 +255,18 @@ public class PlayerChar extends Sprite
 			//TEST render HP
 		if(HP > 0 && player)
 		{
-			hpImage.spriteImage = hpImage.spriteImage.getSubimage(0, 0,(int) (hpImage.width*(HP/maxHP)), hpImage.height);
-			hpImage.render(g);
+			g.drawImage(hpImage.spriteImage, hpImage.x, hpImage.y , (int) (HPsW*(HP/maxHP)) , hpImage.height, null);
 		}
 		
 		if(Engine.renderHitBox)
 		{
-			g.setColor(Color.RED);
-			g.drawRect(this.headhitbox[0]+this.x, this.headhitbox[1]+this.y,this.headhitbox[2], this.headhitbox[3]);
 			g.setColor(Color.BLUE);
-			g.drawRect(this.fronthitbox[0]+this.x, this.fronthitbox[1]+this.y,this.fronthitbox[2], this.fronthitbox[3]);
-			g.setColor(Color.YELLOW);
-			g.drawRect(this.backhitbox[0]+this.x, this.backhitbox[1]+this.y,this.backhitbox[2], this.backhitbox[3]);
-			g.setColor(Color.RED);
+			g.drawRect(this.headhitbox[0]+this.x, this.headhitbox[1]+this.y,this.headhitbox[2], this.headhitbox[3]);
 			g.drawRect(this.feethitbox[0]+this.x, this.feethitbox[1]+this.y,this.feethitbox[2], this.feethitbox[3]);
+			g.setColor(Color.YELLOW);
+			g.drawRect(this.fronthitbox[0]+this.x, this.fronthitbox[1]+this.y,this.fronthitbox[2], this.fronthitbox[3]);
+			g.drawRect(this.backhitbox[0]+this.x, this.backhitbox[1]+this.y,this.backhitbox[2], this.backhitbox[3]);
+
 		}
 		if(hasR)
 		{
