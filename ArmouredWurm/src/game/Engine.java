@@ -26,6 +26,9 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
+		//For Testing hitboxes 
+	public final static boolean renderHitBox = true;
+	
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -60,8 +63,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private String lvl = "res/TEST.txt";
 	private boolean isLoading = false;
 	private int loadTarget;
-		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
 	
 		//DamageHitboxs Zone
 	private Queue<DamageHitbox> damageQ = new LinkedList<DamageHitbox>();
@@ -206,7 +207,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[7]),
 	        			Integer.parseInt(temp[8]));
 					//TESTING!!!!!!!!!!!!!!!1
-	        	badguys[i].setPatrol(0,1000*(i+1));
+	        	badguys[i].setPatrol(500,1000*(i+1));
 
 	        }
 	        fr.close();
