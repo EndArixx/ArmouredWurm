@@ -76,7 +76,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 		//game over screen
 	public Sprite gameover;
-	public boolean  gamebool;
+	public boolean  isGameOver;
 //constructor---------------------------------------------------------------------------------------	
 	public Engine()
 	{
@@ -246,8 +246,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 		
 			loading = new Sprite("res/loading.png",0,0);
-			//gameover = new Sprite("GG")//JOHN FINISH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			gamebool = false;
+			
+
+			gameover = new Sprite("res/gameover.png",0,0);
+			isGameOver = false;
 			
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
@@ -257,12 +259,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public  void update()
 	{		
 		
-		
-		
-		
-		if(!isLoading && !isPaused)
+		if(!isLoading && !isPaused && !isGameOver)
 		{	
-			//I want to rethink this part so that the game has loading screens.
+			if(player.getDead())
+			{
+				this.isGameOver = true;
+			}
+			
 			for(int i = 0; i < doors.length ; i++)
 			{
 				if(Tools.check_collision(doors[i].getHitbox(),player.getHitbox()))
@@ -373,7 +376,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		g.fillRect(0, 0, window.width, window.height);
 		
 		
-		if(!isLoading && !isPaused)
+		if(!isLoading && !isPaused && !isGameOver)
 		{
 				//this is done before gameWorld because of the way i made the test boat level
 			for(i =0; i < weather.length; i++)
@@ -431,10 +434,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			*/
 		}
-		else if (isPaused == true)
+		else if (isPaused)
 		{
 			pauseMenu.render(g);
 			pauseButtons[pauseButnum].render(g);
+		}
+		else if(isGameOver)
+		{
+			gameover.render(g);
 		}
 		else
 		{
@@ -656,7 +663,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				player.setbackward(true);
 				if(player.getX() > 2*window.width/16)
 				{
-					player.moveXn();
+						//this if statement is to prevent the player from getting stuck in a wall;
+					if(!frontbonk ||player.speedX <= 0) 
+					{
+						player.moveXn();
+					}
+					else if(player.speedX > -player.topRunSpeed)
+					{
+						player.speedX -= player.runrate;
+					}
 				}
 				else if(theWorld.getX() < 0)
 				{
@@ -664,11 +679,21 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						player.speedX -= player.runrate;
 					}
-					theWorld.moveXp(-player.speedX);
+					if(!frontbonk || player.speedX <= 0)
+					{
+						theWorld.moveXp(-player.speedX);
+					}
 				}
 				else if(player.getX() > 0)
 				{
-					player.moveXn();
+					if(!frontbonk || player.speedX <= 0)
+					{
+						player.moveXn();
+					}
+					else if(player.speedX > -player.topRunSpeed)
+					{
+						player.speedX -= player.runrate;
+					}
 				}
 			}
 			else
@@ -682,7 +707,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				player.setForward(true);
 				if(player.getX() < 6*window.width/16)
 				{
-					player.moveXp();
+					if (!backbonk || player.speedX >= 0)
+					{
+						player.moveXp();
+					}
+					else if(player.speedX < player.topRunSpeed)
+					{
+						player.speedX += player.runrate;
+					}
 				}
 				else if(-theWorld.getX() < theWorld.getWidth()-window.width)
 				{
@@ -691,11 +723,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						player.speedX += player.runrate;
 					}
-					theWorld.moveXp(-player.speedX);
+					if (!backbonk || player.speedX >= 0)
+					{
+						theWorld.moveXp(-player.speedX);
+					}
 				}
 				else if (player.getX() < window.width -player.getWidth())
 				{
-					player.moveXp();
+					if(!backbonk || player.speedX >= 0)
+					{
+						player.moveXp();
+					}
+					else if(player.speedX < player.topRunSpeed)
+					{
+						player.speedX += player.runrate;
+					}
+						 
 				}
 			}
 			else

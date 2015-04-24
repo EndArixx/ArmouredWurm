@@ -15,7 +15,7 @@ public class PlayerChar extends Sprite
 	protected int legA[] = new int[2];
 	protected int topA[] = new int[2];
 	//protected Sprite legs;
-	protected boolean jumping, forward, backward,FF, falling,hasR, hurt, dying, player;
+	protected boolean jumping, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
 	protected gun rifle;
 	
 	protected double topRunSpeed;
@@ -46,6 +46,7 @@ public class PlayerChar extends Sprite
 		this.falling = false;
 		this.hurt = false;
 		this.dying = false;
+		this.dead = false;
 		this.invol = 0;
 			//THIS IS STILL TESTING, I might set up something different
 		this.involtime = 25;
@@ -120,6 +121,7 @@ public class PlayerChar extends Sprite
 	{
 			//this will animate death
 		this.dying = true;
+		
 	}
 	
 	public void fire(World theWorld)
@@ -132,6 +134,23 @@ public class PlayerChar extends Sprite
 	//--------------------------------------------------------------------UPDATE
 	public void update()
 	{
+			//death :(
+		if ( !(HP > 0) && !dying)
+		{
+
+			startDie();
+		}
+		else if(dying)
+		{
+				//this means it has reached the end of its animation 
+			if(col == colN)
+			{
+					//time to die
+				this.dead = true;
+			}
+		}
+		//else?
+		
 			//this give the player a short amount of time after taking damage to be invinsible
 		if(invol > 0)
 		{
@@ -351,6 +370,8 @@ public class PlayerChar extends Sprite
 		{this.topGravity = in;}
 	public void settopJump(int in)
 		{this.topJump = in;}
+	public boolean getDead()
+		{return this.dead;}
 
 	public void setHitbox(int x, int y, int width, int height)
 	{
