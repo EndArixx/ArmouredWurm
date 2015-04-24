@@ -18,6 +18,7 @@ public class DamageHitbox
 			1 = Enemy melee heavy attack
 			2 = Enemy range regular
 			3 = Player melee
+			4 = Bomb
 		*/
 		
 		this.type = intype;

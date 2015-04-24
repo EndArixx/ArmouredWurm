@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Queue;
+
 public class Explosive extends Platform
 {
 	private int type, id, explcolN, rocketW , rocketH, blastW, blastH, rockcolN, rocketspeed, blastspeed;
@@ -150,7 +152,12 @@ public class Explosive extends Platform
 			}
 		}
 	}
-	public void update(World m)
+	public void Exploding(Queue<DamageHitbox> damageQ)
+	{
+		DamageHitbox out = new DamageHitbox( this.x , this.y ,this.blastW,this.blastH, 5 , 4);
+		damageQ.add(out);
+	}
+	public void update(World m,Queue<DamageHitbox> damageQ)
 	{
 		
 		
@@ -170,6 +177,7 @@ public class Explosive extends Platform
 		}
 		else
 		{
+			Exploding(damageQ);
 			animateCol();	
 		}
 		super.update(m);
