@@ -16,7 +16,7 @@ public class Sprite{
 	protected String fileName;	
 	//protected BufferedImage spriteMap;
 	//protected BufferedImage spriteImage;
-	protected boolean animate;
+	protected boolean animate, firstloop;
 	protected int  x , y, width , height;
 	protected double speedX, speedY;
 	protected int rowN, colN, row, col;
@@ -55,7 +55,8 @@ public class Sprite{
 		this.hitbox[2] = width;
 		this.hitbox[3] = height;
 		//spriteImage= spriteMap;
-		animate = false;
+		this.animate = false;
+		this.firstloop = false;
 	}
 	public Sprite(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed, Map<String,BufferedImage> spriteData)
 	{
@@ -118,6 +119,7 @@ public class Sprite{
 					{
 						col = 0;
 						timer = 0;
+						this.firstloop = false;
 					}
 				}	
 			}
@@ -129,6 +131,7 @@ public class Sprite{
 		else
 		{
 			col = 0;
+			this.firstloop = false;
 			timer = 0;
 			
 		}

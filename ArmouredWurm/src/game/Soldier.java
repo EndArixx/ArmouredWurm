@@ -219,7 +219,7 @@ public class Soldier extends PlayerChar
 			//should this be an elseif chain?
 		if(!f && attacking)
 		{
-			if(col == colN)
+			if(col >= colN)
 			{
 				attacking = false;
 					//Pause after attacks or build it in the animations?
@@ -388,7 +388,8 @@ public class Soldier extends PlayerChar
 	public void startMelee()
 	{
 		//Needs damage hitboxs?
-		patroling = false;
+		this.patroling = false;
+		this.firstloop = true;
 		if(this.FF)
 		{
 			this.row = attackA[0];
@@ -406,6 +407,11 @@ public class Soldier extends PlayerChar
 	}
 	public void meleeAttack(Queue<DamageHitbox> damageQ)
 	{
+		if(!this.firstloop)
+		{	
+				//hit animations only run through once
+			this.attacking= false;
+		}
 		if(col ==  4)
 		{	
 				//this is all test data and shouldnt be hardcoded!

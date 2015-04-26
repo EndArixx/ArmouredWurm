@@ -393,6 +393,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				//New Map
 			}
 		}
+		
 		loadLevel(lvl);
 		loadSprites(sTypesLoc);
 		loadEnemySprites(enemyTypesLoc);
@@ -634,8 +635,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,platforms[i].getHitbox()))
 				{
-					g.setColor(Color.RED);
 					platforms[i].render(g,lvlspriteData);
+					g.setColor(Color.RED);
 					g.drawString("["+i+"]",platforms[i].getX(),platforms[i].getY());
 				}
 			}
@@ -643,8 +644,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,ladders[i].getHitbox()))
 				{
-					g.setColor(Color.GREEN);
 					ladders[i].render(g,lvlspriteData);
+					g.setColor(Color.GREEN);
 					g.drawString("["+i+"]",ladders[i].getX(),ladders[i].getY());
 				}
 			}
@@ -652,8 +653,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,doors[i].getHitbox()))
 				{
-					g.setColor(Color.BLUE);
 					doors[i].render(g,lvlspriteData);
+					g.setColor(Color.BLUE);
 					g.drawString("["+i+"]",doors[i].getX(),doors[i].getY());
 				}
 			}

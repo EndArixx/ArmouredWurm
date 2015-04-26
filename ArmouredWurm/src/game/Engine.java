@@ -98,7 +98,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		
 		lvlspriteData.clear();
-		
 
 			//this is designed to load in a specifically designed "Map" file 
 		String name;
