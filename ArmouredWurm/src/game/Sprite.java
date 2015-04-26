@@ -114,6 +114,11 @@ public class Sprite{
 					timer = 0;
 					//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 					col++;
+					if(col == colN)
+					{
+						col = 0;
+						timer = 0;
+					}
 				}	
 			}
 			else 
@@ -124,10 +129,6 @@ public class Sprite{
 		else
 		{
 			col = 0;
-			if(colN <= 1)
-			{
-				//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
-			}
 			timer = 0;
 			
 		}
