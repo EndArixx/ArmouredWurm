@@ -1,14 +1,17 @@
 package game;
 
+import java.awt.image.BufferedImage;
+import java.util.Map;
+
 public class gun extends Sprite
 {
 	protected PlayerChar master;
 	protected int ammoCount,projspeed,projspeedX,projspeedY, hands[], barrel[];
 	protected Explosive[] ammo;
 	protected boolean cooldown;
-	public gun(String weaponImage, PlayerChar master, Explosive[] ammo,int projspeed) 
+	public gun(String weaponImage, PlayerChar master, Explosive[] ammo,int projspeed,  Map<String,BufferedImage> spriteData) 
 	{
-		super(weaponImage, master.getX(), master.getY());
+		super(weaponImage, master.getX(), master.getY(),spriteData);
 		this.master = master;
 		this.ammo = ammo;
 		this.ammoCount = 0;

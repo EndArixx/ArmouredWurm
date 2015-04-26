@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -401,7 +402,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	{
 		if( inplat.length != 0)
 		{
-			 inplat[target] = new Platform(spriteTypes[stCounter], inplat[target].getTrueX(), inplat[target].getTrueY());
+			 inplat[target] = new Platform(spriteTypes[stCounter], inplat[target].getTrueX(), inplat[target].getTrueY(),lvlspriteData);
 			
 			if(stCounter < spriteTypes.length - 1)
 			{
@@ -428,7 +429,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			temp[i] = inplat[i];
 		}
 		
-		temp[ inplat.length]= new Platform(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2);
+		temp[ inplat.length]= new Platform(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2,lvlspriteData);
 		 inplat = temp;
 		target =  inplat.length-1;
 		return inplat;
@@ -480,7 +481,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					 indoor[target].playerloc[1],
 					 indoor[target].newMap,
 					 indoor[target].mapstart[0],
-					 indoor[target].mapstart[1]);
+					 indoor[target].mapstart[1],lvlspriteData);
 			
 			if(stCounter < spriteTypes.length - 1)
 			{
@@ -537,7 +538,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					,Integer.parseInt(mapData[1]),
 					Integer.parseInt(mapData[2]),
 					lvl,Integer.parseInt(mapData[3]),
-					Integer.parseInt(mapData[4]));
+					Integer.parseInt(mapData[4]),lvlspriteData);
 								
 	
 		indoor = temp;
@@ -620,11 +621,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		{
 			for(i =0; i < weather.length; i++)
 			{
-				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
+				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g,lvlspriteData);}
 			}
 			
 				//background
-			gameWorld.render(g, windowHB);
+			gameWorld.render(g, windowHB,lvlspriteData);
 
 			g.setFont(new Font("MonoSpace", Font.PLAIN, 20)); 
 
@@ -634,7 +635,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				if(Tools.check_collision(windowHB,platforms[i].getHitbox()))
 				{
 					g.setColor(Color.RED);
-					platforms[i].render(g);
+					platforms[i].render(g,lvlspriteData);
 					g.drawString("["+i+"]",platforms[i].getX(),platforms[i].getY());
 				}
 			}
@@ -643,7 +644,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				if(Tools.check_collision(windowHB,ladders[i].getHitbox()))
 				{
 					g.setColor(Color.GREEN);
-					ladders[i].render(g);
+					ladders[i].render(g,lvlspriteData);
 					g.drawString("["+i+"]",ladders[i].getX(),ladders[i].getY());
 				}
 			}
@@ -652,7 +653,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				if(Tools.check_collision(windowHB,doors[i].getHitbox()))
 				{
 					g.setColor(Color.BLUE);
-					doors[i].render(g);
+					doors[i].render(g,lvlspriteData);
 					g.drawString("["+i+"]",doors[i].getX(),doors[i].getY());
 				}
 			}
@@ -719,7 +720,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 		if(isLoading)
 		{
-			loading.render(g);
+			loading.render(g,lvlspriteData);
 		}
 		
 			// Get window's graphics object. 

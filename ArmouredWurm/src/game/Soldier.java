@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.Map;
 import java.util.Queue;
 
 /* 
@@ -54,15 +56,15 @@ public class Soldier extends PlayerChar
 	
 	//protected Sprite legs;
 	public Soldier
-		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col) 
+		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col,  Map<String,BufferedImage> spriteData) 
 	{
-		super(name, spriteloc, x, y, width, height, row, col); //---check
+		super(name, spriteloc, x, y, width, height, row, col, spriteData); //---check
 		this.spritetop = spriteloc;
 		this.spriteleg = legloc;
 		
 		
 			//this is for testing things-----------------------
-		alert = new Sprite("res/icu.png",-50,-50);
+		alert = new Sprite("res/icu.png",-50,-50, spriteData);
 		this.player = false;
 		this.timerspeed = 5;
 			//end testing--------------------------------------
@@ -79,9 +81,9 @@ public class Soldier extends PlayerChar
 		this.movingR[1] = 11;
 			//Check these 
 		this.idle[0] = 0;
-		this.idle[1] = 1;
+		this.idle[1] = 0;
 		this.idle[2] = 1;
-		this.idle[3] = 1;
+		this.idle[3] = 0;
 			//Attack animationframs
 		this.attackA = new int[4];
 		this.attackA[0] = 4;
@@ -327,19 +329,41 @@ public class Soldier extends PlayerChar
 		{	
 			if(!reacting && !charging && !attacking)
 			{
-				patroling = true;
+				if(!patroling)
+				{
+					startPatrol();
+				}
 			}
 		}
+	}
+	public void startPatrol()
+	{
+		if(this.FF)
+		{
+			this.row = movingR[0];
+			this.colN = movingR[1];
+			this.col = 0;
+		}
+		else
+		{
+			this.row = movingL[0];
+			this.colN = movingL[1];
+			this.col = 0;
+		}
+		
+		patroling = true;
 	}
 	public void startReact()
 	{
 		if(this.FF)
 		{
+			this.col =0;
 			this.row = this.idle[0];
 			this.colN = this.idle[1];
 		}
 		else
 		{
+			this.col =0;
 			this.row = this.idle[2];
 			this.colN = this.idle[3];
 		}
@@ -480,7 +504,7 @@ public class Soldier extends PlayerChar
 		chargeS = chargeS + chargeB;
 		
 	}
-	public void render(Graphics g)
+	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
 	{
 		if(Engine.renderHitBox)
 		{	
@@ -521,9 +545,9 @@ public class Soldier extends PlayerChar
 		{
 			alert.x = this.x + (this.width/2) - (alert.width/2);
 			alert.y = this.y - alert.height;
-			alert.render(g);
+			alert.render(g,spriteData);
 		}
-		super.render(g);
+		super.render(g, spriteData);
 	}
 }
  

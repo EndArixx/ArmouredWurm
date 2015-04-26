@@ -13,7 +13,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 import javax.imageio.ImageIO;
@@ -43,6 +45,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
 	public Explosive missiles[] = new Explosive[4];
+		//A buffer to hold sprites to free up redundancy
+	public Map<String,BufferedImage> lvlspriteData;
+	public Map<String,BufferedImage> permaSprites;
+	
 		//this is for the window
 	public static Dimension window  = new Dimension(1280,720);
 	public int windowHB[] = new int[4];
@@ -90,6 +96,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	public void loadLevel(String lvlname)
 	{
+		
+		lvlspriteData.clear();
+		
+
 			//this is designed to load in a specifically designed "Map" file 
 		String name;
 		String[] temp;
@@ -107,7 +117,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        		Integer.parseInt(temp[1]),
 	        		Integer.parseInt(temp[2]), 
 	        		Integer.parseInt(temp[3]), 
-	        		Integer.parseInt(temp[4]));
+	        		Integer.parseInt(temp[4]),lvlspriteData);
 	        
 	        	//Load in World Data
 	        line = br.readLine();
@@ -139,14 +149,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
-	        	weather[i] = new Looper(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	        	weather[i] = new Looper(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
 	        }
 	        	//second load in ladders
 	        for (int i= 0; i < lnum; i++)
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
-	        	ladders[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+	        	ladders[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
 	        	if(temp.length == 7)
 	 	        {
 	 	        	ladders[i].setHitbox(
@@ -161,7 +171,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
- 	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]));
+ 	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
 	 	        if(temp.length == 7)
 	 	        {
 	 	        	platforms[i].setHitbox(
@@ -183,7 +193,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        		Integer.parseInt(temp[4]),
 	 	        		temp[5],
 	 	        		Integer.parseInt(temp[6]),
-	 	        		Integer.parseInt(temp[7]));
+	 	        		Integer.parseInt(temp[7]),lvlspriteData);
 	 	       if(temp.length == 12)
 	 	        {
 	 	    	   doors[i].setHitbox(
@@ -205,7 +215,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[5]),
 	        			Integer.parseInt(temp[6]),
 	        			Integer.parseInt(temp[7]),
-	        			Integer.parseInt(temp[8]));
+	        			Integer.parseInt(temp[8]),lvlspriteData);
 					//TESTING!!!!!!!!!!!!!!!1
 	        	badguys[i].setPatrol(500,1000*(i+1));
 
@@ -218,12 +228,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	private void setUp() 
 	{	
-				
+					
 				//window hitbox
 			windowHB[0]= 0;
 			windowHB[1]= 0;
 			windowHB[2]= window.width;
 			windowHB[3]= window.height;
+			
+			lvlspriteData = new HashMap<String,BufferedImage>();
+			permaSprites = new HashMap<String,BufferedImage>();
+			
 			isLoading = true;
 			loadLevel(lvl);
 			isLoading = false;
@@ -237,23 +251,23 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//	instead if him constantly hopping as the player holds jump
 			Jh = true;
 				//Menu needs finalization or automation
-			pauseMenu = new Sprite("res/Pause.png",0,0);
+			pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
 			
 			
 			pauseButtons = new Sprite[3];
-			pauseButtons[0] = new Sprite("res/pb0.png",135,160);
-			pauseButtons[1] = new Sprite("res/pb1.png",156,274);
-			pauseButtons[2] = new Sprite("res/pb2.png",156,407);
+			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
+			pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
+			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
 			
 		
-			loading = new Sprite("res/loading.png",0,0);
+			loading = new Sprite("res/loading.png",0,0,permaSprites );
 			
 
-			gameover = new Sprite("res/gameover.png",0,0);
+			gameover = new Sprite("res/gameover.png",0,0,permaSprites );
 			isGameOver = false;
 			
 					//Player stuff
-			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20);
+			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20,permaSprites);
 			player.setHitbox(17, 10, 100, 120);	
 	}
 
@@ -382,31 +396,31 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//this is done before gameWorld because of the way i made the test boat level
 			for(i =0; i < weather.length; i++)
 			{
-				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g);}
+				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g,lvlspriteData);}
 			}
 			
 				//background
-			gameWorld.render(g, windowHB);
+			gameWorld.render(g, windowHB,lvlspriteData);
 	
 				//render the platforms]
 			for(i = 0; i < platforms.length;i++)
 			{
-				if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g);}
+				if(Tools.check_collision(windowHB,platforms[i].getHitbox())){platforms[i].render(g,lvlspriteData );}
 			}
 			for(i = 0; i < ladders.length;i++)
 			{
-				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g);}
+				if(Tools.check_collision(windowHB,ladders[i].getHitbox())){ladders[i].render(g,lvlspriteData );}
 			}
 			for(i = 0; i < doors.length;i++)
 			{
-				if(Tools.check_collision(windowHB,doors[i].getHitbox())){doors[i].render(g);}
+				if(Tools.check_collision(windowHB,doors[i].getHitbox())){doors[i].render(g,lvlspriteData );}
 			}
 			
 				//render the player
-			player.render(g);
+			player.render(g,permaSprites);
 			for(i = 0; i < badguys.length; i++)
 			{
-				if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g);}
+				if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g,lvlspriteData );}
 			}
 			if(renderHitBox )
 			{
@@ -437,16 +451,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		}
 		else if (isPaused)
 		{
-			pauseMenu.render(g);
-			pauseButtons[pauseButnum].render(g);
+			pauseMenu.render(g,permaSprites );
+			pauseButtons[pauseButnum].render(g,permaSprites );
 		}
 		else if(isGameOver)
 		{
-			gameover.render(g);
+			gameover.render(g,permaSprites );
 		}
 		else
 		{
-			loading.render(g);
+			loading.render(g,permaSprites);
 		}
 			// Get window's graphics object. 
 		g = getGraphics();

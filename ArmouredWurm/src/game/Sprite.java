@@ -7,14 +7,15 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 public class Sprite{
 	
 	protected String fileName;	
-	protected BufferedImage spriteMap;
-	protected BufferedImage spriteImage;
+	//protected BufferedImage spriteMap;
+	//protected BufferedImage spriteImage;
 	protected boolean animate;
 	protected int  x , y, width , height;
 	protected double speedX, speedY;
@@ -26,45 +27,53 @@ public class Sprite{
 	protected String name;
 	
 //Constructor---------------------------------------------------------------------------------------
-	public Sprite(String inImage,int x,int y)
+	public Sprite(String inImage,int x,int y,  Map<String,BufferedImage> spriteData)
 	{
 		name = inImage;
 			//input is the image of the sprite itself, and its location.
+		BufferedImage spriteMap = null;
 		try 
 		{
 			spriteMap = ImageIO.read(new File(inImage));
 		}
 		catch (IOException e) 
 		{
-			System.out.println(inImage);
-			e.printStackTrace();
+			System.out.println("Error, Bad Sprite:"+ inImage);
+			//e.printStackTrace();
 		}
+		
+		spriteData.put(inImage,spriteMap);
+
 		this.fileName = inImage;
 		this.x = x;
 		this.y = y;
-		this.width = spriteMap.getWidth();
-		this.height = spriteMap.getHeight();
+		this.width = spriteData.get(name).getWidth();
+		this.height = spriteData.get(name).getHeight();
 			//this just sets up a standard hitbox of the image, this can be changed later.
 		this.hitbox[0] = 0;
 		this.hitbox[1] = 0;
 		this.hitbox[2] = width;
 		this.hitbox[3] = height;
-		spriteImage= spriteMap;
+		//spriteImage= spriteMap;
 		animate = false;
 	}
-	public Sprite(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed)
+	public Sprite(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed, Map<String,BufferedImage> spriteData)
 	{
 		name = inImage;
 			//This input is for sprites with animation and stuff like that.
+		BufferedImage spriteMap = null;
 		try 
 		{
 			spriteMap = ImageIO.read(new File(inImage));
 		}
 		catch (IOException e) 
 		{
-			System.out.println(inImage);
-			e.printStackTrace();
+			System.out.println("Error, Bad Sprite:"+ inImage);
+			//e.printStackTrace();
 		}
+		
+		spriteData.put(inImage,spriteMap);
+		
 		this.x = x;
 		this.y = y;
 		this.rowN = rowN;
@@ -80,7 +89,7 @@ public class Sprite{
 		row = 0;
 		col = 0;
 			//A subimage is the image that will show on the screen
-		spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
+		//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 	}
 	
 	public void animateCol()
@@ -103,7 +112,7 @@ public class Sprite{
 				{
 						//new image is created and will be rendered.
 					timer = 0;
-					spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
+					//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 					col++;
 				}	
 			}
@@ -117,7 +126,7 @@ public class Sprite{
 			col = 0;
 			if(colN <= 1)
 			{
-				spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
+				//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 			}
 			timer = 0;
 			
@@ -136,7 +145,7 @@ public class Sprite{
 		{ 
 			row = 0;
 		}
-		spriteImage= spriteMap.getSubimage((col * width) - width, (row * height)-height, width, height);
+		//spriteImage= spriteMap.getSubimage((col * width) - width, (row * height)-height, width, height);
 	}
 //public GETS AND SETS------------------------------------------------------------------------------	
 			//GET AND SET ROW  & COL
@@ -172,15 +181,29 @@ public class Sprite{
 		this.timerspeed = speed;
 	}
 	
-	public void render(Graphics g)
+	public void render(Graphics g,Map<String,BufferedImage> spriteData)
 	{
-			//this prints the sprite to the inputed Graphic
-		g.drawImage(spriteImage, x,y ,  width , height, null);
-		
-		if(Engine.renderHitBox)
+		try
 		{
-			g.setColor(Color.GREEN);
-			g.drawRect(this.hitbox[0]+this.x, this.hitbox[1]+this.y,this.hitbox[2], this.hitbox[3]);
+		
+			if(animate)
+			{
+				BufferedImage spriteImage= spriteData.get(name).getSubimage((col * width), (row * height), width, height);
+				g.drawImage(spriteImage, x,y ,  width , height, null);
+			}
+			else
+			{
+				g.drawImage(spriteData.get(name), x,y ,  width , height, null);
+			}
+			if(Engine.renderHitBox)
+			{
+				g.setColor(Color.GREEN);
+				g.drawRect(this.hitbox[0]+this.x, this.hitbox[1]+this.y,this.hitbox[2], this.hitbox[3]);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println("x" + this.x +" y" +this.y +" name:"+ this.name +" w" + this.width +" h"+ this.height +" C" + this.col +" R" +this.row );
 		}
 	}
 	///--------------------------------------------------------------------------------------------------

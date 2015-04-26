@@ -1,6 +1,8 @@
 package game;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.Map;
 
 public class TileMap
 {
@@ -12,7 +14,7 @@ public class TileMap
 	protected int tileWidth;
 	protected int tileHeight;
 	
-	public TileMap(String mapdata, int row, int col,int width ,int height)
+	public TileMap(String mapdata, int row, int col,int width ,int height,  Map<String,BufferedImage> spriteData)
 	{
 		tileName = mapdata;
 		tileRow = row;
@@ -31,7 +33,7 @@ public class TileMap
 			{
 				y = x+1;
 				targetdata = mapdata + y + ".png";
-				Tiles[x] = new Platform(targetdata, j*width, i*height);
+				Tiles[x] = new Platform(targetdata, j*width, i*height, spriteData);
 				x++;
 			}
 		}
@@ -40,13 +42,13 @@ public class TileMap
 	{
 		return Tiles;
 	}
-	public void render(Graphics g, int[] windowHB)
+	public void render(Graphics g, int[] windowHB,  Map<String,BufferedImage> spriteData)
 	{
 		for (int i = 0; i < Tiles.length; i++)
 		{			
 			if(Tools.check_collision(windowHB, Tiles[i].getHitbox()))
 			{
-					Tiles[i].render(g);
+					Tiles[i].render(g, spriteData);
 			}
 		}
 	}

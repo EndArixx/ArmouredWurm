@@ -1,19 +1,22 @@
 package game;
 
+import java.awt.image.BufferedImage;
+import java.util.Map;
+
 public class Platform extends Sprite
 {
 	protected int trueX, trueY;
-	public Platform(String spriteloc, int x, int y)
+	public Platform(String spriteloc, int x, int y,  Map<String,BufferedImage> spriteData)
 	{
-		super(spriteloc,x,y);
+		super(spriteloc,x,y, spriteData);
 		trueX = x;
 		trueY = y;
 		this.speedX = 0;
 		this.speedY = 0;
 	}
-	public Platform(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed) 
+	public Platform(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed,  Map<String,BufferedImage> spriteData) 
 	{
-		super(inImage,x,y,width,height,rowN, colN,timerspeed);
+		super(inImage,x,y,width,height,rowN, colN,timerspeed,  spriteData);
 		trueX = x;
 		trueY = y;
 		this.speedX = 0;

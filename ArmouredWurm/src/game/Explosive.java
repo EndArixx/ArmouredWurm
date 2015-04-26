@@ -1,5 +1,7 @@
 package game;
 
+import java.awt.image.BufferedImage;
+import java.util.Map;
 import java.util.Queue;
 
 public class Explosive extends Platform
@@ -14,10 +16,10 @@ public class Explosive extends Platform
 			int blastW, int blastH,
 			int id,
 			int rockcolN,int explcolN,
-			int rocketspeed, int blastspeed) 
+			int rocketspeed, int blastspeed,  Map<String,BufferedImage> spriteData) 
 	{
 		//type 0 bomb, type 1 rocket, type 2 bullet 
-		super(spriteloc, x, y,width , height , 2 ,rockcolN,rocketspeed);
+		super(spriteloc, x, y,width , height , 2 ,rockcolN,rocketspeed, spriteData);
 		if(type == 0)
 		{
 			this.bomb = true;
@@ -144,7 +146,7 @@ public class Explosive extends Platform
 				this.timer = 10;
 				this.timerspeed = blastspeed;
 				this.setHitbox(0, 0, width, height);
-				spriteImage = spriteMap.getSubimage((col * width), (row * height), width, height);
+				//spriteImage = spriteMap.getSubimage((col * width), (row * height), width, height);
 				}
 			else
 			{

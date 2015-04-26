@@ -3,8 +3,8 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
-@SuppressWarnings("unused")
 public class PlayerChar extends Sprite 
 {
 	protected double gravity;
@@ -29,14 +29,15 @@ public class PlayerChar extends Sprite
 	protected int  hx, hy, HPsW, invol, involtime;
 	protected Sprite hpImage;
 	
-	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col)
+	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col,  Map<String,BufferedImage> spriteData)
 	{
-		super(spriteloc,x,y,width,height,row,col,15);
+		super(spriteloc,x,y,width,height,row,col,15, spriteData);
 		this.maxHP = 100;
 		this.HP = 100;
 		this.hx = 800;
 		this.hy = 30;
-		this.hpImage = new Sprite("res/hpbar.png",hx,hy);
+			//this need swork
+		this.hpImage = new Sprite("res/hpbar.png",hx,hy,spriteData);
 		this.HPsW = hpImage.width;
 			//booleans
 		this.jumping= false;
@@ -270,12 +271,12 @@ public class PlayerChar extends Sprite
 		this.animateCol();
 		//legs.animateCol();
 	}
-	public void render(Graphics g)
+	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
 	{	
 			//TEST render HP
 		if(HP > 0 && player)
 		{
-			g.drawImage(hpImage.spriteImage, hpImage.x, hpImage.y , (int) (HPsW*(HP/maxHP)) , hpImage.height, null);
+			g.drawImage( spriteData.get(hpImage.name), hpImage.x, hpImage.y , (int) (HPsW*(HP/maxHP)) , hpImage.height, null);
 		}
 		
 		if(Engine.renderHitBox)
@@ -290,10 +291,10 @@ public class PlayerChar extends Sprite
 		}
 		if(hasR)
 		{
-			rifle.render(g);
+			rifle.render(g, spriteData);
 		}
 		//legs.render(g);
-		super.render(g);
+		super.render(g, spriteData);
 	}
 	
 	public void fall()
