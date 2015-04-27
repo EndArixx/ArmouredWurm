@@ -29,7 +29,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	
 	
 		//THESE ARE VARIALBLES!

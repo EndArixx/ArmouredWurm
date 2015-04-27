@@ -104,8 +104,8 @@ public class Soldier extends PlayerChar
 		this.fallA[3] = 12;
 			
 		this.damageZ = new int[2];
-		this.damageZ[0] = 5;
-		this.damageZ[1] = 8;
+		this.damageZ[0] = 4;
+		this.damageZ[1] = 7;
 		
 		this.col = 0;
 		this.colN = 10;
@@ -228,7 +228,10 @@ public class Soldier extends PlayerChar
 					//Pause after attacks or build it in the animations?
 			}
 		}
-		
+		if(!f && attacking)
+		{
+			meleeAttack(damageQ);
+		}
 		if(!f && patroling)
 		{
 			patrol();
@@ -237,14 +240,11 @@ public class Soldier extends PlayerChar
 		{
 			charge();
 		}
-		if(!f && reacting)
+		else if(!f && reacting)
 		{
 			react(theWorld);
 		}
-		if(!f && attacking)
-		{
-			meleeAttack(damageQ);
-		}
+
 		
 		//legs.setX(x);
 		//legs.setY(y);
@@ -360,7 +360,7 @@ public class Soldier extends PlayerChar
 	}
 	public void startPatrol()
 	{
-		this.timerspeed = 3;
+		this.timerspeed = 5;///TEMP1111111111111111
 		if(this.FF)
 		{
 			this.row = movingR[0];
@@ -378,7 +378,7 @@ public class Soldier extends PlayerChar
 	}
 	public void startReact()
 	{
-		this.timerspeed = 3;
+		this.timerspeed = 5; ///TEMP1111111111111111
 		if(this.FF)
 		{
 			this.col =0;
@@ -411,8 +411,9 @@ public class Soldier extends PlayerChar
 	}
 	public void startMelee()
 	{
-		this.timerspeed = 1.5;
-		//Needs damage hitboxs?
+		this.timerspeed = 3;///TEMP1111111111111111
+		
+		
 		this.patroling = false;
 		this.firstloop = true;
 		if(this.FF)
@@ -437,7 +438,7 @@ public class Soldier extends PlayerChar
 				//hit animations only run through once
 			this.attacking= false;
 		}
-		if(this.damageZ[0] < this.col && this.col <  this.damageZ[1])
+		if(this.damageZ[0] <= this.col && this.col <=  this.damageZ[1])
 		{	
 				//this is all test data and shouldnt be hardcoded!
 			if(this.FF)
