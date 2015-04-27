@@ -33,6 +33,6 @@ res/wall0-1.png,300,450
 res/wall0-1.png,350,700
 res/wall0-1.png,4753,450
 res/wall0-1.png,4653,700
-baddy,res/50skeletonSprite.png,res/baddy1legs.png,200,60,200,200,6,11
-baddy,res/50skeletonSprite.png,res/baddy1legs.png,1200,60,200,200,6,11
-baddy,res/50skeletonSprite.png,res/baddy1legs.png,2200,60,200,200,6,11
+baddy,res/SoldierMap.png,res/baddy1legs.png,200,60,200,200,6,11
+baddy,res/SoldierMap.png,res/baddy1legs.png,1200,60,200,200,6,11
+baddy,res/SoldierMap.png,res/baddy1legs.png,2200,60,200,200,6,11

@@ -45,7 +45,7 @@ public class Soldier extends PlayerChar
 		 * 		animate
 		 */
 	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
-	int vision[],meleeRange[], reactionT, reactionC, attackA[];
+	int vision[],meleeRange[], reactionT, reactionC, attackA[], fallA[],attackMoveA[],damageZ[];
 	boolean patroling, charging, reacting, attacking, patrols ;
 	String spritetop;
 	String spriteleg;
@@ -74,26 +74,41 @@ public class Soldier extends PlayerChar
 		this.movingL = new int[2];
 		this.movingR = new int[2];
 		this.idle = new int[4];
+		this.fallA = new int[4];
+		this.attackMoveA = new int[4];
+		this.attackA = new int[4];
 			//animations 
 		this.movingL[0] = 3;
-		this.movingL[1] = 11;
+		this.movingL[1] = 20;
 		this.movingR[0] = 2;
-		this.movingR[1] = 11;
-			//Check these 
+		this.movingR[1] = 20;
+			//attack move
+		this.attackMoveA[0] = 4;
+		this.attackMoveA[1] = 20;
+		this.attackMoveA[2] = 5;
+		this.attackMoveA[3] = 20;
+			//idle
 		this.idle[0] = 0;
-		this.idle[1] = 0;
+		this.idle[1] = 10;
 		this.idle[2] = 1;
-		this.idle[3] = 0;
-			//Attack animationframs
-		this.attackA = new int[4];
-		this.attackA[0] = 4;
-		this.attackA[1] = 5;
-		this.attackA[2] = 5;
-		this.attackA[3] = 5;
-		
+		this.idle[3] = 10;
+			//Attack animation frames
+		this.attackA[0] = 6;
+		this.attackA[1] = 10;
+		this.attackA[2] = 7;
+		this.attackA[3] = 10;
+			//fall animation frames
+		this.fallA[0] = 10;
+		this.fallA[1] = 12;
+		this.fallA[2] = 11;
+		this.fallA[3] = 12;
+			
+		this.damageZ = new int[2];
+		this.damageZ[0] = 5;
+		this.damageZ[1] = 8;
 		
 		this.col = 0;
-		this.colN = 1;
+		this.colN = 10;
 		
 		//THIS ISNT A HITBOX!
 			//this should be a hitbox
@@ -109,6 +124,7 @@ public class Soldier extends PlayerChar
 			//Health
 		this.HP = 50;
 		
+		this.timerspeed = 3;
 		
 		this.chargeS = 1;
 		this.chargeB = 5;
@@ -198,20 +214,7 @@ public class Soldier extends PlayerChar
 		if(f)
 		{
 			fall();
-			if(this.FF)
-			{
-					//BADGUY NEEDS FALL ANIMATIONS
-					//this is Temp I will work on some fall animation.
-				patroling = false;
-				this.row = 2;
-				this.col = 9;
-			}
-			else
-			{
-				patroling = false;
-				this.row = 3;
-				this.col = 9;
-			}
+			this.patroling = false;
 		}
 		
 		x = theWorld.getX() + trueX;
@@ -267,6 +270,21 @@ public class Soldier extends PlayerChar
 	public void fall()
 	{
 		this.trueY = (int) (this.trueY + this.gravity);
+		if(!this.falling)
+		{
+			if(this.FF)
+			{
+				this.row = this.fallA[0];
+				this.colN = this.fallA[1];
+				this.col = 0;
+			}
+			else
+			{
+				this.row = this.fallA[2];
+				this.colN = this.fallA[3];
+				this.col = 0;
+			}
+		}
 		this.falling = true;
 	}
 	public void setPatrol(int patrolL,int patrolR)
@@ -283,6 +301,10 @@ public class Soldier extends PlayerChar
 	}
 	public void sight(PlayerChar target,World theWorld)
 	{
+		if(this.falling)
+		{
+			return;
+		}
 		int sightHitbox[] = new int[4];
 		if(this.FF)
 		{
@@ -338,6 +360,7 @@ public class Soldier extends PlayerChar
 	}
 	public void startPatrol()
 	{
+		this.timerspeed = 3;
 		if(this.FF)
 		{
 			this.row = movingR[0];
@@ -355,6 +378,7 @@ public class Soldier extends PlayerChar
 	}
 	public void startReact()
 	{
+		this.timerspeed = 3;
 		if(this.FF)
 		{
 			this.col =0;
@@ -387,6 +411,7 @@ public class Soldier extends PlayerChar
 	}
 	public void startMelee()
 	{
+		this.timerspeed = 1.5;
 		//Needs damage hitboxs?
 		this.patroling = false;
 		this.firstloop = true;
@@ -412,7 +437,7 @@ public class Soldier extends PlayerChar
 				//hit animations only run through once
 			this.attacking= false;
 		}
-		if(col ==  4)
+		if(this.damageZ[0] < this.col && this.col <  this.damageZ[1])
 		{	
 				//this is all test data and shouldnt be hardcoded!
 			if(this.FF)
