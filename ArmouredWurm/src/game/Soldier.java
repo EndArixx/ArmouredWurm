@@ -44,9 +44,9 @@ public class Soldier extends PlayerChar
 		 * 		move
 		 * 		animate
 		 */
-	int patrolL,patrolR,L,R,movingL[], movingR[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
+	int patrolL,patrolR,L,R,moving[], idle[], trueX, trueY, chargeS, chargeD,chargeB,chargeM;
 	int vision[],meleeRange[], reactionT, reactionC, attackA[], fallA[],attackMoveA[],damageZ[];
-	boolean patroling, charging, reacting, attacking, patrols ;
+	boolean patroling, charging, reacting, attacking, patrols,attackMoving ;
 	String spritetop;
 	String spriteleg;
 	
@@ -56,7 +56,12 @@ public class Soldier extends PlayerChar
 	
 	//protected Sprite legs;
 	public Soldier
-		(String name, String spriteloc,String legloc,int x, int y, int width, int height,int row,int col,  Map<String,BufferedImage> spriteData) 
+		(String name, String spriteloc,
+				String legloc,int x,
+				int y, int width, 
+				int height,int row,
+				int col, 
+				Map<String,BufferedImage> spriteData) 
 	{
 		super(name, spriteloc, x, y, width, height, row, col, spriteData); //---check
 		this.spritetop = spriteloc;
@@ -71,17 +76,16 @@ public class Soldier extends PlayerChar
 		
 		this.trueX = x;
 		this.trueY = y;
-		this.movingL = new int[2];
-		this.movingR = new int[2];
+		this.moving = new int[4];
 		this.idle = new int[4];
 		this.fallA = new int[4];
 		this.attackMoveA = new int[4];
 		this.attackA = new int[4];
 			//animations 
-		this.movingL[0] = 3;
-		this.movingL[1] = 20;
-		this.movingR[0] = 2;
-		this.movingR[1] = 20;
+		this.moving[0] = 2;
+		this.moving[1] = 20;
+		this.moving[2] = 3;
+		this.moving[3] = 20;
 			//attack move
 		this.attackMoveA[0] = 4;
 		this.attackMoveA[1] = 20;
@@ -112,15 +116,17 @@ public class Soldier extends PlayerChar
 		
 		//THIS ISNT A HITBOX!
 			//this should be a hitbox
-		this.vision = new int[2];
-		this.vision[0] = 800;
-		this.vision[1] = 400;
+		this.vision = new int[4];
+		this.vision[0] = 50;
+		this.vision[1] = -25;
+		this.vision[2] = 800;
+		this.vision[3] = 400;
 			//melee zone
 		this.meleeRange = new int[4];
-		this.meleeRange[0] = 400;
-		this.meleeRange[1] = 200;
-		this.meleeRange[2] = 0;
-		this.meleeRange[3] = 0;
+		this.meleeRange[0] = 50;
+		this.meleeRange[1] = 25;
+		this.meleeRange[2] = 200;
+		this.meleeRange[3] = 150;
 			//Health
 		this.HP = 50;
 		
@@ -136,8 +142,9 @@ public class Soldier extends PlayerChar
 		this.reacting = false;
 		this.attacking = false;
 		this.patrols = false;
-			//acceleration movement
-		this.speedX = 5;
+		this.attackMoving = false;
+ 			//acceleration movement
+		this.speedX = 2;
 		this.gravity = 5;
 	}
 	@SuppressWarnings("unused")
@@ -236,6 +243,10 @@ public class Soldier extends PlayerChar
 		{
 			patrol();
 		}
+		if(!f && attackMoving)
+		{
+			attackmove();
+		}
 		if(!f && charging)
 		{
 			charge();
@@ -245,15 +256,11 @@ public class Soldier extends PlayerChar
 			react(theWorld);
 		}
 
-		
-		//legs.setX(x);
-		//legs.setY(y);
 		if(hasR)
 		{
 			rifle.update();
 		}
 		this.animateCol();
-		//legs.animateCol();
 	}
 	public void update(World theWorld)
 	{
@@ -293,12 +300,10 @@ public class Soldier extends PlayerChar
 		this.patroling = true;
 		this.patrolR = patrolR;
 		this.patrolL = patrolL;
-		this.row = movingR[0];
-		this.colN = movingR[1];
-		//legs.row = movingR[0];
-		//legs.colN = movingR[1];
-		//legs.col = 0;
+		this.row = moving[0];
+		this.colN = moving[1];
 	}
+		//----------------------------------------------------------------------------------------SIGHT
 	public void sight(PlayerChar target,World theWorld)
 	{
 		if(this.falling)
@@ -308,29 +313,31 @@ public class Soldier extends PlayerChar
 		int sightHitbox[] = new int[4];
 		if(this.FF)
 		{
-			sightHitbox[0] = theWorld.getX() + trueX;
+			sightHitbox[0] = x + vision[0];
 		}
 		else
 		{
-			sightHitbox[0] =  theWorld.getX() + trueX - vision[0]  + width;
+			sightHitbox[0] = x - vision[2]  - vision[0] + width;
 		}
-		sightHitbox[1] =  theWorld.getY() + trueY - vision[1] + this.getHeight();
-		sightHitbox[2] = vision[0];
-		sightHitbox[3] = vision[1];
+		sightHitbox[1] =  y - vision[3] + vision[1] + height;
+		sightHitbox[2] = vision[2];
+		sightHitbox[3] = vision[3];
 		
+			//this needs work!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		if(Tools.check_collision(target.getHitbox(), sightHitbox))
 		{
+			
 			if(this.FF)
 			{
-				sightHitbox[0] = x;
+				sightHitbox[0] = x + meleeRange[0];
 			}
 			else
 			{
-				sightHitbox[0] =  x - meleeRange[0] + width;
+				sightHitbox[0] =  x - meleeRange[0];
 			}
-			sightHitbox[1] = y - meleeRange[1] + this.getHeight();
-			sightHitbox[2] = meleeRange[0];
-			sightHitbox[3] = meleeRange[1];
+			sightHitbox[1] = y + meleeRange[1];
+			sightHitbox[2] = meleeRange[2];
+			sightHitbox[3] = meleeRange[3];
 			if(Tools.check_collision(target.getHitbox(), sightHitbox))
 			{
 				if(!attacking)
@@ -339,16 +346,17 @@ public class Soldier extends PlayerChar
 					startMelee(); //TEST!
 				}
 			}
-			else if(!reacting)
+			else if(!attackMoving)
 			{	
 					//this is where he moves in close to attack
 				//move();
-				startReact();
+				startAttackMove();
 			}
-
+			
 		}
 		else
 		{	
+			this.attackMoving = false;
 			if(!reacting && !charging && !attacking)
 			{
 				if(!patroling)
@@ -358,19 +366,42 @@ public class Soldier extends PlayerChar
 			}
 		}
 	}
-	public void startPatrol()
+	public void startAttackMove()
 	{
-		this.timerspeed = 5;///TEMP1111111111111111
+		setFalse();
+		
+		this.speedX = 3;
+		this.timerspeed = 2;///TEMP1111111111111111
 		if(this.FF)
 		{
-			this.row = movingR[0];
-			this.colN = movingR[1];
+			this.row = attackMoveA[0];
+			this.colN = attackMoveA[1];
 			this.col = 0;
 		}
 		else
 		{
-			this.row = movingL[0];
-			this.colN = movingL[1];
+			this.row =attackMoveA[2];
+			this.colN = attackMoveA[3];
+			this.col = 0;
+		}
+		
+		this.attackMoving = true;
+	}
+	public void startPatrol()
+	{
+		setFalse();
+		this.speedX = 2;
+		this.timerspeed = 4;///TEMP1111111111111111
+		if(this.FF)
+		{
+			this.row = moving[0];
+			this.colN = moving[1];
+			this.col = 0;
+		}
+		else
+		{
+			this.row = moving[2];
+			this.colN = moving[3];
 			this.col = 0;
 		}
 		
@@ -378,6 +409,7 @@ public class Soldier extends PlayerChar
 	}
 	public void startReact()
 	{
+		setFalse();
 		this.timerspeed = 5; ///TEMP1111111111111111
 		if(this.FF)
 		{
@@ -392,11 +424,9 @@ public class Soldier extends PlayerChar
 			this.colN = this.idle[3];
 		}
 		this.reacting = true;
-		this.patroling = false;
 	}
 	private void react(World theWorld) 
 	{
-		patroling = false;
 		if(reactionC < reactionT)
 		{
 			reactionC++;
@@ -412,24 +442,22 @@ public class Soldier extends PlayerChar
 	public void startMelee()
 	{
 		this.timerspeed = 3;///TEMP1111111111111111
+		setFalse();
 		
-		
-		this.patroling = false;
 		this.firstloop = true;
 		if(this.FF)
 		{
 			this.row = attackA[0];
 			this.colN = attackA[1];
 			this.col = 0;
-			this.attacking = true;
 		}
 		else
 		{
 			this.row = attackA[2];
 			this.colN = attackA[3];
 			this.col = 0;
-			this.attacking = true;
 		}
+		this.attacking = true;
 	}
 	public void meleeAttack(Queue<DamageHitbox> damageQ)
 	{
@@ -454,6 +482,14 @@ public class Soldier extends PlayerChar
 
 		}
 	}
+	public void setFalse()
+	{
+		this.attacking = false;
+		this.patroling = false;
+		this.charging = false;
+		this.attackMoving = false;
+		this.reacting = false;
+	}
 	public void patrol()
 	{
 		//PREVENT WALKING THROUGH PLATFORMS
@@ -463,19 +499,19 @@ public class Soldier extends PlayerChar
 			//This should make sure the badguy starts walking again if he stops
 		if(this.FF)
 		{
-			if(this.row != this.movingR[0])
+			if(this.row != this.moving[0])
 			{
-				this.row = movingR[0];
-				this.colN = movingR[1];
+				this.row = moving[0];
+				this.colN = moving[1];
 				this.col = 0;
 			}
 		}
 		else
 		{
-			if(this.row != this.movingL[0])
+			if(this.row != this.moving[2])
 			{
-				this.row = movingL[0];
-				this.colN = movingL[1];
+				this.row = moving[2];
+				this.colN = moving[3];
 				this.col = 0;
 			}
 		}
@@ -486,11 +522,8 @@ public class Soldier extends PlayerChar
 			if(trueX > patrolR)
 			{
 				this.FF = false;
-				this.row = movingL[0];
-				this.colN = movingL[1];
-				//legs.row = movingL[0];
-				//legs.colN = movingL[1];
-				//legs.col = 0;
+				this.row = moving[2];
+				this.colN = moving[3];
 			}
 			else
 			{
@@ -502,11 +535,37 @@ public class Soldier extends PlayerChar
 			if(trueX < patrolL)
 			{
 				this.FF = true;
-				this.row = movingR[0];
-				this.colN = movingR[1];
-				//legs.row = movingR[0];
-				//legs.colN = movingR[1];
-				//legs.col = 0;
+				this.row = moving[0];
+				this.colN = moving[1];
+			}
+			else
+			{
+				trueX = (int) (trueX - speedX);
+			}
+		}
+	}
+	public void attackmove()
+	{
+		if(this.FF)
+		{
+			if(trueX > patrolR)
+			{
+				this.FF = false;
+				this.row = attackMoveA[2];
+				this.colN = attackMoveA[3];
+			}
+			else
+			{
+				trueX = (int) (trueX + speedX);
+			}
+		}
+		else
+		{
+			if(trueX < patrolL)
+			{
+				this.FF = true;
+				this.row = attackMoveA[0];
+				this.colN = attackMoveA[1];
 			}
 			else
 			{
@@ -536,40 +595,32 @@ public class Soldier extends PlayerChar
 		chargeS = chargeS + chargeB;
 		
 	}
+		//--------------------------------------------------------------------------------RENDER
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
 	{
 		if(Engine.renderHitBox)
 		{	
 				//SIGHT RANGE
-			int[] sightHitbox = new int[4];
 			g.setColor(Color.BLUE);
 			if(this.FF)
 			{
-				sightHitbox[0] = x;
+				g.drawRect( x + vision[0], y - vision[3] + vision[1] + height, vision[2], vision[3]);
 			}
 			else
 			{
-				sightHitbox[0] =  x - vision[0] + width;
-			}
-			sightHitbox[1] = y - vision[1] + this.getHeight();
-			sightHitbox[2] = vision[0];
-			sightHitbox[3] = vision[1];
-			g.drawRect(sightHitbox[0], sightHitbox[1],sightHitbox[2], sightHitbox[3]);
-			
+				g.drawRect( x - vision[2]  - vision[0] + width, y - vision[3] + vision[1] + height, vision[2], vision[3]);
+			}		
 				//ATTACK RANGE
 			g.setColor(Color.RED);
 			if(this.FF)
 			{
-				sightHitbox[0] = x;
+				g.drawRect(x + meleeRange[0], y + meleeRange[1],meleeRange[2],meleeRange[3]);
 			}
 			else
 			{
-				sightHitbox[0] =  x - meleeRange[0] + width;
+				g.drawRect(x - meleeRange[0], y + meleeRange[1],meleeRange[2],meleeRange[3]);
 			}
-			sightHitbox[1] = y - meleeRange[1] + this.getHeight();
-			sightHitbox[2] = meleeRange[0];
-			sightHitbox[3] = meleeRange[1];
-			g.drawRect(sightHitbox[0], sightHitbox[1],sightHitbox[2], sightHitbox[3]);
+			
 			
 			
 		}
