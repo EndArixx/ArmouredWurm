@@ -220,7 +220,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	        {
 	        	line = br.readLine();
 	        	temp = line.split(",");
-	        	spriteTypes[i] = temp[0];
+	        	enemyspriteTypes[i] = temp[0];
 	        	enemySX[i] =Integer.parseInt( temp[1]);
 	        	enemySY[i] =Integer.parseInt( temp[2]);
 	        }
@@ -357,7 +357,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 			//Modes
-		this.modeTotal = 3;
+		this.modeTotal = 4;
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
@@ -582,7 +582,90 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		return inplat;
 		
 	}
+	private Soldier[] soldierSwitchSprite(Soldier[]  inSold) 
+	{
+		if( inSold.length != 0)
+		{
+			 inSold[target] = new Soldier(
+						enemyspriteTypes[enemyCounter ],
+						enemyspriteTypes[enemyCounter],
+						"null", 
+						-theWorld.getX() + window.width/2,
+						-theWorld.getY() + window.height/2,
+						enemySX[enemyCounter],
+						enemySY[enemyCounter],
+						0,
+						0,
+						lvlspriteData);
+			
+			if(enemyCounter < spriteTypes.length - 1)
+			{
+				enemyCounter++;
+			}
+			else
+			{
+				enemyCounter = 0;
+			}
+		}
+		return inSold;	
+	}
 
+	private Soldier[] deleteSoldier(Soldier[] inSold) 
+	{
+		/*
+		 * create a tombstone at the target deletion, 
+		 * create temp new array that is 1 smaller then plat[]
+		 * then add everything but tomb 
+		 */
+		if(inSold.length == 0)
+		{
+			return inSold;
+		}
+		int tracker = 0;
+		Soldier temp[] = new Soldier[inSold.length - 1];
+		for(int i =0; i < inSold.length - 1;i++)
+		{
+			if(i == target && tracker == 0)
+			{
+				tracker++;
+				i--;
+			}
+			else
+			{
+				temp[i] = inSold[i + tracker];
+			}
+		}
+		if(this.target != 0)
+		{
+			this.target--;
+		}
+		inSold = temp;
+		
+		return inSold;
+	}
+
+	private Soldier[] addSoldier(Soldier[] inSold) {
+		Soldier temp[] = new Soldier[  inSold.length + 1];
+		for(int i =0; i <  inSold.length;i++)
+		{
+			temp[i] =  inSold[i];
+		}
+		
+		temp[  inSold.length]= new Soldier(
+				enemyspriteTypes[0],
+				enemyspriteTypes[0],
+				"null", 
+				-theWorld.getX() + window.width/2,
+				-theWorld.getY() + window.height/2,
+				enemySX[0],
+				enemySY[0],
+				0,
+				0,
+				lvlspriteData);
+		inSold = temp;
+		target =   inSold.length-1;
+		return  inSold;
+	}
 	public void run()
 	{
 		screen = createVolatileImage(window.width,window.height); 
@@ -662,9 +745,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox()))
 				{
-					//g.setColor(Color.YELLOW);                                               //JOHN TURN BACK ON
-					//badguys[i].render(g);
-					//g.drawString("["+i+"]",badguys[i].getX(),badguys[i].getY());
+					badguys[i].render(g,lvlspriteData);
+					g.setColor(Color.YELLOW);
+					g.drawString("["+i+"]",badguys[i].getX(),badguys[i].getY());
 				}
 			}
 			
@@ -771,7 +854,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
-				//badguys[i].update(theWorld);    //JOHN TURN BACK ON LATER
+				badguys[i].update(theWorld);
 			}
 			
 			gameWorld.update(theWorld);
@@ -857,7 +940,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			if(modeCounter == 2)
 			{
-					//Adding a new platform
+					//Adding a new Door
 				if(adding && addL)
 				{
 					addL = false;
@@ -889,10 +972,46 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
+			if(modeCounter == 3)
+			{
+				//Adding a new Door
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					badguys = addSoldier(badguys);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					badguys = deleteSoldier(badguys);
+					isLoading = false;
+				}
+				
+					//changing the Sprite
+				if(changing && chaL &&(enemyCounter > 1)) //needs work
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					badguys = soldierSwitchSprite(badguys);
+					isLoading = false;
+				}
+			}
 		}
 			
 	}
 	
+
+
 	private void movement()
 	{
 		//WINDOW MOVEMENT-------------------------
@@ -947,6 +1066,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				platformMove(doors);
 			}
+			else if(modeCounter == 3)
+			{
+				platformMove(badguys);		
+			}
 		}
 		else
 		{
@@ -978,6 +1101,44 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 		}
 	}
+	private void platformMove(Soldier[] mover) 
+	{
+		if(mover.length != 0)
+		{
+			if(moveN)
+			{
+				if(mover[target].getTrueY() > - mover[target].getWidth())
+				{
+					mover[target].trueY -= this.moveSpeed;
+				}
+			}
+				//MOVE PLATFORM SOUTH
+			if(moveS)
+			{
+				if(mover[target].getTrueY() < (theWorld.getHeight() - mover[target].getHeight()))
+				{
+					mover[target].trueY += this.moveSpeed;
+				}
+			}
+				//MOVE PLATFORM EAST
+			if(moveE)
+			{
+				if(mover[target].getTrueX() < (theWorld.getWidth() - mover[target].getWidth()))
+				{
+					mover[target].trueX += this.moveSpeed;
+				}
+			}
+				//MOVE PLATFORM WEST
+			if(moveW)
+			{
+				if(mover[target].getTrueX() > 0)
+				{
+					mover[target].trueX -= this.moveSpeed;
+				}
+			}
+		}
+	}
+
 	public void platformMove(Platform[] mover)
 	{
 		if(moveN && mover.length !=0)

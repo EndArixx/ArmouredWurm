@@ -433,7 +433,6 @@ public class PlayerChar extends Sprite
 		outbox[3] = feethitbox[3];
 		return outbox;
 	}
-	
 
 	
 	

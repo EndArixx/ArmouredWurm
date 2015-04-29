@@ -56,10 +56,14 @@ public class Soldier extends PlayerChar
 	
 	//protected Sprite legs;
 	public Soldier
-		(String name, String spriteloc,
-				String legloc,int x,
-				int y, int width, 
-				int height,int row,
+		(String name, 
+				String spriteloc,
+				String legloc,
+				int x,
+				int y, 
+				int width, 
+				int height,
+				int row,
 				int col, 
 				Map<String,BufferedImage> spriteData) 
 	{
@@ -264,8 +268,8 @@ public class Soldier extends PlayerChar
 	}
 	public void update(World theWorld)
 	{
-		this.trueX = (int) (this.trueX + speedX);
-		this.trueY = (int) (this.trueY + speedY);
+		//this.trueX = (int) (this.trueX + speedX);
+		//this.trueY = (int) (this.trueY + speedY);
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
 	}
@@ -468,7 +472,7 @@ public class Soldier extends PlayerChar
 		}
 		if(this.damageZ[0] <= this.col && this.col <=  this.damageZ[1])
 		{	
-				//this is all test data and shouldnt be hardcoded!
+				//this is all test data and shouldn't be hardcoded!
 			if(this.FF)
 			{
 				DamageHitbox out = new DamageHitbox( this.x+ this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 1);
@@ -632,5 +636,9 @@ public class Soldier extends PlayerChar
 		}
 		super.render(g, spriteData);
 	}
+	public int getTrueX()
+		{return this.trueX;}
+	public int getTrueY()
+		{return this.trueY;}
 }
  
