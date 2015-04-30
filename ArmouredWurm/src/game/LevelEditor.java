@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -162,8 +163,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private boolean promtformapname = true;
 	 
 		//Constructor
-	public LevelEditor(boolean test)
+	public LevelEditor(boolean b)
 	{
+		super(b);
 			//this is the constructor for the main engine
 		setPreferredSize(window);
 		setUp();
@@ -332,14 +334,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}catch (IOException e) {e.printStackTrace();}
 	}
 	
-	
-	
 	private void setUp() 
 	{	
+		this.Error = false;
+		
 		this.windowHB[0]= 0;
 		this.windowHB[1]= 0;
 		this.windowHB[2]= window.width;
 		this.windowHB[3]= window.height;
+		
+		lvlspriteData = new HashMap<String,BufferedImage>();
+		permaSprites = new HashMap<String,BufferedImage>();
 		
 		this.saving = false;
 		this.adding = false;
@@ -1715,7 +1720,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	public static void main(String[] args) 
 	{
 			//Set up
-		LevelEditor primeGame = new LevelEditor(true);
+		LevelEditor primeGame = new LevelEditor(false);
 		JFrame gameFrame = new JFrame();
 		gameFrame.add(primeGame);
 		gameFrame.pack();

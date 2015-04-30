@@ -31,7 +31,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	
-	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
 	public Platform platforms[];
@@ -84,17 +83,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//game over screen
 	public Sprite gameover;
 	public boolean  isGameOver;
+	public boolean Error;
 //constructor---------------------------------------------------------------------------------------	
-	public Engine()
+	public Engine(boolean b)
 	{
 			//this is the constructor for the main engine
-		setPreferredSize(window);
-		setUp();
-		this.addKeyListener(this);	
+		if(b)
+		{
+			setPreferredSize(window);
+			setUp();
+			this.addKeyListener(this);	
+		}
 	}
 	
-	
-	public void loadLevel(String lvlname)
+	protected void loadLevel(String lvlname)
 	{
 		
 		lvlspriteData.clear();
@@ -227,12 +229,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        fr.close();
 	        br.close();
 	        
-	    } catch (IOException e) {e.printStackTrace();}
+	    } catch (IOException e) 
+	    {
+	    	System.out.println("Im sorry the Map File: "+lvlname+" could not be loaded!");
+	    	this.Error = true;
+	    }
 	    
 	}
 	private void setUp() 
 	{	
-					
+			this.Error = false;
+			
+			
 				//window hitbox
 			windowHB[0]= 0;
 			windowHB[1]= 0;
@@ -514,8 +522,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	public void start() 
 	{
-		isRunning =true;
-		new Thread(this).start();
+		if(!Error)
+		{
+			isRunning =true;
+			new Thread(this).start();
+		}
+		else
+		{
+			System.out.println("Error - Quitting");
+			gameRun = false;
+		}
 	}
 	public void gameover()
 	{
@@ -920,7 +936,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public static void main(String[] args) 
 	{
 		//Set up
-		Engine primeGame = new Engine();
+		Engine primeGame = new Engine(true);
 		JFrame gameFrame = new JFrame();
 		gameFrame.add(primeGame);
 		gameFrame.pack();
