@@ -29,7 +29,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	
 	
 		//THESE ARE VARIALBLES!
@@ -193,7 +193,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        		temp[5],
 	 	        		Integer.parseInt(temp[6]),
 	 	        		Integer.parseInt(temp[7]),lvlspriteData);
-	 	       if(temp.length == 12)
+	 	       if(temp.length >= 12)
 	 	        {
 	 	    	   doors[i].setHitbox(
 	        			Integer.parseInt(temp[8]),
@@ -215,10 +215,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[6]),
 	        			Integer.parseInt(temp[7]),
 	        			Integer.parseInt(temp[8]),lvlspriteData);
-					//TESTING!!!!!!!!!!!!!!!1
-	        	badguys[i].setPatrol(500,1000*(i+1));
-	        	badguys[i].setHitbox(50, 30, 100, 150);
-
+	        	if(temp.length >= 10)
+	        	{
+	        		badguys[i].setPatrol(Integer.parseInt(temp[9]),Integer.parseInt(temp[10]));
+	        		badguys[i].setHitbox(Integer.parseInt(temp[11]), 
+	        				Integer.parseInt(temp[12]),
+	        				Integer.parseInt(temp[13]), 
+	        				Integer.parseInt(temp[14]));
+	        	}
 	        }
 	        fr.close();
 	        br.close();

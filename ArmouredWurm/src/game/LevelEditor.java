@@ -158,6 +158,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
 	protected boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
 	
+	
 	private boolean promtformapname = true;
 	 
 		//Constructor
@@ -316,7 +317,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+badguys[i].width + ","
 						+badguys[i].height + ","
 						+badguys[i].row + ","
-						+badguys[i].col + "\n");
+						+badguys[i].col + ","); //HERE
+				fw.write(badguys[i].patrolL+","
+						+badguys[i].patrolR+","
+						+badguys[i].hitbox[0] + ","
+						+badguys[i].hitbox[1] + ","
+						+badguys[i].hitbox[2] + ","
+						+badguys[i].hitbox[3] + "\n");
 			}
 				
 			//fw.write(" \n");
@@ -361,6 +368,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
+		
 		
 		Tprompt = true;
 		this.targetH= true;
@@ -799,6 +807,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							badguys[target].hitbox[2], 
 							badguys[target].hitbox[3]);
 					g.drawString("["+target+"]",50,50);
+					
+					g.drawRect(badguys[target].patrolL + theWorld.getX(),theWorld.getY() + badguys[target].trueY,badguys[target].patrolR- badguys[target].patrolL,badguys[target].height/2);
 				}
 			}
 		}
@@ -1047,8 +1057,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				theWorld.moveXp(-scrollSpeed);
 			}
 		}
-		
-		if(!shiftmonitor)
+		if(!shiftmonitor && !controlmonitor)
 		{
 			if(modeCounter == 0)
 			{
@@ -1071,7 +1080,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				platformMove(badguys);		
 			}
 		}
-		else
+		else if(shiftmonitor && !controlmonitor)
 		{
 			/*
 			 * Hitbox stuff:
@@ -1098,7 +1107,37 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				platformHitBox(doors,PHmove);
 			}
+			else if(modeCounter == 3)
+			{
+				platformHitBox(badguys,PHmove);
+			}
 			
+		}
+		else if(controlmonitor)
+		{
+			if(modeCounter == 3)
+			{
+				if(badguys.length !=0)
+				{
+					if(moveE)
+					{
+						badguys[target].patrolL += this.moveSpeed; 
+					}
+					if(moveW)
+					{
+						badguys[target].patrolL -= this.moveSpeed; 
+					}
+					
+					if(moveN)
+					{
+						badguys[target].patrolR -= this.moveSpeed; 
+					}
+					if(moveS)
+					{
+						badguys[target].patrolR += this.moveSpeed; 
+					}
+				}
+			}
 		}
 	}
 	private void platformMove(Soldier[] mover) 
@@ -1173,7 +1212,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 	}
-	public void platformHitBox(Platform[] inplat, int PHmove)
+	public void platformHitBox(Sprite[] inplat, int PHmove)
 	{
 			if(moveN && inplat.length !=0)
 			{
@@ -1292,7 +1331,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					this.changing = true;
 				}
 					break;
-					
 			//---------------------------------ADDING/DELETING
 			case KeyEvent.VK_N:	//Adding
 				if(addL)
@@ -1593,6 +1631,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			case KeyEvent.VK_ENTER:
 				tabL = true;
 				break;
+
 					
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP

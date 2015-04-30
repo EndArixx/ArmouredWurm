@@ -523,7 +523,7 @@ public class Soldier extends PlayerChar
 			//now check to make sure its still within bounds
 		if(this.FF)
 		{
-			if(trueX > patrolR)
+			if(trueX+(hitbox[0]) > patrolR)
 			{
 				this.FF = false;
 				this.row = moving[2];
