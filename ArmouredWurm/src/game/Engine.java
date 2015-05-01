@@ -84,6 +84,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Sprite pauseMenu;
 	public Sprite pauseButtons[];
 	
+	public String lvlName;
 		//game over screen
 	public Sprite gameover;
 	public boolean  isGameOver;
@@ -104,7 +105,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		
 		lvlspriteData.clear();
-
+		lvlName = lvlname;
 			//this is designed to load in a specifically designed "Map" file 
 		String name;
 		String[] temp;

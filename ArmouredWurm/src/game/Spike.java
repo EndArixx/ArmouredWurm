@@ -29,7 +29,7 @@ public class Spike extends Platform
 		{
 			this.reset();
 		}
-		DamageHitbox out = new DamageHitbox( this.x , this.y ,this.width, this.height, damageNum , type);
+		DamageHitbox out = new DamageHitbox( this.x + this.hitbox[0], this.y + this.hitbox[1] ,+ this.hitbox[2],+ this.hitbox[3], damageNum , type);
 		damageQ.add(out);
 		
 		

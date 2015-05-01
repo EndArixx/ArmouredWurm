@@ -115,8 +115,11 @@ import javax.swing.JTextField;
  * Step 8 		[]
  * 		bad guys! 
  * 			load/save  		(X)
- * 			change			()
- * 			move			()
+ * 			change			(X)
+ * 			move			(X)
+ * 
+ * TODO
+ * 		1)Animated platform/badguys support
  */
 
 @SuppressWarnings({ "unused", "serial" })
@@ -236,7 +239,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	{
 		try
 		{
-			FileWriter fw = new FileWriter("res/" + lvlname);
+			FileWriter fw = new FileWriter(lvlname);
 				
 				//Write out Name
 			fw.write(lvlname + "\n");
@@ -256,8 +259,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					+ ladders.length + ","
 					+ platforms.length + "," 
 					+ doors.length + ","
-					+ badguys.length +
-					",0" + "\n");
+					+ badguys.length + ","
+					+ spikes.length + "\n");
 										//these zeros are for future additions
 			
 				//Write out weathers
@@ -319,13 +322,28 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+badguys[i].width + ","
 						+badguys[i].height + ","
 						+badguys[i].row + ","
-						+badguys[i].col + ","); //HERE
+						+badguys[i].col + ",");
 				fw.write(badguys[i].patrolL+","
 						+badguys[i].patrolR+","
 						+badguys[i].hitbox[0] + ","
 						+badguys[i].hitbox[1] + ","
 						+badguys[i].hitbox[2] + ","
 						+badguys[i].hitbox[3] + "\n");
+			}
+			for(int i = 0; i < spikes.length; i++)
+			{
+				fw.write(spikes[i].name +","
+						+spikes[i].trueX + ","
+						+spikes[i].trueY +","
+						+spikes[i].width +","
+						+spikes[i].height +","
+						+spikes[i].rowN +","
+						+spikes[i].colN +","
+						+(int) spikes[i].timerspeed +","         //JOHN HERE NEEDS WORK
+						+spikes[i].hitbox[0] +","
+						+spikes[i].hitbox[1] +","
+						+spikes[i].hitbox[2] +","
+						+spikes[i].hitbox[3] +"\n");  
 			}
 				
 			//fw.write(" \n");
@@ -369,7 +387,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 			//Modes
-		this.modeTotal = 4;
+		this.modeTotal = 5;
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
@@ -412,6 +430,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		loadEnemySprites(enemyTypesLoc);
 		genericPlat =  spriteTypes[0];
 	}
+	
 	public Platform[] platformSwitchSprite(Platform[] inplat)
 	{
 		if( inplat.length != 0)
@@ -482,6 +501,63 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		return inplat;
 		
+	}
+	public Spike[] platformSwitchSprite( Spike[] inplat)
+	{
+		if( inplat.length != 0)
+		{
+			 inplat[target] = new Spike(spriteTypes[stCounter], inplat[target].getTrueX(), inplat[target].getTrueY(),lvlspriteData);
+			
+			if(stCounter < spriteTypes.length - 1)
+			{
+				stCounter++;
+			}
+			else
+			{
+				stCounter = 0;
+			}
+		}
+		return inplat;
+	}
+	public  Spike[] addPlaform( Spike[] inplat)
+	{
+		 Spike temp[] = new  Spike[ inplat.length + 1];
+		for(int i =0; i < inplat.length;i++)
+		{
+			temp[i] = inplat[i];
+		}
+		
+		temp[ inplat.length]= new  Spike(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2,lvlspriteData);
+		 inplat = temp;
+		target =  inplat.length-1;
+		return inplat;
+	}
+	public Spike[] deletePlatform(Spike[] inplat)
+	{	
+		if(inplat.length == 0)
+		{
+			return inplat;
+		}
+		int tracker = 0;
+		Spike temp[] = new Spike[inplat.length - 1];
+		for(int i =0; i < inplat.length - 1;i++)
+		{
+			if(i == target && tracker == 0)
+			{
+				tracker++;
+				i--;
+			}
+			else
+			{
+				temp[i] = inplat[i + tracker];
+			}
+		}
+		if(this.target != 0)
+		{
+			this.target--;
+		}
+		inplat = temp;
+		return inplat;
 	}
 	public Door[] doorSwitchSprite(Door[] indoor)
 	{
@@ -622,7 +698,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 		return inSold;	
 	}
-
 	private Soldier[] deleteSoldier(Soldier[] inSold) 
 	{
 		/*
@@ -656,7 +731,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		return inSold;
 	}
-
 	private Soldier[] addSoldier(Soldier[] inSold) {
 		Soldier temp[] = new Soldier[  inSold.length + 1];
 		for(int i =0; i <  inSold.length;i++)
@@ -754,6 +828,15 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+i+"]",doors[i].getX(),doors[i].getY());
 				}
 			}
+			for(i = 0; i < spikes.length; i++)
+			{
+				if(Tools.check_collision(windowHB,spikes[i].getHitbox()))
+				{
+					spikes[i].render(g,lvlspriteData );
+					g.setColor(Color.ORANGE);
+					g.drawString("["+i+"]",spikes[i].getX(),spikes[i].getY());
+				}
+			}
 			for(i = 0; i < badguys.length; i++)
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox()))
@@ -778,7 +861,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+target+"]",50,50);
 				}
 			}
-			if(modeCounter == 1)
+			else if(modeCounter == 1)
 			{
 				if(ladders.length != 0)
 				{
@@ -790,7 +873,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+target+"]",50,50);
 				}
 			}
-			if(modeCounter == 2)
+			else if(modeCounter == 2)
 			{
 				if(doors.length != 0)
 				{
@@ -802,7 +885,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+target+"]",50,50);
 				}
 			}
-			if(modeCounter == 3)
+			else if(modeCounter == 3)
 			{	//Soldiers
 				if(badguys.length != 0)
 				{
@@ -816,6 +899,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawRect(badguys[target].patrolL + theWorld.getX(),theWorld.getY() + badguys[target].trueY,badguys[target].patrolR- badguys[target].patrolL,badguys[target].height/2);
 				}
 			}
+			else if(modeCounter == 4)
+			{
+				if(spikes.length != 0)
+				{
+					g.setColor(Color.ORANGE);
+					g.drawRect(spikes[target].hitbox[0]+spikes[target].x,
+							spikes[target].hitbox[1]+spikes[target].y,
+							spikes[target].hitbox[2], 
+							spikes[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
+				}
+			}
+			
 		}
 		if(isLoading)
 		{
@@ -871,7 +967,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				badguys[i].update(theWorld);
 			}
-			
+			for(i =0; i < spikes.length; i++)
+			{
+				spikes[i].update(theWorld);
+			}
 			gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
 			{
@@ -879,9 +978,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			
 			
-			if(saving) //THIS IS WHERE IT SAVES FOR NOW!
+			if(saving)
 			{
-				saveLevel("TEST.txt");
+				saveLevel(lvlName);
 			}
 			
 			//------------------------------------PLATFORM MODE!
@@ -1021,12 +1120,44 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
+			if(modeCounter == 4)
+			{
+					//Adding a new platform
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					spikes = addPlaform(spikes);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					spikes = deletePlatform(spikes);
+					isLoading = false;
+				}
+				
+					//changing the Sprite
+				if(changing && chaL)
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					spikes = platformSwitchSprite(spikes);
+					isLoading = false;
+				}
+			}
 		}
 			
 	}
 	
-
-
 	private void movement()
 	{
 		//WINDOW MOVEMENT-------------------------
@@ -1084,6 +1215,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				platformMove(badguys);		
 			}
+			else if(modeCounter == 4)
+			{
+				platformMove(spikes);
+			}
 		}
 		else if(shiftmonitor && !controlmonitor)
 		{
@@ -1115,6 +1250,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			else if(modeCounter == 3)
 			{
 				platformHitBox(badguys,PHmove);
+			}
+			else if(modeCounter == 4)
+			{
+			//---------------------------------Moving
+				platformHitBox(spikes, PHmove);
 			}
 			
 		}
@@ -1383,7 +1523,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
-					if(modeCounter == 1)
+					else if(modeCounter == 1)
 					{
 						String[] numbs = new String[ladders.length];
 						for(int i =0;i< ladders.length; i++)
@@ -1411,7 +1551,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
-					if(modeCounter == 2)
+					else if(modeCounter == 2)
 					{
 						String[] numbs = new String[doors.length];
 						for(int i =0;i< doors.length; i++)
@@ -1439,7 +1579,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
-					if(modeCounter == 3)
+					else if(modeCounter == 3)
 					{
 						String[] numbs = new String[badguys.length];
 						for(int i =0;i< badguys.length; i++)
@@ -1467,6 +1607,35 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
+					
+					else if(modeCounter == 4)
+					{
+						String[] numbs = new String[spikes.length];
+						for(int i =0;i< spikes.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ spikes.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < spikes.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
 				}
 				break;
 			//---------------------------TARGETING
@@ -1484,7 +1653,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = 0;
 						}
 					}
-					if(modeCounter == 1)
+					else if(modeCounter == 1)
 					{
 						if(target < ladders.length-1)
 						{
@@ -1495,7 +1664,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = 0;
 						}
 					}
-					if(modeCounter == 2)
+					else if(modeCounter == 2)
 					{
 						if(target < doors.length-1)
 						{
@@ -1506,9 +1675,20 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = 0;
 						}
 					}
-					if(modeCounter == 3)
+					else if(modeCounter == 3)
 					{
 						if(target < badguys.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+					else if(modeCounter == 4)
+					{
+						if(target < spikes.length-1)
 						{
 							this.target++;
 						}
@@ -1535,7 +1715,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = platforms.length-1;
 						}
 					}
-					if(modeCounter == 1)
+					else if(modeCounter == 1)
 					{
 						if(target > 0)
 						{
@@ -1546,7 +1726,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = ladders.length-1;
 						}
 					}
-					if(modeCounter == 2)
+					else if(modeCounter == 2)
 					{
 						if(target > 0)
 						{
@@ -1557,7 +1737,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = doors.length-1;
 						}
 					}
-					if(modeCounter == 3)
+					else if(modeCounter == 3)
 					{
 						if(target > 0)
 						{
@@ -1568,8 +1748,18 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							this.target = badguys.length-1;
 						}
 					}
-					
-					
+					else if(modeCounter == 4)
+					{
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+	
 					this.RtargetH=false;
 				}
 					break;
