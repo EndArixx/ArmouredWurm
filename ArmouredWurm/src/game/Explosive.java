@@ -55,7 +55,7 @@ public class Explosive extends Platform
 		
 		
 	}
-	public void proxy(PlayerChar player, BadGuy[] badguys, Explosive[] bombs, Platform[] ledge)
+	public void proxy(PlayerChar player, Spike[] badguys, Explosive[] bombs, Platform[] ledge)
 	{
 		if (armed || bullet)
 		{
@@ -82,12 +82,12 @@ public class Explosive extends Platform
 						this.explode();
 						if (type == 2)
 						{
-							badguys[i].damage();
+							//badguys[i].damage();
 						}
 					}
 					else if(col > 2 || this.freindly)
 					{
-						badguys[i].damage();
+						//badguys[i].damage();
 					}
 				}
 			}

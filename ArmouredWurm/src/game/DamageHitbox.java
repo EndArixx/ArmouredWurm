@@ -19,6 +19,7 @@ public class DamageHitbox
 			2 = Enemy range regular
 			3 = Player melee
 			4 = Bomb
+			5 = spike
 		*/
 		
 		this.type = intype;

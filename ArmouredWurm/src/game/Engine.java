@@ -33,6 +33,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
+	public Spike spikes[];
 	public Platform platforms[];
 	public Platform ladders[];
 	public Door doors[];
@@ -41,9 +42,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
+	
+	
 	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
 	public Explosive missiles[] = new Explosive[4];
+	
 		//A buffer to hold sprites to free up redundancy
 	public Map<String,BufferedImage> lvlspriteData;
 	public Map<String,BufferedImage> permaSprites;
@@ -130,21 +134,26 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        line = br.readLine();
 	        temp = line.split(",");
 	        
-	        weather = new Looper[Integer.parseInt(temp[0])];
 	        int wnum = Integer.parseInt(temp[0]);
+	        weather = new Looper[wnum];
 	        
-	        ladders = new Platform[Integer.parseInt(temp[1])];
 	        int lnum  = Integer.parseInt(temp[1]);
+	        ladders = new Platform[lnum];
+
 	        
-	        platforms = new Platform[Integer.parseInt(temp[2])];
 	        int pnum  = Integer.parseInt(temp[2]);
-	        
-	        doors = new Door[Integer.parseInt(temp[3])];
+	        platforms = new Platform[pnum];
+
 	        int dnum =  Integer.parseInt(temp[3]);
+	        doors = new Door[dnum];
 	        
-	        badguys = new Soldier[Integer.parseInt(temp[4])];
 	        int bnum = Integer.parseInt(temp[4]);
+	        badguys = new Soldier[bnum];
 	        
+	        int snum = Integer.parseInt(temp[5]);
+	        spikes = new Spike[snum];
+	        		
+	        		
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
@@ -158,7 +167,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	line = br.readLine();
 	 	        temp = line.split(",");
 	        	ladders[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-	        	if(temp.length == 7)
+	        	if(temp.length >= 4)
 	 	        {
 	 	        	ladders[i].setHitbox(
 	 	        			Integer.parseInt(temp[3]),
@@ -173,7 +182,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	line = br.readLine();
 	 	        temp = line.split(",");
  	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-	 	        if(temp.length == 7)
+	 	        if(temp.length >= 4)
 	 	        {
 	 	        	platforms[i].setHitbox(
 	 	        			Integer.parseInt(temp[3]),
@@ -195,7 +204,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        		temp[5],
 	 	        		Integer.parseInt(temp[6]),
 	 	        		Integer.parseInt(temp[7]),lvlspriteData);
-	 	       if(temp.length >= 12)
+	 	       if(temp.length >= 9)
 	 	        {
 	 	    	   doors[i].setHitbox(
 	        			Integer.parseInt(temp[8]),
@@ -225,7 +234,33 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        				Integer.parseInt(temp[13]), 
 	        				Integer.parseInt(temp[14]));
 	        	}
+	        	
+	        	
 	        }
+	        for (int i= 0; i < snum; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	 	       spikes[i] = new Spike(temp[0],
+	 	    		   Integer.parseInt(temp[1]),
+	 	    		   Integer.parseInt(temp[2]),
+	 	    		  Integer.parseInt(temp[3]),
+	 	    		 Integer.parseInt(temp[4]),
+	 	    		Integer.parseInt(temp[5]),
+	 	    		Integer.parseInt(temp[6]),
+	 	    		Integer.parseInt(temp[7]),
+	 	    		   lvlspriteData);
+	 	        if(temp.length >= 9)
+	 	        {
+	 	        	spikes[i].setHitbox(
+	 	        			Integer.parseInt(temp[8]),
+	 	        			Integer.parseInt(temp[9]),
+	 	        			Integer.parseInt(temp[10]),
+	 	        			Integer.parseInt(temp[11]));
+	 	        }
+	 	        
+ 	        }
+	        
 	        fr.close();
 	        br.close();
 	        
@@ -321,6 +356,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i =0; i < weather.length; i++)
 			{
 				weather[i].update(theWorld);
+			}
+			for(i =0; i < spikes.length; i++)
+			{
+				spikes[i].update(theWorld,damageQ);
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
@@ -427,7 +466,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,doors[i].getHitbox())){doors[i].render(g,lvlspriteData );}
 			}
-			
+			for(i = 0; i < spikes.length; i++)
+			{
+				if(Tools.check_collision(windowHB,spikes[i].getHitbox())){spikes[i].render(g,lvlspriteData );}
+			}
 				//render the player
 			player.render(g,permaSprites);
 			for(i = 0; i < badguys.length; i++)
