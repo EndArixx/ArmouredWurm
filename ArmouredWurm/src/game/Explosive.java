@@ -1,15 +1,21 @@
 package game;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Queue;
+
+import javax.imageio.ImageIO;
 
 public class Explosive extends Platform
 {
 	private int type, id, explcolN, rocketW , rocketH, blastW, blastH, rockcolN, rocketspeed, blastspeed;
+	private String blast, bombimage;
 	private boolean exploding, armed, missile,bullet, bomb, freindly;
 	public Explosive(
 			String spriteloc,
+			String blastspriteloc,
 			int x, int y,
 			int width ,int height,
 			int type,
@@ -17,30 +23,29 @@ public class Explosive extends Platform
 			int id,
 			int rockcolN,int explcolN,
 			int rocketspeed, int blastspeed,  Map<String,BufferedImage> spriteData) 
-	{
-		//type 0 bomb, type 1 rocket, type 2 bullet 
+		{
 		super(spriteloc, x, y,width , height , 2 ,rockcolN,rocketspeed, spriteData);
-		if(type == 0)
+		
+		this.bombimage = spriteloc;
+		this.blast = blastspriteloc;
+		//this.blast = new Sprite(blastspriteloc,x,y,blastW,blastH,0,explcolN,blastspeed,spriteData);
+		BufferedImage spriteMap = null;
+		try 
 		{
-			this.bomb = true;
-			this.missile = false;
-			this.freindly = false;
-			this.bullet = false;
+			spriteMap = ImageIO.read(new File(blastspriteloc));
+			spriteData.put(blastspriteloc,spriteMap);
 		}
-		else if(type == 1)
+		catch (IOException e) 
 		{
-			this.bomb = false;
-			this.missile = true;
-			this.freindly = true;
-			this.bullet = false;
+			System.out.println("Error, Bad Sprite:"+ blastspriteloc);
+			//e.printStackTrace();
 		}
-		else if(type == 2)
-		{
-			this.bomb = false;
-			this.missile = false;
-			this.freindly = true;
-			this.bullet = true;
-		}
+
+			/*
+			 * type 0 bomb hurts player
+			 * type 1 bomb hurts enemies
+			 */
+		
 		this.rocketW = width;
 		this.rocketH = height;
 		this.blastW = blastW;
@@ -53,8 +58,11 @@ public class Explosive extends Platform
 		this.rocketspeed = rocketspeed;
 		this.blastspeed = blastspeed;
 		
-		
+
 	}
+		/*
+		 * this is old proximity will now be handled by the Main engine!
+		 */
 	public void proxy(PlayerChar player, Spike[] badguys, Explosive[] bombs, Platform[] ledge)
 	{
 		if (armed || bullet)
@@ -126,16 +134,19 @@ public class Explosive extends Platform
 		this.trueX = -rocketW;
 		this.trueY = -rocketH;
 		this.col = 0;
+		this.name = bombimage;
 	}
 	public void explode()
 	{
 		if (!exploding)
 		{
 			if (!this.bullet )
-			{
+			{				
+				this.firstloop = true;
+				this.name = this.blast;
 				this.speedX = 0;
 				this.speedY = 0;
-				this.row = 1;
+				this.row = 0;
 				this.col = 0;
 				this.exploding = true;
 				this.colN = this.explcolN;
@@ -161,9 +172,7 @@ public class Explosive extends Platform
 	}
 	public void update(World m,Queue<DamageHitbox> damageQ)
 	{
-		
-		
-		if (this.col == this.colN && exploding)
+		if (!this.firstloop && exploding)
 		{
 			trueX = Tools.deadZoneX();
 			trueY = Tools.deadZoneY();
@@ -176,12 +185,20 @@ public class Explosive extends Platform
 			this.row = 0;
 			this.col = 0;
 			this.timerspeed = rocketspeed;
+			this.name = this.bombimage;
+		}
+		else if(exploding)
+		{ 
+			if(col > 0)
+			{
+				Exploding(damageQ);
+			}
 		}
 		else
 		{
-			Exploding(damageQ);
-			animateCol();	
+			//Hmmmm
 		}
+		animateCol();
 		super.update(m);
 	}
 	public boolean GetTBo()
@@ -203,6 +220,8 @@ public class Explosive extends Platform
 	public boolean getExploding()
 		{return this.exploding;}
 	public void setType(int i) 
-		{this.type = 1;}
+		{this.type = i;}
+	public int getType()
+		{return this.type;}
 	
 }

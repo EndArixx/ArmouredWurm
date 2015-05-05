@@ -29,7 +29,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -37,7 +37,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Platform platforms[];
 	public Platform ladders[];
 	public Door doors[];
-	public Explosive bomb[] = new Explosive[15];
+	public Explosive bombs[];
 	public World theWorld;
 	public TileMap gameWorld;
 	public Looper weather[];
@@ -154,7 +154,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        int snum = Integer.parseInt(temp[5]);
 	        spikes = new Spike[snum];
 	        		
-	        		
+	        int bombnum = Integer.parseInt(temp[6]);
+	        bombs = new Explosive[bombnum];
+	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
@@ -261,7 +263,28 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        }
 	 	        
  	        }
-	        
+	        for(int i= 0; i < bombnum; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	bombs[i] = new Explosive(
+	        			temp[0],
+	        			temp[1],
+	        			Integer.parseInt(temp[2]),
+	        			Integer.parseInt(temp[3]),
+	        			Integer.parseInt(temp[4]),
+	        			Integer.parseInt(temp[5]),
+	        			Integer.parseInt(temp[6]),
+	        			Integer.parseInt(temp[7]),
+	        			Integer.parseInt(temp[8]),
+	        			Integer.parseInt(temp[9]),
+	        			Integer.parseInt(temp[10]),
+	        			Integer.parseInt(temp[11]),
+	        			Integer.parseInt(temp[12]),
+	        			Integer.parseInt(temp[13]),
+	        			lvlspriteData
+	        			);
+	        }
 	        fr.close();
 	        br.close();
 	        
@@ -367,6 +390,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				badguys[i].update(theWorld, platforms, damageQ);
 				badguys[i].sight(player, theWorld);
 			}
+			for(i = 0; i< bombs.length; i++)
+			{
+				bombs[i].update(theWorld,damageQ);
+				if(bombs[i].getType() == 0 )
+				{
+					if(Tools.check_collision(player.getfrontHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
+					if(Tools.check_collision(player.getbackHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
+				}
+			}
 				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT
 			for( DamageHitbox x : damageQ)
 			{
@@ -470,6 +502,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < spikes.length; i++)
 			{
 				if(Tools.check_collision(windowHB,spikes[i].getHitbox())){spikes[i].render(g,lvlspriteData );}
+			}
+			for(i = 0; i < bombs.length; i++)
+			{
+				if(Tools.check_collision(windowHB,bombs[i].getHitbox())){bombs[i].render(g,lvlspriteData );}
 			}
 				//render the player
 			player.render(g,permaSprites);
