@@ -10,8 +10,8 @@ import javax.imageio.ImageIO;
 
 public class Explosive extends Platform
 {
-	private int type, id, explcolN, rocketW , rocketH, blastW, blastH, rockcolN, rocketspeed, blastspeed;
-	private String blast, bombimage;
+	public int type, id, explcolN, rocketW , rocketH, blastW, blastH, rockcolN, rocketspeed, blastspeed;
+	public String blast, bombimage;
 	private boolean exploding, armed, missile,bullet, bomb, freindly;
 	public Explosive(
 			String spriteloc,

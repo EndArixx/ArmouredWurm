@@ -158,6 +158,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected int[] enemySX;
 	protected int[] enemySY;
 	
+	protected String[] bombspriteTypes;
+	protected String[] bombblastspriteTypes;
+	protected String bombTypesLoc = "res/bombTypes.txt";
+	protected int bombCounter;
+	protected int[] bombW;
+	protected int[] bombH;
+	protected int[] bombblastW;
+	protected int[] bombblastH;
+	protected int[] bombCol;
+	protected int[] bombblastCol;
+	
 		//Movement directions (north,south etc...)
 	protected boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
 	protected boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
@@ -206,11 +217,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	public void loadEnemySprites(String fileloc)
 	{
 		/* 
-		 * this loads the available sprites for the player.
+		 * this loads the available sprites for the Enemy Soldiers
 		 */
 		String name;
 		String[] temp;
 		BufferedReader br;
+		this.enemyCounter = 0;
 		try {
 	    	FileReader fr = new FileReader(fileloc);
 	    	br = new BufferedReader(fr);
@@ -232,8 +244,51 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	        }
 	        fr.close();
 	        br.close();
-        } catch (IOException e) {e.printStackTrace();}
-		
+        } catch (IOException e) {e.printStackTrace();}	
+	}
+	public void loadBombSprites(String fileloc)
+	{
+		/* 
+		 * this loads the available sprites for the Bombs
+		 */
+		this.bombCounter = 0;
+		String name;
+		String[] temp;
+		BufferedReader br;
+		try {
+	    	FileReader fr = new FileReader(fileloc);
+	    	br = new BufferedReader(fr);
+	        String line = br.readLine(); //this gets the first comment
+	        name = line;
+	        
+	        line = br.readLine();
+	        int x = Integer.parseInt(line);
+	        bombspriteTypes = new String[x];
+	        bombblastspriteTypes = new String[x];
+	        bombW = new int[x];
+	        bombH = new int[x];
+	        bombblastW = new int[x];
+	        bombblastH = new int[x];
+	        bombCol = new int[x];
+	        bombblastCol   = new int[x];
+	        
+	        
+	        for(int i = 0;i < enemyspriteTypes.length; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	bombspriteTypes[i] = temp[0];
+	        	bombblastspriteTypes[i] = temp[1];
+	        	bombW[i] =Integer.parseInt( temp[2]);
+	        	bombH[i] =Integer.parseInt( temp[3]);
+	        	bombblastW[i] =Integer.parseInt( temp[4]);
+	        	bombblastH[i] =Integer.parseInt( temp[5]);
+	        	bombCol[i] = Integer.parseInt( temp[6]);
+	        	bombblastCol[i] = Integer.parseInt( temp[7]);
+	        }
+	        fr.close();
+	        br.close();
+        } catch (IOException e) {e.printStackTrace();}	
 	}
 	public void saveLevel(String lvlname)
 	{
@@ -260,8 +315,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					+ platforms.length + "," 
 					+ doors.length + ","
 					+ badguys.length + ","
-					+ spikes.length + "\n");
-										//these zeros are for future additions
+					+ spikes.length +  ","
+					+ bombs.length+ ","
+					+ "0,0,0,0,0,0,0,0\n");
+				
 			
 				//Write out weathers
 			for(int i = 0;i < weather.length; i++)
@@ -345,7 +402,24 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+spikes[i].hitbox[2] +","
 						+spikes[i].hitbox[3] +"\n");  
 			}
-				
+			for(int i = 0; i< bombs.length; i++)
+			{
+				fw.write(bombs[i].bombimage + ","
+						+bombs[i].blast + ","
+						+bombs[i].getTrueX() + ","
+						+bombs[i].getTrueY() + ","
+						+bombs[i].getWidth() + ","
+						+bombs[i].getHeight() + ","
+						+bombs[i].getType() +","
+						+bombs[i].blastW + ","
+						+bombs[i].blastH + ","
+						+bombs[i].getID() + ","
+						+bombs[i].rockcolN + ","
+						+bombs[i].explcolN + ","
+						+bombs[i].rocketspeed + ","
+						+bombs[i].blastspeed + ","
+						+"\n");
+			}
 			//fw.write(" \n");
 			fw.close();
 		
@@ -387,7 +461,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 			//Modes
-		this.modeTotal = 5;
+		this.modeTotal = 6;
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
@@ -428,6 +502,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		loadLevel(lvl);
 		loadSprites(sTypesLoc);
 		loadEnemySprites(enemyTypesLoc);
+		loadBombSprites(bombTypesLoc);
 		genericPlat =  spriteTypes[0];
 	}
 	
@@ -519,7 +594,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 		return inplat;
 	}
-	public  Spike[] addPlaform( Spike[] inplat)
+	public Spike[] addPlaform( Spike[] inplat)
 	{
 		 Spike temp[] = new  Spike[ inplat.length + 1];
 		for(int i =0; i < inplat.length;i++)
@@ -540,6 +615,77 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 		int tracker = 0;
 		Spike temp[] = new Spike[inplat.length - 1];
+		for(int i =0; i < inplat.length - 1;i++)
+		{
+			if(i == target && tracker == 0)
+			{
+				tracker++;
+				i--;
+			}
+			else
+			{
+				temp[i] = inplat[i + tracker];
+			}
+		}
+		if(this.target != 0)
+		{
+			this.target--;
+		}
+		inplat = temp;
+		return inplat;
+	}
+	public Explosive[] platformSwitchSprite( Explosive[] inplat)
+	{
+		if( inplat.length != 0 && spriteTypes.length > 0)
+		{
+			 inplat[target] = new Explosive(bombspriteTypes[stCounter ],
+						bombblastspriteTypes[stCounter ],
+						-theWorld.getX() + window.width/2,
+						-theWorld.getY() + window.height/2,
+						bombW[stCounter ],bombH[stCounter ],0,
+						bombblastW[stCounter ],bombblastH[stCounter ],
+						0,bombCol[stCounter ],bombblastCol[stCounter ],
+						30,10,lvlspriteData);
+			
+			if(stCounter < spriteTypes.length - 1)
+			{
+				stCounter++;
+			}
+			else
+			{
+				stCounter = 0;
+			}
+		}
+		return inplat;
+	}
+	public Explosive[] addPlaform( Explosive[] inplat)
+	{
+		Explosive temp[] = new  Explosive[ inplat.length + 1];
+		for(int i =0; i < inplat.length;i++)
+		{
+			temp[i] = inplat[i];
+		}
+		
+		temp[ inplat.length]= new  Explosive(bombspriteTypes[0],
+				bombblastspriteTypes[0],
+				-theWorld.getX() + window.width/2,
+				-theWorld.getY() + window.height/2,
+				bombW[0],bombH[0],0,
+				bombblastW[0],bombblastH[0],
+				0,bombCol[0],bombblastCol[0],
+				30,10,lvlspriteData);
+		 inplat = temp;
+		target =  inplat.length-1;
+		return inplat;
+	}
+	public Explosive[] deletePlatform(Explosive[] inplat)
+	{	
+		if(inplat.length == 0)
+		{
+			return inplat;
+		}
+		int tracker = 0;
+		Explosive temp[] = new Explosive[inplat.length - 1];
 		for(int i =0; i < inplat.length - 1;i++)
 		{
 			if(i == target && tracker == 0)
@@ -837,6 +983,16 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+i+"]",spikes[i].getX(),spikes[i].getY());
 				}
 			}
+			for(i = 0; i  < bombs.length; i++)
+			{
+				if(Tools.check_collision(windowHB,bombs[i].getHitbox()))
+				{
+					bombs[i].render(g,lvlspriteData);
+					g.setColor(Color.PINK);
+					g.drawString("["+i+"]",bombs[i].getX(),bombs[i].getY());
+					
+				}
+			}
 			for(i = 0; i < badguys.length; i++)
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox()))
@@ -846,7 +1002,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+i+"]",badguys[i].getX(),badguys[i].getY());
 				}
 			}
-			
 			
 
 			if(modeCounter == 0)
@@ -911,6 +1066,18 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+target+"]",50,50);
 				}
 			}
+			else if(modeCounter == 5)
+			{
+				if(spikes.length != 0)
+				{
+					g.setColor(Color.PINK);
+					g.drawRect(bombs[target].hitbox[0]+bombs[target].x,
+							bombs[target].hitbox[1]+bombs[target].y,
+							bombs[target].hitbox[2], 
+							bombs[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
+				}
+			}
 			
 		}
 		if(isLoading)
@@ -970,6 +1137,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			for(i =0; i < spikes.length; i++)
 			{
 				spikes[i].update(theWorld);
+			}
+			for(i = 0; i < bombs.length; i++)
+			{
+				bombs[i].update(theWorld);
 			}
 			gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
@@ -1154,6 +1325,40 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
+			if(modeCounter == 5)
+			{
+				//Adding a new Explosive
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					bombs = addPlaform(bombs);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					bombs = deletePlatform(bombs);
+					isLoading = false;
+				}
+				
+					//changing the Sprite
+				if(changing && chaL)
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					bombs = platformSwitchSprite(bombs);
+					isLoading = false;
+				}
+			}
 		}
 			
 	}
@@ -1219,6 +1424,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				platformMove(spikes);
 			}
+			else if(modeCounter == 5)
+			{
+				platformMove(bombs);
+			}
 		}
 		else if(shiftmonitor && !controlmonitor)
 		{
@@ -1253,8 +1462,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			else if(modeCounter == 4)
 			{
-			//---------------------------------Moving
 				platformHitBox(spikes, PHmove);
+			}
+			else if(modeCounter == 5)
+			{
+				platformHitBox(bombs,PHmove);
 			}
 			
 		}
@@ -1636,6 +1848,34 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
+					else if(modeCounter == 5)
+					{
+						String[] numbs = new String[bombs.length];
+						for(int i =0;i< bombs.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ bombs.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < bombs.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
 				}
 				break;
 			//---------------------------TARGETING
@@ -1689,6 +1929,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					else if(modeCounter == 4)
 					{
 						if(target < spikes.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+					else if(modeCounter == 5)
+					{
+						if(target < bombs.length-1)
 						{
 							this.target++;
 						}
@@ -1756,10 +2007,20 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						}
 						else
 						{
-							this.target = 0;
+							this.target = spikes.length-1;
 						}
 					}
-	
+					else if(modeCounter == 5)
+					{
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = bombs.length-1;
+						}
+					}
 					this.RtargetH=false;
 				}
 					break;

@@ -393,10 +393,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i< bombs.length; i++)
 			{
 				bombs[i].update(theWorld,damageQ);
-				if(bombs[i].getType() == 0 )
+				if(bombs[i].getType() == 0)
 				{
 					if(Tools.check_collision(player.getfrontHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
 					if(Tools.check_collision(player.getbackHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
+						//John add checks for good bombs and things
 				}
 			}
 				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT
@@ -404,6 +405,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
 				if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
+				
+					//John change this so that some bombs don't set off others
+				for(i = 0; i < bombs.length; i++)
+				{
+					if(Tools.check_collision(bombs[i].getHitbox(),x.getHitbox())){if(!bombs[i].getExploding()){bombs[i].explode();}}
+				}
+				
 					//For Debugin
 				if(renderHitBox )
 				{

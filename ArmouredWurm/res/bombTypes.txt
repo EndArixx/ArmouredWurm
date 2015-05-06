@@ -1,0 +1,3 @@
+This is the Bomb Folder
+1
+res/bomb2.png,res/blast2.png,64,64,96,96,4,6
