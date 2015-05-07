@@ -403,7 +403,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT
 			for( DamageHitbox x : damageQ)
 			{
-				if(x.getType() == 0 || x.getType() == 4)
+				if(x.getType() == 0 || x.getType() == 4 || x.getType() == 5)
 				{
 					if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
 					if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
