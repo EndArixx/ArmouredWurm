@@ -15,7 +15,7 @@ public class PlayerChar extends Sprite
 	protected int legA[] = new int[2];
 	protected int topA[] = new int[2];
 	//protected Sprite legs;
-	protected boolean jumping, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
+	protected boolean attacking, jumping, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
 	protected gun rifle;
 	
 	protected double topRunSpeed;
@@ -40,6 +40,7 @@ public class PlayerChar extends Sprite
 		this.hpImage = new Sprite("res/hpbar.png",hx,hy,spriteData);
 		this.HPsW = hpImage.width;
 			//booleans
+		this.attacking = false;
 		this.jumping= false;
 		this.forward = false;
 		this.backward = false;
@@ -124,7 +125,37 @@ public class PlayerChar extends Sprite
 		this.dying = true;
 		
 	}
-	
+	public void startAttack()
+	{
+		if(!attacking)
+		{
+			
+			this.firstloop = true;
+			this.attacking= true;
+			if(FF)
+			{
+				this.row = 6;
+				this.col = 0;
+				this.colN = 10;
+			}
+			else
+			{
+				this.row = 7;
+				this.col = 0;
+				this.colN = 10;
+			}
+		}
+	}
+	public void attack()
+	{
+			//Damage goes here!
+		if(!this.firstloop)
+		{	
+			this.attacking= false;
+		}
+		
+		
+	}
 	public void fire(World theWorld)
 	{
 		if(hasR)
@@ -135,6 +166,15 @@ public class PlayerChar extends Sprite
 	//--------------------------------------------------------------------UPDATE
 	public void update()
 	{
+		/*
+		 * John! this will all be reworked
+		 * 1) add attacks! 				[ ]
+		 * 2) fix the jumping bug 		[ ]
+		 * 3) set the col counters to variables.
+		 *
+		 */
+		
+		
 			//death :(
 		if ( !(HP > 0) && !dying)
 		{
@@ -166,28 +206,17 @@ public class PlayerChar extends Sprite
 		}
 		
 		
-		if (FF)//FF = facing forward
-		{
-				//Idle pose facing Right
-			this.row = 0;
-			this.setColN(0);
-			//legs.setRow(0);
-			//legs.setColN(0);
-		}
-		else
-		{
-				//Idle pose facing Left
-			this.row = 1;
-			this.setColN(0);
-			//legs.setRow(2);
-			//legs.setColN(0);
-		}
 		
 			//Test stuff!
 		if(jumping){this.timerspeed = 1.5;}
+		else if(attacking){this.timerspeed = 1;}
 		else{this.timerspeed = 3;}
 		
-		if(jumping || forward || backward)
+		if(attacking)
+		{
+			attack();
+		}
+		else if(jumping || forward || backward )
 		{
 			if(forward)
 			{
@@ -250,9 +279,22 @@ public class PlayerChar extends Sprite
 		}
 		else
 		{
-				//This is other, This might become an error Frame.
-			this.col = 0;
-			this.colN = 0;
+			if (FF)//FF = facing forward
+			{
+					//Idle pose facing Right
+				this.row = 0;
+				this.setColN(0);
+				//legs.setRow(0);
+				//legs.setColN(0);
+			}
+			else
+			{
+					//Idle pose facing Left
+				this.row = 1;
+				this.setColN(0);
+				//legs.setRow(2);
+				//legs.setColN(0);
+			}
 		}
 		//legs.setX(x);
 		//legs.setY(y);
@@ -373,7 +415,8 @@ public class PlayerChar extends Sprite
 		{this.topJump = in;}
 	public boolean getDead()
 		{return this.dead;}
-
+	public boolean getAttacking()
+		{return attacking;}
 	public void setHitbox(int x, int y, int width, int height)
 	{
 		this.hitbox[0] = x;

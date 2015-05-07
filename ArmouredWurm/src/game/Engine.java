@@ -715,8 +715,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 			}
 				//NORTH
-			
-			if (N && !headbonk)
+			if (N && !headbonk && !player.getAttacking())
 			{
 				if(onladder)
 				{
@@ -778,7 +777,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			
 				//WEST
-			if (W && !backbonk)
+			if (W && !backbonk&&!player.getAttacking())
 			{ 
 				player.setFaceForward(false);
 				player.setbackward(true);
@@ -822,7 +821,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				player.setbackward(false);
 			}
 				//EAST
-			if (E && !frontbonk)
+			if (E && !frontbonk && !player.getAttacking())
 			{
 				player.setFaceForward(true);
 				player.setForward(true);
@@ -900,8 +899,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//player.setOnladder(true)
 			}
 		}
-
 	}
+
 	public void keyPressed(KeyEvent key) 
 	{
 		
@@ -910,6 +909,21 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//then change the player model 
 		switch (key.getKeyCode())
 		{
+			//attacklogic
+			case KeyEvent.VK_LEFT:
+				if(!player.getAttacking())
+				{
+					player.startAttack();
+				}
+				break;
+			case KeyEvent.VK_RIGHT:
+				if(!player.getAttacking())
+				{
+					player.startAttack();
+				}
+				break;
+				
+				
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=true;
@@ -957,10 +971,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					W = false;
 				}
 				break;
-					
-			case KeyEvent.VK_RIGHT:
-				F = true;
-					break;
 					
 			case KeyEvent.VK_Q: //Quit
 				isRunning = false;
