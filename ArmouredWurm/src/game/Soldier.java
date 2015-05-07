@@ -77,6 +77,7 @@ public class Soldier extends PlayerChar
 		this.player = false;
 		this.timerspeed = 5;
 			//end testing--------------------------------------
+
 		
 		this.trueX = x;
 		this.trueY = y;
@@ -132,7 +133,8 @@ public class Soldier extends PlayerChar
 		this.meleeRange[2] = 200;
 		this.meleeRange[3] = 150;
 			//Health
-		this.HP = 50;
+		this.HP = 5;
+		this.maxHP = 5;
 		
 		this.timerspeed = 3;
 		
@@ -207,64 +209,92 @@ public class Soldier extends PlayerChar
 	}
 	//--------------------------------------------------------------------------------------------UPDATE
 	public void update(World theWorld, Platform[] p, Queue<DamageHitbox> damageQ)
-	{
-		boolean f = true;
-		for(int i = 0; i< p.length ;i++)
+	{	
+		if(!dying && !dead)
 		{
-			if(Tools.check_collision(this.getfeetHitbox(), p[i].getHitbox()))
+			if(invol > 0)
+			{
+				if(invol > involtime)
+				{
+					invol = 0;
+				}
+				else
+				{
+					invol++;
+				}
+			}
+			
+			if(this.HP == 0)
+			{
+				startDie();
+			}
+			boolean f = true;
+			for(int i = 0; i< p.length ;i++)
+			{
+				if(Tools.check_collision(this.getfeetHitbox(), p[i].getHitbox()))
+				{
+					f = false;
+					this.falling = false;
+				}
+			}
+			if((this.trueY + this.height) > theWorld.height)
 			{
 				f = false;
 				this.falling = false;
 			}
-		}
-		if((this.trueY + this.height) > theWorld.height)
-		{
-			f = false;
-			this.falling = false;
-		}
-		if(f)
-		{
-			fall();
-			this.patroling = false;
-		}
-		
-		x = theWorld.getX() + trueX;
-		y = theWorld.getY() + trueY;
-			//should this be an elseif chain?
-		if(!f && attacking)
-		{
-			if(col >= colN)
+			if(f)
 			{
-				attacking = false;
-					//Pause after attacks or build it in the animations?
+				fall();
+				this.patroling = false;
+			}
+			
+			x = theWorld.getX() + trueX;
+			y = theWorld.getY() + trueY;
+				//should this be an elseif chain?
+			if(!f && attacking)
+			{
+				if(col >= colN)
+				{
+					attacking = false;
+						//Pause after attacks or build it in the animations?
+				}
+			}
+			if(!f && attacking)
+			{
+				meleeAttack(damageQ);
+			}
+			if(!f && patroling)
+			{
+				patrol();
+			}
+			if(!f && attackMoving)
+			{
+				attackmove();
+			}
+			if(!f && charging)
+			{
+				charge();
+			}
+			else if(!f && reacting)
+			{
+				react(theWorld);
+			}
+	
+			if(hasR)
+			{
+				rifle.update();
 			}
 		}
-		if(!f && attacking)
+		else
 		{
-			meleeAttack(damageQ);
+			x = theWorld.getX() + trueX;
+			y = theWorld.getY() + trueY;
+			this.die();
 		}
-		if(!f && patroling)
+		if(!dead)
 		{
-			patrol();
+			this.animateCol();
 		}
-		if(!f && attackMoving)
-		{
-			attackmove();
-		}
-		if(!f && charging)
-		{
-			charge();
-		}
-		else if(!f && reacting)
-		{
-			react(theWorld);
-		}
-
-		if(hasR)
-		{
-			rifle.update();
-		}
-		this.animateCol();
 	}
 	public void update(World theWorld)
 	{
@@ -272,6 +302,40 @@ public class Soldier extends PlayerChar
 		//this.trueY = (int) (this.trueY + speedY);
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
+	}
+	public void startDie()
+	{
+		if(!dying)
+		{
+			//this will animate death
+			setFalse();
+			this.dying = true;
+			this.firstloop = true;
+			if(FF)
+			{
+				row = 8;
+				colN = 15;
+				col = 0;
+			}
+			else
+			{
+				row = 9;
+				colN = 15;
+				col = 0;
+			}
+		}
+	}
+	public void die()
+	{
+		if(!firstloop)
+		{
+			col = colN;
+			this.dead = true;
+		}
+		if(col == colN -1)
+		{
+			this.dead = true;
+		}
 	}
 	public void setSightbox(int vwidth, int vheight)
 	{
@@ -310,6 +374,10 @@ public class Soldier extends PlayerChar
 		//----------------------------------------------------------------------------------------SIGHT
 	public void sight(PlayerChar target,World theWorld)
 	{
+		if(dying || dead)
+		{
+			return;
+		}
 		if(this.falling)
 		{
 			return;
@@ -472,15 +540,15 @@ public class Soldier extends PlayerChar
 		}
 		if(this.damageZ[0] <= this.col && this.col <=  this.damageZ[1])
 		{	
-				//this is all test data and shouldn't be hardcoded!
+				//john this is all test data and shouldn't be hardcoded!
 			if(this.FF)
 			{
-				DamageHitbox out = new DamageHitbox( this.x+ this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 1);
+				DamageHitbox out = new DamageHitbox( this.x+ this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 0);
 				damageQ.add(out);
 			}
 			else
 			{
-				DamageHitbox out = new DamageHitbox( this.x- this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 1);
+				DamageHitbox out = new DamageHitbox( this.x- this.width/2 , this.y ,(int)(this.width*0.75), this.height, 5 , 0);
 				damageQ.add(out);
 			}
 

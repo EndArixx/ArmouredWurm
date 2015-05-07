@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Map;
+import java.util.Queue;
 
 public class PlayerChar extends Sprite 
 {
@@ -121,9 +122,11 @@ public class PlayerChar extends Sprite
 	
 	public void startDie()
 	{
+		if(!dying)
+		{
 			//this will animate death
-		this.dying = true;
-		
+			this.dying = true;
+		}
 	}
 	public void startAttack()
 	{
@@ -146,12 +149,28 @@ public class PlayerChar extends Sprite
 			}
 		}
 	}
-	public void attack()
+	public void attack(Queue<DamageHitbox> damageQ)
 	{
 			//Damage goes here!
 		if(!this.firstloop)
 		{	
 			this.attacking= false;
+		}
+		else
+		{
+			if(col > 4 && col < 8) //John unHARDCODE this
+			{
+				if(this.FF)
+				{
+					DamageHitbox out = new DamageHitbox( this.x+ this.width/2 , this.y ,(int)(this.width*0.75), this.height/4, 5 , 3);
+					damageQ.add(out);
+				}
+				else
+				{
+					DamageHitbox out = new DamageHitbox( this.x- this.width/2 , this.y ,(int)(this.width*0.75), this.height/4, 5 , 3);
+					damageQ.add(out);
+				}
+			}
 		}
 		
 		
@@ -164,7 +183,7 @@ public class PlayerChar extends Sprite
 		}
 	}
 	//--------------------------------------------------------------------UPDATE
-	public void update()
+	public void update(Queue<DamageHitbox> damageQ)
 	{
 		/*
 		 * John! this will all be reworked
@@ -214,7 +233,7 @@ public class PlayerChar extends Sprite
 		
 		if(attacking)
 		{
-			attack();
+			attack(damageQ);
 		}
 		else if(jumping || forward || backward )
 		{

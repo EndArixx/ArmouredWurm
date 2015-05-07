@@ -362,7 +362,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 			}
 			theWorld.update();
-			player.update(); 
+			player.update(damageQ); 
 			int i;
 			for(i = 0; i < platforms.length;i++)
 			{
@@ -403,9 +403,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT
 			for( DamageHitbox x : damageQ)
 			{
-				if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
-				if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
-				
+				if(x.getType() == 0 || x.getType() == 4)
+				{
+					if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
+					if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
+				}
+				if(x.getType() == 3)
+				{
+					for(i = 0; i< badguys.length; i++)
+					{
+						if(Tools.check_collision(badguys[i].getfrontHitbox(),x.getHitbox())){badguys[i].damage(x.amount);}
+						if(Tools.check_collision(badguys[i].getbackHitbox(),x.getHitbox())){badguys[i].damage(x.amount);}
+					}
+				}
 					//John change this so that some bombs don't set off others
 				for(i = 0; i < bombs.length; i++)
 				{
@@ -913,12 +923,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			case KeyEvent.VK_LEFT:
 				if(!player.getAttacking())
 				{
+					player.setFaceForward(false);
 					player.startAttack();
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
 				if(!player.getAttacking())
 				{
+					player.setFaceForward(true);
 					player.startAttack();
 				}
 				break;

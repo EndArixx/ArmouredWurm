@@ -44,4 +44,8 @@ public class DamageHitbox
 	{
 		return hitbox;
 	}
+	public int getType()
+	{
+		return type;
+	}
 }
