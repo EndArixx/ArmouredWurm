@@ -75,6 +75,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 		//DamageHitboxs Zone
 	private Queue<DamageHitbox> damageQ = new LinkedList<DamageHitbox>();
+		//John do you need this?
 	private Queue<DamageHitbox> damageQhitbox = new LinkedList<DamageHitbox>();
 	
 		//Pause Menu Data
