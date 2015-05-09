@@ -50,6 +50,8 @@ public class Soldier extends PlayerChar
 	String spritetop;
 	String spriteleg;
 	
+		//Sound
+	SoundEngine sound;
 	
 		//test varables
 	Sprite alert;
@@ -65,11 +67,12 @@ public class Soldier extends PlayerChar
 				int height,
 				int row,
 				int col, 
-				Map<String,BufferedImage> spriteData) 
+				Map<String,BufferedImage> spriteData, SoundEngine sound) 
 	{
 		super(name, spriteloc, x, y, width, height, row, col, spriteData); //---check
 		this.spritetop = spriteloc;
 		this.spriteleg = legloc;
+		
 		
 		
 			//this is for testing things-----------------------
@@ -78,6 +81,10 @@ public class Soldier extends PlayerChar
 		this.timerspeed = 5;
 			//end testing--------------------------------------
 
+		
+			//sound zone  --Add all this sounds that it uses.
+		this.sound = sound;
+		this.sound.add("res/drip2.wav");
 		
 		this.trueX = x;
 		this.trueY = y;
@@ -516,6 +523,10 @@ public class Soldier extends PlayerChar
 		this.timerspeed = 3;///TEMP1111111111111111
 		setFalse();
 		
+		if(sound.getAudible())
+		{
+			this.sound.play("res/drip2.wav");
+		}
 		this.firstloop = true;
 		if(this.FF)
 		{

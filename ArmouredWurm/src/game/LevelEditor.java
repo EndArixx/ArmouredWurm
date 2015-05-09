@@ -429,6 +429,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private void setUp() 
 	{	
 		this.Error = false;
+		soundHandler = new SoundEngine();
 		
 		this.windowHB[0]= 0;
 		this.windowHB[1]= 0;
@@ -831,7 +832,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						enemySY[enemyCounter],
 						0,
 						0,
-						lvlspriteData);
+						lvlspriteData,soundHandler);
 			
 			if(enemyCounter < spriteTypes.length - 1)
 			{
@@ -894,7 +895,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				enemySY[0],
 				0,
 				0,
-				lvlspriteData);
+				lvlspriteData,soundHandler);
 		inSold = temp;
 		target =   inSold.length-1;
 		return  inSold;

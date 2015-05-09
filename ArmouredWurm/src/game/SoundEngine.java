@@ -39,18 +39,33 @@ public class SoundEngine
 	public Queue<String> playQ;
 	private FloatControl volume;
 	private float v;
+	public boolean audible;
 	//LVL MUSIC NEEEDS A BUFFER.
 	public SoundEngine()
 	{
 		//constructor;
 		
-		
+		this.audible = true;
 		//John Setup a soundloader here!
-		soundData = new HashMap<String,Clip>();
-		playQ = new LinkedList<String>();
-		v = -10.0f;
+		this.soundData = new HashMap<String,Clip>();
+		this.playQ = new LinkedList<String>();
+		this.v = -10.0f;
 		
-		String in = "res/drip2.wav";
+		//add("res/drip2.wav");
+		
+	}
+	public void update()
+	{
+		for( String x : playQ)
+		{
+			Clip out = soundData.get(x);
+			out.setMicrosecondPosition(0); 
+			out.start();
+		}
+		playQ.clear();
+	}
+	public void add(String in)
+	{
 		AudioInputStream out = null;
 		try
 		{
@@ -74,15 +89,13 @@ public class SoundEngine
 		catch (LineUnavailableException e) {e.printStackTrace();}
 		
 	}
-	public void update()
+	public void play(String in)
 	{
-		for( String x : playQ)
-		{
-			Clip out = soundData.get(x);
-			out.setMicrosecondPosition(0); 
-			out.start();
-		}
-		playQ.clear();
+		this.playQ.add(in);
+	}
+	public boolean getAudible()
+	{
+		return this.audible;
 	}
 		//MAIN<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>	
 	public static void main(String[] args) 

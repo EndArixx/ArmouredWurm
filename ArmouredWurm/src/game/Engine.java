@@ -73,6 +73,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean isLoading = false;
 	private int loadTarget;
 	
+		//Sound Zone
+	protected SoundEngine soundHandler;
+	
 		//DamageHitboxs Zone
 	private Queue<DamageHitbox> damageQ = new LinkedList<DamageHitbox>();
 		//John do you need this?
@@ -229,7 +232,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[5]),
 	        			Integer.parseInt(temp[6]),
 	        			Integer.parseInt(temp[7]),
-	        			Integer.parseInt(temp[8]),lvlspriteData);
+	        			Integer.parseInt(temp[8]),lvlspriteData,soundHandler);
 	        	if(temp.length >= 10)
 	        	{
 	        		badguys[i].setPatrol(Integer.parseInt(temp[9]),Integer.parseInt(temp[10]));
@@ -299,7 +302,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private void setUp() 
 	{	
 			this.Error = false;
-			
+			soundHandler = new SoundEngine();
 			
 				//window hitbox
 			windowHB[0]= 0;
@@ -363,6 +366,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 			}
 			theWorld.update();
+			
+			if(soundHandler.getAudible())
+			{
+				soundHandler.update();
+			}
+			
 			player.update(damageQ); 
 			int i;
 			for(i = 0; i < platforms.length;i++)
