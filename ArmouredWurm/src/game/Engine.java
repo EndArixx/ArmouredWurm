@@ -42,7 +42,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
-	
+	public Platform healthpicks[];
 	
 	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
@@ -107,7 +107,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	protected void loadLevel(String lvlname)
 	{
-		
+		isPaused = true;
 		lvlspriteData.clear();
 		lvlName = lvlname;
 			//this is designed to load in a specifically designed "Map" file 
@@ -160,6 +160,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        		
 	        int bombnum = Integer.parseInt(temp[6]);
 	        bombs = new Explosive[bombnum];
+	        
+	        int hnum = Integer.parseInt(temp[7]);
+	        healthpicks = new Platform[hnum];
 	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
@@ -289,6 +292,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			lvlspriteData
 	        			);
 	        }
+	        for(int i = 0; i< hnum; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	healthpicks[i] = new Platform(
+	        			temp[0],
+	        			Integer.parseInt(temp[1]),
+	        			Integer.parseInt(temp[2]),
+	        			Integer.parseInt(temp[3]),
+	        			Integer.parseInt(temp[4]),
+	        			Integer.parseInt(temp[5]),
+	        			Integer.parseInt(temp[6]),
+	        			lvlspriteData,
+	        			Integer.parseInt(temp[7])
+	        			);
+	        }
 	        fr.close();
 	        br.close();
 	        
@@ -394,6 +413,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i =0; i < spikes.length; i++)
 			{
 				spikes[i].update(theWorld,damageQ);
+			}
+			for(i = 0; i < healthpicks.length; i++)
+			{
+				healthpicks[i].update(theWorld);
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
@@ -530,6 +553,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < spikes.length; i++)
 			{
 				if(Tools.check_collision(windowHB,spikes[i].getHitbox())){spikes[i].render(g,lvlspriteData );}
+			}
+			for(i = 0; i < healthpicks.length;i++)
+			{
+				if(Tools.check_collision(windowHB,healthpicks[i].getHitbox())){healthpicks[i].render(g,lvlspriteData );}
 			}
 			for(i = 0; i < bombs.length; i++)
 			{

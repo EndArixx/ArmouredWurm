@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Platform extends Sprite
 {
-	protected int trueX, trueY;
+	protected int trueX, trueY, value;
 	public Platform(String spriteloc, int x, int y,  Map<String,BufferedImage> spriteData)
 	{
 		super(spriteloc,x,y, spriteData);
@@ -21,7 +21,15 @@ public class Platform extends Sprite
 		trueY = y;
 		this.speedX = 0;
 		this.speedY = 0;
-		
+	}
+	public Platform(String inImage,int x,int y,int width ,int height,int rowN,int timerspeed,  Map<String,BufferedImage> spriteData,int value)
+	{
+		super(inImage,x,y,width,height,rowN,0,timerspeed,  spriteData);
+		trueX = x;
+		trueY = y;
+		this.speedX = 0;
+		this.speedY = 0;
+		this.value = value;
 	}
 	public void update(World theWorld)
 	{
@@ -46,6 +54,8 @@ public class Platform extends Sprite
 		{this.trueX = x;}
 	public void setTrueY(int y)
 		{this.trueY = y;}
+	public int getValue()
+		{return this.value;}
 	
 	public void moveXp(int speed)
 	{
