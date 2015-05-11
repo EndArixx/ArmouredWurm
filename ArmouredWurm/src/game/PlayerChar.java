@@ -358,6 +358,35 @@ public class PlayerChar extends Sprite
 		super.render(g, spriteData);
 	}
 	
+	public boolean fullHP()
+	{
+		if(this.HP == this.maxHP)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	public void addHP(int inHP)
+	{
+		if(inHP < 0 )
+		{
+			return;
+		}
+		inHP += this.HP;
+		if(inHP > maxHP)
+		{
+			this.HP = maxHP;
+		}
+		else
+		{
+			this.HP = inHP;
+		}
+	}
+	
+	
 	public void fall()
 	{			
 
@@ -495,6 +524,7 @@ public class PlayerChar extends Sprite
 		outbox[3] = feethitbox[3];
 		return outbox;
 	}
+
 
 	
 	

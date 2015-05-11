@@ -417,6 +417,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < healthpicks.length; i++)
 			{
 				healthpicks[i].update(theWorld);
+				
+				if(Tools.check_collision(player.getHitbox(),healthpicks[i].getHitbox()))
+				{
+					if(!player.fullHP())
+					{
+						player.addHP(healthpicks[i].getValue());
+						healthpicks[i].setTrueX(-healthpicks[i].getWidth()*2);
+					}
+				}
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
