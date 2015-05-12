@@ -317,7 +317,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					+ badguys.length + ","
 					+ spikes.length +  ","
 					+ bombs.length+ ","
-					+ "0,0,0,0,0,0,0,0\n");
+					+ healthpicks.length + ","
+					+ "0,0,0,0,0,0,0\n");
 				
 			
 				//Write out weathers
@@ -420,6 +421,18 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+bombs[i].blastspeed + ","
 						+"\n");
 			}
+			for(int i = 0; i < healthpicks.length; i++)
+			{
+				fw.write(healthpicks[i].name + ","
+						+healthpicks[i].getTrueX() + ","
+						+healthpicks[i].getTrueY() + ","
+						+healthpicks[i].getWidth() + ","
+						+healthpicks[i].getHeight() + "," 
+						+healthpicks[i].getRowN() + ","
+						+(int) healthpicks[i].timerspeed + ","
+						+healthpicks[i].getValue() + 
+						"\n");
+			}
 			//fw.write(" \n");
 			fw.close();
 		
@@ -462,7 +475,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 			//Modes
-		this.modeTotal = 6;
+		this.modeTotal = 7;
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
@@ -984,6 +997,15 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+i+"]",spikes[i].getX(),spikes[i].getY());
 				}
 			}
+			for(i = 0; i < healthpicks.length; i++)
+			{
+				if(Tools.check_collision(windowHB,healthpicks[i].getHitbox()))
+				{
+					healthpicks[i].render(g,lvlspriteData );
+					g.setColor(Color.RED);
+					g.drawString("["+i+"]",healthpicks[i].getX(),healthpicks[i].getY());
+				}
+			}
 			for(i = 0; i  < bombs.length; i++)
 			{
 				if(Tools.check_collision(windowHB,bombs[i].getHitbox()))
@@ -1079,6 +1101,18 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+target+"]",50,50);
 				}
 			}
+			else if(modeCounter == 6)
+			{
+				if(healthpicks.length != 0)
+				{
+					g.setColor(Color.RED);
+					g.drawRect(healthpicks[target].hitbox[0]+healthpicks[target].x,
+							healthpicks[target].hitbox[1]+healthpicks[target].y,
+							healthpicks[target].hitbox[2], 
+							healthpicks[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
+				}
+			}
 			
 		}
 		if(isLoading)
@@ -1139,6 +1173,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				spikes[i].update(theWorld);
 			}
+			for(i = 0; i < healthpicks.length; i++)
+			{
+				healthpicks[i].update(theWorld);
+			}
 			for(i = 0; i < bombs.length; i++)
 			{
 				bombs[i].update(theWorld);
@@ -1190,7 +1228,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
-			if(modeCounter == 1)
+			else if(modeCounter == 1)
 			{
 					//Adding a new platform
 				if(adding && addL)
@@ -1224,7 +1262,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
-			if(modeCounter == 2)
+			else if(modeCounter == 2)
 			{
 					//Adding a new Door
 				if(adding && addL)
@@ -1258,7 +1296,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
-			if(modeCounter == 3)
+			else if(modeCounter == 3)
 			{
 				//Adding a new Door
 				if(adding && addL)
@@ -1292,7 +1330,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
-			if(modeCounter == 4)
+			else if(modeCounter == 4)
 			{
 					//Adding a new platform
 				if(adding && addL)
@@ -1326,7 +1364,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					isLoading = false;
 				}
 			}
-			if(modeCounter == 5)
+			else if(modeCounter == 5)
 			{
 				//Adding a new Explosive
 				if(adding && addL)
@@ -1357,6 +1395,40 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				
 					isLoading = true;
 					bombs = platformSwitchSprite(bombs);
+					isLoading = false;
+				}
+			}
+			else if(modeCounter == 6)
+			{
+					//Adding a new Medkit
+				if(adding && addL)
+				{
+					addL = false;
+					adding = false;
+					
+					isLoading = true;
+					healthpicks = addPlaform(healthpicks);
+					isLoading = false;
+				}
+					//Deleting
+				if(deleting && delL)
+				{
+					delL = false;
+					deleting = false;
+					 
+					isLoading = true;
+					healthpicks  = deletePlatform(healthpicks);
+					isLoading = false;
+				}
+				
+					//changing the Sprite
+				if(changing && chaL)
+				{
+					chaL = false;
+					changing = false;
+				
+					isLoading = true;
+					healthpicks = platformSwitchSprite(healthpicks);
 					isLoading = false;
 				}
 			}
@@ -1429,6 +1501,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				platformMove(bombs);
 			}
+			else if(modeCounter == 6)
+			{
+				platformMove(healthpicks);
+			}
 		}
 		else if(shiftmonitor && !controlmonitor)
 		{
@@ -1468,6 +1544,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			else if(modeCounter == 5)
 			{
 				platformHitBox(bombs,PHmove);
+			}
+			else if(modeCounter == 6)
+			{
+				platformHitBox(healthpicks,PHmove);
 			}
 			
 		}
@@ -1877,6 +1957,34 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
+					else if(modeCounter == 6)
+					{
+						String[] numbs = new String[healthpicks.length];
+						for(int i =0;i< healthpicks.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ healthpicks.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < healthpicks.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
 				}
 				break;
 			//---------------------------TARGETING
@@ -1941,6 +2049,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					else if(modeCounter == 5)
 					{
 						if(target < bombs.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+					else if(modeCounter == 6)
+					{
+						if(target < healthpicks.length-1)
 						{
 							this.target++;
 						}
@@ -2020,6 +2139,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						else
 						{
 							this.target = bombs.length-1;
+						}
+					}
+					else if(modeCounter == 6)
+					{
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = healthpicks.length-1;
 						}
 					}
 					this.RtargetH=false;
