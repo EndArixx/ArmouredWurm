@@ -1,10 +1,16 @@
 package game;
+
+
+
 /*
  * This will be the controller zone.
  * 
- * I want to basically create a controller object and have it handle all its stuff separately.
- * it will just relay control booleans to the main engine. it has no idea that its part of a game.
+ * The more i look into this the less it seems viable.
  * 
+ * I will have to write 3 different versions for the 3 main operating systems.
+ * 
+ * because of the way windows handles controllers i cant just create a controller listener and will need atleast one 3rd party addon. 
+ * this already makes the game less portable...sigh im going to put this on hold while i do more research.
  */
 public class ControllerEngine {
 
