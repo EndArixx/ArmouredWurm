@@ -6,6 +6,12 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 import java.util.Queue;
 
+/*  
+ * Player character
+ * 
+ * 
+ * working on new animation system.
+ */
 public class PlayerChar extends Sprite 
 {
 	protected double gravity;
