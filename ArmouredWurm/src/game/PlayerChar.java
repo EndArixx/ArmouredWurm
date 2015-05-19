@@ -11,6 +11,29 @@ import java.util.Queue;
  * 
  * 
  * working on new animation system.
+ * 
+ * 
+ * I have begun working on a new Player model 
+ * 
+ * I have all the drawing stuff done. the model is ready in Spriter pro for animations.
+ * 
+ * I have 14 animations planed
+ * 
+ *  (order is subject to change)
+ * 0)  Idle 				[]
+ * 1)  Run					[]
+ * 2)  jump					[]
+ * 3)  fall					[]
+ * 4)  attack 				[]
+ * 5)  jump+attack			[]
+ * 6)  crouch				[]
+ * 7)  crouching			[]
+ * 8)  knock back			[]
+ * 9)  crouching attack		[]
+ * 10) couching move		[]
+ * 11) death 				[]
+ * 12) reverse attack		[]
+ * 13) combat still			[]
  */
 public class PlayerChar extends Sprite 
 {
