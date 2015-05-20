@@ -34,6 +34,7 @@ import java.util.Queue;
  * 11) death 				[]
  * 12) reverse attack		[]
  * 13) combat still			[]
+ * 14) crotching jump 		[]
  */
 public class PlayerChar extends Sprite 
 {
