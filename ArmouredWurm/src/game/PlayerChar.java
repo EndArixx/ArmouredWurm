@@ -100,8 +100,8 @@ public class PlayerChar extends Sprite
 		this.timerspeed = 3;
 		//this.legA[0] = 10;
 		//this.legA[1] = 10;
-		this.topA[0] = 20;
-		this.topA[1] = 20;
+		this.topA[0] = 16;
+		this.topA[1] = 16;
 		this.hasR = false;
 		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
@@ -167,15 +167,15 @@ public class PlayerChar extends Sprite
 			this.attacking= true;
 			if(FF)
 			{
-				this.row = 6;
+				this.row = 8;
 				this.col = 0;
-				this.colN = 10;
+				this.colN = 8;
 			}
 			else
 			{
-				this.row = 7;
+				this.row = 9;
 				this.col = 0;
-				this.colN = 10;
+				this.colN = 8;
 			}
 		}
 	}
@@ -258,7 +258,7 @@ public class PlayerChar extends Sprite
 		
 			//Test stuff!
 		if(jumping){this.timerspeed = 1.5;}
-		else if(attacking){this.timerspeed = 1;}
+		else if(attacking){this.timerspeed = 3;}
 		else{this.timerspeed = 3;}
 		
 		if(attacking)
@@ -276,7 +276,7 @@ public class PlayerChar extends Sprite
 					//legs.setColN(0);
 					this.row = 4;
 					//this.col = 1;
-					this.colN = 20;
+					this.colN = 16;
 				}
 				else if(falling)
 				{
@@ -305,7 +305,7 @@ public class PlayerChar extends Sprite
 					//legs.setColN(0);
 					this.row = 5;
 					//this.col = 1;
-					this.colN = 20;
+					this.colN = 16;
 				}
 				else if(falling)
 				{

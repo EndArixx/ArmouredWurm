@@ -29,7 +29,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -361,8 +361,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			isGameOver = false;
 			
 					//Player stuff
-			player = new PlayerChar("Brodrick","res/50Brodrick2015.png",0,0,280/2,280/2,12,20,permaSprites);
-			player.setHitbox(17, 10, 100, 120);	
+			player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
+			player.setHitbox(50, 20, 100, 140);	
 	}
 
 	public  void update()
