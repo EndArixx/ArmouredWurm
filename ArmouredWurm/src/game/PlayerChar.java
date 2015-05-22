@@ -44,7 +44,7 @@ public class PlayerChar extends Sprite
 	protected int backhitbox[] = new int[4];
 	protected int fronthitbox[] = new int[4];
 	//protected Sprite legs;
-	protected boolean attacking,reverseAttacking, jumping, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
+	protected boolean attacking,reverseAttacking, jumping,jumpAttacking, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
 	protected gun rifle;
 	
 	protected double topRunSpeed;
@@ -73,6 +73,7 @@ public class PlayerChar extends Sprite
 			//booleans
 		this.attacking = false;
 		this.jumping= false;
+		this.jumpAttacking = false;
 		this.forward = false;
 		this.backward = false;
 		this.FF = true;
@@ -103,9 +104,9 @@ public class PlayerChar extends Sprite
 				//[2] frames
 				//[3] speed
 		aidle = new int[4];
-		aidle[0] = 0;
-		aidle[1] = 1;
-		aidle[2] = 10;
+		aidle[0] = 18;
+		aidle[1] = 19;
+		aidle[2] = 8;
 		aidle[3] = 3;
 		
 		arun = new int[4];
@@ -215,7 +216,12 @@ public class PlayerChar extends Sprite
 	{
 		if(!dying)
 		{
-			//this will animate death
+				//this will animate death
+			this.firstloop = true;
+			this.col = 0;
+			this.colN = adeath[2];
+			if(this.FF){row = this.adeath[0];}
+			else{row = this.adeath[1];}
 			this.dying = true;
 		}
 	}
@@ -227,6 +233,7 @@ public class PlayerChar extends Sprite
 			{
 				this.firstloop = true;
 				this.attacking= true;
+				this.jumpAttacking = true;
 				if(FF)
 				{
 					this.row = ajumpattack[0];
@@ -259,18 +266,62 @@ public class PlayerChar extends Sprite
 			}
 		}
 	}
+	public void startReverseAttack()
+	{
+		if(!attacking)
+		{
+			if(jumping || falling)
+			{
+				this.reverseAttacking = true;
+				this.firstloop = true;
+				this.attacking= true;
+				if(FF)
+				{
+					this.row = ajumpattack[0];
+					this.col = 0;
+					this.colN = ajumpattack[2];
+				}
+				else
+				{
+					this.row =  ajumpattack[1];
+					this.col = 0;
+					this.colN = ajumpattack[2];
+				}
+			}
+			else
+			{
+				this.reverseAttacking = true;
+				this.firstloop = true;
+				this.attacking= true;
+				if(FF)
+				{
+					this.row = areverseattack[0];
+					this.col = 0;
+					this.colN = areverseattack[2];
+				}
+				else
+				{
+					this.row =  areverseattack[1];
+					this.col = 0;
+					this.colN = areverseattack[2];
+				}
+			}
+		}
+	}
 	public void attack(Queue<DamageHitbox> damageQ)
 	{
 			//Damage goes here!
 		if(!this.firstloop)
 		{	
 			this.attacking= false;
+			this.reverseAttacking = false;
+			this.jumpAttacking = false;
 		}
 		else
 		{
 			if(col >= aattack[4] && col <= aattack[4])
 			{
-				if(this.FF)
+				if((this.FF && !reverseAttacking) || (!this.FF && reverseAttacking))
 				{
 					DamageHitbox out = new DamageHitbox( this.x+ this.width/2 , this.y ,(int)(this.width*0.75), this.height/4, 5 , 3);
 					damageQ.add(out);
@@ -294,15 +345,7 @@ public class PlayerChar extends Sprite
 	}
 	//--------------------------------------------------------------------UPDATE
 	public void update(Queue<DamageHitbox> damageQ)
-	{
-		/*
-		 * John! this will all be reworked
-		 * 2) fix the jumping bug 		[ ]
-		 * 3) set the col counters to variables.
-		 *
-		 */
-		
-		
+	{		
 			//death :(
 		if ( !(HP > 0) && !dying)
 		{
@@ -311,134 +354,154 @@ public class PlayerChar extends Sprite
 		}
 		else if(dying)
 		{
-				//this means it has reached the end of its animation 
-			if(col == colN)
+			if(this.firstloop == false)
 			{
 					//time to die
 				this.dead = true;
 			}
 		}
-		//else?
-		
-			//this give the player a short amount of time after taking damage to be invinsible
-		if(invol > 0)
-		{
-			if(invol > involtime)
-			{
-				invol = 0;
-			}
-			else
-			{
-				invol++;
-			}
-		}
-		
-		
-		
-			//Test stuff!
-		if(jumping){this.timerspeed = 1.5;}
-		else if(attacking){this.timerspeed = 2;}
-		else{this.timerspeed = 3;}
-		
-		if(attacking)
-		{
-			attack(damageQ);
-		}
-		else if(jumping || forward || backward )
-		{
-			if(forward)
-			{
-				if(jumping)
-				{
-						//Right facing Jump Animation
-					//legs.setRow(4);
-					//legs.setColN(0);
-					this.row = 4;
-					//this.col = 1;
-					this.colN = 16;
-				}
-				else if(falling)
-				{
-						//Right facing Falling Animation
-					//legs.setRow(4);
-					//legs.setColN(0);
-					this.row = 6;
-					this.col = 0;
-					this.colN = 0;
-				}
-				else
-				{
-						//Right facing Running Animation
-					//legs.setRow(1);
-					//legs.setColN(legA[0]);
-					this.row = arun[0];
-					this.colN = arun[2];
-				}
-			}
-			else if(backward)
-			{
-				if  (jumping)
-				{
-						//Left facing Jump Animation
-					//legs.setRow(5);
-					//legs.setColN(0);
-					this.row = 5;
-					//this.col = 1;
-					this.colN = 16;
-				}
-				else if(falling)
-				{
-						//Left facing Falling Animation
-					//legs.setRow(5);
-					//legs.setColN(0);
-					this.row = 7;
-					this.col = 0;
-					this.colN = 0;
-				}
-				else
-				{
-						//Left facing Running Animation
-					//legs.setRow(3);
-					//legs.setColN(legA[1]);
-					this.row = arun[1];
-					this.colN = arun[2];
-				}
-			}
-		}
 		else
 		{
-			this.timerspeed = 8;
-			if (FF)//FF = facing forward
+			
+				//this give the player a short amount of time after taking damage to be invinsible
+			if(invol > 0)
 			{
-					//Idle pose facing Right
-				this.row = 0;
-				this.setColN(10);
-				//legs.setRow(0);
-				//legs.setColN(0);
+				if(invol > involtime)
+				{
+					invol = 0;
+				}
+				else
+				{
+					invol++;
+				}
+			}
+			
+			
+			
+				//Test stuff!
+			if(jumping){this.timerspeed = 1.5;}
+			else if(attacking){this.timerspeed = 3;}
+			else{this.timerspeed = 3;}
+			
+			if(attacking)
+			{
+				attack(damageQ);
+			}
+			else if(jumping || forward || backward )
+			{
+				if(forward)
+				{
+					if(jumping)
+					{
+							//Right facing Jump Animation
+						this.row = ajump[0];
+						this.colN = ajump[2];
+					}
+					else if(falling)
+					{
+							//Right facing Falling Animation
+						this.row = afall[0];
+						this.col = 0;
+						this.colN = afall[2];
+					}
+					else
+					{
+							//Right facing Running Animation
+						this.row = arun[0];
+						this.colN = arun[2];
+					}
+				}
+				else if(backward)
+				{
+					if  (jumping)
+					{
+							//Left facing Jump Animation
+						this.row = ajump[1];
+						this.colN = ajump[2];
+					}
+					else if(falling)
+					{
+							//Left facing Falling Animation
+						this.row = afall[1];
+						this.col = 0;
+						this.colN = afall[2];
+					}
+					else
+					{
+							//Left facing Running Animation
+						this.row = arun[1];
+						this.colN = arun[2];
+					}
+				}
+				else
+				{
+					if(FF)
+					{
+						if(jumping)
+						{
+								//Right facing Jump Animation
+							this.row = ajump[0];
+							this.colN = ajump[2];
+						}
+						
+					}
+					else
+					{
+						if  (jumping)
+						{
+								//Left facing Jump Animation
+							this.row = ajump[1];
+							this.colN = ajump[2];
+						}
+					}
+				}
+			}
+			else if(falling)
+			{
+				if(FF)
+				{
+					this.row = afall[0];
+					this.col = 0;
+					this.colN = afall[2];
+				}
+				else
+				{
+					this.row = afall[1];
+					this.col = 0;
+					this.colN = afall[2];
+				}
 			}
 			else
 			{
-					//Idle pose facing Left
-				this.row = 1;
-				this.setColN(10);
-				//legs.setRow(2);
-				//legs.setColN(0);
+					//test
+				this.timerspeed = 5;
+				
+				if (FF)//FF = facing forward
+				{
+						//Idle pose facing Right
+					this.row = aidle[0];
+					this.colN = aidle[2];
+				}
+				else
+				{
+						//Idle pose facing Left
+					this.row = aidle[1];
+					this.colN = aidle[2];
+				}
 			}
+			//legs.setX(x);
+			//legs.setY(y);
+			if(hasR)
+			{
+				rifle.update();
+			}
+				//I put this check in to make sure that the animation always starts at the beginning 
+			if(this.checkAni != this.row )
+			{
+				col = 0;
+				this.checkAni= this.row;
+			}	
 		}
-		//legs.setX(x);
-		//legs.setY(y);
-		if(hasR)
-		{
-			rifle.update();
-		}
-			//I put this check in to make sure that the animation always starts at the beginning 
-		if(this.checkAni != this.row )
-		{
-			col = 0;
-			this.checkAni= this.row;
-		}
-			
-		
 		this.animateCol();
 		//legs.animateCol();
 	}
@@ -634,7 +697,14 @@ public class PlayerChar extends Sprite
 		outbox[3] = feethitbox[3];
 		return outbox;
 	}
-
+	public boolean getRA()
+	{
+		return(this.reverseAttacking);
+	}
+	public boolean getJA()
+	{
+		return(this.jumpAttacking);
+	}
 
 	
 	

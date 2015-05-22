@@ -29,7 +29,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -771,7 +771,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 			}
 				//NORTH
-			if (N && !headbonk && !player.getAttacking())
+			if (N && !headbonk)
 			{
 				if(onladder)
 				{
@@ -833,7 +833,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			
 				//WEST
-			if (W && !backbonk&&!player.getAttacking())
+			if (W && !backbonk && ((!player.getAttacking()) || player.getJA()))
 			{ 
 				player.setFaceForward(false);
 				player.setbackward(true);
@@ -877,7 +877,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				player.setbackward(false);
 			}
 				//EAST
-			if (E && !frontbonk && !player.getAttacking())
+			if (E && !frontbonk && ((!player.getAttacking()) || player.getJA()))
 			{
 				player.setFaceForward(true);
 				player.setForward(true);
@@ -969,15 +969,29 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			case KeyEvent.VK_LEFT:
 				if(!player.getAttacking())
 				{
-					player.setFaceForward(false);
-					player.startAttack();
+					if(player.getFacingForward())
+					{
+						player.startReverseAttack();
+					}
+					else
+					{
+						//player.setFaceForward(false);
+						player.startAttack();
+					}
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
 				if(!player.getAttacking())
 				{
-					player.setFaceForward(true);
+					if(!player.getFacingForward())
+					{
+						player.startReverseAttack();
+					}
+					else
+					{
+					//player.setFaceForward(true);
 					player.startAttack();
+					}
 				}
 				break;
 				
@@ -1043,7 +1057,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					isPaused = true;
 				}
 				break;
-					
 		}
 	}
 	public void keyReleased(KeyEvent key) 
