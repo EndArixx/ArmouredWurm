@@ -362,7 +362,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 					//Player stuff
 			player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
-			player.setHitbox(50, 20, 100, 140);	
+			player.setHitbox(30, 15, 100, 140);	
 	}
 
 	public  void update()
@@ -837,7 +837,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{ 
 				player.setFaceForward(false);
 				player.setbackward(true);
-				if(player.getX() > 2*window.width/16)
+				if(player.getX() >  6*window.width/16)
 				{
 						//this if statement is to prevent the player from getting stuck in a wall;
 					if(!frontbonk ||player.speedX <= 0) 

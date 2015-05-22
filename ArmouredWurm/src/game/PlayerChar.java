@@ -43,10 +43,8 @@ public class PlayerChar extends Sprite
 	protected int feethitbox[] = new int[4];
 	protected int backhitbox[] = new int[4];
 	protected int fronthitbox[] = new int[4];
-	protected int legA[] = new int[2];
-	protected int topA[] = new int[2];
 	//protected Sprite legs;
-	protected boolean attacking, jumping, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
+	protected boolean attacking,reverseAttacking, jumping, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
 	protected gun rifle;
 	
 	protected double topRunSpeed;
@@ -59,6 +57,8 @@ public class PlayerChar extends Sprite
 	protected double maxHP, HP;
 	protected int  hx, hy, HPsW, invol, involtime;
 	protected Sprite hpImage;
+	
+	protected int aidle[],arun[],ajump[],afall[],aattack[],ajumpattack[],aknockback[],adeath[],areverseattack[],acombatstill[];
 	
 	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col,  Map<String,BufferedImage> spriteData)
 	{
@@ -97,24 +97,85 @@ public class PlayerChar extends Sprite
 		this.fallrate = 1.5;
 		this.runrate = 3;
 		
+			//Animations stuff
+				//[0] right
+				//[1] left
+				//[2] frames
+				//[3] speed
+		aidle = new int[4];
+		aidle[0] = 0;
+		aidle[1] = 1;
+		aidle[2] = 10;
+		aidle[3] = 3;
+		
+		arun = new int[4];
+		arun[0] = 2;
+		arun[1] = 3;
+		arun[2] = 16;
+		arun[3] = 3;
+		
+		ajump = new int[4];
+		ajump[0] = 4;
+		ajump[1] = 5;
+		ajump[2] = 8;
+		ajump[3] = 3;
+		
+		afall = new int[4];
+		afall[0] = 6;
+		afall[1] = 7;
+		afall[2] = 1;
+		afall[3] = 3;
+		
+		aattack = new int[6];
+		aattack[0] = 8;
+		aattack[1] = 9;
+		aattack[2] = 8;
+		aattack[3] = 3;
+			//attack zones
+		aattack[4] = 5;
+		aattack[5] = 7;
+		
+		ajumpattack = new int[6];
+		ajumpattack[0] = 10;
+		ajumpattack[1] = 11;
+		ajumpattack[2] = 10;
+		ajumpattack[3] = 3;
+		ajumpattack[4] = 6;
+		ajumpattack[5] = 9;
+		
+		
+		aknockback = new int[4];
+		aknockback[0] = 12;
+		aknockback[1] = 13;
+		aknockback[2] = 10;
+		aknockback[3] = 3;
+		
+		adeath = new int[4];
+		adeath[0] = 14;
+		adeath[1] = 15;
+		adeath[2] = 8;
+		adeath[3] = 3;
+		
+		areverseattack = new int[6];
+		areverseattack[0] = 16;
+		areverseattack[1] = 17;
+		areverseattack[2] = 8;
+		areverseattack[3] = 3;
+		areverseattack[4] = 3;
+		areverseattack[5] = 5;
+		
+		acombatstill = new int[4];
+		acombatstill[0] = 18;
+		acombatstill[1] = 19;
+		acombatstill[2] = 8;
+		acombatstill[3] = 3; 
+		
+		
+		
 		this.timerspeed = 3;
-		//this.legA[0] = 10;
-		//this.legA[1] = 10;
-		this.topA[0] = 16;
-		this.topA[1] = 16;
 		this.hasR = false;
 		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
-	}
-	public void setlegA(int S)
-	{
-		this.legA[0]= S;
-		this.legA[1] = S;
-	}
-	public void settopA(int S)
-	{
-		this.topA[0] = S;
-		this.topA[1] = S;
 	}
 	public void giveGun(gun rifle)
 	{
@@ -162,20 +223,39 @@ public class PlayerChar extends Sprite
 	{
 		if(!attacking)
 		{
-			
-			this.firstloop = true;
-			this.attacking= true;
-			if(FF)
+			if(jumping || falling)
 			{
-				this.row = 8;
-				this.col = 0;
-				this.colN = 8;
+				this.firstloop = true;
+				this.attacking= true;
+				if(FF)
+				{
+					this.row = ajumpattack[0];
+					this.col = 0;
+					this.colN = ajumpattack[2];
+				}
+				else
+				{
+					this.row =  ajumpattack[1];
+					this.col = 0;
+					this.colN = ajumpattack[2];
+				}
 			}
 			else
 			{
-				this.row = 9;
-				this.col = 0;
-				this.colN = 8;
+				this.firstloop = true;
+				this.attacking= true;
+				if(FF)
+				{
+					this.row = aattack[0];
+					this.col = 0;
+					this.colN = aattack[2];
+				}
+				else
+				{
+					this.row =  aattack[1];
+					this.col = 0;
+					this.colN = aattack[2];
+				}
 			}
 		}
 	}
@@ -188,7 +268,7 @@ public class PlayerChar extends Sprite
 		}
 		else
 		{
-			if(col > 4 && col < 8) //John unHARDCODE this
+			if(col >= aattack[4] && col <= aattack[4])
 			{
 				if(this.FF)
 				{
@@ -217,7 +297,6 @@ public class PlayerChar extends Sprite
 	{
 		/*
 		 * John! this will all be reworked
-		 * 1) add attacks! 				[ ]
 		 * 2) fix the jumping bug 		[ ]
 		 * 3) set the col counters to variables.
 		 *
@@ -258,7 +337,7 @@ public class PlayerChar extends Sprite
 		
 			//Test stuff!
 		if(jumping){this.timerspeed = 1.5;}
-		else if(attacking){this.timerspeed = 3;}
+		else if(attacking){this.timerspeed = 2;}
 		else{this.timerspeed = 3;}
 		
 		if(attacking)
@@ -283,8 +362,8 @@ public class PlayerChar extends Sprite
 						//Right facing Falling Animation
 					//legs.setRow(4);
 					//legs.setColN(0);
-					this.row = 10;
-					this.col = 1;
+					this.row = 6;
+					this.col = 0;
 					this.colN = 0;
 				}
 				else
@@ -292,8 +371,8 @@ public class PlayerChar extends Sprite
 						//Right facing Running Animation
 					//legs.setRow(1);
 					//legs.setColN(legA[0]);
-					this.row = 2;
-					this.colN = topA[1];
+					this.row = arun[0];
+					this.colN = arun[2];
 				}
 			}
 			else if(backward)
@@ -312,8 +391,8 @@ public class PlayerChar extends Sprite
 						//Left facing Falling Animation
 					//legs.setRow(5);
 					//legs.setColN(0);
-					this.row = 11;
-					this.col = 1;
+					this.row = 7;
+					this.col = 0;
 					this.colN = 0;
 				}
 				else
@@ -321,18 +400,19 @@ public class PlayerChar extends Sprite
 						//Left facing Running Animation
 					//legs.setRow(3);
 					//legs.setColN(legA[1]);
-					this.row = 3;
-					this.colN = topA[1];
+					this.row = arun[1];
+					this.colN = arun[2];
 				}
 			}
 		}
 		else
 		{
+			this.timerspeed = 8;
 			if (FF)//FF = facing forward
 			{
 					//Idle pose facing Right
 				this.row = 0;
-				this.setColN(0);
+				this.setColN(10);
 				//legs.setRow(0);
 				//legs.setColN(0);
 			}
@@ -340,7 +420,7 @@ public class PlayerChar extends Sprite
 			{
 					//Idle pose facing Left
 				this.row = 1;
-				this.setColN(0);
+				this.setColN(10);
 				//legs.setRow(2);
 				//legs.setColN(0);
 			}
