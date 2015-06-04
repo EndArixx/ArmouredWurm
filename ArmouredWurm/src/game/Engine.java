@@ -36,6 +36,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Spike spikes[];
 	public Platform platforms[];
 	public Platform ladders[];
+	public Platform parallax[];
 	public Door doors[];
 	public Explosive bombs[];
 	public World theWorld;
@@ -353,6 +354,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
 			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
 			
+				//John TEST 
+			parallax = new Platform[3];
+			parallax[2] = new Platform("res/back/forest.png",0,900,lvlspriteData);
+			parallax[2].setParSpeed(10);
+			parallax[1] = new Platform("res/back/manor.png",2000,700,lvlspriteData);
+			parallax[1].setParSpeed(8);
+			parallax[0] = new Platform("res/back/factory.png",0,750,lvlspriteData);
+			parallax[0].setParSpeed(5);
 		
 			loading = new Sprite("res/loading.png",0,0,permaSprites );
 			
@@ -393,6 +402,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			player.update(damageQ); 
 			int i;
+			
+			for(i = 0; i < parallax.length;i++)
+			{
+				parallax[i].update(theWorld);
+			}
 			for(i = 0; i < platforms.length;i++)
 			{
 				platforms[i].update(theWorld);
@@ -537,15 +551,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		if(!isLoading && !isPaused && !isGameOver)
 		{
-				//this is done before gameWorld because of the way i made the test boat level
+				//JOHN - this is done before gameWorld because of the way i made the test boat level
 			for(i =0; i < weather.length; i++)
 			{
 				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g,lvlspriteData);}
 			}
 			
-				//background
+				//background stuff 
 			gameWorld.render(g, windowHB,lvlspriteData);
-	
+				//more backgrounds
+			for(i = 0; i < parallax.length;i++)
+			{
+				if(Tools.check_collision(windowHB,parallax[i].getHitbox())){parallax[i].render(g,lvlspriteData );}
+			}
 				//render the platforms]
 			for(i = 0; i < platforms.length;i++)
 			{
