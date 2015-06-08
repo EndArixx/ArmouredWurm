@@ -165,6 +165,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        int hnum = Integer.parseInt(temp[7]);
 	        healthpicks = new Platform[hnum];
 	        
+	        int paranum = Integer.parseInt(temp[8]);
+	        parallax = new Platform[paranum];
+	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
@@ -309,6 +312,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[7])
 	        			);
 	        }
+	        for(int i = 0; i < paranum; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	parallax[i] = new Platform(temp[0],
+	        			Integer.parseInt(temp[1]),
+	        			Integer.parseInt(temp[2]),
+	        			lvlspriteData
+	        			);
+	        	parallax[i].setParSpeed(Double.parseDouble(temp[3]));
+	        }
 	        fr.close();
 	        br.close();
 	        
@@ -354,16 +368,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
 			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
 			
-				//John TESTng here! 
-			parallax = new Platform[4];
-			parallax[3] = new Platform("res/back/forest.png",0,400,lvlspriteData);
-			parallax[3].setParSpeed(5);
-			parallax[2] = new Platform("res/back/manor.png",800,300,lvlspriteData);
-			parallax[2].setParSpeed(8);
-			parallax[1] = new Platform("res/back/factory.png",0,200,lvlspriteData);
-			parallax[1].setParSpeed(10);
-			parallax[0] = new Platform("res/back/mountainback.png",0,0,lvlspriteData);
-			parallax[0].setParSpeed(-1);
 		
 			loading = new Sprite("res/loading.png",0,0,permaSprites );
 			

@@ -1,7 +1,7 @@
 res/TEST.txt
 res/mount-,2,2,1280,720
 2560,1440
-0,3,19,3,3,2,16,2,0,0,0,0,0,0,0
+0,3,19,3,3,2,16,2,4,0,0,0,0,0,0
 res/ladder0-1.png,2280,180,20,30,72,339
 res/ladder0-1.png,2330,500,30,50,62,169
 res/ladder0-1.png,720,190,0,0,122,409
@@ -48,5 +48,10 @@ res/bomb2.png,res/blast2.png,890,790,64,64,0,96,96,0,4,6,30,10,
 res/bomb2.png,res/blast2.png,950,780,64,64,0,96,96,0,4,6,30,10,
 res/bomb2.png,res/blast2.png,1010,840,64,64,0,96,96,0,4,6,30,10,
 res/bomb2.png,res/blast2.png,970,800,64,64,0,96,96,0,4,6,30,10,
-res/medpack.png,1440,470,100,100,0,0,0
+res/medpack.png,1440,470,100,100,0,0,50
 res/medpack.png,2010,420,100,100,0,0,50
+res/back/mountainback.png,0,0,-1
+res/back/factory.png,0,100,10
+res/back/manor.png,800,200,8
+res/back/forest.png,0,300,5
+
