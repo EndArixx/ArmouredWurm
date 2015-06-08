@@ -355,13 +355,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
 			
 				//John TESTng here! 
-			parallax = new Platform[3];
-			parallax[2] = new Platform("res/back/forest.png",0,400,lvlspriteData);
-			parallax[2].setParSpeed(5);
-			parallax[1] = new Platform("res/back/manor.png",800,300,lvlspriteData);
-			parallax[1].setParSpeed(8);
-			parallax[0] = new Platform("res/back/factory.png",0,200,lvlspriteData);
-			parallax[0].setParSpeed(10);
+			parallax = new Platform[4];
+			parallax[3] = new Platform("res/back/forest.png",0,400,lvlspriteData);
+			parallax[3].setParSpeed(5);
+			parallax[2] = new Platform("res/back/manor.png",800,300,lvlspriteData);
+			parallax[2].setParSpeed(8);
+			parallax[1] = new Platform("res/back/factory.png",0,200,lvlspriteData);
+			parallax[1].setParSpeed(10);
+			parallax[0] = new Platform("res/back/mountainback.png",0,0,lvlspriteData);
+			parallax[0].setParSpeed(-1);
 		
 			loading = new Sprite("res/loading.png",0,0,permaSprites );
 			
@@ -766,7 +768,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					
 					theWorld.moveYn(player.getGravity());
-					for(int i = 0; i< parallax.length;i++)
+					for(int i = 1; i< parallax.length;i++)
 					{
 						parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
 					}
@@ -805,7 +807,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						theWorld.moveYn(-player.gettopRunSpeed());
 						
-						for(int i = 0; i< parallax.length;i++)
+						for(int i = 1; i< parallax.length;i++)
 						{
 							parallax[i].moveYn(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
 						}
@@ -843,7 +845,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 							}
 							theWorld.moveYn(player.getGravity());
 							
-							for(int i = 0; i< parallax.length;i++)
+							for(int i = 1; i< parallax.length;i++)
 							{
 								parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
 							}
@@ -892,7 +894,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						theWorld.moveXp(-player.speedX);
 						
-						for(int i = 0; i< parallax.length;i++)
+						for(int i = 1; i< parallax.length;i++)
 						{
 							parallax[i].moveXp(-(int) ( player.speedX / parallax[i].getParSpeed()));
 						}
@@ -941,7 +943,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						theWorld.moveXp(-player.speedX);
 						
-						for(int i = 0; i< parallax.length;i++)
+						for(int i = 1; i< parallax.length;i++)
 						{
 							parallax[i].moveXp(-(int)( player.speedX / parallax[i].getParSpeed()));
 						}
@@ -985,7 +987,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				{
 					
 					theWorld.moveYn(player.gettopRunSpeed());
-					for(int i = 0; i< parallax.length;i++)
+					for(int i = 1; i< parallax.length;i++)
 					{
 						parallax[i].moveYp(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
 					}
