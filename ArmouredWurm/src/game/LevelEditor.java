@@ -318,7 +318,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					+ spikes.length +  ","
 					+ bombs.length+ ","
 					+ healthpicks.length + ","
-					+ "0,0,0,0,0,0,0\n");
+					+ parallax.length + ","
+					+ "0,0,0,0,0,0\n");
 				
 			
 				//Write out weathers
@@ -388,6 +389,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+badguys[i].hitbox[2] + ","
 						+badguys[i].hitbox[3] + "\n");
 			}
+				//write out spikes
 			for(int i = 0; i < spikes.length; i++)
 			{
 				fw.write(spikes[i].name +","
@@ -403,6 +405,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+spikes[i].hitbox[2] +","
 						+spikes[i].hitbox[3] +"\n");  
 			}
+				//write out bombs
 			for(int i = 0; i< bombs.length; i++)
 			{
 				fw.write(bombs[i].bombimage + ","
@@ -421,6 +424,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+bombs[i].blastspeed + ","
 						+"\n");
 			}
+				//write out health pickups
 			for(int i = 0; i < healthpicks.length; i++)
 			{
 				fw.write(healthpicks[i].name + ","
@@ -432,6 +436,16 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+(int) healthpicks[i].timerspeed + ","
 						+healthpicks[i].getValue() + 
 						"\n");
+			}
+			
+				//write out parallax
+			for(int i = 0; i < parallax.length; i++)
+			{
+				fw.write(parallax[i].name +","
+						+parallax[i].getTrueX() + ","
+						+parallax[i].getTrueY() + ","
+						+parallax[i].getParSpeed()
+						+"\n");
 			}
 			//fw.write(" \n");
 			fw.close();
@@ -475,7 +489,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		
 		
 			//Modes
-		this.modeTotal = 7;
+		this.modeTotal = 8;
 		this.modeCounter = 0;
 		this.tab = false;
 		this.tabL = true;
@@ -957,7 +971,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 				//background
 			gameWorld.render(g, windowHB,lvlspriteData);
-
+			
+			for(i = 0; i < parallax.length;i++)
+			{
+				if(Tools.check_collision(windowHB,parallax[i].getHitbox()))
+				{
+					parallax[i].render(g,lvlspriteData );
+					g.setColor(Color.GREEN);
+					g.drawString("["+i+"]",platforms[i].getX(),platforms[i].getY());
+				}
+			}
+			
 			g.setFont(new Font("MonoSpace", Font.PLAIN, 20)); 
 
 				//render the platforms
@@ -1113,6 +1137,18 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					g.drawString("["+target+"]",50,50);
 				}
 			}
+			else if(modeCounter == 7)
+			{
+				if(parallax.length != 0)
+				{
+					g.setColor(Color.GREEN);
+					g.drawRect(parallax[target].hitbox[0]+parallax[target].x,
+							parallax[target].hitbox[1]+parallax[target].y,
+							parallax[target].hitbox[2], 
+							parallax[target].hitbox[3]);
+					g.drawString("["+target+"]",50,50);
+				}
+			}
 			
 		}
 		if(isLoading)
@@ -1153,6 +1189,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				//visible hitbox?
 			theWorld.update();
 			int i;
+			for(i = 0; i < parallax.length;i++)
+			{
+				parallax[i].update();
+			}
 			for(i = 0; i < platforms.length;i++)
 			{
 				platforms[i].update(theWorld);
@@ -1445,6 +1485,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if (theWorld.getY() < 0)
 			{
 				theWorld.moveYn(-scrollSpeed);
+				for(int i = 1; i< parallax.length;i++)
+				{
+					parallax[i].moveYn(-(int) (scrollSpeed / parallax[i].getParSpeed()));
+				}
 			}
 		}
 			//MOVE WINDOW SOUTH
@@ -1453,6 +1497,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(-theWorld.getY()+window.getHeight()<theWorld.getHeight())
 			{
 				theWorld.moveYn(scrollSpeed);
+				for(int i = 1; i< parallax.length;i++)
+				{
+					parallax[i].moveYn((int) (scrollSpeed / parallax[i].getParSpeed()));
+				}
 			}
 		}
 			//MOVE WINDOW WEST
@@ -1461,6 +1509,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(theWorld.getX() < 0)
 			{
 				theWorld.moveXp(scrollSpeed);
+				for(int i = 1; i< parallax.length;i++)
+				{
+					parallax[i].moveXp((int) (scrollSpeed / parallax[i].getParSpeed()));
+				}
 			}
 		}
 			//MOVE WINDOW EAST
@@ -1469,6 +1521,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(-theWorld.getX() < theWorld.getWidth()-window.width)
 			{
 				theWorld.moveXp(-scrollSpeed);
+				for(int i = 1; i< parallax.length;i++)
+				{
+					parallax[i].moveXp(-(int) (scrollSpeed / parallax[i].getParSpeed()));
+				}
 			}
 		}
 		if(!shiftmonitor && !controlmonitor)
@@ -1504,6 +1560,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			else if(modeCounter == 6)
 			{
 				platformMove(healthpicks);
+			}
+			else if (modeCounter == 7)
+			{
+				platformMove(parallax);
 			}
 		}
 		else if(shiftmonitor && !controlmonitor)
@@ -1549,7 +1609,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				platformHitBox(healthpicks,PHmove);
 			}
-			
+			else if(modeCounter == 7)
+			{
+				platformHitBox(parallax,PHmove);
+			}
 		}
 		else if(controlmonitor)
 		{
@@ -1615,7 +1678,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 		}
 	}
-
 	public void platformMove(Platform[] mover)
 	{
 		if(moveN && mover.length !=0)
@@ -1985,6 +2047,34 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							//hmmm
 						}
 					}
+					else if(modeCounter == 7)
+					{
+						String[] numbs = new String[parallax.length];
+						for(int i =0;i< parallax.length; i++)
+						{
+							numbs[i] = i + "";
+						}
+						String s = (String)JOptionPane.showInputDialog(
+					                    frame,
+					                    "Please enter a number between 0 and "+ parallax.length,
+					                    "TARGET",
+					                    JOptionPane.PLAIN_MESSAGE,
+					                    null,
+					                    numbs,
+					                    "0");
+
+						if ((s != null) && (s.length() > 0)) 
+						{
+							if(Integer.parseInt(s) > -1 && Integer.parseInt(s) < parallax.length)
+							{
+								target = Integer.parseInt(s);
+							}
+						}
+						else
+						{
+							//hmmm
+						}
+					}
 				}
 				break;
 			//---------------------------TARGETING
@@ -2060,6 +2150,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					else if(modeCounter == 6)
 					{
 						if(target < healthpicks.length-1)
+						{
+							this.target++;
+						}
+						else
+						{
+							this.target = 0;
+						}
+					}
+					else if(modeCounter == 7)
+					{
+						if(target < parallax.length-1)
 						{
 							this.target++;
 						}
@@ -2150,6 +2251,17 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						else
 						{
 							this.target = healthpicks.length-1;
+						}
+					}
+					else if(modeCounter == 7)
+					{
+						if(target > 0)
+						{
+							this.target--;
+						}
+						else
+						{
+							this.target = parallax.length-1;
 						}
 					}
 					this.RtargetH=false;
