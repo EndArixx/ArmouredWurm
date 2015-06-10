@@ -3,6 +3,9 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Queue;
 
@@ -34,6 +37,28 @@ public class PlayerChar extends Sprite
 	protected Sprite hpImage;
 	
 	protected int aidle[],arun[],ajump[],afall[],aattack[],ajumpattack[],aknockback[],adeath[],areverseattack[],acombatstill[];
+	
+	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
+	{
+		super("Player Character",0,0,0,0,0,0,15, spriteData);
+		String name;
+		String[] temp;
+		BufferedReader br;
+		 try {
+		    	FileReader fr = new FileReader(infile);
+		    	br = new BufferedReader(fr);
+		        String line = br.readLine();
+		        name = line;
+		        fr.close();
+		        br.close();
+	        
+	    } catch (IOException e) 
+	    {
+	    	System.out.println("Im sorry the Map File: "+infile+" could not be loaded!");
+	    }
+		//JOHN YOU ARE HERE!
+		 
+	}
 	
 	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col,  Map<String,BufferedImage> spriteData)
 	{
@@ -153,6 +178,8 @@ public class PlayerChar extends Sprite
 		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
 	}
+	
+	
 	public void giveGun(gun rifle)
 	{
 		this.hasR = true;
