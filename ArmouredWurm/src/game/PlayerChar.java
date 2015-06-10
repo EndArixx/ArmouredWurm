@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Queue;
+
+import javax.imageio.ImageIO;
 
 /*  
  * Player character
@@ -35,28 +38,200 @@ public class PlayerChar extends Sprite
 	protected double maxHP, HP;
 	protected int  hx, hy, HPsW, invol, involtime;
 	protected Sprite hpImage;
-	
+	protected String charname;
 	protected int aidle[],arun[],ajump[],afall[],aattack[],ajumpattack[],aknockback[],adeath[],areverseattack[],acombatstill[];
 	
 	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
 	{
-		super("Player Character",0,0,0,0,0,0,15, spriteData);
-		String name;
+		super();
+			//booleans
+		this.attacking = false;
+		this.jumping= false;
+		this.jumpAttacking = false;
+		this.forward = false;
+		this.backward = false;
+		this.FF = true;
+		this.falling = false;
+		this.hurt = false;
+		this.dying = false;
+		this.dead = false;
+		this.invol = 0;
+		animate = true;
+		this.player = true;
+		row = 0;
+		col = 0;
+		
 		String[] temp;
+		FileReader fr;
 		BufferedReader br;
 		 try {
-		    	FileReader fr = new FileReader(infile);
+			 	fr = new FileReader(infile);
 		    	br = new BufferedReader(fr);
+		    	
 		        String line = br.readLine();
-		        name = line;
+		        this.charname = line;
+		        
+		        line = br.readLine();
+		        this.name= line;
+		        
+		        
+		        BufferedImage spriteMap = null;
+				try 
+				{
+					spriteMap = ImageIO.read(new File(name));
+				}
+				catch (IOException e) 
+				{
+					System.out.println("Error, Bad Sprite:"+ name);
+				}
+				spriteData.put(name,spriteMap);
+
+		        
+		        line = br.readLine();
+		        temp = line.split(",");
+		        this.x = Integer.parseInt(temp[0]);
+		        this.y = Integer.parseInt(temp[1]);
+		        
+		        line = br.readLine();
+		        temp = line.split(",");
+		        this.width = Integer.parseInt(temp[0]);
+		        this.height = Integer.parseInt(temp[1]);
+		        
+		        line = br.readLine();
+		        temp = line.split(",");
+		        this.rowN = Integer.parseInt(temp[0]);
+		        this.colN = Integer.parseInt(temp[1]);
+		        
+		        line = br.readLine();
+		        this.maxHP = Integer.parseInt(line);
+		        this.HP = maxHP;
+		        
+		        line = br.readLine();
+		        temp = line.split(",");
+		        this.topRunSpeed = Integer.parseInt(temp[0]);
+		        this.topGravity = Integer.parseInt(temp[1]);
+		        this.topJump = Integer.parseInt(temp[2]);
+		        this.fallrate = Double.parseDouble(temp[3]);
+		        this.runrate = Double.parseDouble(temp[4]);
+		        
+		        line = br.readLine();
+		        this.involtime = Integer.parseInt(line);
+		        
+		        line = br.readLine();
+		        temp = line.split(",");
+		        aidle = new int[4];
+				aidle[0] = Integer.parseInt(temp[0]);
+				aidle[1] = Integer.parseInt(temp[1]);
+				aidle[2] = Integer.parseInt(temp[2]);
+				aidle[3] = Integer.parseInt(temp[3]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				arun = new int[4];
+				arun[0] = Integer.parseInt(temp[0]);
+				arun[1] = Integer.parseInt(temp[1]);
+				arun[2] = Integer.parseInt(temp[2]);
+				arun[3] = Integer.parseInt(temp[3]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				ajump = new int[4];
+				ajump[0] = Integer.parseInt(temp[0]);
+				ajump[1] = Integer.parseInt(temp[1]);
+				ajump[2] = Integer.parseInt(temp[2]);
+				ajump[3] = Integer.parseInt(temp[3]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				afall = new int[4];
+				afall[0] = Integer.parseInt(temp[0]);
+				afall[1] = Integer.parseInt(temp[1]);
+				afall[2] = Integer.parseInt(temp[2]);
+				afall[3] = Integer.parseInt(temp[3]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				aattack = new int[6];
+				aattack[0] = Integer.parseInt(temp[0]);
+				aattack[1] = Integer.parseInt(temp[1]);
+				aattack[2] = Integer.parseInt(temp[2]);
+				aattack[3] = Integer.parseInt(temp[3]);
+				aattack[4] = Integer.parseInt(temp[4]);
+				aattack[5] = Integer.parseInt(temp[5]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				ajumpattack = new int[6];
+				ajumpattack[0] = Integer.parseInt(temp[0]);
+				ajumpattack[1] = Integer.parseInt(temp[1]);
+				ajumpattack[2] = Integer.parseInt(temp[2]);
+				ajumpattack[3] = Integer.parseInt(temp[3]);
+				ajumpattack[4] = Integer.parseInt(temp[4]);
+				ajumpattack[5] = Integer.parseInt(temp[5]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				aknockback = new int[4];
+				aknockback[0] = Integer.parseInt(temp[0]);
+				aknockback[1] = Integer.parseInt(temp[1]);
+				aknockback[2] = Integer.parseInt(temp[2]);
+				aknockback[3] = Integer.parseInt(temp[3]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				adeath = new int[4];
+				adeath[0] = Integer.parseInt(temp[0]);
+				adeath[1] = Integer.parseInt(temp[1]);
+				adeath[2] = Integer.parseInt(temp[2]);
+				adeath[3] = Integer.parseInt(temp[3]);
+			
+				line = br.readLine();
+		        temp = line.split(",");
+				areverseattack = new int[6];
+				areverseattack[0] = Integer.parseInt(temp[0]);
+				areverseattack[1] = Integer.parseInt(temp[1]);
+				areverseattack[2] = Integer.parseInt(temp[2]);
+				areverseattack[3] = Integer.parseInt(temp[3]);
+				areverseattack[4] = Integer.parseInt(temp[4]);
+				areverseattack[5] =	Integer.parseInt(temp[5]);
+				
+				line = br.readLine();
+		        temp = line.split(",");
+				acombatstill = new int[4];
+				acombatstill[0] = Integer.parseInt(temp[0]);
+				acombatstill[1] = Integer.parseInt(temp[1]);
+				acombatstill[2] = Integer.parseInt(temp[2]);
+				acombatstill[3] = Integer.parseInt(temp[3]);
+		        
+		        line = br.readLine();
+		        temp= line.split(",");
+		        this.setHitbox(
+		        		Integer.parseInt(temp[0]), 
+		        		Integer.parseInt(temp[1]), 
+		        		Integer.parseInt(temp[2]),
+		        		Integer.parseInt(temp[3]));
+		        
 		        fr.close();
 		        br.close();
 	        
-	    } catch (IOException e) 
-	    {
-	    	System.out.println("Im sorry the Map File: "+infile+" could not be loaded!");
-	    }
-		//JOHN YOU ARE HERE!
+	    } catch (IOException e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!");}
+		 
+		this.speedX = 0;
+		this.speedY = 0;
+		this.gravity = 0;
+		
+		 	//HP STUFF THAT NEEDS WORK
+			//John make HP independant of player
+		this.hx = 800;
+		this.hy = 30;
+			//this needs work
+		this.hpImage = new Sprite("res/hpbar.png",hx,hy,spriteData);
+		this.HPsW = hpImage.width;
+		
+		this.timerspeed = 3;
+			//old rifle stuff, will be removed or converted
+		this.hasR = false;
+		
 		 
 	}
 	
@@ -65,11 +240,13 @@ public class PlayerChar extends Sprite
 		super(spriteloc,x,y,width,height,row,col,15, spriteData);
 		this.maxHP = 100;
 		this.HP = 100;
+			//John make HP independant of player
 		this.hx = 800;
 		this.hy = 30;
 			//this need swork
 		this.hpImage = new Sprite("res/hpbar.png",hx,hy,spriteData);
 		this.HPsW = hpImage.width;
+		
 			//booleans
 		this.attacking = false;
 		this.jumping= false;

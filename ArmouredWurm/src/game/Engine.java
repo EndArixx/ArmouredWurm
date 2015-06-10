@@ -376,8 +376,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			isGameOver = false;
 			
 					//Player stuff
-			player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
-			player.setHitbox(30, 15, 100, 140);	
+			player = new PlayerChar("res/player/brov4.txt",permaSprites);
+			//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
+			//player.setHitbox(30, 15, 100, 140);	
 	}
 
 	public  void update()

@@ -92,7 +92,10 @@ public class Sprite{
 			//A subimage is the image that will show on the screen
 		//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 	}
-	
+	public Sprite()
+	{
+		//empty for a reason 
+	}
 	public void animateCol()
 	{
 			//This is what makes the sprite move or animate.
