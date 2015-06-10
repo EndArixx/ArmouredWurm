@@ -43,6 +43,28 @@ public class PlayerChar extends Sprite
 	
 	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
 	{
+		/*
+		 * ----PLAYER FILE----
+		 * 1) 	charname 
+		 * 2) 	sprite location
+		 * 3) 	x,y
+		 * 4) 	width,height
+		 * 5) 	row, col
+		 * 6) 	MaxHP
+		 * 7) 	topRun,topGravity,topJump,fallRate,runRate
+		 * 8) 	invol time
+		 * 9) 	Idle: 			right,left, frames, Speed
+		 * 10) 	run:			r,l,f,s
+		 * 11) 	jump:			r,l,f,s
+		 * 12)	fall:			r,l,f,s
+		 * 13)	attack:			right,left,frames,Speed, attackZoneStart,attackZoneEnd
+		 * 14)	jump attack:	r,l,f,s,aS,aE
+		 * 15)	knockback:		r,l,f,s
+		 * 16)	death:			r,l,f,s
+		 * 17)	reverse attack:	r,l,f,s,aS,aE
+		 * 18)	combat still:	r,l,f,s	
+		 * 19) 	Hitbox:			x,y,width,height
+		 */
 		super();
 			//booleans
 		this.attacking = false;
