@@ -968,8 +968,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				if(Tools.check_collision(windowHB,weather[i].getHitbox())){weather[i].render(g,lvlspriteData);}
 			}
-			
-				//background
+			g.setFont(new Font("MonoSpace", Font.PLAIN, 20)); 
+
+				//backgrounds
 			gameWorld.render(g, windowHB,lvlspriteData);
 			
 			for(i = 0; i < parallax.length;i++)
@@ -978,12 +979,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				{
 					parallax[i].render(g,lvlspriteData );
 					g.setColor(Color.GREEN);
-					g.drawString("["+i+"]",platforms[i].getX(),platforms[i].getY());
+					g.drawString("["+i+"]",parallax[i].getX(),parallax[i].getY());
 				}
 			}
 			
-			g.setFont(new Font("MonoSpace", Font.PLAIN, 20)); 
-
 				//render the platforms
 			for(i = 0; i < platforms.length;i++)
 			{
@@ -1060,7 +1059,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						platforms[target].hitbox[1]+platforms[target].y,
 						platforms[target].hitbox[2], 
 						platforms[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Platform ["+target+"]",50,50);
 				}
 			}
 			else if(modeCounter == 1)
@@ -1072,7 +1071,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							ladders[target].hitbox[1]+ladders[target].y,
 							ladders[target].hitbox[2], 
 							ladders[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Ladder ["+target+"]",50,50);
 				}
 			}
 			else if(modeCounter == 2)
@@ -1084,7 +1083,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							doors[target].hitbox[1]+doors[target].y,
 							doors[target].hitbox[2], 
 							doors[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Door ["+target+"]",50,50);
 				}
 			}
 			else if(modeCounter == 3)
@@ -1096,7 +1095,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							badguys[target].hitbox[1]+badguys[target].y,
 							badguys[target].hitbox[2], 
 							badguys[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Bad Guy ["+target+"]",50,50);
 					
 					g.drawRect(badguys[target].patrolL + theWorld.getX(),theWorld.getY() + badguys[target].trueY,badguys[target].patrolR- badguys[target].patrolL,badguys[target].height/2);
 				}
@@ -1110,7 +1109,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							spikes[target].hitbox[1]+spikes[target].y,
 							spikes[target].hitbox[2], 
 							spikes[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Spike ["+target+"]",50,50);
 				}
 			}
 			else if(modeCounter == 5)
@@ -1122,7 +1121,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							bombs[target].hitbox[1]+bombs[target].y,
 							bombs[target].hitbox[2], 
 							bombs[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Bomb ["+target+"]",50,50);
 				}
 			}
 			else if(modeCounter == 6)
@@ -1134,7 +1133,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							healthpicks[target].hitbox[1]+healthpicks[target].y,
 							healthpicks[target].hitbox[2], 
 							healthpicks[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Heath Pickup ["+target+"]",50,50);
 				}
 			}
 			else if(modeCounter == 7)
@@ -1146,7 +1145,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							parallax[target].hitbox[1]+parallax[target].y,
 							parallax[target].hitbox[2], 
 							parallax[target].hitbox[3]);
-					g.drawString("["+target+"]",50,50);
+					g.drawString("Parallax ["+target+"]",50,50);
 				}
 			}
 			

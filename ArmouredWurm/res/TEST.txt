@@ -11,7 +11,7 @@ res/1-1grass2.png,1440,520,0,50,524,63
 res/1-1grass3.png,1410,300,0,50,274,54
 res/1-1grass2.png,240,670,0,40,524,73
 res/1-1grass3.png,700,600,0,60,244,54
-res/mountP.png,0,790,70,20,230,100
+res/1-1grass0.png,20,740,20,80,265,41
 res/wall0-1.png,2110,220,30,0,62,409
 res/wall0-1.png,2440,220,40,0,52,399
 res/1-1grass0.png,1710,370,0,70,305,91
@@ -31,7 +31,7 @@ res/SoldierMap.png,res/SoldierMap.png,bacon,200,10,200,200,2,0,100,620,50,20,90,
 res/SoldierMap.png,res/SoldierMap.png,null,1120,860,200,200,2,0,1130,1720,40,10,120,170
 res/SoldierMap.png,res/SoldierMap.png,null,2020,680,200,200,2,0,1840,2530,60,20,100,140
 res/bad1.png,1580,990,64,64,0,0,0,0,0,64,64
-res/mountP.png,1850,970,350,170,0,0,0,0,0,350,170
+res/mountP.png,1850,970,350,170,0,0,0,50,60,250,50
 res/bomb2.png,res/blast2.png,350,660,64,64,0,96,96,0,4,6,30,20,
 res/bomb2.png,res/blast2.png,404,650,64,64,0,96,96,0,4,6,30,20,
 res/bomb2.png,res/blast2.png,452,660,64,64,0,96,96,0,4,6,30,20,
@@ -49,8 +49,8 @@ res/bomb2.png,res/blast2.png,950,780,64,64,0,96,96,0,4,6,30,10,
 res/bomb2.png,res/blast2.png,1010,840,64,64,0,96,96,0,4,6,30,10,
 res/bomb2.png,res/blast2.png,970,800,64,64,0,96,96,0,4,6,30,10,
 res/medpack.png,1440,470,100,100,0,0,50
-res/medpack.png,2010,420,100,100,0,0,50
+res/medpack.png,1990,360,100,100,0,0,50
 res/back/mountainback.png,0,0,-1.0
-res/back/factory.png,0,100,10.0
-res/back/manor.png,800,200,8.0
-res/back/forest.png,0,300,5.0
+res/back/factory.png,-99,75,10.0
+res/back/manor.png,831,195,8.0
+res/back/forest.png,-198,260,5.0
