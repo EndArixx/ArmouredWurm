@@ -89,6 +89,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Sprite pauseMenu;
 	public Sprite pauseButtons[];
 	
+		//mainmenu stuff
+	private boolean inMainMenu = false;
+	private int mainMenuButnum = 0;
+	private int mainMenuMax;
+	public Sprite mainMenu;
+	public Sprite mainMenuButtons[];
+	private boolean terminator = false;
+	private boolean start = false;
+		//mainmenuEnter &  mainmenuEnterHelper
+	private boolean mme,mmeh;
+	
 	public String lvlName;
 		//game over screen
 	public Sprite gameover;
@@ -347,10 +358,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			lvlspriteData = new HashMap<String,BufferedImage>();
 			permaSprites = new HashMap<String,BufferedImage>();
 			
-			isLoading = true;
-			loadLevel(lvl);
-			isLoading = false;
-			loadTarget = -1;
+				//SET up menu here 
+			this.inMainMenu = true;
+			this.mme = false;
+			this.mmeh= true;
+			this.mainMenu = new Sprite("res/menu/menuback.png",0,0,permaSprites);
+			this.mainMenuMax = 3;
+			mainMenuButtons = new Sprite[mainMenuMax+1];
+			for(int i = 0;i < this.mainMenuMax + 1; i++)
+			{
+				this.mainMenuButtons[i] = new Sprite("res/menu/menu"+i+".png",0,0,permaSprites);
+			}
 			
 				//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
 				// the right button if he is still holding left he then starts going left again or visa versa
@@ -361,7 +379,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			Jh = true;
 				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
-			
 			
 			pauseButtons = new Sprite[3];
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
@@ -375,16 +392,24 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			gameover = new Sprite("res/gameover.png",0,0,permaSprites );
 			isGameOver = false;
 			
-					//Player stuff
+					//Player stuff (john set this up in the save file)
 			player = new PlayerChar("res/player/brov4.txt",permaSprites);
 			//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
 			//player.setHitbox(30, 15, 100, 140);	
 	}
-
+	public void startGame(String inlvl)
+	{
+		loadTarget = -1;
+		isLoading = true;
+		loadLevel(inlvl);
+		isLoading = false;
+	}
 	public  void update()
-	{		
+	{	
+			//This makes the loading screen work.
+		if(start){start = false; startGame(lvl);};
 		
-		if(!isLoading && !isPaused && !isGameOver)
+		if(!isLoading && !isPaused && !isGameOver && !inMainMenu)
 		{	
 			if(player.getDead())
 			{
@@ -544,6 +569,38 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			theWorld.setY(tworld[1]);
 			isLoading = false;
 		}
+		else if(inMainMenu)
+		{
+			if(mme)
+			{
+				inMainMenu = false;
+				mmeh= false;
+				mme = false;
+				/*if(mainMenuButnum == 0)
+				{
+						//NOTHING
+				}
+				else*/
+				if(mainMenuButnum == 1)
+				{
+						//NEW GAME
+					isLoading = true;
+					start = true;
+				}
+				else if(mainMenuButnum == 2)
+				{
+						//CONTINUE 
+							//JOHN WORK HERE!
+				}
+				else if(mainMenuButnum == 3)
+				{		
+						//QUIT
+					isGameOver = true;
+					terminator = true;
+				}
+			}
+		}
+		
 	}
 
 	public void render()
@@ -556,7 +613,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		g.fillRect(0, 0, window.width, window.height);
 		
 		
-		if(!isLoading && !isPaused && !isGameOver)
+		if(!isLoading && !isPaused && !isGameOver && !inMainMenu && isRunning )
 		{
 				//JOHN - this is done before gameWorld because of the way i made the test boat level
 			for(i =0; i < weather.length; i++)
@@ -638,9 +695,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			gameover.render(g,permaSprites );
 		}
-		else
+		else if(inMainMenu)
+		{
+			mainMenu.render(g,permaSprites);
+			mainMenuButtons[mainMenuButnum].render(g,permaSprites);
+		}
+		else if(isLoading)
 		{
 			loading.render(g,permaSprites);
+		}
+		else
+		{
+			//ERROR!!!
+			System.out.println("UNKNOWN STATE: render()");
 		}
 			// Get window's graphics object. 
 		g = getGraphics();
@@ -682,6 +749,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			render();
 			
 				//memory stuff
+			if(this.terminator) isRunning = false;
 			System.gc();
 		}
 			//this is after game
@@ -717,7 +785,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			 * 	- add support for moving platforms 
 			 * 	
 			 */
-		if(!isLoading && !isPaused)
+		if(!isLoading && !isPaused && !inMainMenu)
 		{
 
 			if(F)
@@ -1009,6 +1077,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//player.setOnladder(true)
 			}
 		}
+		
 	}
 
 	public void keyPressed(KeyEvent key) 
@@ -1020,7 +1089,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		switch (key.getKeyCode())
 		{
 			//attacklogic
-			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_SPACE:
+				if(inMainMenu)
+				{
+					if(mmeh)
+					{
+						mme= true;
+					}
+				}
+				break;
+ 			case KeyEvent.VK_LEFT:
 				if(!player.getAttacking())
 				{
 					if(player.getFacingForward())
@@ -1064,6 +1142,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						pauseButnum = pauseMax;
 					}
 				}
+				else if(inMainMenu)
+				{
+					if(mainMenuButnum != 0)
+					{
+						mainMenuButnum--;
+					}
+					else
+					{
+						mainMenuButnum = pauseMax;
+					}
+				}
 					break;
 			case KeyEvent.VK_S: //DOWN
 				S=true;
@@ -1076,6 +1165,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					else
 					{
 						pauseButnum = 0;
+					}
+				}
+				else if(inMainMenu)
+				{
+					if(mainMenuButnum != mainMenuMax)
+					{
+						mainMenuButnum++;
+					}
+					else
+					{
+						mainMenuButnum = 0;
 					}
 				}
 					break;
@@ -1101,7 +1201,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			case KeyEvent.VK_Q: //Quit
 				isRunning = false;
 					break;
-			case KeyEvent.VK_P: //Paused
+			case KeyEvent.VK_ESCAPE: //Paused
 				if(isPaused)
 				{
 					isPaused = false;
@@ -1118,6 +1218,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//check the key then turn off that direction
 		switch (key.getKeyCode())
 		{
+			case KeyEvent.VK_SPACE:
+				if(inMainMenu)
+				{
+					if(!mmeh)
+					{
+						mmeh = true;
+					}
+				}
+			break;
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=false;
@@ -1148,6 +1257,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				break;	
 				
 								//FIRE WEAPON
+									//old!
 			case KeyEvent.VK_RIGHT:
 				F = false;
 					break;
