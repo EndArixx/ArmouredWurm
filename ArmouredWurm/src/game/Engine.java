@@ -573,7 +573,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			if(mme)
 			{
-				inMainMenu = false;
 				mmeh= false;
 				mme = false;
 				/*if(mainMenuButnum == 0)
@@ -584,6 +583,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				if(mainMenuButnum == 1)
 				{
 						//NEW GAME
+					inMainMenu = false;
 					isLoading = true;
 					start = true;
 				}
@@ -595,6 +595,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				else if(mainMenuButnum == 3)
 				{		
 						//QUIT
+					inMainMenu = false;
 					isGameOver = true;
 					terminator = true;
 				}
