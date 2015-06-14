@@ -36,8 +36,7 @@ public class PlayerChar extends Sprite
 	
 	protected int checkAni = -1;
 	protected double maxHP, HP;
-	protected int  hx, hy, HPsW, invol, involtime;
-	protected Sprite hpImage;
+	protected int invol, involtime;
 	protected String charname;
 	protected int aidle[],arun[],ajump[],afall[],aattack[],ajumpattack[],aknockback[],adeath[],areverseattack[],acombatstill[];
 	
@@ -241,15 +240,7 @@ public class PlayerChar extends Sprite
 		this.speedX = 0;
 		this.speedY = 0;
 		this.gravity = 0;
-		
-		 	//HP STUFF THAT NEEDS WORK
-			//John make HP independant of player
-		this.hx = 800;
-		this.hy = 30;
-			//this needs work
-		this.hpImage = new Sprite("res/hpbar.png",hx,hy,spriteData);
-		this.HPsW = hpImage.width;
-		
+
 		this.timerspeed = 3;
 			//old rifle stuff, will be removed or converted
 		this.hasR = false;
@@ -262,12 +253,6 @@ public class PlayerChar extends Sprite
 		super(spriteloc,x,y,width,height,row,col,15, spriteData);
 		this.maxHP = 100;
 		this.HP = 100;
-			//John make HP independant of player
-		this.hx = 800;
-		this.hy = 30;
-			//this need swork
-		this.hpImage = new Sprite("res/hpbar.png",hx,hy,spriteData);
-		this.HPsW = hpImage.width;
 		
 			//booleans
 		this.attacking = false;
@@ -397,10 +382,6 @@ public class PlayerChar extends Sprite
 				//heavy damage?
 			invol++;
 			this.HP -= amount;
-			if(this.HP > 0)
-			{
-				hpImage.width =(int) (hpImage.width*(HP/maxHP));
-			}
 			if(!hurt)
 			{
 				this.startHurt();
@@ -707,13 +688,7 @@ public class PlayerChar extends Sprite
 		//legs.animateCol();
 	}
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
-	{	
-			//TEST render HP
-		if(HP > 0 && player)
-		{
-			g.drawImage( spriteData.get(hpImage.name), hpImage.x, hpImage.y , (int) (HPsW*(HP/maxHP)) , hpImage.height, null);
-		}
-		
+	{			
 		if(Engine.renderHitBox)
 		{
 			g.setColor(Color.BLUE);

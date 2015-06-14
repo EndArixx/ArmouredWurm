@@ -43,6 +43,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
+	public Sprite playerHP;
+	public int HPsW,hx, hy;
 	public Platform healthpicks[];
 	
 	public gun hammer[]; 
@@ -413,7 +415,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
 			pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
 			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
-			restartdata = new int[4];
+			restartdata = new int[5];
 			restartdata[0] =0;
 			restartdata[1] =0;
 			restartdata[2] =0;
@@ -429,6 +431,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 					//Player stuff (john set this up in the save file)
 			player = new PlayerChar("res/player/brov4.txt",permaSprites);
+			
+					//Health bar stuff
+			restartdata[4] = (int) player.HP;
+			this.hx = 800;
+			this.hy = 30;
+			this.playerHP = new Sprite("res/hpbar.png",hx,hy,permaSprites);
+			this.HPsW = playerHP.width;
 			//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
 			//player.setHitbox(30, 15, 100, 140);	
 	}
@@ -450,7 +459,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				this.isGameOver = true;
 			}
-			
+			if(player.HP > 0)
+			{
+				playerHP.width =(int) (playerHP.width*(player.HP/player.maxHP));
+			}
 			for(int i = 0; i < doors.length ; i++)
 			{
 				if(Tools.check_collision(doors[i].getHitbox(),player.getHitbox()))
@@ -603,6 +615,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				restartdata[2] = tworld[0];
 				theWorld.setY(tworld[1]);
 				restartdata[3] = tworld[1];
+				
+				restartdata[4] =(int) player.HP;
+				
 					//John look into preventing world popping!
 				player.update(damageQ);
 				theWorld.update();
@@ -616,7 +631,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				player.setY(restartdata[1] );
 				theWorld.setX(restartdata[2]);
 				theWorld.setY(restartdata[3]);
-			}
+				player.HP = restartdata[4];
+			}	
 			isLoadingF = true;
 			if(loadCont)
 			{
@@ -720,6 +736,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 				}
 				damageQhitbox.clear();
+			}
+			if(player.HP > 0)
+			{
+				g.drawImage(permaSprites.get(playerHP.name),playerHP.x, playerHP.y , (int) (HPsW*(player.HP/player.maxHP)) , playerHP.height, null);
 			}
 			/*
 			for(i = 0; i < bomb.length; i++)
