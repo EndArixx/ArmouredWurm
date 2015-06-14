@@ -400,6 +400,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+spikes[i].rowN +","
 						+spikes[i].colN +","
 						+(int) spikes[i].timerspeed +","         //JOHN HERE NEEDS WORK
+						+spikes[i].damageNum + ","
 						+spikes[i].hitbox[0] +","
 						+spikes[i].hitbox[1] +","
 						+spikes[i].hitbox[2] +","

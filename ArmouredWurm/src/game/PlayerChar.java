@@ -27,7 +27,7 @@ public class PlayerChar extends Sprite
 	//protected Sprite legs;
 	protected boolean attacking,reverseAttacking, jumping,jumpAttacking, forward, backward,FF, falling,hasR, hurt, dying, player, dead;
 	protected gun rifle;
-	
+	protected String file;
 	protected double topRunSpeed;
 	protected double topGravity;
 	protected double topJump;
@@ -65,6 +65,7 @@ public class PlayerChar extends Sprite
 		 * 19) 	Hitbox:			x,y,width,height
 		 */
 		super();
+		this.file = infile;
 			//booleans
 		this.attacking = false;
 		this.jumping= false;
@@ -812,6 +813,8 @@ public class PlayerChar extends Sprite
 		{this.topJump = in;}
 	public boolean getDead()
 		{return this.dead;}
+	public void setDead(boolean in)
+		{this.dead = in;}
 	public boolean getAttacking()
 		{return attacking;}
 	public void setHitbox(int x, int y, int width, int height)

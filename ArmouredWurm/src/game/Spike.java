@@ -14,11 +14,11 @@ public class Spike extends Platform
 	{
 		super(spriteloc,x,y,spriteData);
 	}
-	public Spike(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed, Map<String,BufferedImage> spriteData)
+	public Spike(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed,int damage, Map<String,BufferedImage> spriteData)
 	{
 		super(inImage,x,y,width ,height, rowN,colN,timerspeed, spriteData);
 		this.HP = 100;
-		this.damageNum = 5;
+		this.damageNum = damage;
 		this.invol = true;
 		this.type = 5;
 	}

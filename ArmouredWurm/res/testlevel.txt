@@ -38,4 +38,4 @@ res/door.png,6050,170,0,0,res/TEST.txt,0,0,0,0,150,190
 res/SoldierMap.png,res/SoldierMap.png,res/baddy1legs.png,300,140,200,200,2,0,500,2090,0,0,200,200
 res/SoldierMap.png,res/SoldierMap.png,res/baddy1legs.png,1320,150,200,200,2,0,770,1690,0,0,200,200
 res/SoldierMap.png,res/SoldierMap.png,null,2080,130,200,200,2,0,1740,2610,50,30,110,150
-res/mountP.png,3940,210,350,170,0,0,0,50,40,250,80
+res/mountP.png,3940,210,350,170,0,0,0,10,50,40,250,80

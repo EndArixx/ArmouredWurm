@@ -299,14 +299,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	    		Integer.parseInt(temp[5]),
 	 	    		Integer.parseInt(temp[6]),
 	 	    		Integer.parseInt(temp[7]),
+	 	    		Integer.parseInt(temp[8]),
 	 	    		   lvlspriteData);
 	 	        if(temp.length >= 9)
 	 	        {
 	 	        	spikes[i].setHitbox(
-	 	        			Integer.parseInt(temp[8]),
 	 	        			Integer.parseInt(temp[9]),
 	 	        			Integer.parseInt(temp[10]),
-	 	        			Integer.parseInt(temp[11]));
+	 	        			Integer.parseInt(temp[11]),
+	 	        			Integer.parseInt(temp[12]));
 	 	        }
 	 	        
  	        }
@@ -445,6 +446,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		loadTarget = -1;
 		isLoading = true;
+		player = new PlayerChar(player.file,permaSprites);
+		this.isGameOver=false;
 		loadLevel(inlvl);
 		isLoadingF = true;
 	}
@@ -464,6 +467,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		/*
 		 * loads a save file :P
+		 * 
+		 * This will all be handled in the main menu.
 		 */
 	}
 	public  void update()
@@ -602,7 +607,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						//NEW GAME
 					inMainMenu = false;
 					isLoading = true;
+					isLoadingF = false;
 					start = true;
+					
 				}
 				else if(mainMenuButnum == 2)
 				{
@@ -1181,24 +1188,30 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			//attacklogic
 			case KeyEvent.VK_SPACE:
-				if(isPaused)
-				{
-					if(psh)
-					{
-						ps= true;
-					}
-				}
-				else if(inMainMenu)
+				if(inMainMenu)
 				{
 					if(mmeh)
 					{
 						mme= true;
 					}
 				}
-				if(isLoadingF)
+				else if(isPaused)
+				{
+					if(psh)
+					{
+						ps= true;
+					}
+				}
+				else if(isLoadingF)
 				{
 					loadCont = true;
 				}
+				if(isGameOver)
+				{
+					inMainMenu = true;		
+					isGameOver = false;
+				}
+
 				break;
  			case KeyEvent.VK_LEFT:
 				if(!player.getAttacking())
@@ -1305,7 +1318,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				isRunning = false;
 					break;
 			case KeyEvent.VK_ESCAPE: //Paused
-				if(!inMainMenu)
+				if(!inMainMenu && !isLoading)
 				{
 					if(isPaused)
 					{
