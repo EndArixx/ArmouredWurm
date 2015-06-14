@@ -448,6 +448,24 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		loadLevel(inlvl);
 		isLoadingF = true;
 	}
+	public void saveFile()
+	{
+		/*
+		 * This will save all the players progress.
+		 * 
+		 * three options or just the one?
+		 * 
+		 * 
+		 * This should use specific save spots that give full health,
+		 * save rooms?
+		 */
+	}
+	public void loadFile()
+	{
+		/*
+		 * loads a save file :P
+		 */
+	}
 	public  void update()
 	{	
 			//This makes the loading screen work.
@@ -1295,6 +1313,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					else
 					{
+						pauseButnum = 0;
 						isPaused = true;
 					}
 				}
