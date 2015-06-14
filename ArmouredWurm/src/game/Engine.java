@@ -126,6 +126,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		isLoadingF = false;
 		//isPaused = true;
 		lvlspriteData.clear();
+		/*badguys = null;
+		spikes = null;
+		platforms= null;
+		ladders = null;
+		parallax = null;
+		doors = null;
+		bombs = null;
+		theWorld = null;
+		gameWorld = null;
+		weather = null;
+		healthpicks = null;
+		System.gc();*/
+		
+		
 		lvlName = lvlname;
 			//this is designed to load in a specifically designed "Map" file 
 		String name;
@@ -772,9 +786,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			render();
 			
-				//memory stuff
 			if(this.terminator) isRunning = false;
-			System.gc();
+			//System.gc();
 		}
 			//this is after game
 		this.gameRun=false;
