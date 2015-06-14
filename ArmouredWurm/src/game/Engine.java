@@ -595,6 +595,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				player.setY(tplayer[1]);
 				theWorld.setX(tworld[0]);
 				theWorld.setY(tworld[1]);
+					//John look into preventing world popping!
+				player.update(damageQ);
+				theWorld.update();
+				gameWorld.update(theWorld);
 			}
 			isLoadingF = true;
 			if(loadCont)
