@@ -56,7 +56,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//this is for the window
 	public static Dimension window  = new Dimension(1280,720);
 	public int windowHB[] = new int[4];
-	public Sprite loading;
+
 	
 		//it is important that you have both of these so the game closes
 		//	in the correct order.
@@ -70,9 +70,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//these are holders to smooth out movement
 	private boolean Wh,Eh,Jh;
 	
+		//Loading screen variables
 	private String lvl = "res/TEST.txt";
-	private boolean isLoading = false;
+	private boolean isLoading;
+	private boolean isLoadingF;
+	private boolean loadCont;
 	private int loadTarget;
+	public Sprite loading,loadingF;
 	
 		//Sound Zone
 	protected SoundEngine soundHandler;
@@ -119,7 +123,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	protected void loadLevel(String lvlname)
 	{
-		isPaused = true;
+		isLoadingF = false;
+		//isPaused = true;
 		lvlspriteData.clear();
 		lvlName = lvlname;
 			//this is designed to load in a specifically designed "Map" file 
@@ -370,7 +375,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				this.mainMenuButtons[i] = new Sprite("res/menu/menu"+i+".png",0,0,permaSprites);
 			}
 			
-				//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
+			isLoading = false;
+			isLoadingF = false;
+			loadCont = false;
+			loading = new Sprite("res/loading.png",0,0,permaSprites );
+			loadingF = new Sprite("res/menu/space2cont.png",400,550,permaSprites);
+			
+			//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
 				// the right button if he is still holding left he then starts going left again or visa versa
 			Wh = false;
 			Eh = false;
@@ -386,7 +397,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
 			
 		
-			loading = new Sprite("res/loading.png",0,0,permaSprites );
+
 			
 
 			gameover = new Sprite("res/gameover.png",0,0,permaSprites );
@@ -402,7 +413,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		loadTarget = -1;
 		isLoading = true;
 		loadLevel(inlvl);
-		isLoading = false;
+		isLoadingF = true;
 	}
 	public  void update()
 	{	
@@ -422,6 +433,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				{
 					isLoading = true;
 					this.loadTarget = i;
+					isLoadingF = false;
 					//isLoading = false;
 				}
 			}
@@ -437,7 +449,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			for(i = 0; i < parallax.length;i++)
 			{
-				parallax[i].update();    //John here 
+				parallax[i].update(); 
 			}
 			for(i = 0; i < platforms.length;i++)
 			{
@@ -488,7 +500,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						//John add checks for good bombs and things
 				}
 			}
-				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT
+				//PLAYER DAMAGE ADD ENEMY DAMAGE NEXT  - JOHN
 			for( DamageHitbox x : damageQ)
 			{
 				if(x.getType() == 0 || x.getType() == 4 || x.getType() == 5)
@@ -558,16 +570,23 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//forground.update();
 			
 		}
-		else if(isLoading && loadTarget != -1)
+		else if(isLoading)
 		{
-			int[] tplayer = doors[loadTarget].playerloc;
-			int[] tworld = doors[loadTarget].mapstart;
-			loadLevel(doors[loadTarget].newMap);
-			player.setX(tplayer[0]);
-			player.setY(tplayer[1]);
-			theWorld.setX(tworld[0]);
-			theWorld.setY(tworld[1]);
-			isLoading = false;
+			if(loadTarget != -1 && !isLoadingF)
+			{
+				int[] tplayer = doors[loadTarget].playerloc;
+				int[] tworld = doors[loadTarget].mapstart;
+				loadLevel(doors[loadTarget].newMap);
+				player.setX(tplayer[0]);
+				player.setY(tplayer[1]);
+				theWorld.setX(tworld[0]);
+				theWorld.setY(tworld[1]);
+			}
+			isLoadingF = true;
+			if(loadCont)
+			{
+				isLoading = false;
+			}
 		}
 		else if(inMainMenu)
 		{
@@ -704,6 +723,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		else if(isLoading)
 		{
 			loading.render(g,permaSprites);
+			if(isLoadingF)
+			{
+				loadingF.render(g,permaSprites);
+			}
 		}
 		else
 		{
@@ -1098,6 +1121,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						mme= true;
 					}
 				}
+				if(isLoadingF)
+				{
+					loadCont = true;
+				}
 				break;
  			case KeyEvent.VK_LEFT:
 				if(!player.getAttacking())
@@ -1227,6 +1254,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						mmeh = true;
 					}
 				}
+				loadCont = false;
 			break;
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
