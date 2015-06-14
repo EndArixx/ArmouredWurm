@@ -51,6 +51,6 @@ res/bomb2.png,res/blast2.png,970,800,64,64,0,96,96,0,4,6,30,10,
 res/medpack.png,1440,470,100,100,0,0,50
 res/medpack.png,1990,360,100,100,0,0,50
 res/back/mountainback.png,0,0,-1.0
-res/back/factory.png,-227,3,10.0
-res/back/manor.png,703,123,8.0
-res/back/forest.png,-454,116,5.0
+res/back/factory.png,-7,73,10.0
+res/back/manor.png,833,123,8.0
+res/back/forest.png,-4,336,5.0

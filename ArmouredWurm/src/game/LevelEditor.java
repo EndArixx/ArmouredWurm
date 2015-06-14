@@ -632,7 +632,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 		
 		temp[ inplat.length]= new  Spike(genericPlat, -theWorld.getX() + window.width/2, -theWorld.getY() + window.height/2,lvlspriteData);
-		 inplat = temp;
+		temp[inplat.length].damageNum = 5; //JOHN HERE
+		inplat = temp; 
 		target =  inplat.length-1;
 		return inplat;
 	}
