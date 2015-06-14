@@ -92,6 +92,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private int pauseMax = 2;
 	public Sprite pauseMenu;
 	public Sprite pauseButtons[];
+	private int restartdata[];
+		//pause selector and helper;
+	private boolean ps, psh;
+	
 	
 		//mainmenu stuff
 	private boolean inMainMenu = false;
@@ -122,7 +126,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	
 	protected void loadLevel(String lvlname)
-	{
+	{	
 		isLoadingF = false;
 		//isPaused = true;
 		lvlspriteData.clear();
@@ -409,7 +413,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
 			pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
 			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
-			
+			restartdata = new int[4];
+			restartdata[0] =0;
+			restartdata[1] =0;
+			restartdata[2] =0;
+			restartdata[3] =0;
+			ps = false;
+			psh = true;
 		
 
 			
@@ -545,66 +555,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//there might be a better way of doing this
 			damageQ.clear();
 			
-			
-			
-			
-				//this is the first step in the game loop.
-			/*for(i = 0; i < badguys.length; i++)
-			{
-				if(Tools.check_collision(player.getHitbox(),badguys[i].getHitbox()))
-				{
-					player.damage();
-					//gameover();
-				}
-			}
-			
-			
-			
-			for(i = 0; i < bullets.length; i++)
-			{
-				bullets[i].animateCol();
-				bullets[i].update(theWorld);
-			}
-			for( i = 0; i < bomb.length; i++)
-			{
-				bomb[i].proxy(player, badguys, bomb, bullets);
-				bomb[i].update(theWorld);
-			}
-			for( i = 0; i < missiles.length; i++)
-			{
-				missiles[i].proxy(player, badguys, bomb, platforms);
-				missiles[i].update(theWorld);
-			}
-			for( i = 0; i < bullets.length; i++)
-			{
-				bullets[i].proxy(player, badguys, bomb, platforms);
-				bullets[i].update(theWorld);
-			}*/
-			
-			//forground.update();
-			
-		}
-		else if(isLoading)
-		{
-			if(loadTarget != -1 && !isLoadingF)
-			{
-				int[] tplayer = doors[loadTarget].playerloc;
-				int[] tworld = doors[loadTarget].mapstart;
-				loadLevel(doors[loadTarget].newMap);
-				player.setX(tplayer[0]);
-				player.setY(tplayer[1]);
-				theWorld.setX(tworld[0]);
-				theWorld.setY(tworld[1]);
-					//John look into preventing world popping!
-				player.update(damageQ);
-				theWorld.update();
-				gameWorld.update(theWorld);
-			}
-			isLoadingF = true;
-			if(loadCont)
-			{
-				isLoading = false;
-			}
 		}
 		else if(inMainMenu)
 		{
@@ -638,6 +588,68 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 			}
 		}
+		else if(isLoading)
+		{
+			if(loadTarget >= 0 && !isLoadingF)
+			{
+				int[] tplayer = doors[loadTarget].playerloc;
+				int[] tworld = doors[loadTarget].mapstart;
+				loadLevel(doors[loadTarget].newMap);
+				player.setX(tplayer[0]);
+				restartdata[0] = tplayer[0];
+				player.setY(tplayer[1]);
+				restartdata[1] = tplayer[1];
+				theWorld.setX(tworld[0]);
+				restartdata[2] = tworld[0];
+				theWorld.setY(tworld[1]);
+				restartdata[3] = tworld[1];
+					//John look into preventing world popping!
+				player.update(damageQ);
+				theWorld.update();
+				gameWorld.update(theWorld);
+			}
+			if (loadTarget == -2)
+			{
+				loadTarget = 0;
+				loadLevel(lvlName);
+				player.setX(restartdata[0]);
+				player.setY(restartdata[1] );
+				theWorld.setX(restartdata[2]);
+				theWorld.setY(restartdata[3]);
+			}
+			isLoadingF = true;
+			if(loadCont)
+			{
+				isLoading = false;
+			}
+		}
+		else if (isPaused)
+		{
+			if(ps)
+			{
+				ps = false;
+				psh = false;
+				if(pauseButnum == 0)
+				{
+					isPaused = false;
+				}
+				else if(pauseButnum == 1)
+				{
+					loadTarget = -2;
+					isPaused = false;
+					isLoading = true;
+					isLoadingF= false;
+				}
+				else if(pauseButnum == 2)
+				{		
+						//QUIT
+					isPaused = false;
+					isGameOver = true;
+					terminator = true;
+				}
+			}
+		}
+		
 		
 	}
 
@@ -1131,7 +1143,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			//attacklogic
 			case KeyEvent.VK_SPACE:
-				if(inMainMenu)
+				if(isPaused)
+				{
+					if(psh)
+					{
+						ps= true;
+					}
+				}
+				else if(inMainMenu)
 				{
 					if(mmeh)
 					{
@@ -1176,18 +1195,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//-------------------------(Y)
 			case KeyEvent.VK_W: //UP
 				N=true;
-				if(isPaused)
-				{
-					if(pauseButnum != 0)
-					{
-						pauseButnum--;
-					}
-					else
-					{
-						pauseButnum = pauseMax;
-					}
-				}
-				else if(inMainMenu)
+				
+				if(inMainMenu)
 				{
 					if(mainMenuButnum != 0)
 					{
@@ -1196,6 +1205,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					else
 					{
 						mainMenuButnum = pauseMax;
+					}
+				}
+				else if(isPaused)
+				{
+					if(pauseButnum != 0)
+					{
+						pauseButnum--;
+					}
+					else
+					{
+						pauseButnum = pauseMax;
 					}
 				}
 					break;
@@ -1247,13 +1267,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				isRunning = false;
 					break;
 			case KeyEvent.VK_ESCAPE: //Paused
-				if(isPaused)
+				if(!inMainMenu)
 				{
-					isPaused = false;
-				}
-				else
-				{
-					isPaused = true;
+					if(isPaused)
+					{
+						isPaused = false;
+					}
+					else
+					{
+						isPaused = true;
+					}
 				}
 				break;
 		}
@@ -1266,11 +1289,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			case KeyEvent.VK_SPACE:
 				if(inMainMenu)
 				{
-					if(!mmeh)
-					{
-						mmeh = true;
-					}
+					mmeh = true;
 				}
+				
+				psh= true;
 				loadCont = false;
 			break;
 			//-------------------------(Y)
