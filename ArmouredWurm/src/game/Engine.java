@@ -46,6 +46,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Sprite playerHP;
 	public int HPsW,hx, hy;
 	public Platform healthpicks[];
+	public Platform saveZone[];
 	
 	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
@@ -203,6 +204,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        
 	        int paranum = Integer.parseInt(temp[8]);
 	        parallax = new Platform[paranum];
+
+	        int savenum = Integer.parseInt(temp[9]);
+	        saveZone = new Platform[savenum];
 	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
@@ -359,6 +363,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			lvlspriteData
 	        			);
 	        	parallax[i].setParSpeed(Double.parseDouble(temp[3]));
+	        }
+	        for(int i = 0; i< savenum; i++)
+	        {
+	        	line = br.readLine();
+	        	temp = line.split(",");
+	        	saveZone[i] = new Platform(temp[0],
+	        			Integer.parseInt(temp[1]),
+	        			Integer.parseInt(temp[2]),
+	        			Integer.parseInt(temp[3]),
+	        			Integer.parseInt(temp[4]),
+	        			Integer.parseInt(temp[5]),
+	        			Integer.parseInt(temp[6]),
+	        			Integer.parseInt(temp[7]),
+	        			lvlspriteData
+	        			);
+	        			
 	        }
 	        fr.close();
 	        br.close();
@@ -530,6 +550,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i =0; i < spikes.length; i++)
 			{
 				spikes[i].update(theWorld,damageQ);
+			}
+			for(i = 0; i < saveZone.length; i++)
+			{
+				saveZone[i].update(theWorld);
 			}
 			for(i = 0; i < healthpicks.length; i++)
 			{
@@ -735,6 +759,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < spikes.length; i++)
 			{
 				if(Tools.check_collision(windowHB,spikes[i].getHitbox())){spikes[i].render(g,lvlspriteData );}
+			}
+			for(i = 0; i < saveZone.length; i++)
+			{
+				if(Tools.check_collision(windowHB,saveZone[i].getHitbox())){saveZone[i].render(g,lvlspriteData);}
 			}
 			for(i = 0; i < healthpicks.length;i++)
 			{
