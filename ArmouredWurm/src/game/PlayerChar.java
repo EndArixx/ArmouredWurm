@@ -719,20 +719,20 @@ public class PlayerChar extends Sprite
 			return false;
 		}
 	}
-	public void addHP(int inHP)
+	public void addHP(double maxHP2)
 	{
-		if(inHP < 0 )
+		if(maxHP2 < 0 )
 		{
 			return;
 		}
-		inHP += this.HP;
-		if(inHP > maxHP)
+		maxHP2 += this.HP;
+		if(maxHP2 > maxHP)
 		{
 			this.HP = maxHP;
 		}
 		else
 		{
-			this.HP = inHP;
+			this.HP = maxHP2;
 		}
 	}
 	

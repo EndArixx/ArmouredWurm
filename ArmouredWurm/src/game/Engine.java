@@ -12,7 +12,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -72,6 +76,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	protected boolean N,S,W,E,F;
 		//these are holders to smooth out movement
 	private boolean Wh,Eh,Jh;
+	
+		//save File 
+	private String saveName,saveFileName;
 	
 		//Loading screen variables
 	private String lvl = "res/TEST.txt";
@@ -378,7 +385,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[7]),
 	        			lvlspriteData
 	        			);
-	        			
+	        	saveZone[i].setValue(1);
 	        }
 	        fr.close();
 	        br.close();
@@ -403,6 +410,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			lvlspriteData = new HashMap<String,BufferedImage>();
 			permaSprites = new HashMap<String,BufferedImage>();
+			
+			
 			
 				//SET up menu here 
 			this.inMainMenu = true;
@@ -475,13 +484,32 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		/*
 		 * This will save all the players progress.
-		 * 
-		 * three options or just the one?
-		 * 
-		 * 
 		 * This should use specific save spots that give full health,
-		 * save rooms?
 		 */
+		player.addHP(player.maxHP);
+		try
+		{
+			FileWriter fw = new FileWriter(saveFileName);
+			
+			fw.write(saveName +"\n");
+				//date stuff
+			DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+			Date dateobj = new Date();
+			fw.write(df.format(dateobj) + "\n");
+			fw.write(player.file + "\n");
+			fw.write((int) player.maxHP  +"\n");
+			fw.write(lvlName + "\n");
+			fw.write(restartdata[0] +","+
+				(restartdata[1] )+","+
+				(restartdata[2])+","+
+				(restartdata[3])+"\n"
+				);
+			//fw.write(" \n");
+			fw.close();
+		
+		}catch (IOException e) {e.printStackTrace();}
+		
+		
 	}
 	public void loadFile()
 	{
@@ -553,7 +581,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			for(i = 0; i < saveZone.length; i++)
 			{
+
 				saveZone[i].update(theWorld);
+				if(Tools.check_collision(player.getHitbox(),saveZone[i].getHitbox()))
+				{
+					saveZone[i].setValue(0);
+					saveFile();
+				}
 			}
 			for(i = 0; i < healthpicks.length; i++)
 			{
@@ -633,6 +667,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					isLoading = true;
 					isLoadingF = false;
 					start = true;
+					
+					
+						//John give options for 3 save files?
+					saveName = "New Game";
+					saveFileName = "savegames/save1.txt";
 					
 				}
 				else if(mainMenuButnum == 2)
@@ -762,7 +801,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			for(i = 0; i < saveZone.length; i++)
 			{
-				if(Tools.check_collision(windowHB,saveZone[i].getHitbox())){saveZone[i].render(g,lvlspriteData);}
+				if(Tools.check_collision(windowHB,saveZone[i].getHitbox()))
+				{	
+					if(saveZone[i].getValue() == 1)
+					{
+						saveZone[i].render(g,lvlspriteData);
+					}
+				}
 			}
 			for(i = 0; i < healthpicks.length;i++)
 			{

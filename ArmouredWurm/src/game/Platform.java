@@ -65,6 +65,8 @@ public class Platform extends Sprite
 		{this.trueY = y;}
 	public int getValue()
 		{return this.value;}
+	public void setValue(int in)
+		{this.value = in;}
 	public double getParSpeed()
 	{
 		return(this.parallaxSpeed);
