@@ -1,3 +1,12 @@
+/*
+ * created by John Stanley
+ * 
+ * 
+ * version 1.0
+ */
+
+
+
 package game;
 
 import java.applet.Applet;
