@@ -1,0 +1,8 @@
+NEW GAME!
+23/06/15 11:32:15
+res/player/brov4.txt
+100
+res/TEST.txt
+0,0,0,0
+
+//JOHN HIDE THIS FILE. IT SHOULD NOT BE MODIFIED!

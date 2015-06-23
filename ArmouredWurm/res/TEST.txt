@@ -24,7 +24,7 @@ res/platform0-1.png,530,1150,0,0,738,119
 res/platform0-1.png,1530,520,10,30,738,49
 res/1-1grass0.png,2180,160,0,80,305,61
 res/platform0-1.png,0,180,0,0,738,119
-res/door.png,100,630,150,160,res/save1/save1.txt,0,0,0,0,150,190
+res/door.png,100,630,850,160,res/save1/save1.txt,0,0,0,0,150,190
 res/door.png,2410,1250,0,0,res/TEST.txt,0,0,0,0,150,190
 res/door.png,0,1250,500,500,res/testlevel.txt,-750,0,60,40,60,100
 res/SoldierMap.png,res/SoldierMap.png,bacon,200,10,200,200,2,0,100,620,50,20,90,160

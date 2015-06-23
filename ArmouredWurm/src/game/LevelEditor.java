@@ -319,7 +319,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					+ bombs.length+ ","
 					+ healthpicks.length + ","
 					+ parallax.length + ","
-					+ "0,0,0,0,0,0\n");
+					+ saveZone.length + ","
+					+ "0,0,0,0,0\n");
 				
 			
 				//Write out weathers
@@ -447,6 +448,20 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+parallax[i].getTrueY() + ","
 						+parallax[i].getParSpeed()
 						+"\n");
+			}
+			for(int i = 0; i < saveZone.length; i++)
+			{
+				fw.write(saveZone[i].name + ","
+						+saveZone[i].getTrueX() +","
+						+saveZone[i].getTrueY() +","
+						+saveZone[i].getWidth() +","
+						+saveZone[i].getHeight() +","
+						+saveZone[i].getRowN()+ ","
+						+saveZone[i].getColN()+","
+						+(int) saveZone[i].timerspeed+
+						"\n"
+						);
+				
 			}
 			//fw.write(" \n");
 			fw.close();
@@ -1020,6 +1035,15 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 					spikes[i].render(g,lvlspriteData );
 					g.setColor(Color.ORANGE);
 					g.drawString("["+i+"]",spikes[i].getX(),spikes[i].getY());
+				}
+			}
+			for(i = 0; i < saveZone.length; i++)
+			{
+				if(Tools.check_collision(windowHB,saveZone[i].getHitbox()))
+				{
+					saveZone[i].render(g,lvlspriteData );
+					g.setColor(Color.BLUE);
+					g.drawString("["+i+"]",saveZone[i].getX(),saveZone[i].getY());
 				}
 			}
 			for(i = 0; i < healthpicks.length; i++)

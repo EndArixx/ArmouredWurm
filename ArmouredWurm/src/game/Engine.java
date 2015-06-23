@@ -471,20 +471,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
 			//player.setHitbox(30, 15, 100, 140);	
 	}
-	public void startGame(String inlvl)
-	{
-		loadTarget = -1;
-		isLoading = true;
-		player = new PlayerChar(player.file,permaSprites);
-		this.isGameOver=false;
-		loadLevel(inlvl);
-		isLoadingF = true;
-	}
 	public void saveFile()
 	{
 		/*
 		 * This will save all the players progress.
 		 * This should use specific save spots that give full health,
+		 */
+		
+		/*
+		 * SAVE FILE
+		 * 
+		 * 1)	name 
+		 * 2)	date 
+		 * 3)	playerfile
+		 * 4) 	maxHP
+		 * 5) 	mapfile
+		 * 6)	zonedata: playerX, playerY, mapX, mapY
 		 */
 		player.addHP(player.maxHP);
 		try
@@ -511,18 +513,73 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		
 	}
-	public void loadFile()
+	public void loadFile(String inSaveFile)
 	{
-		/*
-		 * loads a save file :P
-		 * 
-		 * This will all be handled in the main menu.
-		 */
+		String name;
+		BufferedReader br;
+	    try {
+	    	FileReader fr = new FileReader(inSaveFile);
+	    	br = new BufferedReader(fr);
+	    		//stuff
+	    	loadTarget = -1;
+	    	isLoading = true;
+	    	this.isGameOver = false;
+	    	
+	    		//Name
+	    	String line  = br.readLine();
+	    	saveName = line;
+	    	saveFileName = inSaveFile;
+	    	
+	    		//DATESTUFF
+	    	line  = br.readLine();
+	    	//System.out.println("Loading \"" + line + "\" File" );
+	    		//Player Stuff
+	    	line  = br.readLine();
+	    	player = new PlayerChar(line,permaSprites);
+	    	line = br.readLine();
+	    	player.maxHP = Integer.parseInt(line);
+	    		// level stuff
+	    	line = br.readLine();
+	    	loadLevel(line);
+	    	line = br.readLine();
+	    	String[] temp = line.split(",");
+	    	player.setX(Integer.parseInt(temp[0]));
+			restartdata[0] =Integer.parseInt(temp[0]);
+			player.setY(Integer.parseInt(temp[1]));
+			restartdata[1] = Integer.parseInt(temp[1]);
+			theWorld.setX(Integer.parseInt(temp[2]));
+			restartdata[2] = Integer.parseInt(temp[2]);
+			theWorld.setY(Integer.parseInt(temp[3]));
+			restartdata[3] = Integer.parseInt(temp[3]);
+			isLoadingF = true;
+	        
+	        fr.close();
+	        br.close();
+	        
+	    } catch (IOException e) 
+	    {
+	    	System.out.println("Im sorry the Save File: "+inSaveFile+" could not be loaded!");
+	    	this.Error = true;
+	    }
 	}
 	public  void update()
 	{	
 			//This makes the loading screen work.
-		if(start){start = false; startGame(lvl);};
+		if(start)
+		{
+			start = false; 
+			if(mainMenuButnum == 1)
+			{
+				loadFile("savegames/newgame.txt");
+					//this needs work for multi save support
+				saveName = "New Game";
+				saveFileName = "savegames/save1.txt";
+			}
+			else if(mainMenuButnum == 2)
+			{
+				loadFile("savegames/save1.txt");
+			}
+		}
 		
 		if(!isLoading && !isPaused && !isGameOver && !inMainMenu)
 		{	
@@ -587,6 +644,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				{
 					saveZone[i].setValue(0);
 					saveFile();
+				}
+				if(!Tools.check_collision(theWorld.getHitbox(),saveZone[i].getHitbox()))
+				{
+					saveZone[i].setValue(1);
 				}
 			}
 			for(i = 0; i < healthpicks.length; i++)
@@ -662,22 +723,34 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				else*/
 				if(mainMenuButnum == 1)
 				{
+					loadTarget = -1;
+					this.start = true;
 						//NEW GAME
 					inMainMenu = false;
 					isLoading = true;
 					isLoadingF = false;
-					start = true;
 					
 					
 						//John give options for 3 save files?
-					saveName = "New Game";
+					/*saveName = "New Game";
 					saveFileName = "savegames/save1.txt";
+						
+					loadFile("savegames/newgame.txt");*/
 					
 				}
 				else if(mainMenuButnum == 2)
 				{
-						//CONTINUE 
-							//JOHN WORK HERE!
+					loadTarget = -1;
+					this.start = true;
+					
+					inMainMenu = false;
+					isLoading = true;
+					isLoadingF = false;
+						//LOAD a choosen save file? 
+						//future updates
+						//		 Multiple save files.
+					//loadFile("savegames/save1.txt");
+					
 				}
 				else if(mainMenuButnum == 3)
 				{		
@@ -1387,9 +1460,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 				break;
 					
-			case KeyEvent.VK_Q: //Quit
+			/*case KeyEvent.VK_Q: //Quit
 				isRunning = false;
-					break;
+					break;*/ 
 			case KeyEvent.VK_ESCAPE: //Paused
 				if(!inMainMenu && !isLoading)
 				{

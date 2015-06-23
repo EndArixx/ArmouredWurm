@@ -1,8 +1,9 @@
 res/save1/save1.txt
 res/save1/saveback-,1,1,1280,720
 1280,720
-0,0,2,1,0,0,0,0,0,1,0,0,0,0,0
+0,0,3,1,0,0,0,0,0,1,0,0,0,0,0
 res/save1/fountain.png,420,300,30,320,380,60
 res/1-1grass0.png,910,310,0,80,295,61
+res/1-1grass3.png,120,290,0,60,284,44
 res/door.png,990,190,0,0,res/TEST.txt,0,0,0,0,150,190
 res/save1/water.png,530,365,120,270,0,0,0
