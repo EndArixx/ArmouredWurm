@@ -1707,7 +1707,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	{
 		if(moveN && mover.length !=0)
 		{
-			if(mover[target].getTrueY() > 0)
+			if(mover[target].getTrueY() > 0 || true)
 			{
 				mover[target].moveYn(this.moveSpeed);
 			}
@@ -1715,7 +1715,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//MOVE PLATFORM SOUTH
 		if(moveS && mover.length !=0)
 		{
-			if(mover[target].getTrueY() < (theWorld.getHeight() - mover[target].getHeight()))
+			if(mover[target].getTrueY() < (theWorld.getHeight() - mover[target].getHeight()) || true)
 			{
 				mover[target].moveYp(this.moveSpeed);
 			}
@@ -1723,7 +1723,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//MOVE PLATFORM EAST
 		if(moveE && platforms.length !=0)
 		{
-			if(mover[target].getTrueX() < (theWorld.getWidth() - mover[target].getWidth()))
+			if(mover[target].getTrueX() < (theWorld.getWidth() - mover[target].getWidth()) || true)
 			{
 				mover[target].moveXp(this.moveSpeed);
 			}
@@ -1731,7 +1731,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//MOVE PLATFORM WEST
 		if(moveW && mover.length !=0)
 		{
-			if(mover[target].getTrueX() > 0)
+			if(mover[target].getTrueX() > 0 || true)
 			{
 				mover[target].moveXn(this.moveSpeed);
 			}
