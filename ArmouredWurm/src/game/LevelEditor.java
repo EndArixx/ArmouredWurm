@@ -1142,7 +1142,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			else if(modeCounter == 5)
 			{
-				if(spikes.length != 0)
+				if(bombs.length != 0)
 				{
 					g.setColor(Color.PINK);
 					g.drawRect(bombs[target].hitbox[0]+bombs[target].x,
