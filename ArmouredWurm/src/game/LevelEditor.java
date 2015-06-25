@@ -299,11 +299,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				//Write out Name
 			fw.write(lvlname + "\n");
 				//Write out background data
-			fw.write(gameWorld.tileName + ","
+			if(gameWorld != null) fw.write(gameWorld.tileName + ","
 					+ gameWorld.tileRow + ","
 					+ gameWorld.tileCol + ","
 					+ gameWorld.tileWidth + ","
 					+ gameWorld.tileHeight + "\n" );
+			else fw.write("null\n");
+				
 				//Write world Size
 			fw.write(theWorld.width + ","
 					+theWorld.height + "\n");
@@ -1707,7 +1709,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	{
 		if(moveN && mover.length !=0)
 		{
-			if(mover[target].getTrueY() > 0 || true)
+			if(mover[target].getTrueY() > (0 - theWorld.getHeight()))
 			{
 				mover[target].moveYn(this.moveSpeed);
 			}
@@ -1715,15 +1717,15 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//MOVE PLATFORM SOUTH
 		if(moveS && mover.length !=0)
 		{
-			if(mover[target].getTrueY() < (theWorld.getHeight() - mover[target].getHeight()) || true)
+			if(mover[target].getTrueY() < (theWorld.getHeight() ))// - mover[target].getHeight()))
 			{
 				mover[target].moveYp(this.moveSpeed);
 			}
 		}
 			//MOVE PLATFORM EAST
-		if(moveE && platforms.length !=0)
+		if(moveE && mover.length !=0)
 		{
-			if(mover[target].getTrueX() < (theWorld.getWidth() - mover[target].getWidth()) || true)
+			if(mover[target].getTrueX() < (theWorld.getWidth() ))//- mover[target].getWidth()))
 			{
 				mover[target].moveXp(this.moveSpeed);
 			}
@@ -1731,7 +1733,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			//MOVE PLATFORM WEST
 		if(moveW && mover.length !=0)
 		{
-			if(mover[target].getTrueX() > 0 || true)
+			if(mover[target].getTrueX() > (0-mover[target].getWidth())) 
 			{
 				mover[target].moveXn(this.moveSpeed);
 			}
