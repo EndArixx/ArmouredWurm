@@ -988,7 +988,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			g.setFont(new Font("MonoSpace", Font.PLAIN, 20)); 
 
 				//backgrounds
-			gameWorld.render(g, windowHB,lvlspriteData);
+			if(gameWorld != null) gameWorld.render(g, windowHB,lvlspriteData);
 			
 			for(i = 0; i < parallax.length;i++)
 			{
@@ -1246,7 +1246,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			{
 				bombs[i].update(theWorld);
 			}
-			gameWorld.update(theWorld);
+			if(gameWorld != null)gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
 			{
 				weather[i].update(theWorld);

@@ -149,7 +149,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		isLoadingF = false;
 		//isPaused = true;
 		lvlspriteData.clear();
-		/*badguys = null;
+		badguys = null;
 		spikes = null;
 		platforms= null;
 		ladders = null;
@@ -160,7 +160,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		gameWorld = null;
 		weather = null;
 		healthpicks = null;
-		System.gc();*/
+		System.gc();
 		
 		
 		lvlName = lvlname;
@@ -176,13 +176,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        
 	        	//Load in the TileData
 	        line = br.readLine();
+	        if(!line.equals("null"))
+	        {
 	        temp = line.split(",");
 	        gameWorld = new TileMap(temp[0],
 	        		Integer.parseInt(temp[1]),
 	        		Integer.parseInt(temp[2]), 
 	        		Integer.parseInt(temp[3]), 
 	        		Integer.parseInt(temp[4]),lvlspriteData);
-	        
+	        }
 	        	//Load in World Data
 	        line = br.readLine();
 	        temp = line.split(",");
@@ -636,7 +638,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				doors[i].update(theWorld);
 			}
-			gameWorld.update(theWorld);
+			if(gameWorld != null) gameWorld.update(theWorld);
 			for(i =0; i < weather.length; i++)
 			{
 				weather[i].update(theWorld);
@@ -858,7 +860,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			
 				//background stuff 
-			gameWorld.render(g, windowHB,lvlspriteData);
+			if(gameWorld != null) gameWorld.render(g, windowHB,lvlspriteData);
 				//more backgrounds
 			for(i = 0; i < parallax.length;i++)
 			{
@@ -1003,7 +1005,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			render();
 			
 			if(this.terminator) isRunning = false;
-			//System.gc();
+			System.gc();
 		}
 			//this is after game
 		this.gameRun=false;
