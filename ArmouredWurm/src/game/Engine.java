@@ -1098,7 +1098,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					theWorld.moveYn((int)player.getGravity());
 					for(int i = 1; i< parallax.length;i++)
 					{
-						parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
+						if(parallax[i].getParSpeed() == 1.0)
+						{
+							parallax[i].trueY -=(int) player.getGravity();
+						}
+						else
+						{
+							parallax[i].trueYdub -= (player.getGravity()/parallax[i].getParSpeed());
+							parallax[i].setTrueY((int) parallax[i].trueYdub);
+							//parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
+						}
 					}
 					
 					player.setfalling(true);				
@@ -1137,7 +1146,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						
 						for(int i = 1; i< parallax.length;i++)
 						{
-							parallax[i].moveYn(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
+							if(parallax[i].getParSpeed() == 1.0)
+							{
+								parallax[i].trueY -= (int)player.gettopRunSpeed();
+							}
+							else
+							{
+								parallax[i].trueYdub += (player.gettopRunSpeed()/parallax[i].getParSpeed());
+								parallax[i].setTrueY((int) parallax[i].trueYdub);
+								//parallax[i].moveYn(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
+							}
 						}
 						
 					}
@@ -1175,7 +1193,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 							
 							for(int i = 1; i< parallax.length;i++)
 							{
-								parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
+								if(parallax[i].getParSpeed() == 1.0)
+								{
+									parallax[i].trueY -= (int)player.getGravity();
+								}
+								else
+								{
+									parallax[i].trueYdub -= (player.getGravity()/parallax[i].getParSpeed());
+									parallax[i].setTrueY((int) parallax[i].trueYdub);
+									//parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
+								}
 							}
 						}
 						else if(player.getY() > 0)
@@ -1220,11 +1247,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					if(!frontbonk || player.speedX <= 0)
 					{
-						theWorld.moveXp((int)-player.speedX);
+						theWorld.moveXp((int) -player.speedX);
 						
 						for(int i = 1; i< parallax.length;i++)
 						{
-							parallax[i].moveXp(-(int) ( player.speedX / parallax[i].getParSpeed()));
+							if(parallax[i].getParSpeed() == 1.0)
+							{
+								parallax[i].trueX -= (int) player.speedX;
+							}
+							else
+							{
+								parallax[i].trueXdub -= (player.speedX/parallax[i].getParSpeed());
+								parallax[i].setTrueX((int) parallax[i].trueXdub);
+								//parallax[i].moveXp(-(int) ( player.speedX / parallax[i].getParSpeed()));
+							}
 						}
 					}
 				}
@@ -1273,7 +1309,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						
 						for(int i = 1; i< parallax.length;i++)
 						{
-							parallax[i].moveXp(-(int)( player.speedX / parallax[i].getParSpeed()));
+							if(parallax[i].getParSpeed() == 1.0)
+							{
+								parallax[i].trueX -= (int) player.speedX;
+							}
+							else
+							{
+								parallax[i].trueXdub -= (player.speedX /parallax[i].getParSpeed());
+								parallax[i].setTrueX((int) parallax[i].trueXdub);
+								//parallax[i].moveXp(-(int)( player.speedX / parallax[i].getParSpeed()));
+							}
 						}
 					}
 				}
@@ -1314,10 +1359,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
 				{
 					
-					theWorld.moveYn(player.gettopRunSpeed());
+					theWorld.moveYn((int) player.gettopRunSpeed());
 					for(int i = 1; i< parallax.length;i++)
 					{
-						parallax[i].moveYp(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
+						if(parallax[i].getParSpeed() == 1.0)
+						{
+							parallax[i].trueY -= (int)player.gettopRunSpeed();
+						}
+						else
+						{
+							parallax[i].trueYdub -= (player.gettopRunSpeed()/parallax[i].getParSpeed());
+							parallax[i].setTrueY((int) parallax[i].trueYdub);
+							//parallax[i].moveYp(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
+						}
 					}
 					
 				}

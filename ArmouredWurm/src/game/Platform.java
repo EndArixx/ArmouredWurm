@@ -7,11 +7,15 @@ public class Platform extends Sprite
 {
 	protected int trueX, trueY, value;
 	protected double parallaxSpeed;
+		//this is needed to prevent losing alot of data when moving parallax elements
+	protected double trueXdub, trueYdub;
 	public Platform(String spriteloc, int x, int y,  Map<String,BufferedImage> spriteData)
 	{
 		super(spriteloc,x,y, spriteData);
 		trueX = x;
 		trueY = y;
+		trueXdub = trueX;
+		trueYdub = trueY;
 		this.speedX = 0;
 		this.speedY = 0;
 		this.parallaxSpeed = 0;
@@ -21,6 +25,8 @@ public class Platform extends Sprite
 		super(inImage,x,y,width,height,rowN, colN,timerspeed,  spriteData);
 		trueX = x;
 		trueY = y;
+		trueXdub = trueX;
+		trueYdub = trueY;
 		this.speedX = 0;
 		this.speedY = 0;
 		this.parallaxSpeed = 0;
@@ -30,6 +36,8 @@ public class Platform extends Sprite
 		super(inImage,x,y,width,height,rowN,0,timerspeed,  spriteData);
 		trueX = x;
 		trueY = y;
+		trueXdub = trueX;
+		trueYdub = trueY;
 		this.speedX = 0;
 		this.speedY = 0;
 		this.value = value;
