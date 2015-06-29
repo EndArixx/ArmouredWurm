@@ -1083,7 +1083,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(player.gravity <0 ) {player.gravity = 0;}
 				
-				if(player.getY() < 8*window.height/9-player.getHeight())
+				if(player.getY() < 6*window.height/9-player.getHeight())
 				{
 					player.fall();
 	 			}
