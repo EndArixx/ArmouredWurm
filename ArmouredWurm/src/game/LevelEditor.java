@@ -144,6 +144,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected boolean shiftmonitor;
 	protected boolean controlmonitor;
 	protected boolean tab, tabL;
+	protected int parallaxStart[][]; 
+	
 	
 	protected int modeCounter,modeTotal;
 	
@@ -446,8 +448,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			for(int i = 0; i < parallax.length; i++)
 			{
 				fw.write(parallax[i].name +","
-						+parallax[i].getTrueX() + ","
-						+parallax[i].getTrueY() + ","
+						//+parallax[i].getTrueX() + ","
+						//+parallax[i].getTrueY() + ","
+						+parallaxStart[0][i] + ","
+						+parallaxStart[1][i] + ","
 						+parallax[i].getParSpeed()
 						+"\n");
 			}
@@ -546,6 +550,14 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 		
 		loadLevel(lvl);
+		
+			//this is important
+		parallaxStart = new int [2][parallax.length]; 
+		for(int i = 0; i < parallax.length; i++)
+		{
+			parallaxStart[0][i] = parallax[i].trueX;
+			parallaxStart[1][i] = parallax[i].trueY;
+		}
 		loadSprites(sTypesLoc);
 		loadEnemySprites(enemyTypesLoc);
 		loadBombSprites(bombTypesLoc);
@@ -1515,6 +1527,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				for(int i = 1; i< parallax.length;i++)
 				{
 					parallax[i].moveYn(-(int) (scrollSpeed / parallax[i].getParSpeed()));
+					
 				}
 			}
 		}
@@ -1591,6 +1604,43 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			else if (modeCounter == 7)
 			{
 				platformMove(parallax);
+				
+					//this is to fix a saving bug
+				if(moveN && parallax.length !=0)
+				{
+					if(parallax[target].getTrueY() > (0 - theWorld.getHeight()))
+					{
+						//parallax[target].moveYn(this.moveSpeed);
+						parallaxStart[1][target] -= this.moveSpeed;
+					}
+				}
+					//MOVE PLATFORM SOUTH
+				if(moveS && parallax.length !=0)
+				{
+					if(parallax[target].getTrueY() < (theWorld.getHeight() ))// - mover[target].getHeight()))
+					{
+						//parallax[target].moveYp(this.moveSpeed);
+						parallaxStart[1][target] += this.moveSpeed;
+					}
+				}
+					//MOVE PLATFORM EAST
+				if(moveE && parallax.length !=0)
+				{
+					if(parallax[target].getTrueX() < (theWorld.getWidth() ))//- mover[target].getWidth()))
+					{
+						//parallax[target].moveXp(this.moveSpeed);
+						parallaxStart[0][target] += this.moveSpeed;
+					}
+				}
+					//MOVE PLATFORM WEST
+				if(moveW && parallax.length !=0)
+				{
+					if(parallax[target].getTrueX() > (0-parallax[target].getWidth())) 
+					{
+						//parallax[target].moveXn(this.moveSpeed);
+						parallaxStart[0][target] -= this.moveSpeed;
+					}
+				}
 			}
 		}
 		else if(shiftmonitor && !controlmonitor)
