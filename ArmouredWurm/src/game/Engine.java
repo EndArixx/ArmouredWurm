@@ -50,6 +50,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Platform platforms[];
 	public Platform ladders[];
 	public Platform parallax[];
+	protected int parallaxStart[][]; 
 	public Door doors[];
 	public Explosive bombs[];
 	public World theWorld;
@@ -222,6 +223,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        
 	        int paranum = Integer.parseInt(temp[8]);
 	        parallax = new Platform[paranum];
+	        parallaxStart = new int[2][paranum]; 
 
 	        int savenum = Integer.parseInt(temp[9]);
 	        saveZone = new Platform[savenum];
@@ -381,6 +383,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			lvlspriteData
 	        			);
 	        	parallax[i].setParSpeed(Double.parseDouble(temp[3]));
+	        	
+	        	parallaxStart[0][i] = Integer.parseInt(temp[1]); 
+	        	parallaxStart[1][i] = Integer.parseInt(temp[2]);
 	        }
 	        for(int i = 0; i< savenum; i++)
 	        {
@@ -624,6 +629,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			for(i = 0; i < parallax.length;i++)
 			{
+				if(i != 0)
+				{
+					parallax[i].setTrueX( (int)( parallaxStart[0][i]+(theWorld.x/parallax[i].getParSpeed())));
+					parallax[i].setTrueY( (int)( parallaxStart[1][i]+(theWorld.y/parallax[i].getParSpeed())));
+				}
 				parallax[i].update(); 
 			}
 			for(i = 0; i < platforms.length;i++)
@@ -1096,7 +1106,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					
 					theWorld.moveYn((int)player.getGravity());
-					for(int i = 1; i< parallax.length;i++)
+					/*for(int i = 1; i< parallax.length;i++)
 					{
 						if(parallax[i].getParSpeed() == 1.0)
 						{
@@ -1108,7 +1118,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 							parallax[i].setTrueY((int) parallax[i].trueYdub);
 							//parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
 						}
-					}
+					}*/
 					
 					player.setfalling(true);				
 				}
@@ -1142,9 +1152,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
 					{
-						theWorld.moveYn((int) -player.gettopRunSpeed());
-						
-						for(int i = 1; i< parallax.length;i++)
+						theWorld.moveYn((int) -player.gettopRunSpeed());	
+						/*for(int i = 1; i< parallax.length;i++)
 						{
 							if(parallax[i].getParSpeed() == 1.0)
 							{
@@ -1156,7 +1165,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 								parallax[i].setTrueY((int) parallax[i].trueYdub);
 								//parallax[i].moveYn(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
 							}
-						}
+						}*/
 						
 					}
 					else if(player.getY() > 0)
@@ -1191,7 +1200,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 							}
 							theWorld.moveYn((int) player.getGravity());
 							
-							for(int i = 1; i< parallax.length;i++)
+							/*for(int i = 1; i< parallax.length;i++)
 							{
 								if(parallax[i].getParSpeed() == 1.0)
 								{
@@ -1203,7 +1212,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 									parallax[i].setTrueY((int) parallax[i].trueYdub);
 									//parallax[i].moveYn((int) (player.getGravity() / parallax[i].getParSpeed()));
 								}
-							}
+							}*/
 						}
 						else if(player.getY() > 0)
 						{
@@ -1249,7 +1258,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						theWorld.moveXp((int) -player.speedX);
 						
-						for(int i = 1; i< parallax.length;i++)
+						/*for(int i = 1; i< parallax.length;i++)
 						{
 							if(parallax[i].getParSpeed() == 1.0)
 							{
@@ -1261,7 +1270,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 								parallax[i].setTrueX((int) parallax[i].trueXdub);
 								//parallax[i].moveXp(-(int) ( player.speedX / parallax[i].getParSpeed()));
 							}
-						}
+						}*/
 					}
 				}
 				else if(player.getX() > 0)
@@ -1307,7 +1316,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						theWorld.moveXp((int) -player.speedX);
 						
-						for(int i = 1; i< parallax.length;i++)
+						/*for(int i = 1; i< parallax.length;i++)
 						{
 							if(parallax[i].getParSpeed() == 1.0)
 							{
@@ -1319,7 +1328,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 								parallax[i].setTrueX((int) parallax[i].trueXdub);
 								//parallax[i].moveXp(-(int)( player.speedX / parallax[i].getParSpeed()));
 							}
-						}
+						}*/
 					}
 				}
 				else if (player.getX() < window.width -player.getWidth())
@@ -1360,7 +1369,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				{
 					
 					theWorld.moveYn((int) player.gettopRunSpeed());
-					for(int i = 1; i< parallax.length;i++)
+					/*for(int i = 1; i< parallax.length;i++)
 					{
 						if(parallax[i].getParSpeed() == 1.0)
 						{
@@ -1372,7 +1381,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 							parallax[i].setTrueY((int) parallax[i].trueYdub);
 							//parallax[i].moveYp(-(int) (player.gettopRunSpeed() / parallax[i].getParSpeed()));
 						}
-					}
+					}*/
 					
 				}
 				else if(player.getY() < window.height-player.getHeight())
