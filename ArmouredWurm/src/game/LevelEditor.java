@@ -144,7 +144,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected boolean shiftmonitor;
 	protected boolean controlmonitor;
 	protected boolean tab, tabL;
-	protected int parallaxStart[][]; 
 	
 	
 	protected int modeCounter,modeTotal;
@@ -1230,7 +1229,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			int i;
 			for(i = 0; i < parallax.length;i++)
 			{
+				if(i != 0)
+				{
+					parallax[i].setTrueX( (int)( parallaxStart[0][i]+(theWorld.x/parallax[i].getParSpeed())));
+					parallax[i].setTrueY( (int)( parallaxStart[1][i]+(theWorld.y/parallax[i].getParSpeed())));
+				}
 				parallax[i].update();
+				
 			}
 			for(i = 0; i < platforms.length;i++)
 			{
@@ -1524,11 +1529,11 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if (theWorld.getY() < 0)
 			{
 				theWorld.moveYn(-scrollSpeed);
-				for(int i = 1; i< parallax.length;i++)
+				/*for(int i = 1; i< parallax.length;i++)
 				{
 					parallax[i].moveYn(-(int) (scrollSpeed / parallax[i].getParSpeed()));
 					
-				}
+				}*/
 			}
 		}
 			//MOVE WINDOW SOUTH
@@ -1537,10 +1542,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(-theWorld.getY()+window.getHeight()<theWorld.getHeight())
 			{
 				theWorld.moveYn(scrollSpeed);
-				for(int i = 1; i< parallax.length;i++)
+				/*for(int i = 1; i< parallax.length;i++)
 				{
 					parallax[i].moveYn((int) (scrollSpeed / parallax[i].getParSpeed()));
-				}
+				}*/
 			}
 		}
 			//MOVE WINDOW WEST
@@ -1549,10 +1554,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(theWorld.getX() < 0)
 			{
 				theWorld.moveXp(scrollSpeed);
-				for(int i = 1; i< parallax.length;i++)
+				/*for(int i = 1; i< parallax.length;i++)
 				{
 					parallax[i].moveXp((int) (scrollSpeed / parallax[i].getParSpeed()));
-				}
+				}*/
 			}
 		}
 			//MOVE WINDOW EAST
@@ -1561,10 +1566,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			if(-theWorld.getX() < theWorld.getWidth()-window.width)
 			{
 				theWorld.moveXp(-scrollSpeed);
-				for(int i = 1; i< parallax.length;i++)
+				/*for(int i = 1; i< parallax.length;i++)
 				{
 					parallax[i].moveXp(-(int) (scrollSpeed / parallax[i].getParSpeed()));
-				}
+				}*/
 			}
 		}
 		if(!shiftmonitor && !controlmonitor)
