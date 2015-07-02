@@ -21,6 +21,7 @@ public class Spike extends Platform
 		this.damageNum = damage;
 		this.invol = true;
 		this.type = 5;
+		this.animate = true;
 	}
 	public void update(World theWorld,Queue<DamageHitbox> damageQ)
 	{
@@ -31,7 +32,8 @@ public class Spike extends Platform
 		}
 		DamageHitbox out = new DamageHitbox( this.x + this.hitbox[0], this.y + this.hitbox[1] ,+ this.hitbox[2],+ this.hitbox[3], damageNum , type);
 		damageQ.add(out);
-		
+			//John this will be needed later in the platform class.
+		animateCol();
 		
 	}
 	
