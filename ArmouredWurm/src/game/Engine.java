@@ -803,7 +803,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					//John look into preventing world popping!
 				player.update(damageQ);
 				theWorld.update();
-				gameWorld.update(theWorld);
+				if(gameWorld != null)
+				{
+					gameWorld.update(theWorld);
+				}
 			}
 			if (loadTarget == -2)
 			{
