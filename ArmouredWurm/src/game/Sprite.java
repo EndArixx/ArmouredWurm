@@ -86,9 +86,9 @@ public class Sprite{
 		this.hitbox[2] = width;
 		this.hitbox[3] = height;
 		this.timerspeed = timerspeed;
-		animate = true;
-		row = 0;
-		col = 0;
+		this.animate = true;
+		this.row = 0;
+		this.col = 0;
 			//A subimage is the image that will show on the screen
 		//spriteImage= spriteMap.getSubimage((col * width), (row * height), width, height);
 	}

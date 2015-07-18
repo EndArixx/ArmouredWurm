@@ -31,9 +31,9 @@ public class Platform extends Sprite
 		this.speedY = 0;
 		this.parallaxSpeed = 0;
 	}
-	public Platform(String inImage,int x,int y,int width ,int height,int rowN,int timerspeed,  Map<String,BufferedImage> spriteData,int value)
+	public Platform(String inImage,int x,int y,int width ,int height,int ColN,int timerspeed,  Map<String,BufferedImage> spriteData,int value)
 	{
-		super(inImage,x,y,width,height,rowN,0,timerspeed,  spriteData);
+		super(inImage,x,y,width,height,0,ColN,timerspeed,spriteData);
 		trueX = x;
 		trueY = y;
 		trueXdub = trueX;
@@ -49,6 +49,7 @@ public class Platform extends Sprite
 		this.trueY = (int) (this.trueY + speedY);
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
+		animateCol();
 	}
 	public void update()
 	{
