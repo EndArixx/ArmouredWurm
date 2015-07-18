@@ -2,7 +2,7 @@ NEW GAME!
 23/06/15 11:32:15
 res/player/brov4.txt
 100
-res/TEST.txt
-0,0,0,0
+res/lvl1/lvl1map1.txt
+0,500,0,-1440
 
 //JOHN HIDE THIS FILE. IT SHOULD NOT BE MODIFIED!

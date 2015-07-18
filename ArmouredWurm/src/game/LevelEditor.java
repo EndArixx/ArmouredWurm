@@ -437,7 +437,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+healthpicks[i].getTrueY() + ","
 						+healthpicks[i].getWidth() + ","
 						+healthpicks[i].getHeight() + "," 
-						+healthpicks[i].getRowN() + ","
+						+healthpicks[i].getColN() + ","
 						+(int) healthpicks[i].timerspeed + ","
 						+healthpicks[i].getValue() + 
 						"\n");
