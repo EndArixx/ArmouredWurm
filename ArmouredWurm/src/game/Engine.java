@@ -58,7 +58,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Looper weather[];
 	public PlayerChar player;
 	public Sprite playerHP;
-	public int HPsW,hx, hy;
+	public Sprite playerHPpips;
+	public int hx, hy,hxP,hyP, hpPipLen; //HPsW,
 	public Platform healthpicks[];
 	public Platform saveZone[];
 	
@@ -484,10 +485,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 					//Health bar stuff
 			restartdata[4] = (int) player.HP;
-			this.hx = 800;
-			this.hy = 30;
-			this.playerHP = new Sprite("res/hpbar.png",hx,hy,permaSprites);
-			this.HPsW = playerHP.width;
+			this.hx = 50;
+			this.hy = 50;
+			this.hyP = 22;
+			this.hxP = 83;
+			hpPipLen = 20;
+			this.playerHP = new Sprite("res/player/barPlus.png",hx,hy,permaSprites);
+			this.playerHPpips = new Sprite("res/player/barP.png",0,hy + hyP,permaSprites);
+			//this.HPsW = playerHP.width;
+			
+			
 			//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
 			//player.setHitbox(30, 15, 100, 140);	
 	}
@@ -628,10 +635,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				this.isGameOver = true;
 			}
-			if(player.HP > 0)
+			/*if(player.HP > 0)
 			{
-				playerHP.width =(int) (playerHP.width*(player.HP/player.maxHP));
-			}
+					//Old Health bar.
+				//playerHP.width =(int) (playerHP.width*(player.HP/player.maxHP));
+			}*/
 			for(int i = 0; i < doors.length ; i++)
 			{
 				if(Tools.check_collision(doors[i].getHitbox(),player.getHitbox()))
@@ -960,7 +968,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			if(player.HP > 0)
 			{
-				g.drawImage(permaSprites.get(playerHP.name),playerHP.x, playerHP.y , (int) (HPsW*(player.HP/player.maxHP)) , playerHP.height, null);
+				//g.drawImage(permaSprites.get(playerHP.name),playerHP.x, playerHP.y , (int) (HPsW*(player.HP/player.maxHP)) , playerHP.height, null);
+				playerHP.render(g,permaSprites);
+				for(i = 0; i < player.HP/10; i++)
+				{
+					playerHPpips.setX(playerHP.getX() + this.hxP + (i*this.hpPipLen));
+					playerHPpips.render(g,permaSprites);
+				}
 			}
 			/*
 			for(i = 0; i < bomb.length; i++)
