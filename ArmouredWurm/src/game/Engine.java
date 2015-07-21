@@ -42,7 +42,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -535,7 +535,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	public void loadFile(String inSaveFile)
 	{
-			// FREE UP SOME MEMORY TO PREVENT CRASH!
+			// FREE UP SOME MEMORY TO PREVENT CRASH!]
+			//John clean this up.
 		screen.flush();
 		screen = createVolatileImage(window.width,window.height); 
 		isLoadingF = false;
