@@ -197,6 +197,7 @@ public class Sprite{
 			{
 				BufferedImage spriteImage= spriteData.get(name).getSubimage((col * width), (row * height), width, height);
 				g.drawImage(spriteImage, x,y ,  width , height, null);
+				spriteImage.flush();
 			}
 			else
 			{

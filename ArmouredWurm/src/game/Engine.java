@@ -42,7 +42,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -97,6 +97,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean loadCont;
 	private int loadTarget;
 	public Sprite loading,loadingF;
+	
+	boolean oneupdate;
 	
 		//Sound Zone
 	protected SoundEngine soundHandler;
@@ -568,7 +570,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			theWorld.setY(Integer.parseInt(temp[3]));
 			restartdata[3] = Integer.parseInt(temp[3]);
 			isLoadingF = true;
-	        
 	        fr.close();
 	        br.close();
 	        
@@ -595,10 +596,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				loadFile("savegames/save1.txt");
 			}
+			oneupdate=true;
 		}
 		
-		if(!isLoading && !isPaused && !isGameOver && !inMainMenu)
+		if((!isLoading && !isPaused && !isGameOver && !inMainMenu )||oneupdate)
 		{	
+			oneupdate=false;
 			if(player.getDead())
 			{
 				this.isGameOver = true;
@@ -801,12 +804,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				restartdata[4] =(int) player.HP;
 				
 					//John look into preventing world popping!
-				player.update(damageQ);
+				/*player.update(damageQ);
 				theWorld.update();
 				if(gameWorld != null)
 				{
 					gameWorld.update(theWorld);
-				}
+				}*/
+				oneupdate=true;
 			}
 			if (loadTarget == -2)
 			{
@@ -980,10 +984,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		}
 			// Get window's graphics object. 
 		g = getGraphics();
-			// Draw backbuffer to window. 
+			// Draw backbuffer to window.
 		g.drawImage(screen,0,0,window.width,window.height,0,0,window.width, window.height,null);
 			//NO CODEBELOW!
-		g.dispose();				
+		g.dispose();	
 	}
 	
 	public void run()
@@ -1016,7 +1020,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				loops++;
 			}
 			render();
-			
+				//This is to prevent the game from freaking out when a level is loaded	
+			if(this.isLoading) next_game_tick =  System.currentTimeMillis(); 
 			if(this.terminator) isRunning = false;
 			System.gc();
 		}
