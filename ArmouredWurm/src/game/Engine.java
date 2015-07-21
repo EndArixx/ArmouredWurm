@@ -149,6 +149,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	protected void loadLevel(String lvlname)
 	{	
+		screen.flush();
+		screen = createVolatileImage(window.width,window.height); 
 		isLoadingF = false;
 		//isPaused = true;
 		lvlspriteData.clear();
@@ -533,6 +535,25 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	public void loadFile(String inSaveFile)
 	{
+			// FREE UP SOME MEMORY TO PREVENT CRASH!
+		screen.flush();
+		screen = createVolatileImage(window.width,window.height); 
+		isLoadingF = false;
+		//isPaused = true;
+		lvlspriteData.clear();
+		badguys = null;
+		spikes = null;
+		platforms= null;
+		ladders = null;
+		parallax = null;
+		doors = null;
+		bombs = null;
+		theWorld = null;
+		gameWorld = null;
+		weather = null;
+		healthpicks = null;
+		System.gc();
+		
 		String name;
 		BufferedReader br;
 	    try {
