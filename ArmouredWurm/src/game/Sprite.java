@@ -34,7 +34,15 @@ public class Sprite{
 		BufferedImage spriteMap = null;
 		try 
 		{
-			spriteMap = ImageIO.read(new File(inImage));
+			if(new File(inImage).isFile())
+			{
+				spriteMap = ImageIO.read(new File(inImage));
+
+			}
+			else
+			{
+				spriteMap = ImageIO.read(getClass().getResource(inImage));
+			}
 		}
 		catch (IOException e) 
 		{
@@ -65,7 +73,15 @@ public class Sprite{
 		BufferedImage spriteMap = null;
 		try 
 		{
-			spriteMap = ImageIO.read(new File(inImage));
+			if(new File(inImage).isFile())
+			{
+				spriteMap = ImageIO.read(new File(inImage));
+
+			}
+			else
+			{
+				spriteMap = ImageIO.read(getClass().getResource(inImage));
+			}
 		}
 		catch (IOException e) 
 		{

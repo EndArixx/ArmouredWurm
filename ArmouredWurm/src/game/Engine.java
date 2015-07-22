@@ -23,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -168,6 +170,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		healthpicks = null;
 		System.gc();
 		
+		int t = 0;
 		
 		lvlName = lvlname;
 			//this is designed to load in a specifically designed "Map" file 
@@ -175,8 +178,26 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		String[] temp;
 		BufferedReader br;
 	    try {
-	    	FileReader fr = new FileReader(lvlname);
-	    	br = new BufferedReader(fr);
+	    	FileReader fr = null;
+	    	InputStream is = null;
+	    	InputStreamReader isr = null;
+	    		//Favor external files, then internal
+	    	if(new File(lvlname).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(lvlname);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else //John add a new case for if neither exists
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream(lvlname);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	    	
+	    	
+	    	
 	        String line = br.readLine();
 	        name = line;
 	        
@@ -408,8 +429,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			);
 	        	saveZone[i].setValue(1);
 	        }
-	        fr.close();
+	        
+	        	//Close the files 
 	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
 	        
 	    } catch (IOException e) 
 	    {
@@ -564,9 +595,26 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		String name;
 		BufferedReader br;
+		int t = 1;
 	    try {
-	    	FileReader fr = new FileReader(inSaveFile);
-	    	br = new BufferedReader(fr);
+	    	FileReader fr = null;
+	    	InputStream is = null;
+	    	InputStreamReader isr = null;
+	    		//Favor external files, then internal
+	    	if(new File(inSaveFile).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(inSaveFile);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else //John add a new case for if neither exists
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream(inSaveFile);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	    	
 	    		//stuff
 	    	loadTarget = -1;
 	    	isLoading = true;
@@ -599,8 +647,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			theWorld.setY(Integer.parseInt(temp[3]));
 			restartdata[3] = Integer.parseInt(temp[3]);
 			isLoadingF = true;
-	        fr.close();
+			
+				//Close the files 
 	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
 	        
 	    } catch (IOException e) 
 	    {
