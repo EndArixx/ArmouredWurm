@@ -103,7 +103,7 @@ public class PlayerChar extends Sprite
 	    	else //John add a new case for if neither exists
 	    	{
 	    		t = 2;
-	    		is = getClass().getResourceAsStream(infile);
+	    		is = getClass().getResourceAsStream("/"+infile);
 	    		isr = new InputStreamReader(is);
 	    		br = new BufferedReader(isr);
 	    	}
@@ -125,7 +125,7 @@ public class PlayerChar extends Sprite
 				}
 				else
 				{
-					spriteMap = ImageIO.read(getClass().getResource(name));
+					spriteMap = ImageIO.read(getClass().getResource("/"+name));
 				}
 			}
 			catch (IOException e) 

@@ -41,7 +41,7 @@ public class Sprite{
 			}
 			else
 			{
-				spriteMap = ImageIO.read(getClass().getResource(inImage));
+				spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
 			}
 		}
 		catch (IOException e) 
@@ -80,7 +80,7 @@ public class Sprite{
 			}
 			else
 			{
-				spriteMap = ImageIO.read(getClass().getResource(inImage));
+				spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
 			}
 		}
 		catch (IOException e) 

@@ -191,7 +191,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    	else //John add a new case for if neither exists
 	    	{
 	    		t = 2;
-	    		is = getClass().getResourceAsStream(lvlname);
+	    		is = getClass().getResourceAsStream("/"+lvlname);
 	    		isr = new InputStreamReader(is);
 	    		br = new BufferedReader(isr);
 	    	}
@@ -549,6 +549,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		player.addHP(player.maxHP);
 		try
 		{
+			File theDir = new File("savegames");
+			if (!theDir.exists()) 
+			{
+			    try
+			    {
+			        theDir.mkdir();
+			    } 
+			    catch(SecurityException se)
+			    {
+			        System.out.println("ERROR: Permisson denied");
+			    }        
+			}
+			
 			FileWriter fw = new FileWriter(saveFileName);
 			
 			fw.write(saveName +"\n");
@@ -610,7 +623,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    	else //John add a new case for if neither exists
 	    	{
 	    		t = 2;
-	    		is = getClass().getResourceAsStream(inSaveFile);
+	    		is = getClass().getResourceAsStream("/"+inSaveFile);
 	    		isr = new InputStreamReader(is);
 	    		br = new BufferedReader(isr);
 	    	}

@@ -32,7 +32,15 @@ public class Explosive extends Platform
 		BufferedImage spriteMap = null;
 		try 
 		{
-			spriteMap = ImageIO.read(new File(blastspriteloc));
+			if(new File(blastspriteloc).isFile())
+			{
+				spriteMap = ImageIO.read(new File(blastspriteloc));
+
+			}
+			else
+			{
+				spriteMap = ImageIO.read(getClass().getResource("/"+blastspriteloc));
+			}
 			spriteData.put(blastspriteloc,spriteMap);
 		}
 		catch (IOException e) 

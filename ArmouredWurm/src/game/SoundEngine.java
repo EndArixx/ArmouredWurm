@@ -1,8 +1,10 @@
 package game;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -69,12 +71,24 @@ public class SoundEngine
 		AudioInputStream out = null;
 		try
 		{
+			
+		if(new File(in).isFile())
+		{
 			out = AudioSystem.getAudioInputStream(new File(in));
-		
+		}
+		else
+		{
+			//out = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/"+in));
+			InputStream is = getClass().getResourceAsStream("/"+in);
+			out = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
+		}
+			//ADD and panic state!
 		AudioFormat format = out.getFormat();
 		DataLine.Info info = new DataLine.Info(Clip.class, format);
 		
 		Clip soundclip = null;
+		
+		
 		soundclip = (Clip) AudioSystem.getLine(info);
 		soundclip.open(out);
 		
@@ -83,7 +97,7 @@ public class SoundEngine
 		
 		soundData.put(in,soundclip);
 		} 
-		catch (FileNotFoundException e) {e.printStackTrace();} 
+		catch (FileNotFoundException e) {System.out.println("BAD SOUND FILE:"+in);}//e.printStackTrace();} 
 		catch (IOException e) {e.printStackTrace();}
 		catch (UnsupportedAudioFileException e) {e.printStackTrace();}
 		catch (LineUnavailableException e) {e.printStackTrace();}
