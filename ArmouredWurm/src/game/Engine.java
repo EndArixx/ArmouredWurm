@@ -89,6 +89,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//0 = left  handed
 			//1 = right handed
 	int ControlS = 1;
+	
 		//Variables for cardinal directions.
 	protected boolean N,S,W,E,F;
 		//these are holders to smooth out movement
@@ -1682,9 +1683,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					break;
 						
-				/*case KeyEvent.VK_Q: //Quit
-					isRunning = false;
-						break;*/ 
+				case KeyEvent.VK_O: //switch controls
+					ControlS = 1;
+						break;
+						
 				case KeyEvent.VK_ESCAPE: //Paused
 					if(!inMainMenu && !isLoading)
 					{
@@ -1859,9 +1861,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 					break;
 						
-				/*case KeyEvent.VK_Q: //Quit
-					isRunning = false;
-						break;*/ 
+				case KeyEvent.VK_I: //switch controls
+					ControlS = 0;
+						break;
+						
 				case KeyEvent.VK_ESCAPE: //Paused
 					if(!inMainMenu && !isLoading)
 					{
