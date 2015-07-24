@@ -85,6 +85,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	protected Image screen;
 	protected static String windowName = "Armored Wurm";
+		//control schemes
+			//0 = left  handed
+			//1 = right handed
+	int ControlS = 1;
 		//Variables for cardinal directions.
 	protected boolean N,S,W,E,F;
 		//these are holders to smooth out movement
@@ -101,6 +105,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private int loadTarget;
 	public Sprite loading,loadingF;
 	
+		//to fix a popping bug
 	boolean oneupdate;
 	
 		//Sound Zone
@@ -1519,205 +1524,460 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//identify which key was pressed
 			//set the correct direction to true
 			//then change the player model 
-		switch (key.getKeyCode())
+		if(ControlS ==0)
 		{
-			//attacklogic
-			case KeyEvent.VK_SPACE:
-				if(inMainMenu)
-				{
-					if(mmeh)
+			switch (key.getKeyCode())
+			{
+				//attacklogic
+				case KeyEvent.VK_SPACE:
+					N=true;
+					if(inMainMenu)
 					{
-						mme= true;
+						if(mmeh)
+						{
+							mme= true;
+						}
 					}
-				}
-				else if(isPaused)
-				{
-					if(psh)
+					else if(isPaused)
 					{
-						ps= true;
+						if(psh)
+						{
+							ps= true;
+						}
 					}
-				}
-				else if(isLoadingF)
-				{
-					loadCont = true;
-				}
-				if(isGameOver)
-				{
-					inMainMenu = true;		
-					isGameOver = false;
-				}
-
-				break;
- 			case KeyEvent.VK_LEFT:
-				if(!player.getAttacking())
-				{
-					if(player.getFacingForward())
+					else if(isLoadingF)
 					{
-						player.startReverseAttack();
+						loadCont = true;
 					}
-					else
+					if(isGameOver)
 					{
-						//player.setFaceForward(false);
+						inMainMenu = true;		
+						isGameOver = false;
+					}
+	
+					break;
+				case KeyEvent.VK_ENTER:
+					if(inMainMenu)
+					{
+						if(mmeh)
+						{
+							mme= true;
+						}
+					}
+					else if(isPaused)
+					{
+						if(psh)
+						{
+							ps= true;
+						}
+					}
+					else if(isLoadingF)
+					{
+						loadCont = true;
+					}
+					if(isGameOver)
+					{
+						inMainMenu = true;		
+						isGameOver = false;
+					}
+	
+					break;
+	 			case KeyEvent.VK_LEFT:
+					if(!player.getAttacking())
+					{
+						if(player.getFacingForward())
+						{
+							player.startReverseAttack();
+						}
+						else
+						{
+							//player.setFaceForward(false);
+							player.startAttack();
+						}
+					}
+					break;
+				case KeyEvent.VK_RIGHT:
+					if(!player.getAttacking())
+					{
+						if(!player.getFacingForward())
+						{
+							player.startReverseAttack();
+						}
+						else
+						{
+						//player.setFaceForward(true);
 						player.startAttack();
+						}
 					}
-				}
-				break;
-			case KeyEvent.VK_RIGHT:
-				if(!player.getAttacking())
-				{
-					if(!player.getFacingForward())
-					{
-						player.startReverseAttack();
-					}
-					else
-					{
-					//player.setFaceForward(true);
-					player.startAttack();
-					}
-				}
-				break;
-				
-				
-			//-------------------------(Y)
-			case KeyEvent.VK_W: //UP
-				N=true;
-				
-				if(inMainMenu)
-				{
-					if(mainMenuButnum != 0)
-					{
-						mainMenuButnum--;
-					}
-					else
-					{
-						mainMenuButnum = pauseMax;
-					}
-				}
-				else if(isPaused)
-				{
-					if(pauseButnum != 0)
-					{
-						pauseButnum--;
-					}
-					else
-					{
-						pauseButnum = pauseMax;
-					}
-				}
 					break;
-			case KeyEvent.VK_S: //DOWN
-				S=true;
-				if(isPaused)
-				{
-					if(pauseButnum != pauseMax)
-					{
-						pauseButnum++;
-					}
-					else
-					{
-						pauseButnum = 0;
-					}
-				}
-				else if(inMainMenu)
-				{
-					if(mainMenuButnum != mainMenuMax)
-					{
-						mainMenuButnum++;
-					}
-					else
-					{
-						mainMenuButnum = 0;
-					}
-				}
-					break;
-			//-------------------------(X)
-			case KeyEvent.VK_A: //LEFT
-				W = true;
-				if(E == true)
-				{
-					Eh = true;
-					E = false;
-				}
-				break;
 					
-			case KeyEvent.VK_D: //RIGHT
-				E = true;
-				if(W == true)
-				{
-					Wh = true;
-					W = false;
-				}
-				break;
 					
-			/*case KeyEvent.VK_Q: //Quit
-				isRunning = false;
-					break;*/ 
-			case KeyEvent.VK_ESCAPE: //Paused
-				if(!inMainMenu && !isLoading)
-				{
+				//-------------------------(Y)
+				case KeyEvent.VK_W: //UP
+					//N=true;
+					if(inMainMenu)
+					{
+						if(mainMenuButnum != 0)
+						{
+							mainMenuButnum--;
+						}
+						else
+						{
+							mainMenuButnum = pauseMax;
+						}
+					}
+					else if(isPaused)
+					{
+						if(pauseButnum != 0)
+						{
+							pauseButnum--;
+						}
+						else
+						{
+							pauseButnum = pauseMax;
+						}
+					}
+						break;
+				case KeyEvent.VK_S: //DOWN
+					S=true;
 					if(isPaused)
 					{
-						isPaused = false;
+						if(pauseButnum != pauseMax)
+						{
+							pauseButnum++;
+						}
+						else
+						{
+							pauseButnum = 0;
+						}
 					}
-					else
+					else if(inMainMenu)
 					{
-						pauseButnum = 0;
-						isPaused = true;
+						if(mainMenuButnum != mainMenuMax)
+						{
+							mainMenuButnum++;
+						}
+						else
+						{
+							mainMenuButnum = 0;
+						}
 					}
-				}
-				break;
+						break;
+				//-------------------------(X)
+				case KeyEvent.VK_A: //LEFT
+					W = true;
+					if(E == true)
+					{
+						Eh = true;
+						E = false;
+					}
+					break;
+						
+				case KeyEvent.VK_D: //RIGHT
+					E = true;
+					if(W == true)
+					{
+						Wh = true;
+						W = false;
+					}
+					break;
+						
+				/*case KeyEvent.VK_Q: //Quit
+					isRunning = false;
+						break;*/ 
+				case KeyEvent.VK_ESCAPE: //Paused
+					if(!inMainMenu && !isLoading)
+					{
+						if(isPaused)
+						{
+							isPaused = false;
+						}
+						else
+						{
+							pauseButnum = 0;
+							isPaused = true;
+						}
+					}
+					break;
+			}
+		}
+		else if(ControlS == 1)
+		{
+			switch (key.getKeyCode())
+			{
+				//attacklogic
+				case KeyEvent.VK_SPACE:
+					N=true;
+					if(inMainMenu)
+					{
+						if(mmeh)
+						{
+							mme= true;
+						}
+					}
+					else if(isPaused)
+					{
+						if(psh)
+						{
+							ps= true;
+						}
+					}
+					else if(isLoadingF)
+					{
+						loadCont = true;
+					}
+					if(isGameOver)
+					{
+						inMainMenu = true;		
+						isGameOver = false;
+					}
+	
+					break;
+				case KeyEvent.VK_ENTER:
+					if(inMainMenu)
+					{
+						if(mmeh)
+						{
+							mme= true;
+						}
+					}
+					else if(isPaused)
+					{
+						if(psh)
+						{
+							ps= true;
+						}
+					}
+					else if(isLoadingF)
+					{
+						loadCont = true;
+					}
+					if(isGameOver)
+					{
+						inMainMenu = true;		
+						isGameOver = false;
+					}
+	
+					break;
+	 			case KeyEvent.VK_A:
+					if(!player.getAttacking())
+					{
+						if(player.getFacingForward())
+						{
+							player.startReverseAttack();
+						}
+						else
+						{
+							//player.setFaceForward(false);
+							player.startAttack();
+						}
+					}
+					break;
+				case KeyEvent.VK_D:
+					if(!player.getAttacking())
+					{
+						if(!player.getFacingForward())
+						{
+							player.startReverseAttack();
+						}
+						else
+						{
+						//player.setFaceForward(true);
+						player.startAttack();
+						}
+					}
+					break;
+					
+					
+				//-------------------------(Y)
+				case KeyEvent.VK_UP: //UP
+					//N=true;
+					if(inMainMenu)
+					{
+						if(mainMenuButnum != 0)
+						{
+							mainMenuButnum--;
+						}
+						else
+						{
+							mainMenuButnum = pauseMax;
+						}
+					}
+					else if(isPaused)
+					{
+						if(pauseButnum != 0)
+						{
+							pauseButnum--;
+						}
+						else
+						{
+							pauseButnum = pauseMax;
+						}
+					}
+						break;
+				case KeyEvent.VK_DOWN: //DOWN
+					S=true;
+					if(isPaused)
+					{
+						if(pauseButnum != pauseMax)
+						{
+							pauseButnum++;
+						}
+						else
+						{
+							pauseButnum = 0;
+						}
+					}
+					else if(inMainMenu)
+					{
+						if(mainMenuButnum != mainMenuMax)
+						{
+							mainMenuButnum++;
+						}
+						else
+						{
+							mainMenuButnum = 0;
+						}
+					}
+						break;
+				//-------------------------(X)
+				case KeyEvent.VK_LEFT: //LEFT
+					W = true;
+					if(E == true)
+					{
+						Eh = true;
+						E = false;
+					}
+					break;
+						
+				case KeyEvent.VK_RIGHT: //RIGHT
+					E = true;
+					if(W == true)
+					{
+						Wh = true;
+						W = false;
+					}
+					break;
+						
+				/*case KeyEvent.VK_Q: //Quit
+					isRunning = false;
+						break;*/ 
+				case KeyEvent.VK_ESCAPE: //Paused
+					if(!inMainMenu && !isLoading)
+					{
+						if(isPaused)
+						{
+							isPaused = false;
+						}
+						else
+						{
+							pauseButnum = 0;
+							isPaused = true;
+						}
+					}
+					break;
+			}
 		}
 	}
 	public void keyReleased(KeyEvent key) 
 	{
 			//check the key then turn off that direction
-		switch (key.getKeyCode())
+		if(ControlS ==0)
 		{
-			case KeyEvent.VK_SPACE:
-				if(inMainMenu)
-				{
-					mmeh = true;
-				}
-				
-				psh= true;
-				loadCont = false;
-			break;
-			//-------------------------(Y)
-			case KeyEvent.VK_W: //UP
-				N=false;
-				Jh = true;
-					break;
-			case KeyEvent.VK_S: //DOWN
-				S=false;
-					break;
-			//-------------------------(X)
-			case KeyEvent.VK_A: //LEFT
-				W = false;
-				Wh = false;
-				if(Eh)
-				{
-					Eh = false;
-					E = true;
-				}
+			switch (key.getKeyCode())
+			{
+				case KeyEvent.VK_SPACE:
+					N=false;
+					Jh = true;
+					if(inMainMenu)
+					{
+						mmeh = true;
+					}
+					
+					psh= true;
+					loadCont = false;
 				break;
-				
-			case KeyEvent.VK_D: //RIGHT
-				E = false;
-				Eh = false;
-				if(Wh)
-				{
+				//-------------------------(Y)
+				case KeyEvent.VK_W: //UP
+					/*N=false;
+					Jh = true;
+						break;*/
+				case KeyEvent.VK_S: //DOWN
+					S=false;
+						break;
+				//-------------------------(X)
+				case KeyEvent.VK_A: //LEFT
+					W = false;
 					Wh = false;
-					W = true;
-				}
-				break;	
-				
-								//FIRE WEAPON
-									//old!
-			case KeyEvent.VK_RIGHT:
-				F = false;
+					if(Eh)
+					{
+						Eh = false;
+						E = true;
+					}
 					break;
+					
+				case KeyEvent.VK_D: //RIGHT
+					E = false;
+					Eh = false;
+					if(Wh)
+					{
+						Wh = false;
+						W = true;
+					}
+					break;	
+					
+									//FIRE WEAPON
+										//old!
+				case KeyEvent.VK_RIGHT:
+					F = false;
+						break;
+			}
 		}
-		
+		else if(ControlS == 1)
+		{
+			switch (key.getKeyCode())
+			{
+				case KeyEvent.VK_SPACE:
+					N=false;
+					Jh = true;
+					if(inMainMenu)
+					{
+						mmeh = true;
+					}
+					
+					psh= true;
+					loadCont = false;
+				break;
+				//-------------------------(Y)
+				case KeyEvent.VK_UP: //UP
+					/*N=false;
+					Jh = true;
+						break;*/
+				case KeyEvent.VK_DOWN: //DOWN
+					S=false;
+						break;
+				//-------------------------(X)
+				case KeyEvent.VK_LEFT: //LEFT
+					W = false;
+					Wh = false;
+					if(Eh)
+					{
+						Eh = false;
+						E = true;
+					}
+					break;
+					
+				case KeyEvent.VK_RIGHT: //RIGHT
+					E = false;
+					Eh = false;
+					if(Wh)
+					{
+						Wh = false;
+						W = true;
+					}
+					break;
+			}
+		}
 	}
 	//MAIN<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>	
 	public static void main(String[] args) 
