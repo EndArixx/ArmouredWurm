@@ -179,6 +179,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		gameWorld = null;
 		weather = null;
 		healthpicks = null;
+		onewayUnderPlatform = null;
+		onewayOverPlatform = null;
+		onewayLeftPlatform = null;
+		onewayRightPlatform = null;
 		System.gc();
 		
 		int t = 0;
