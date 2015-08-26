@@ -62,8 +62,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Sprite playerHP;
 	public Sprite playerHPpips;
 	public int hx, hy,hxP,hyP, hpPipLen; //HPsW,
-	public Platform healthpicks[];
-	public Platform saveZone[];
+	public Platform healthpicks[];	; Platform saveZone[];
+	
+		//One way Platforms
+	public Platform onewayUnderPlatform[];
+	public Platform onewayOverPlatform[];
+	public Platform onewayLeftPlatform[];
+	public Platform onewayRightPlatform[];
 	
 	public gun hammer[]; 
 	public Explosive bullets[] = new Explosive[4];
@@ -227,7 +232,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	//Load in Lvl object
 	        line = br.readLine();
 	        temp = line.split(",");
-	        
+	        	//John switch these, you dont need the ints!
 	        int wnum = Integer.parseInt(temp[0]);
 	        weather = new Looper[wnum];
 	        
@@ -259,6 +264,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 
 	        int savenum = Integer.parseInt(temp[9]);
 	        saveZone = new Platform[savenum];
+	        
+	        int onePlatUndernum = Integer.parseInt(temp[10]);
+	        onewayUnderPlatform = new Platform[onePlatUndernum];
+	        
+	        int onePlatOvernum = Integer.parseInt(temp[11]);
+	    	onewayOverPlatform = new Platform[onePlatOvernum];
+	    	
+	    	int onePlatLeftnum = Integer.parseInt(temp[12]);
+	    	onewayLeftPlatform = new Platform[onePlatLeftnum];
+	    	
+	    	int onePlatRightnum = Integer.parseInt(temp[13]);
+	    	onewayRightPlatform = new Platform[onePlatRightnum];
 	        
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
@@ -435,6 +452,69 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			);
 	        	saveZone[i].setValue(1);
 	        }
+	        for (int i= 0; i < onewayUnderPlatform.length; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayUnderPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        } 
+ 	        }
+	        for (int i= 0; i < onewayOverPlatform.length; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayOverPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        } 
+ 	        }
+	        for (int i= 0; i < onewayLeftPlatform.length; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayLeftPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        } 
+ 	        }
+	        for (int i= 0; i < onewayRightPlatform.length; i++)
+	        {
+	        	line = br.readLine();
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayRightPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        } 
+ 	        }
+	        
+	        
+	        
 	        
 	        	//Close the files 
 	        br.close();
@@ -610,6 +690,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		gameWorld = null;
 		weather = null;
 		healthpicks = null;
+		onewayUnderPlatform = null;
+		onewayOverPlatform = null;
+		onewayLeftPlatform = null;
+		onewayRightPlatform = null;
 		System.gc();
 		
 		String name;
