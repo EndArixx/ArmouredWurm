@@ -1,7 +1,7 @@
 res/TEST.txt
 res/mount-,2,2,1280,720
 2560,1440
-0,3,19,3,3,2,16,2,4,0,0,0,0,0,0
+0,3,21,3,3,2,16,2,4,0,0,0,0,0,0
 res/ladder0-1.png,2280,180,20,30,72,339
 res/ladder0-1.png,2280,500,30,50,62,169
 res/ladder0-1.png,720,190,0,0,122,409
@@ -24,6 +24,8 @@ res/platform0-1.png,530,1150,0,0,738,119
 res/platform0-1.png,1530,520,10,30,738,49
 res/1-1grass0.png,2180,160,0,80,305,61
 res/platform0-1.png,0,180,0,0,738,119
+res/lvl2/Platforms/pl6.png,690,160,0,0,190,145
+res/lvl2/Platforms/pl7.png,810,200,0,0,215,150
 res/door.png,100,630,850,160,res/save1/save1.txt,0,0,0,0,150,190
 res/door.png,2410,1250,0,0,res/TEST.txt,0,0,0,0,150,190
 res/door.png,0,1250,500,500,res/testlevel.txt,-750,0,60,40,60,100

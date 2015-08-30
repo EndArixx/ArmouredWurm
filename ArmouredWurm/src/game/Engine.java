@@ -163,7 +163,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	protected void loadLevel(String lvlname)
 	{	
-		screen.flush();
+		if(screen != null)
+		{
+			screen.flush();
+		}
 		screen = createVolatileImage(window.width,window.height); 
 		isLoadingF = false;
 		//isPaused = true;
@@ -1193,7 +1196,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	public void run()
 	{
-		
 		screen = createVolatileImage(window.width,window.height); 
 		final int TICKS_PER_SECOND = 50;
 	    final int SKIP_TICKS = 1000 / TICKS_PER_SECOND;

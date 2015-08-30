@@ -134,6 +134,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	protected int scrollSpeed = 10;
 	protected int moveSpeed = 10;
 	
+
+	
 		//Object targeting
 	public int target;
 	public boolean targetH, Tprompt;
@@ -173,7 +175,6 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		//Movement directions (north,south etc...)
 	protected boolean moveN,moveS,moveE,moveW, saving, adding, deleting, addL, delL, changing, chaL; 
 	protected boolean hitboxXB,hitboxXS,hitboxYB,hitboxYS;
-	
 	
 	private boolean promtformapname = true;
 	 
