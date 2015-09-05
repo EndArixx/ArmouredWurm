@@ -469,6 +469,51 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						);
 				
 			}
+				//Write out The single direction platforms
+					//John look into animating these
+			for(int i = 0;i < onewayUnderPlatform.length; i++)
+			{
+				fw.write(onewayUnderPlatform[i].name + ","
+						+ onewayUnderPlatform[i].trueX + ","
+						+ onewayUnderPlatform[i].trueY + ","
+						+ onewayUnderPlatform[i].hitbox[0] + ","
+						+ onewayUnderPlatform[i].hitbox[1] + ","
+						+ onewayUnderPlatform[i].hitbox[2] + ","
+						+ onewayUnderPlatform[i].hitbox[3] + "\n");
+			}
+			for(int i = 0;i < onewayUnderPlatform.length; i++)
+			{
+				fw.write(onewayOverPlatform[i].name + ","
+						+ onewayOverPlatform[i].trueX + ","
+						+ onewayOverPlatform[i].trueY + ","
+						+ onewayOverPlatform[i].hitbox[0] + ","
+						+ onewayOverPlatform[i].hitbox[1] + ","
+						+ onewayOverPlatform[i].hitbox[2] + ","
+						+ onewayOverPlatform[i].hitbox[3] + "\n");
+			}
+			for(int i = 0;i < onewayUnderPlatform.length; i++)
+			{
+				fw.write(onewayLeftPlatform[i].name + ","
+						+ onewayLeftPlatform[i].trueX + ","
+						+ onewayLeftPlatform[i].trueY + ","
+						+ onewayLeftPlatform[i].hitbox[0] + ","
+						+ onewayLeftPlatform[i].hitbox[1] + ","
+						+ onewayLeftPlatform[i].hitbox[2] + ","
+						+ onewayLeftPlatform[i].hitbox[3] + "\n");
+			}
+			for(int i = 0;i < onewayRightPlatform.length; i++)
+			{
+				fw.write(onewayRightPlatform[i].name + ","
+						+ onewayRightPlatform[i].trueX + ","
+						+ onewayRightPlatform[i].trueY + ","
+						+ onewayRightPlatform[i].hitbox[0] + ","
+						+ onewayRightPlatform[i].hitbox[1] + ","
+						+ onewayRightPlatform[i].hitbox[2] + ","
+						+ onewayRightPlatform[i].hitbox[3] + "\n");
+			}
+			
+			
+			
 			//fw.write(" \n");
 			fw.close();
 		
