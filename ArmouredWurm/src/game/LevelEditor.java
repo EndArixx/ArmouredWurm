@@ -1275,10 +1275,10 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			int i;
 			for(i = 0; i < parallax.length;i++)
 			{
-				if(i != 0)
+				if(i != 0)//John rid this
 				{
-					parallax[i].setTrueX( (int)( parallaxStart[0][i]+(theWorld.x/parallax[i].getParSpeed())));
-					parallax[i].setTrueY( (int)( parallaxStart[1][i]+(theWorld.y/parallax[i].getParSpeed())));
+					parallax[i].setTrueX( (int)( parallaxStart[0][i]+(theWorld.x*parallax[i].getParSpeed())));
+					parallax[i].setTrueY( (int)( parallaxStart[1][i]+(theWorld.y*parallax[i].getParSpeed())));
 				}
 				parallax[i].update();
 				
