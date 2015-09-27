@@ -10,9 +10,14 @@ import javax.imageio.ImageIO;
 public class Platform extends Sprite
 {
 	protected int trueX, trueY, value;
+		//Parallax
 	protected double parallaxSpeed;
+		//Destruction
 	protected boolean destroyable,destroyed;
 	protected String destroyedSprite;
+		//Motion
+	protected int leftPatrol, rightPatrol;
+	protected boolean FF,moving;
 	
 		//this is needed to prevent losing alot of data when moving parallax elements
 	protected double trueXdub, trueYdub;
@@ -28,6 +33,7 @@ public class Platform extends Sprite
 		this.speedX = 0;
 		this.speedY = 0;
 		this.parallaxSpeed = 0;
+		this.moving = false;
 	}
 	public Platform(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed,  Map<String,BufferedImage> spriteData) 
 	{
@@ -41,6 +47,7 @@ public class Platform extends Sprite
 		this.speedX = 0;
 		this.speedY = 0;
 		this.parallaxSpeed = 0;
+		this.moving = false;
 	}
 	public Platform(String inImage,int x,int y,int width ,int height,int ColN,int timerspeed,  Map<String,BufferedImage> spriteData,int value)
 	{
@@ -55,9 +62,11 @@ public class Platform extends Sprite
 		this.speedY = 0;
 		this.value = value;
 		this.parallaxSpeed = 0;
+		this.moving = false;
 	}
 	public void update(World theWorld)
 	{
+		//John put the move and destruction logic here.
 		this.trueX = (int) (this.trueX + speedX);
 		this.trueY = (int) (this.trueY + speedY);
 		x = theWorld.getX() + trueX;
@@ -77,9 +86,21 @@ public class Platform extends Sprite
 		this.trueY = -height;
 		this.col = 0;
 	}
+	public void make_movable( int leftP, int rightP)
+	{	
+		if(rightP < leftP)
+		{
+			System.out.println("ERROR-Please check right and left!");
+			return;
+		}
+		//John motion logic
+		leftPatrol = rightP;
+		rightPatrol = leftP;
+		this.moving = true;
+	}
 	public void make_Destroyable(String destroyedloc, Map<String,BufferedImage> spriteData )
 	{
-			//John New code 
+			//John New code destroyable
 		BufferedImage spriteMap = null;
 		try 
 		{

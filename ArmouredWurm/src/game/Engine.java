@@ -311,16 +311,23 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        {
 	        	line = br.readLine();
 	 	        temp = line.split(",");
- 	        	platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-	 	        if(temp.length >= 4)
+ 	        	if(temp.length <= 8)
 	 	        {
-	 	        	platforms[i].setHitbox(
+ 	        		platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        	if(temp.length >= 4)
+	 	        	{
+	 	        		platforms[i].setHitbox(
 	 	        			Integer.parseInt(temp[3]),
 	 	        			Integer.parseInt(temp[4]),
 	 	        			Integer.parseInt(temp[5]),
 	 	        			Integer.parseInt(temp[6]));
+	 	        	}
 	 	        }
-	 	        
+	 	        //JOHN PUT LOGIC FOR ANIMATION,DESTRUCTION,AND MOTION
+ 	        	else
+ 	        	{
+	 	        	//JOHN HERE
+	 	        }
  	        }
 	        for(int i= 0;i< dnum; i++)
 	        {
