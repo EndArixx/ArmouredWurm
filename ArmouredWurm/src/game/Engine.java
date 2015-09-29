@@ -194,6 +194,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//this is designed to load in a specifically designed "Map" file 
 		String name;
 		String[] temp;
+			//This is for special, platforms and spikes
+		String[] temp2;
 		BufferedReader br;
 	    try {
 	    	FileReader fr = null;
@@ -324,9 +326,42 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	        	}
 	 	        }
 	 	        //JOHN PUT LOGIC FOR ANIMATION,DESTRUCTION,AND MOTION
+ 	        	/*
+ 	        	 *	13 = Destruction
+ 	        	 *	14 = Motion
+ 	        	 * 
+ 	        	 * Ok the idea is to no break up destruction and Motion with a '<' instead of ,
+ 	        	 *  this will require multiple splits. but i think it will make things alot simpler in the long run.
+ 	        	 */
  	        	else
  	        	{
-	 	        	//JOHN HERE
+ 	        		platforms[i] = new Spike(temp[0],
+ 	 	 	    		   Integer.parseInt(temp[1]),
+ 	 	 	    		   Integer.parseInt(temp[2]),
+ 	 	 	    		   Integer.parseInt(temp[3]),
+ 	 	 	    		   Integer.parseInt(temp[4]),
+ 	 	 	    		   Integer.parseInt(temp[5]),
+ 	 	 	    		   Integer.parseInt(temp[6]),
+ 	 	 	    		   Integer.parseInt(temp[7]),
+ 	 	 	    		   Integer.parseInt(temp[8]),
+ 	 	 	    		   lvlspriteData);
+ 	 	        	platforms[i].setHitbox(
+ 	 	        			Integer.parseInt(temp[9]),
+ 	 	        			Integer.parseInt(temp[10]),
+ 	 	        			Integer.parseInt(temp[11]),
+ 	 	        			Integer.parseInt(temp[12]));
+ 	 	        		//This is Destruction
+ 	 	        	temp2 = temp[13].split(">");
+ 	 	        	if(Boolean.parseBoolean(temp2[0]))
+ 	 	        	{
+ 	 	        		platforms[i].make_Destroyable(temp2[1],lvlspriteData);
+ 	 	        	}
+ 	 	        	temp2 = temp[14].split(">");
+ 	 	        	if(Boolean.parseBoolean(temp2[0]))
+ 	 	        	{
+ 	 	        		platforms[i].make_movable(Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2]));
+ 	 	        	}
+ 	 	        	
 	 	        }
  	        }
 	        for(int i= 0;i< dnum; i++)

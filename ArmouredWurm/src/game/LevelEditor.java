@@ -999,6 +999,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				0,
 				0,
 				lvlspriteData,soundHandler);
+			//Just a quick fix so that the patrol makes sense in the level editor.
+		temp[inSold.length].setPatrol(temp[inSold.length].getX()-10,temp[inSold.length].getX()+10);
 		inSold = temp;
 		target =   inSold.length-1;
 		return  inSold;
@@ -1428,7 +1430,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			}
 			else if(modeCounter == 3)
 			{
-				//Adding a new Door
+				//Adding a new Soldier 
 				if(adding && addL)
 				{
 					addL = false;
@@ -1565,7 +1567,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 		}
 			
 	}
-	
+
 	private void movement()
 	{
 		//WINDOW MOVEMENT-------------------------
