@@ -16,7 +16,7 @@ public class Platform extends Sprite
 	protected boolean destroyable,destroyed;
 	protected String destroyedSprite;
 		//Motion
-	protected int leftPatrol, rightPatrol;
+	protected int leftPatrol, rightPatrol, patrolSpeed,patrolTimer, cpatrolTimer;
 	protected boolean FF,moving;
 	
 		//this is needed to prevent losing alot of data when moving parallax elements
@@ -67,10 +67,44 @@ public class Platform extends Sprite
 	public void update(World theWorld)
 	{
 		//John put the move and destruction logic here.
+		
+			//Movement logic
+		if(moving)
+		{
+			if(cpatrolTimer >= patrolTimer)
+			{
+				if(FF)
+				{
+					this.trueX = trueX + this.patrolSpeed;
+					if(trueX > rightPatrol)
+					{
+						FF = false;
+					}
+				}
+				else
+				{
+					this.trueX = trueX - this.patrolSpeed;
+					if(trueX < leftPatrol)
+					{
+						FF = true;
+					}
+				}
+				cpatrolTimer = 0;
+			}
+			
+			
+			cpatrolTimer++;
+		}
+		
+		//Location
+			//I dont thing i use SpeedX or Y at all
 		this.trueX = (int) (this.trueX + speedX);
 		this.trueY = (int) (this.trueY + speedY);
+			//This makes sure it gets rendered at the correct location.
 		x = theWorld.getX() + trueX;
 		y = theWorld.getY() + trueY;
+		
+			//Animate :D
 		animateCol();
 	}
 	public void update()
@@ -86,17 +120,24 @@ public class Platform extends Sprite
 		this.trueY = -height;
 		this.col = 0;
 	}
-	public void make_movable( int leftP, int rightP)
+	public void make_movable( int leftP, int rightP,int inspeed,int intimer)
 	{	
+			//This is important The way the speed works is based on a timer, 
+			//the higher the timer the longer it takes to update
 		if(rightP < leftP)
 		{
 			System.out.println("ERROR-Please check right and left!");
 			return;
 		}
-		//John motion logic
-		leftPatrol = rightP;
-		rightPatrol = leftP;
+			//John motion logic
+		this.leftPatrol = leftP;
+		this.rightPatrol = rightP;
+		this.patrolSpeed = inspeed;
+		this.patrolTimer = intimer;
 		this.moving = true;
+		this.FF = true;
+			//This is the current time (its relative 0 = start)
+		this.cpatrolTimer = 0;
 	}
 	public void make_Destroyable(String destroyedloc, Map<String,BufferedImage> spriteData )
 	{

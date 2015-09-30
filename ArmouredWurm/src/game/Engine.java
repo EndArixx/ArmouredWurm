@@ -335,7 +335,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
  	        	 */
  	        	else
  	        	{
- 	        		platforms[i] = new Spike(temp[0],
+ 	        		platforms[i] = new Platform(temp[0],
  	 	 	    		   Integer.parseInt(temp[1]),
  	 	 	    		   Integer.parseInt(temp[2]),
  	 	 	    		   Integer.parseInt(temp[3]),
@@ -343,7 +343,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
  	 	 	    		   Integer.parseInt(temp[5]),
  	 	 	    		   Integer.parseInt(temp[6]),
  	 	 	    		   Integer.parseInt(temp[7]),
- 	 	 	    		   Integer.parseInt(temp[8]),
+ 	 	 	    		   //Integer.parseInt(temp[8]),
  	 	 	    		   lvlspriteData);
  	 	        	platforms[i].setHitbox(
  	 	        			Integer.parseInt(temp[9]),
@@ -352,14 +352,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
  	 	        			Integer.parseInt(temp[12]));
  	 	        		//This is Destruction
  	 	        	temp2 = temp[13].split(">");
- 	 	        	if(Boolean.parseBoolean(temp2[0]))
+ 	 	        	if(temp2.length == 2)//Boolean.parseBoolean(temp2[0]))
  	 	        	{
  	 	        		platforms[i].make_Destroyable(temp2[1],lvlspriteData);
  	 	        	}
  	 	        	temp2 = temp[14].split(">");
- 	 	        	if(Boolean.parseBoolean(temp2[0]))
+ 	 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
  	 	        	{
- 	 	        		platforms[i].make_movable(Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2]));
+ 	 	        		platforms[i].make_movable(Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]));
  	 	        	}
  	 	        	
 	 	        }
