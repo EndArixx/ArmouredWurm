@@ -133,7 +133,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private boolean ps, psh;
 	
 	
-		//mainmenu stuff
+		//main menu stuff
 	private boolean inMainMenu = false;
 	private int mainMenuButnum = 0;
 	private int mainMenuMax;
@@ -141,7 +141,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Sprite mainMenuButtons[];
 	private boolean terminator = false;
 	private boolean start = false;
-		//mainmenuEnter &  mainmenuEnterHelper
+		//main menu Enter &  mainmenuEnterHelper
 	private boolean mme,mmeh;
 	
 	public String lvlName;
@@ -1301,6 +1301,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			 * Todo
 			 * 
 			 * 	- add support for moving platforms 
+			 * 	- add support for Destrutcion 
 			 * 	
 			 */
 		if(!isLoading && !isPaused && !inMainMenu)
