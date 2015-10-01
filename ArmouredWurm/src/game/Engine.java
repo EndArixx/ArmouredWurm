@@ -1316,6 +1316,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			boolean backbonk = false;
 			boolean onladder = false;
 			boolean falling = true;
+			int movingPlatspeed = 0;
 			for(int i = 0; i < ladders.length ; i++)
 			{
 				if(Tools.check_collision(ladders[i].getHitbox(), player.getHitbox()))
@@ -1328,17 +1329,45 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				if(!onladder){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
 					{headbonk = true;}}
 				if (Tools.check_collision(platforms[i].getHitbox(), player.getfrontHitbox()))
-					{frontbonk = true;}
+					{
+						frontbonk = true;
+						if(platforms[i].getMoving())
+						{
+							movingPlatspeed += platforms[i].movingSpeed();
+						}
+					}
 				if (Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
-					{backbonk = true;}
+					{
+						backbonk = true;
+						if(platforms[i].getMoving())
+						{
+							movingPlatspeed += platforms[i].movingSpeed();
+						}
+					}
 				if(!onladder){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
-					{onplatform = true;}}
+				{
+					onplatform = true;
+						//MOVING PLATFORM Logic
+					if(platforms[i].getMoving())
+					{
+						movingPlatspeed += platforms[i].movingSpeed();
+								//John look into changing this
+					}
+				}
+				if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0))
+				{
+					player.setX(player.getX() + movingPlatspeed);
+				}
+			}
 				
 			}
 			if(player.getY() < 1)
 			{
 				headbonk= true;
 			}
+			
+			
+				
 			
 			
 				//gravity

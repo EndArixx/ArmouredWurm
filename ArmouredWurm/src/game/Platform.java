@@ -166,7 +166,28 @@ public class Platform extends Sprite
 			//e.printStackTrace();
 		}
 	}
-	
+	public int movingSpeed()
+	{
+		if(moving)
+		{
+			if(FF)
+			{
+				return this.patrolSpeed;
+				
+			}
+			else
+			{
+				return -this.patrolSpeed;
+			}
+		} 
+			//This shouldnt happen, but just in case 
+		else
+		{
+			return 0;
+		}
+	}
+	public boolean getMoving()
+		{return this.moving;}
 	public int getTrueX()
 		{return this.trueX;}
 	public int getTrueY()
