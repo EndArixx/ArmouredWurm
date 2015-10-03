@@ -1,6 +1,6 @@
 New Game
-23/07/15 08:18:17
+05/09/15 23:08:33
 res/player/brov4.txt
 100
-res/save1/save1.txt
-850,160,0,0
+res/lvl2/saveRoom.txt
+50,160,0,0
