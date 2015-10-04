@@ -24,7 +24,7 @@ public class Explosive extends Platform
 			int rockcolN,int explcolN,
 			int rocketspeed, int blastspeed,  Map<String,BufferedImage> spriteData) 
 		{
-		super(spriteloc, x, y,width , height , 2 ,rockcolN,rocketspeed, spriteData);
+		super(spriteloc, x, y,width , height , 0 ,rockcolN,rocketspeed, spriteData);
 		
 		this.bombimage = spriteloc;
 		this.blast = blastspriteloc;

@@ -95,9 +95,20 @@ public class Platform extends Sprite
 			
 			cpatrolTimer++;
 		}
-		
+			//John Check this
+		if(this.rowN >1)
+		{
+			if(FF)
+			{
+				this.row = 0;
+			}
+			else
+			{
+				this.row = 1;
+			}
+		}
 		//Location
-			//I dont thing i use SpeedX or Y at all
+			//I don't thing i use SpeedX or Y at all
 		this.trueX = (int) (this.trueX + speedX);
 		this.trueY = (int) (this.trueY + speedY);
 			//This makes sure it gets rendered at the correct location.

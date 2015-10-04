@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.173
+ * version 1.0.174
  * 
  */
 
@@ -1303,7 +1303,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					playerHPpips.render(g,permaSprites);
 				}
 			}
-			/*
+			/*//These are from a really old version of the game.
 			for(i = 0; i < bomb.length; i++)
 			{
 				if(Tools.check_collision(windowHB,bomb[i].getHitbox())){bomb[i].render(g);}
@@ -1415,7 +1415,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			/*
 			 * Todo
 			 * 
-			 * 	- add support for Destrutcion 
+			 * 	- add support for Destruction 
 			 * 	
 			 */
 		if(!isLoading && !isPaused && !inMainMenu)
