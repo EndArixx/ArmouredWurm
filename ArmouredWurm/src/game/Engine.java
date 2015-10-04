@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.172
+ * version 1.0.173
  * 
  */
 
@@ -1408,8 +1408,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		isRunning=false;
 	}
-	
-	
 
 	
 	private void movement()
@@ -1450,13 +1448,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					{
 						frontbonk = true;
 						if(platforms[i].getMoving())
-							{movingPlatspeed += platforms[i].movingSpeed();}
+							{movingPlatspeed = platforms[i].movingSpeed();}
 					}
 				if (Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
 					{
 						backbonk = true;
 						if(platforms[i].getMoving())
-							{movingPlatspeed += platforms[i].movingSpeed();}
+							{movingPlatspeed = platforms[i].movingSpeed();}
 					}
 				if(!onladder){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
 				{
@@ -1464,34 +1462,31 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						
 						//MOVING PLATFORM Logic
 					if(platforms[i].getMoving())
-						{movingPlatspeed += platforms[i].movingSpeed();}
-				}
-																								//John think about this
-				if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0)&&!(frontbonk && backbonk))
-				{
-					
-					if(movingPlatspeed < 0 )
-					{
-						if(player.getX() >  6*window.width/16)
-							{player.setX(player.getX() + movingPlatspeed);}
-						else if(theWorld.getX() < 0)
-							{theWorld.moveXp(-movingPlatspeed);}
-						else if(player.getX() > 0)
-							{player.setX(player.getX() + movingPlatspeed);}
-					}
-					else if(movingPlatspeed > 0 )
-					{
-						if(player.getX() <  6*window.width/16)
-							{player.setX(player.getX() + movingPlatspeed);}
-						else if(-theWorld.getX() < theWorld.getWidth()-window.width)
-							{theWorld.moveXp(-movingPlatspeed);}
-						else if(player.getX() < window.width -player.getWidth())
-							{player.setX(player.getX() + movingPlatspeed);}
-					}
-					
-				}
+						{movingPlatspeed = platforms[i].movingSpeed();}
+				}}
 			}
+				//this will move the player if they are on a moving platform
+			if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0))
+			{
 				
+				if(movingPlatspeed < 0 )
+				{
+					if(player.getX() >  6*window.width/16)
+						{player.setX(player.getX() + movingPlatspeed);}
+					else if(theWorld.getX() < 0)
+						{theWorld.moveXp(-movingPlatspeed);}
+					else if(player.getX() > 0)
+						{player.setX(player.getX() + movingPlatspeed);}
+				}
+				else if(movingPlatspeed > 0 )
+				{
+					if(player.getX() <  6*window.width/16)
+						{player.setX(player.getX() + movingPlatspeed);}
+					else if(-theWorld.getX() < theWorld.getWidth()-window.width)
+						{theWorld.moveXp(-movingPlatspeed);}
+					else if(player.getX() < window.width -player.getWidth())
+						{player.setX(player.getX() + movingPlatspeed);}
+				}
 			}
 			if(player.getY() < 1)
 			{
