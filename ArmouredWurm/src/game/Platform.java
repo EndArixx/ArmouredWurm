@@ -16,7 +16,7 @@ public class Platform extends Sprite
 	protected boolean destroyable,destroyed;
 	protected String destroyedSprite;
 		//Motion
-	protected int leftPatrol, rightPatrol, patrolSpeed,patrolTimer, cpatrolTimer;
+	protected int leftPatrol, rightPatrol, patrolSpeed,patrolTimer, cpatrolTimer,destColN,destrowN;
 	protected boolean FF,moving;
 	
 		//this is needed to prevent losing alot of data when moving parallax elements
@@ -68,6 +68,10 @@ public class Platform extends Sprite
 	{
 		//John put the move and destruction logic here.
 		
+		if(destroyed)
+		{
+			//BLARG
+		}
 			//Movement logic
 		if(moving)
 		{
@@ -150,7 +154,7 @@ public class Platform extends Sprite
 			//This is the current time (its relative 0 = start)
 		this.cpatrolTimer = 0;
 	}
-	public void make_Destroyable(String destroyedloc, Map<String,BufferedImage> spriteData )
+	public void make_Destroyable(String destroyedloc,int indestColN,int indestrowN, Map<String,BufferedImage> spriteData )
 	{
 			//John New code destroyable
 		BufferedImage spriteMap = null;
@@ -159,12 +163,13 @@ public class Platform extends Sprite
 			if(new File(destroyedloc).isFile())
 			{
 				spriteMap = ImageIO.read(new File(destroyedloc));
-
 			}
 			else
 			{
 				spriteMap = ImageIO.read(getClass().getResource("/"+destroyedloc));
 			}
+			this.destColN = indestColN;
+			this.destrowN = indestrowN;
 			this.destroyable = true;
 			this.destroyed = false;
 			this.destroyedSprite = destroyedloc;
@@ -197,6 +202,22 @@ public class Platform extends Sprite
 			return 0;
 		}
 	}
+	public void destroy()
+		{
+			this.destroyed = true;
+			this.colN = this.destColN; 
+			this.rowN = this.destrowN;
+			this.row = 0;
+			this.col = 0;
+			this.name = destroyedSprite;
+				//can destroyed things move?
+			this.moving = false;
+		}
+	
+	public boolean isDestroyable()
+		{return destroyable;}
+	public boolean isDestroyed()
+		{return destroyed;}
 	public boolean getMoving()
 		{return this.moving;}
 	public int getTrueX()

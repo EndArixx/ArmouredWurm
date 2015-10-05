@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.174
+ * version 1.0.175
  * 
  */
 
@@ -47,7 +47,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -383,10 +383,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	 	        			Integer.parseInt(temp[12]));
 	 	 	        		//This is Destruction
 	 	 	        	temp2 = temp[13].split(">");
-	 	 	        	if(temp2.length == 2)//Boolean.parseBoolean(temp2[0]))
+	 	 	        	if(temp2.length == 4)//Boolean.parseBoolean(temp2[0]))
 	 	 	        	{
-	 	 	        		platforms[i].make_Destroyable(temp2[1],lvlspriteData);
+	 	 	        		platforms[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),lvlspriteData);
 	 	 	        	}
+	 	 	        		//This make is Movable
 	 	 	        	temp2 = temp[14].split(">");
 	 	 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
 	 	 	        	{
@@ -1074,6 +1075,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						if(Tools.check_collision(badguys[i].getfrontHitbox(),x.getHitbox())){badguys[i].damage(x.amount);}
 						if(Tools.check_collision(badguys[i].getbackHitbox(),x.getHitbox())){badguys[i].damage(x.amount);}
 					}
+					for(i = 0; i< platforms.length; i++)
+					{
+						if(platforms[i].isDestroyable())
+						{		//John add HP to the platforms
+							if(Tools.check_collision(platforms[i].getHitbox(),x.getHitbox()))
+									{platforms[i].destroy();}
+						}
+					}
 				}
 					//John change this so that some bombs don't set off others
 				for(i = 0; i < bombs.length; i++)
@@ -1408,7 +1417,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	{
 		isRunning=false;
 	}
-
 	
 	private void movement()
 	{
