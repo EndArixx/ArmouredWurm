@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.175
+ * version 1.0.177
  * 
  */
 
@@ -1450,7 +1450,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			for(int i = 0; i < platforms.length; i++)
 			{
-				if(!platforms[i].isDestroyable()&&!platforms[i].isDestroyed())
+				if(!platforms[i].isDestroyable()||!platforms[i].isDestroyed())
 				{
 					if(!onladder && !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
 						{headbonk = true;}}
