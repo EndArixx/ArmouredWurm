@@ -47,7 +47,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 {
 
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = true;
+	public final static boolean renderHitBox = false;
 	
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
@@ -1450,28 +1450,32 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			for(int i = 0; i < platforms.length; i++)
 			{
-				if(!onladder){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
-					{headbonk = true;}}
-				if (Tools.check_collision(platforms[i].getHitbox(), player.getfrontHitbox()))
-					{
-						frontbonk = true;
-						if(platforms[i].getMoving())
-							{movingPlatspeed = platforms[i].movingSpeed();}
-					}
-				if (Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
-					{
-						backbonk = true;
-						if(platforms[i].getMoving())
-							{movingPlatspeed = platforms[i].movingSpeed();}
-					}
-				if(!onladder){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
+				if(!platforms[i].isDestroyable()&&!platforms[i].isDestroyed())
 				{
-					onplatform = true;
-						
-						//MOVING PLATFORM Logic
-					if(platforms[i].getMoving())
-						{movingPlatspeed = platforms[i].movingSpeed();}
-				}}
+					if(!onladder && !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
+						{headbonk = true;}}
+					
+					if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player.getfrontHitbox()))
+						{
+							frontbonk = true;
+							if(platforms[i].getMoving())
+								{movingPlatspeed = platforms[i].movingSpeed();}
+						}
+					if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
+						{
+							backbonk = true;
+							if(platforms[i].getMoving())
+								{movingPlatspeed = platforms[i].movingSpeed();}
+						}
+					if(!onladder && !onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
+					{
+						onplatform = true;
+							
+							//MOVING PLATFORM Logic
+						if(platforms[i].getMoving())
+							{movingPlatspeed = platforms[i].movingSpeed();}
+					}}
+				}
 			}
 				//this will move the player if they are on a moving platform
 			if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0))
