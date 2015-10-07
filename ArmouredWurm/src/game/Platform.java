@@ -213,7 +213,12 @@ public class Platform extends Sprite
 				//can destroyed things move?
 			this.moving = false;
 		}
-	
+	public int getDestColN()
+		{return this.destColN;}
+	public int getDestRowN()
+		{return this.destrowN;}
+	public String getDestroyedSprite()
+		{return this.destroyedSprite;}
 	public boolean isDestroyable()
 		{return destroyable;}
 	public boolean isDestroyed()

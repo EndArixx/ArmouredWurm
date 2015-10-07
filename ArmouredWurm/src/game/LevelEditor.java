@@ -133,8 +133,9 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	private String lvl = "res/TEST.txt";
 	protected int scrollSpeed = 10;
 	protected int moveSpeed = 10;
-	
 
+		//Idea for Comments
+	//John think about this
 	
 		//Object targeting
 	public int target;
@@ -349,7 +350,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 				//Write out Platforms
 			for(int i = 0;i < platforms.length; i++)
-			{
+			{		//This will need to be updated now
 				fw.write(platforms[i].name + ","
 						+ platforms[i].trueX + ","
 						+ platforms[i].trueY + ","
@@ -357,6 +358,24 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ platforms[i].hitbox[1] + ","
 						+ platforms[i].hitbox[2] + ","
 						+ platforms[i].hitbox[3] + "\n");
+				if(false) //JOHN FIX THIS IT WONT WORK
+				{
+					//Animation 
+						//PUT THE ANIMATION CODE IN HERE
+					//Destruction
+						if(platforms[i].isDestroyable())
+						{
+							fw.write("destroy>" +platforms[i].getDestroyedSprite()+
+									">"+platforms[i].getDestColN() +
+									">"+platforms[i].getDestRowN() +
+									",");
+						}
+						else
+						{
+							fw.write("ND");
+						}
+					//Movement
+				}
 			}
 				//write out doors
 			for(int i = 0; i < doors.length; i++)
