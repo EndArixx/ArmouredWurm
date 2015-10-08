@@ -255,6 +255,8 @@ public class Sprite{
 		outbox[3] = hitbox[3];
 		return outbox;
 	}
+	public boolean isAnimated()
+		{return this.animate;}
 	public void setHitbox(int hitbox[])
 		{this.hitbox = hitbox;}
 	public int getWidth()

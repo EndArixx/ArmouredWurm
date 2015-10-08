@@ -350,18 +350,33 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 			
 				//Write out Platforms
 			for(int i = 0;i < platforms.length; i++)
-			{		//This will need to be updated now
-				fw.write(platforms[i].name + ","
+			{		//This is special logic for platforms
+				if(!platforms[i].isAnimated())
+					{
+						fw.write(platforms[i].name + ","
 						+ platforms[i].trueX + ","
 						+ platforms[i].trueY + ","
 						+ platforms[i].hitbox[0] + ","
 						+ platforms[i].hitbox[1] + ","
 						+ platforms[i].hitbox[2] + ","
 						+ platforms[i].hitbox[3] + "\n");
-				if(false) //JOHN FIX THIS IT WONT WORK
+					}
+				else
 				{
 					//Animation 
-						//PUT THE ANIMATION CODE IN HERE
+					fw.write(platforms[i].name + ","
+							+ platforms[i].trueX + ","
+							+ platforms[i].trueY + ","
+							+ platforms[i].getWidth() + ","
+							+ platforms[i].getHeight() + ","
+							+ platforms[i].getRowN() + ","
+							+ platforms[i].getColN() + ","
+							+ platforms[i].timerspeed + ","
+							+ platforms[i].hitbox[0] + ","
+							+ platforms[i].hitbox[1] + ","
+							+ platforms[i].hitbox[2] + ","
+							+ platforms[i].hitbox[3] + ","
+							);
 					//Destruction
 						if(platforms[i].isDestroyable())
 						{
@@ -372,9 +387,19 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						}
 						else
 						{
-							fw.write("ND");
+							fw.write("ND,");
 						}
 					//Movement
+						if(platforms[i].getMoving())
+						{
+							fw.write("Move>" 
+									+platforms[i].getRightPatrol() + ">"
+									+platforms[i].getLeftPatrol()  + ">"
+									+platforms[i].patrolSpeed + ">"
+									+platforms[i].patrolTimer + ","
+									);
+						}
+						fw.write("\n");
 				}
 			}
 				//write out doors

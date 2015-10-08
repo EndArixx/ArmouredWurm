@@ -213,6 +213,10 @@ public class Platform extends Sprite
 				//can destroyed things move?
 			this.moving = false;
 		}
+	public int getLeftPatrol()
+		{return this.leftPatrol;}
+	public int getRightPatrol()
+		{return this.rightPatrol;}
 	public int getDestColN()
 		{return this.destColN;}
 	public int getDestRowN()

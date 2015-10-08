@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.178
+ * version 1.0.179
  * 
  */
 
@@ -48,7 +48,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
-	
+	public boolean isEngine;
 		//THESE ARE VARIALBLES!
 	public Soldier badguys[];
 	public Spike spikes[];
@@ -160,14 +160,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			setPreferredSize(window);
 			setUp();
+			isEngine = true;
 			this.addKeyListener(this);	
+		}
+		else
+		{
+			isEngine = false;
 		}
 	}
 	
 	protected void loadLevel(String lvlname)
 	{	
 			//this makes sure the load screen always shows up
-		this.render();
+		if(isEngine) this.render();
 		
 			//memory stuff 
 		if(screen != null)
