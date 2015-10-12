@@ -351,7 +351,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 	        temp = line.split(",");
 	 	        	if(temp.length <= 8)
 		 	        {
-	 	        		platforms[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        		platforms[i] = new Platform(temp[0],
+	 	        				Integer.parseInt(temp[1]),
+	 	        				Integer.parseInt(temp[2]),
+	 	        				lvlspriteData);
 		 	        	if(temp.length >= 4)
 		 	        	{
 		 	        		platforms[i].setHitbox(

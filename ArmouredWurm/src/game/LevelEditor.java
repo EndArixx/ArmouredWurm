@@ -329,13 +329,14 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 				
 			
 				//Write out weathers
+			fw.write("# Weather-------------------------------------------\n");
 			for(int i = 0;i < weather.length; i++)
 			{
 				fw.write(weather[i].name + ","
 						+(int) weather[i].speedX + ","
 						+(int) weather[i].trueY + "\n");
 			}
-			
+			fw.write("# Ladders-------------------------------------------\n");
 				//Write out ladders
 			for(int i = 0;i < ladders.length; i++)
 			{
@@ -347,7 +348,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ ladders[i].hitbox[2] + ","
 						+ ladders[i].hitbox[3] + "\n");
 			}
-			
+			fw.write("# Platforms-----------------------------------------\n");
 				//Write out Platforms
 			for(int i = 0;i < platforms.length; i++)
 			{		//This is special logic for platforms
@@ -371,7 +372,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 							+ platforms[i].getHeight() + ","
 							+ platforms[i].getRowN() + ","
 							+ platforms[i].getColN() + ","
-							+ platforms[i].timerspeed + ","
+							+(int) platforms[i].timerspeed + ","
+							+	"Blarg" + "," //This is unknown O_O
 							+ platforms[i].hitbox[0] + ","
 							+ platforms[i].hitbox[1] + ","
 							+ platforms[i].hitbox[2] + ","
@@ -393,8 +395,8 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						if(platforms[i].getMoving())
 						{
 							fw.write("Move>" 
-									+platforms[i].getRightPatrol() + ">"
 									+platforms[i].getLeftPatrol()  + ">"
+									+platforms[i].getRightPatrol() + ">"
 									+platforms[i].patrolSpeed + ">"
 									+platforms[i].patrolTimer + ","
 									);
@@ -402,6 +404,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						fw.write("\n");
 				}
 			}
+			fw.write("# Doors---------------------------------------------\n");
 				//write out doors
 			for(int i = 0; i < doors.length; i++)
 			{
@@ -418,7 +421,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+ doors[i].hitbox[2] + ","
 						+ doors[i].hitbox[3] + "\n");
 			}
-			
+			fw.write("# Soldiers------------------------------------------\n");
 				//write out Soldiers
 			for(int i = 0; i < badguys.length; i++)
 			{
@@ -438,6 +441,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+badguys[i].hitbox[2] + ","
 						+badguys[i].hitbox[3] + "\n");
 			}
+			fw.write("# Spikes--------------------------------------------\n");
 				//write out spikes
 			for(int i = 0; i < spikes.length; i++)
 			{
@@ -455,6 +459,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+spikes[i].hitbox[2] +","
 						+spikes[i].hitbox[3] +"\n");  
 			}
+			fw.write("# Bombs---------------------------------------------\n");
 				//write out bombs
 			for(int i = 0; i< bombs.length; i++)
 			{
@@ -474,6 +479,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+bombs[i].blastspeed + ","
 						+"\n");
 			}
+			fw.write("# HealthPickups-------------------------------------\n");
 				//write out health pickups
 			for(int i = 0; i < healthpicks.length; i++)
 			{
@@ -487,7 +493,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+healthpicks[i].getValue() + 
 						"\n");
 			}
-			
+			fw.write("# Parallax------------------------------------------\n");
 				//write out parallax
 			for(int i = 0; i < parallax.length; i++)
 			{
@@ -499,6 +505,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+parallax[i].getParSpeed()
 						+"\n");
 			}
+			fw.write("# SaveZone------------------------------------------\n");
 			for(int i = 0; i < saveZone.length; i++)
 			{
 				fw.write(saveZone[i].name + ","
@@ -513,6 +520,7 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						);
 				
 			}
+			fw.write("# NewPlatforms--------------------------------------\n");
 				//Write out The single direction platforms
 					//John look into animating these
 			for(int i = 0;i < onewayUnderPlatform.length; i++)
