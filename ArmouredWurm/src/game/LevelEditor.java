@@ -457,7 +457,34 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 						+spikes[i].hitbox[0] +","
 						+spikes[i].hitbox[1] +","
 						+spikes[i].hitbox[2] +","
-						+spikes[i].hitbox[3] +"\n");  
+						+spikes[i].hitbox[3] +",");
+					//Destruction
+				if(spikes[i].isDestroyable())
+				{
+					fw.write("destroy>" +spikes[i].getDestroyedSprite()+
+							">"+spikes[i].getDestColN() +
+							">"+spikes[i].getDestRowN() +
+							",");
+				}
+				else
+				{
+					fw.write("ND,");
+				}
+					//Movement
+				if(spikes[i].getMoving())
+				{
+					fw.write("Move>" 
+							+spikes[i].getLeftPatrol()  + ">"
+							+spikes[i].getRightPatrol() + ">"
+							+spikes[i].patrolSpeed + ">"
+							+spikes[i].patrolTimer + ","
+							);
+				}
+				else
+				{
+					fw.write("NM");
+				}
+				fw.write("\n");
 			}
 			fw.write("# Bombs---------------------------------------------\n");
 				//write out bombs

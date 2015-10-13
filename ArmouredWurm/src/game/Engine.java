@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.179
+ * version 1.0.181
  * 
  */
 
@@ -494,6 +494,21 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 	        			Integer.parseInt(temp[11]),
 		 	        			Integer.parseInt(temp[12]));
 		 	        }
+		 	        if(temp.length > 13)
+		 	        {
+			 	        temp2 = temp[13].split(">");
+		 	        	if(temp2.length == 4)//Boolean.parseBoolean(temp2[0]))
+		 	        	{
+		 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),lvlspriteData);
+		 	        	}
+		 	        		//This make is Movable
+		 	        	temp2 = temp[14].split(">");
+		 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
+		 	        	{
+		 	        		spikes[i].make_movable(Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]));
+		 	        	}
+		 	        }
+	 	        	
 	 	        }
 	 	        
  	        }
@@ -597,6 +612,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		        	saveZone[i].setValue(1);
 	        	}
 	        }
+	        	//John work on one way platforms
 	        for (int i= 0; i < onewayUnderPlatform.length; i++)
 	        {
 	        	line = br.readLine();
