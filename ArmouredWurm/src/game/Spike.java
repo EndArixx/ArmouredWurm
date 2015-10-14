@@ -6,7 +6,6 @@ import java.util.Queue;
 
 public class Spike extends Platform
 {
-	public int HP;
 	public int damageNum;
 	public boolean invol;
 	public int type; 
@@ -26,10 +25,8 @@ public class Spike extends Platform
 	public void update(World theWorld,Queue<DamageHitbox> damageQ)
 	{
 		super.update(theWorld);
-		if(this.HP < 0)
-		{
-			this.reset();
-		}
+
+		
 		DamageHitbox out = new DamageHitbox( this.x + this.hitbox[0], this.y + this.hitbox[1] ,+ this.hitbox[2],+ this.hitbox[3], damageNum , type);
 		damageQ.add(out);
 		
@@ -37,10 +34,6 @@ public class Spike extends Platform
 		
 	}
 	
-	public void damage(int amount)
-	{
-		this.HP -= amount;
-	}
 	
 	
 }

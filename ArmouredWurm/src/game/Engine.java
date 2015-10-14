@@ -395,6 +395,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	 	        	{
 	 	 	        		platforms[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),lvlspriteData);
 	 	 	        	}
+	 	 	        	else if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
+	 	 	        	{
+	 	 	        		platforms[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]),lvlspriteData);
+	 	 	        	}
 	 	 	        		//This make is Movable
 	 	 	        	temp2 = temp[14].split(">");
 	 	 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
@@ -501,6 +505,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 	        	{
 		 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),lvlspriteData);
 		 	        	}
+		 	        	else if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
+	 	 	        	{
+		 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]),lvlspriteData);
+	 	 	        	}
 		 	        		//This make is Movable
 		 	        	temp2 = temp[14].split(">");
 		 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
@@ -1102,9 +1110,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					for(i = 0; i< platforms.length; i++)
 					{
 						if(platforms[i].isDestroyable())
-						{		//John add HP to the platforms
+						{		//Destroyable Platforms
 							if(Tools.check_collision(platforms[i].getHitbox(),x.getHitbox()))
-									{platforms[i].destroy();}
+									{platforms[i].damage(x.amount);}
+						}
+					}
+					for(i = 0; i< spikes.length; i++)
+					{
+						if(spikes[i].isDestroyable())
+						{		//Destroyable Platforms
+							if(Tools.check_collision(spikes[i].getHitbox(),x.getHitbox()))
+									{spikes[i].damage(x.amount);}
 						}
 					}
 				}

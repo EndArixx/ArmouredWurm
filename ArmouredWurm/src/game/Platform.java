@@ -13,10 +13,10 @@ public class Platform extends Sprite
 		//Parallax
 	protected double parallaxSpeed;
 		//Destruction
-	protected boolean destroyable,destroyed;
+	protected boolean destroyable,destroyed,hasDestSkin;
 	protected String destroyedSprite;
 		//Motion
-	protected int leftPatrol, rightPatrol, patrolSpeed,patrolTimer, cpatrolTimer,destColN,destrowN;
+	protected int leftPatrol, rightPatrol, patrolSpeed,patrolTimer, cpatrolTimer,destColN,destrowN, HP;
 	protected boolean FF,moving;
 	
 		//this is needed to prevent losing alot of data when moving parallax elements
@@ -154,19 +154,33 @@ public class Platform extends Sprite
 			//This is the current time (its relative 0 = start)
 		this.cpatrolTimer = 0;
 	}
+	public void  make_Destroyable(String destroyedloc,int indestColN,int indestrowN,int inHP, Map<String,BufferedImage> spriteData )
+	{
+		make_Destroyable( destroyedloc, indestColN, indestrowN, spriteData );
+		this.HP = inHP;
+	}
 	public void make_Destroyable(String destroyedloc,int indestColN,int indestrowN, Map<String,BufferedImage> spriteData )
 	{
 			//John New code destroyable
 		BufferedImage spriteMap = null;
 		try 
 		{
-			if(new File(destroyedloc).isFile())
+			this.HP = 1;
+			if(!destroyedloc.equals("none"))
 			{
-				spriteMap = ImageIO.read(new File(destroyedloc));
+				this.hasDestSkin = true;
+				if(new File(destroyedloc).isFile())
+				{
+					spriteMap = ImageIO.read(new File(destroyedloc));
+				}
+				else
+				{
+					spriteMap = ImageIO.read(getClass().getResource("/"+destroyedloc));
+				}
 			}
 			else
 			{
-				spriteMap = ImageIO.read(getClass().getResource("/"+destroyedloc));
+				this.hasDestSkin = false;
 			}
 			this.destColN = indestColN;
 			this.destrowN = indestrowN;
@@ -209,10 +223,28 @@ public class Platform extends Sprite
 			this.rowN = this.destrowN;
 			this.row = 0;
 			this.col = 0;
-			this.name = destroyedSprite;
+			if(this.hasDestSkin) 
+			{
+				this.name = destroyedSprite;
+			}
+			else
+			{
+					//This moves it to the deadZone.
+				this.trueX = -this.width;
+				this.trueY = 0;
+			}
 				//can destroyed things move?
 			this.moving = false;
 		}
+	public void damage(int amount)
+	{
+			//This might need work
+		this.HP -= amount;
+		if(this.HP <= 0)
+		{
+			destroy();
+		}
+	}
 	public int getLeftPatrol()
 		{return this.leftPatrol;}
 	public int getRightPatrol()
