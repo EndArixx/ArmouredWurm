@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.183
+ * version 1.0.185
  * 
  */
 
@@ -66,7 +66,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public Sprite playerHPpips;
 	public int hx, hy,hxP,hyP, hpPipLen; //HPsW,
 	public Platform healthpicks[];	; Platform saveZone[];
-	
+		//Stack
+	public MoveStack mStack;
 		//One way Platforms
 	public Platform onewayUnderPlatform[];
 	public Platform onewayOverPlatform[];
@@ -750,7 +751,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			lvlspriteData = new HashMap<String,BufferedImage>();
 			permaSprites = new HashMap<String,BufferedImage>();
 			
-			
+				//This is the move History
+			mStack = new MoveStack(10);
 			
 				//SET up menu here 
 			this.inMainMenu = true;
@@ -777,6 +779,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//Jh is used so that when the player presses jump he has to let go and press again to jump again
 				//	instead if him constantly hopping as the player holds jump
 			Jh = true;
+			
 				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
 			
