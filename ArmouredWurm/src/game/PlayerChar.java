@@ -42,6 +42,11 @@ public class PlayerChar extends Sprite
 	protected String charname;
 	protected int aidle[],arun[],ajump[],afall[],aattack[],ajumpattack[],aknockback[],adeath[],areverseattack[],acombatstill[];
 	
+	//COMBAT UPDATE 2016
+	protected Trigger[] triggers;
+	protected State[] states;
+	protected Spark[] sparks;
+	
 	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
 	{
 		/*
@@ -66,6 +71,19 @@ public class PlayerChar extends Sprite
 		 * 18)	combat still:	r,l,f,s	
 		 * 19) 	Hitbox:			x,y,width,height
 		 */
+		
+		/*
+		 NEW IDEA! 
+		---------------------------------------------
+		 1)Triggars 
+		 2)Sparks
+		 3)States
+		---------------------------------------------
+		  the goal is to load the three files listed above then use them to dynamically figure out which animation to run.
+		This will have to change the player file.
+		 */
+		
+		
 		super();
 		this.file = infile;
 			//booleans

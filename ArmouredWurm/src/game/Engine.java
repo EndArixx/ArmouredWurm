@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.185
+ * version 1.0.186
  * 
  */
 
@@ -49,7 +49,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
-		//THESE ARE VARIALBLES!
+		//THESE ARE VARIABLES!
 	public Soldier badguys[];
 	public Spike spikes[];
 	public Platform platforms[];
@@ -1464,10 +1464,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private void movement()
 	{
 			/*
-			 * Todo
-			 * 
-			 * 	- add support for Destruction 
-			 * 	
+			~new combat update!~
+			This will now only handle passing the inputs and all the movement should be handled by the Update method.
+			Hopefully i will be able to retire this method.
+			
+			OR 
+			use this as the input passer.
+			
 			 */
 		if(!isLoading && !isPaused && !inMainMenu)
 		{
