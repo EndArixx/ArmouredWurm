@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.186
+ * version 1.0.187
  * 
  */
 
@@ -1782,6 +1782,20 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 	}
 
+	private void Combat()
+	{
+		//this is for the new combat update.
+		
+		
+		//Get input from keys.
+		
+		//create input object
+		
+		//sent input object to player class.
+		
+		
+	}
+	
 	public void keyPressed(KeyEvent key) 
 	{
 		
