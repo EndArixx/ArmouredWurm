@@ -7,7 +7,7 @@ public class State
  
   animation data?
   
-  movementdata?
+  movement data?
   
  
  */
@@ -18,6 +18,6 @@ public class State
 	
 	public void run()
 	{
-		//HERE
+		//This will return a 
 	}
 }

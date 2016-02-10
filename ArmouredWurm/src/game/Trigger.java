@@ -5,6 +5,26 @@ package game;
 Input: input control and a MovehistoryQueue
 output: either a state change or a Spark
  */
+
+/*
+ What kinds of actions can be caused by a trigger?
+ 1) movements 
+ 	Run
+ 	jump
+ 	fall?
+ 2) attacks
+ 	punch 
+ 	kick
+ 	etc
+ */
+
+
+/*
+Inputs:
+keyboard
+external
+internal?
+ */
 public class Trigger 
 {
 	// 1 = State

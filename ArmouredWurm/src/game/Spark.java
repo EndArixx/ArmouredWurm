@@ -10,7 +10,6 @@ public class Spark
  		speed
  		hang on end?
  movement data?
- 
  */
 	public Spark() 
 	{
