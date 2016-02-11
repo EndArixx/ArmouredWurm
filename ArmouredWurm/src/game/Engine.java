@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.188
+ * version 1.0.189
  * 
  */
 
@@ -101,6 +101,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 		//Variables for cardinal directions.
 	protected boolean N,S,W,E,F;
+		// combat variables
+	protected boolean attackL,attackH,attackS;
 		//these are holders to smooth out movement
 	private boolean Wh,Eh,Jh;
 	
@@ -782,6 +784,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
+				//combat
+			attackL = false;
+			attackH = false;
+			attackS = false;
 			
 			pauseButtons = new Sprite[3];
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
@@ -1428,6 +1434,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
 			{	
 				movement();
+				combat();
 				update();
 				
 				next_game_tick += SKIP_TICKS;
@@ -1782,18 +1789,28 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 	}
 
-	private void Combat()
+	private void combat()
 	{
 		//this is for the new combat update.
 		
-		
+		//create the input object right now this is a string ill prolly change it later
+		//what about a map???
+		String input = "";
 		//Get input from keys.
 		
-		//create input object
-		
+			//directions
+		if(N) input += 'N'; //jump
+		if(S) input += 'S';
+		if(E) input += 'E';
+		if(W) input += 'W';
+			//attack
+		if(attackL) input += 'L'; //Light
+		if(attackH) input += 'H'; //Medium
+		if(attackS) input += 'S'; //Special
+			//External inputs?
+
 		//sent input object to player class.
-		
-		
+		//System.out.println(input); //This is for testing
 	}
 	
 	public void keyPressed(KeyEvent key) 
@@ -2158,6 +2175,164 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					break;
 			}
 		}
+		//NEW CONTROL SCHEME-------------------------------------------------------------
+		if(ControlS == 2 || true)
+		{
+			switch (key.getKeyCode())
+			{
+				case KeyEvent.VK_SPACE:
+					/*N=true;
+					if(inMainMenu)
+					{
+						if(mmeh)
+						{
+							mme= true;
+						}
+					}
+					else if(isPaused)
+					{
+						if(psh)
+						{
+							ps= true;
+						}
+					}
+					else if(isLoadingF)
+					{
+						loadCont = true;
+					}
+					if(isGameOver)
+					{
+						inMainMenu = true;		
+						isGameOver = false;
+					}
+	
+					break;
+				case KeyEvent.VK_ENTER:
+					if(inMainMenu)
+					{
+						if(mmeh)
+						{
+							mme= true;
+						}
+					}
+					else if(isPaused)
+					{
+						if(psh)
+						{
+							ps= true;
+						}
+					}
+					else if(isLoadingF)
+					{
+						loadCont = true;
+					}
+					if(isGameOver)
+					{
+						inMainMenu = true;		
+						isGameOver = false;
+					}
+	
+					break;*/
+					//Light
+	 			case KeyEvent.VK_J:
+	 				attackL = true;
+	 				break;
+					//heavy
+				case KeyEvent.VK_K:
+					attackH = true;
+					break;
+					//Special
+				case KeyEvent.VK_L:
+					attackS = true;
+					break;
+					
+					
+				/*//-------------------------(Y)
+				case KeyEvent.VK_UP: //UP
+					//N=true;
+					if(inMainMenu)
+					{
+						if(mainMenuButnum != 0)
+						{
+							mainMenuButnum--;
+						}
+						else
+						{
+							mainMenuButnum = pauseMax;
+						}
+					}
+					else if(isPaused)
+					{
+						if(pauseButnum != 0)
+						{
+							pauseButnum--;
+						}
+						else
+						{
+							pauseButnum = pauseMax;
+						}
+					}
+						break;
+				case KeyEvent.VK_DOWN: //DOWN
+					S=true;
+					if(isPaused)
+					{
+						if(pauseButnum != pauseMax)
+						{
+							pauseButnum++;
+						}
+						else
+						{
+							pauseButnum = 0;
+						}
+					}
+					else if(inMainMenu)
+					{
+						if(mainMenuButnum != mainMenuMax)
+						{
+							mainMenuButnum++;
+						}
+						else
+						{
+							mainMenuButnum = 0;
+						}
+					}
+						break;
+				//-------------------------(X)
+				case KeyEvent.VK_LEFT: //LEFT
+					W = true;
+					if(E == true)
+					{
+						Eh = true;
+						E = false;
+					}
+					break;
+						
+				case KeyEvent.VK_RIGHT: //RIGHT
+					E = true;
+					if(W == true)
+					{
+						Wh = true;
+						W = false;
+					}
+					break;
+						
+				case KeyEvent.VK_ESCAPE: //Paused
+					if(!inMainMenu && !isLoading)
+					{
+						if(isPaused)
+						{
+							isPaused = false;
+						}
+						else
+						{
+							pauseButnum = 0;
+							isPaused = true;
+						}
+					}
+					break;*/
+			}
+		}
 	}
 	public void keyReleased(KeyEvent key) 
 	{
@@ -2255,6 +2430,65 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						Wh = false;
 						W = true;
 					}
+					break;
+			}
+		}
+		if(ControlS == 2 ||true)
+		{
+			switch (key.getKeyCode())
+			{
+				/*
+				case KeyEvent.VK_SPACE:
+					N=false;
+					Jh = true;
+					if(inMainMenu)
+					{
+						mmeh = true;
+					}
+					
+					psh= true;
+					loadCont = false;
+				break;
+				//-------------------------(Y)
+				case KeyEvent.VK_UP: //UP
+					//N=false;
+					//Jh = true;
+					//	break;
+				case KeyEvent.VK_DOWN: //DOWN
+					S=false;
+						break;
+				//-------------------------(X)
+				case KeyEvent.VK_LEFT: //LEFT
+					W = false;
+					Wh = false;
+					if(Eh)
+					{
+						Eh = false;
+						E = true;
+					}
+					break;
+					
+				case KeyEvent.VK_RIGHT: //RIGHT
+					E = false;
+					Eh = false;
+					if(Wh)
+					{
+						Wh = false;
+						W = true;
+					}
+					break;
+					*/
+					//Light
+	 			case KeyEvent.VK_J:
+	 				attackL = false;
+	 				break;
+					//heavy
+				case KeyEvent.VK_K:
+					attackH = false;
+					break;
+					//Special
+				case KeyEvent.VK_L:
+					attackS = false;
 					break;
 			}
 		}
