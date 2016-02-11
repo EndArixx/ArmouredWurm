@@ -1,10 +1,5 @@
-package game;
-/*
- *This is a trigger, The idea of a trigger its it has a specific input, and causes either a state change or a spark 
- *
-Input: input control and a MovehistoryQueue
-output: either a state change or a Spark
- */
+package game.triggers;
+
 
 /*
  What kinds of actions can be caused by a trigger?
@@ -52,3 +47,10 @@ public class Trigger
 	}
 
 }
+
+
+
+
+
+
+

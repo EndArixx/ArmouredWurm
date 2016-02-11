@@ -4,13 +4,16 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.189
+ * version 1.0.190
  * 
  */
 
 
 
 package game;
+
+import game.triggers.InputList;
+import game.triggers.MoveStack;
 
 import java.applet.Applet;
 import java.awt.Color;
@@ -102,7 +105,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//Variables for cardinal directions.
 	protected boolean N,S,W,E,F;
 		// combat variables
-	protected boolean attackL,attackH,attackS;
+	protected int attackL,attackH,attackS;
 		//these are holders to smooth out movement
 	private boolean Wh,Eh,Jh;
 	
@@ -785,9 +788,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//Menu needs finalization or automation
 			pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
 				//combat
-			attackL = false;
-			attackH = false;
-			attackS = false;
+			attackL = 0;
+			attackH = 0;
+			attackS = 0;
 			
 			pauseButtons = new Sprite[3];
 			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
@@ -1795,22 +1798,23 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		//create the input object right now this is a string ill prolly change it later
 		//what about a map???
-		String input = "";
+		InputList userInput = new InputList();
 		//Get input from keys.
-		
 			//directions
-		if(N) input += 'N'; //jump
-		if(S) input += 'S';
-		if(E) input += 'E';
-		if(W) input += 'W';
+		userInput.N = N;
+		userInput.S = S;
+		userInput.E = E;
+		userInput.W = W;
 			//attack
-		if(attackL) input += 'L'; //Light
-		if(attackH) input += 'H'; //Medium
-		if(attackS) input += 'S'; //Special
+		if(attackL > 0) userInput.AL = true;
+		if(attackH > 0) userInput.AH = true;
+		if(attackS > 0) userInput.AS = true;
 			//External inputs?
-
+		userInput.moveStack = mStack;
+		
 		//sent input object to player class.
 		//System.out.println(input); //This is for testing
+		//userInput.moveStack.test();
 	}
 	
 	public void keyPressed(KeyEvent key) 
@@ -2235,15 +2239,30 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					break;*/
 					//Light
 	 			case KeyEvent.VK_J:
-	 				attackL = true;
+	 				if(attackL == 0)
+	 				{ 
+	 					attackL = 1;
+	 					mStack.add(1);
+	 				}
+	 				else attackL = 2;
 	 				break;
 					//heavy
 				case KeyEvent.VK_K:
-					attackH = true;
+					if(attackH == 0)
+					{ 
+						attackH = 1;
+						mStack.add(2);
+					}
+					else attackH = 2;
 					break;
 					//Special
 				case KeyEvent.VK_L:
-					attackS = true;
+					if(attackS == 0)
+					{ 
+						attackS = 1;
+						mStack.add(3);
+					}
+					else attackS = 2;
 					break;
 					
 					
@@ -2480,15 +2499,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					*/
 					//Light
 	 			case KeyEvent.VK_J:
-	 				attackL = false;
+	 				attackL = 0;
 	 				break;
 					//heavy
 				case KeyEvent.VK_K:
-					attackH = false;
+					attackH = 0;
 					break;
 					//Special
 				case KeyEvent.VK_L:
-					attackS = false;
+					attackS = 0;
 					break;
 			}
 		}

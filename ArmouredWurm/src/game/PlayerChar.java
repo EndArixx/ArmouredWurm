@@ -1,5 +1,9 @@
 package game;
 
+import game.triggers.Spark;
+import game.triggers.State;
+import game.triggers.Trigger;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

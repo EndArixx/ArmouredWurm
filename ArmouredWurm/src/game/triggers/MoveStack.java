@@ -1,4 +1,4 @@
-package game;
+package game.triggers;
 /*
  * This will be the move que.
  * This is going to keep track of the last 10 or so moves.
@@ -78,9 +78,9 @@ public class MoveStack {
 	}
 	public void test()
 	{
+
 		int[] test;
-		
-		for (int i = 0;i <100; i++)
+		for(int i =0;i<stackLen; i++)
 		{
 			test = this.getStack();
 			System.out.println("["
@@ -94,13 +94,8 @@ public class MoveStack {
 								+ test[7]+"] ["
 								+ test[8]+"] ["
 								+ test[9]+"] ");
-			this.add(i);
 		}
-		for(int i =0;i<stackLen; i++)
-		{
-			stackMain[i] = 0;
-		}
-		stackP = 0;
+		
 	}
 	
 }
