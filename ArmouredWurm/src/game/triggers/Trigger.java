@@ -23,26 +23,36 @@ internal?
 public class Trigger 
 {
 	// 1 = State
-	// 2 = trigger
+	// 2 = Spark
 	int triggerType;
 	Spark spark;
 	State state;
+	//John find a way to setup the cause of the trigger
 	
+	public Trigger(State in)
+	{
+		triggerType = 1;
+		state = in;
+	}
+	public Trigger(Spark in)
+	{
+		triggerType = 2;
+		spark = in;
+	}
 	public Trigger(int type) 
 	{
 		triggerType = type;
 	}
 	
-	//John think of a better name other then run
-	public void run()
+	public void Pull()
 	{
 		if(triggerType == 1)
 		{
-			spark.run();
+			state.change();
 		}
 		else if(triggerType == 2)
 		{
-			state.run();
+			spark.strike();
 		}
 	}
 

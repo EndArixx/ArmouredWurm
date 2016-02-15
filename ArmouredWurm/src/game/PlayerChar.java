@@ -1,8 +1,6 @@
 package game;
 
-import game.triggers.Spark;
-import game.triggers.State;
-import game.triggers.Trigger;
+import game.triggers.*;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -51,6 +49,7 @@ public class PlayerChar extends Sprite
 	protected State[] states;
 	protected Spark[] sparks;
 	
+	//Constructors---------------------------------------------------------------------
 	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
 	{
 		/*
@@ -74,17 +73,6 @@ public class PlayerChar extends Sprite
 		 * 17)	reverse attack:	r,l,f,s,aS,aE
 		 * 18)	combat still:	r,l,f,s	
 		 * 19) 	Hitbox:			x,y,width,height
-		 */
-		
-		/*
-		 NEW IDEA! 
-		---------------------------------------------
-		 1)Triggars 
-		 2)Sparks
-		 3)States
-		---------------------------------------------
-		  the goal is to load the three files listed above then use them to dynamically figure out which animation to run.
-		This will have to change the player file.
 		 */
 		
 		
@@ -305,7 +293,6 @@ public class PlayerChar extends Sprite
 		
 		 
 	}
-	
 	public PlayerChar(String name, String spriteloc,int x, int y, int width, int height,int row,int col,  Map<String,BufferedImage> spriteData)
 	{
 		super(spriteloc,x,y,width,height,row,col,15, spriteData);
@@ -420,7 +407,51 @@ public class PlayerChar extends Sprite
 		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
 	}
+	public PlayerChar(String inPlayer, Map<String,BufferedImage> spriteData, boolean derp)
+	{
+		/*
+		 NEW IDEA! 
+		---------------------------------------------
+		 1)Triggers 
+		 2)Sparks
+		 3)States
+		---------------------------------------------
+		  the goal is to load the three files listed above then use them to dynamically figure out which animation to run.
+		This will have to change the player file.
+		
+		1) Open player file
+		2) Open Sprite file
+		3) Open Triggers/states/sparks
+		4) load up the TSSs
+		5) ...
+		 
+		 
+		 */	
+		
+	}
 	
+	public void triggerEngine(InputList inputs, MoveStack moveHistory)
+	{
+	//So this is how its gonna work.
+	/*
+	 1) pass in the following
+	 	a) external inputs
+	 		i) 		User controls	
+	 		ii) 	Enemy 
+	 		iii) 	environment
+	 	b) move history (this is a history of the keys pressed)
+	 
+	 2) load up the triggers/states
+	 
+	 3) take the inputs/state/and history to select the correct Trigger.
+	 
+	 4) then run the correct trigger
+	 
+	 
+	 
+	 
+	 */
+	}
 	
 	public void giveGun(gun rifle)
 	{

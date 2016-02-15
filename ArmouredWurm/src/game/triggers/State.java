@@ -16,7 +16,7 @@ public class State
 
 	}
 	
-	public void run()
+	public void change()
 	{
 		//This will return a 
 	}

@@ -15,7 +15,7 @@ public class Spark
 	{
 		
 	}
-	public void run()
+	public void strike()
 	{
 		//HERE
 	}
