@@ -48,6 +48,7 @@ public class PlayerChar extends Sprite
 	protected Trigger[] triggers;
 	protected State[] states;
 	protected Spark[] sparks;
+	protected Map<char[],Trigger> triggerMap;
 	
 	//Constructors---------------------------------------------------------------------
 	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
@@ -424,33 +425,56 @@ public class PlayerChar extends Sprite
 		3) Open Triggers/states/sparks
 		4) load up the TSSs
 		5) ...
-		 
-		 
 		 */	
+		
+		
+		
 		
 	}
 	
 	public void triggerEngine(InputList inputs, MoveStack moveHistory)
 	{
-	//So this is how its gonna work.
-	/*
-	 1) pass in the following
-	 	a) external inputs
-	 		i) 		User controls	
-	 		ii) 	Enemy 
-	 		iii) 	environment
-	 	b) move history (this is a history of the keys pressed)
-	 
-	 2) load up the triggers/states
-	 
-	 3) take the inputs/state/and history to select the correct Trigger.
-	 
-	 4) then run the correct trigger
-	 
-	 
-	 
-	 
-	 */
+		//So this is how its gonna work.
+		/*
+		 1) pass in the following
+		 	a) external inputs
+		 		i) 		User controls	
+		 		ii) 	Enemy 
+		 		iii) 	environment
+		 	b) move history (this is a history of the keys pressed)
+		 
+		 2) load up the triggers/states
+		 
+		 3) take the inputs/state/and history to select the correct Trigger.
+		 	the correct trigger will be choose by a combination of a Map and a wild card.
+		 		Example idea (% is wildcard)
+		 		 	move
+		 		 	History = ABC 
+		 			first try ABC
+		 			second try %BC
+					third try %%C
+					finally just run the default.
+		 4) then run the correct trigger
+		 	
+		 */
+		
+		
+		//this should slowly reduce until either the trigger pulls or the default happens '%''%''%'etc
+		char[] history = moveHistory.getStack();
+		for(int i = 0 ; i < history.length && i >= 0; i++)
+		{
+			if(triggerMap.get(history) != null)
+			{
+				triggerMap.get(history).Pull();
+				i = -1;
+			}
+			else
+			{
+				history[i] = '%';
+			}
+		}
+			
+		
 	}
 	
 	public void giveGun(gun rifle)

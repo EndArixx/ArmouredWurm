@@ -24,12 +24,12 @@ package game.triggers;
 public class MoveStack {
 
 	private int stackLen;
-	private int[] stackMain;
+	private char[] stackMain;
 	private int stackP;
 	public MoveStack() 
 	{
 		stackLen = 10;
-		stackMain = new int[stackLen];
+		stackMain = new char[stackLen];
 		for(int i = 0; i<stackLen;i++)
 		{
 			stackMain[i] = 0;
@@ -39,16 +39,16 @@ public class MoveStack {
 	public MoveStack(int len) 
 	{
 		stackLen = len;
-		stackMain = new int[stackLen];
+		stackMain = new char[stackLen];
 		for(int i = 0; i<stackLen;i++)
 		{
 			stackMain[i] = 0;
 		}
 				
 	}
-	public int[] getStack()
+	public char[] getStack()
 	{
-		int[] out = new int[stackLen];
+		char[] out = new char[stackLen];
 		for(int i= 0;i<stackLen; i++)
 		{
 				//John think about this.
@@ -63,7 +63,7 @@ public class MoveStack {
 		}
 		return out;
 	}
-	public void add(int in)
+	public void add(char in)
 	{
 		if(stackP>0)
 		{

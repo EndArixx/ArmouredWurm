@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.191
+ * version 1.0.192
  * 
  */
 
@@ -2242,7 +2242,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 				if(attackL == 0)
 	 				{ 
 	 					attackL = 1;
-	 					mStack.add(1);
+	 					mStack.add('L');
 	 				}
 	 				else attackL = 2;
 	 				break;
@@ -2251,7 +2251,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					if(attackH == 0)
 					{ 
 						attackH = 1;
-						mStack.add(2);
+						mStack.add('H');
 					}
 					else attackH = 2;
 					break;
@@ -2260,7 +2260,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					if(attackS == 0)
 					{ 
 						attackS = 1;
-						mStack.add(3);
+						mStack.add('S');
 					}
 					else attackS = 2;
 					break;
