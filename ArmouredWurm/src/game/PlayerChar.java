@@ -415,7 +415,7 @@ public class PlayerChar extends Sprite
 		---------------------------------------------
 		 1)Triggers 
 		 2)Sparks
-		 3)States
+		 3)States 
 		---------------------------------------------
 		  the goal is to load the three files listed above then use them to dynamically figure out which animation to run.
 		This will have to change the player file.
@@ -444,6 +444,8 @@ public class PlayerChar extends Sprite
 		 	b) move history (this is a history of the keys pressed)
 		 
 		 2) load up the triggers/states
+		 
+		 2.5) John thing about these states? what about an enum? or like switch thing?
 		 
 		 3) take the inputs/state/and history to select the correct Trigger.
 		 	the correct trigger will be choose by a combination of a Map and a wild card.

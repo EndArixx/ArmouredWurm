@@ -1,5 +1,7 @@
 package game.triggers;
 
+import game.PlayerChar;
+
 
 /*
  What kinds of actions can be caused by a trigger?
@@ -27,8 +29,19 @@ public class Trigger
 	int triggerType;
 	Spark spark;
 	State state;
+	PlayerChar player;
 	//John find a way to setup the cause of the trigger
 	
+	
+	/*Things that the trigger needs:
+		1) MoveStack
+		2) HP
+			i)min
+			ii)max
+		3) current states
+			i) is HP a state?
+	
+	*/
 	public Trigger(State in)
 	{
 		triggerType = 1;
@@ -52,7 +65,7 @@ public class Trigger
 		}
 		else if(triggerType == 2)
 		{
-			spark.strike();
+			spark.strike(player);
 		}
 	}
 
