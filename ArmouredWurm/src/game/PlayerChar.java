@@ -408,7 +408,7 @@ public class PlayerChar extends Sprite
 		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
 	}
-	public PlayerChar(String inPlayer, Map<String,BufferedImage> spriteData, boolean derp)
+	public PlayerChar(String infile, String inState, Map<String,BufferedImage> spriteData, boolean derp)
 	{
 		/*
 		 NEW IDEA! 
@@ -426,10 +426,153 @@ public class PlayerChar extends Sprite
 		4) load up the TSSs
 		5) ...
 		 */	
-		
-		
-		
-		
+		super();
+		this.file = infile;
+
+		String[] temp;
+		FileReader fr = null;
+		BufferedReader br = null;
+		int t = 0;
+		try 
+		{
+			
+			//PLAYER FILE---------------------------------
+	    	InputStream is = null;
+	    	InputStreamReader isr = null;
+	    		//Favor external files, then internal
+	    	if(new File(infile).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(infile);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else //John add a new case for if neither exists
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream("/"+infile);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	    	
+	        String line = br.readLine();
+	        this.charname = line;
+	        
+	        line = br.readLine();
+	        this.name= line;
+	        
+	        
+	        BufferedImage spriteMap = null;
+			try 
+			{
+				if(new File(name).isFile())
+				{
+					spriteMap = ImageIO.read(new File(name));
+
+				}
+				else
+				{
+					spriteMap = ImageIO.read(getClass().getResource("/"+name));
+				}
+			}
+			catch (IOException e) 
+			{
+				System.out.println("Error, Bad Sprite:"+ name);
+			}
+			spriteData.put(name,spriteMap);
+	        
+	        line = br.readLine();
+	        temp= line.split(",");
+	        this.setHitbox(
+	        		Integer.parseInt(temp[0]), 
+	        		Integer.parseInt(temp[1]), 
+	        		Integer.parseInt(temp[2]),
+	        		Integer.parseInt(temp[3]));
+	        
+	        	//Close the files 
+	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
+	        
+	        String inTriggerFile = "JOHN FIX THIS!";
+	        String inSparkFile = "JOHN FIX THIS!";
+	        
+	        //TRIGGERS-------------------------------------------------------
+	        if(new File(inTriggerFile).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(inTriggerFile);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream("/"+inTriggerFile);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	        
+	        //First metaData
+	        //[length] , [OTHER!?]
+	        
+	        // structure the Triggers files
+	        
+	        
+	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
+	        
+	      //Sparks---------------------------------------------------------
+	        if(new File(inSparkFile).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(inSparkFile);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream("/"+inSparkFile);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	        
+	        //First metaData
+	        //[length] , [OTHER!?]
+	        
+	        // structure the Sparks files
+	        
+	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
+	        
+	        
+	        
+	    } catch (IOException e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!");} //JOHN FIX THIS!
+		 
+		this.speedX = 0;
+		this.speedY = 0;
+		this.gravity = 0;
 	}
 	
 	public void triggerEngine(InputList inputs, MoveStack moveHistory)
@@ -446,7 +589,9 @@ public class PlayerChar extends Sprite
 		 2) load up the triggers/states
 		 
 		 2.5) John thing about these states? what about an enum? or like switch thing?
+		 so i need to hold onto the current state?
 		 
+		
 		 3) take the inputs/state/and history to select the correct Trigger.
 		 	the correct trigger will be choose by a combination of a Map and a wild card.
 		 		Example idea (% is wildcard)

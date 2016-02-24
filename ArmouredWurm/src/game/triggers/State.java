@@ -3,28 +3,23 @@ package game.triggers;
 public class State 
 {
 /*
- What does a state need?
- 
-  animation data?
-  
-  movement data?
-  
-  This might be better called 'state change'
-  
-  //Do i even need this class???
- 
+This is nothing more then a boolean and a name 
+
  */
 	private char[] name;
 	private boolean on;
+	
 	public State(char[] inName) 
 	{
 		this.name = inName;
 		this.on = false;
 	}
-	
-	public void change()
+	public char[] getName()
 	{
-		//This will return a new state?
-		//So 
+		return name;
+	}
+	public boolean isOn()
+	{
+		return on;
 	}
 }
