@@ -18,9 +18,20 @@ import game.PlayerChar;
 
 /*
 Inputs:
+Move Stack
+	the last X moves (prolly 10)
 keyboard
-external
-internal?
+	buttons being pressed
+
+States
+	External
+		platforms
+		can see enemies
+	Internal
+		HP
+		runing
+		jumping
+		crouting?
  */
 public class Trigger 
 {

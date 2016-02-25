@@ -14,12 +14,11 @@ package game.triggers;
  *
  *
  *	Guide 
- *	0 - Blank?
- *	1 - jump
- *	2 = right
- *	3 = left
- *	4 = down?
- *	5 = up?
+	L = light attack
+	H = Hevay attack
+	S = Special
+	
+	
  */
 public class MoveStack {
 

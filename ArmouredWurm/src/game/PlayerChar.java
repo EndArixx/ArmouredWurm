@@ -42,12 +42,16 @@ public class PlayerChar extends Sprite
 	protected double maxHP, HP;
 	protected int invol, involtime;
 	protected String charname;
+	
+	//the plan is to get rid of these!
 	protected int aidle[],arun[],ajump[],afall[],aattack[],ajumpattack[],aknockback[],adeath[],areverseattack[],acombatstill[];
 	
 	//COMBAT UPDATE 2016
 	protected Trigger[] triggers;
 	protected State[] states;
 	protected Spark[] sparks;
+	
+	//should this be a char[]?
 	protected Map<char[],Trigger> triggerMap;
 	
 	//Constructors---------------------------------------------------------------------
@@ -588,8 +592,7 @@ public class PlayerChar extends Sprite
 		 
 		 2) load up the triggers/states
 		 
-		 2.5) John thing about these states? what about an enum? or like switch thing?
-		 so i need to hold onto the current state?
+		 2.5) states will be an internal 'Array'
 		 
 		
 		 3) take the inputs/state/and history to select the correct Trigger.
@@ -994,7 +997,6 @@ public class PlayerChar extends Sprite
 			this.HP = maxHP2;
 		}
 	}
-	
 	
 	public void fall()
 	{			

@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.194
+ * version 1.0.195
  * 
  */
 
@@ -1811,6 +1811,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if(attackS > 0) userInput.AS = true;
 			//External inputs?
 		userInput.moveStack = mStack;
+		
+		//game.triggers.State jason = new game.triggers.State(new char[]{'t','e','s','t'}); //for testing
 		
 		//sent input object to player class.
 		//System.out.println(input); //This is for testing
