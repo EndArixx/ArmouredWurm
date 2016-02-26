@@ -412,7 +412,7 @@ public class PlayerChar extends Sprite
 		//legs = new Sprite(legloc,x,y,width,height,2,0,timerspeed);
 		this.setHitbox(0, 0, width, height);
 	}
-	public PlayerChar(String infile, String inState, Map<String,BufferedImage> spriteData, boolean derp)
+	public PlayerChar(String infile, Map<String,BufferedImage> spriteData, boolean derp)
 	{
 		/*
 		 NEW IDEA! 
