@@ -29,9 +29,9 @@ States
 		can see enemies
 	Internal
 		HP
-		runing
+		running
 		jumping
-		crouting?
+		crouching 
  */
 public class Trigger 
 {

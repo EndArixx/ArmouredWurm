@@ -5,7 +5,7 @@ public class State
 /*
 This is nothing more then a boolean and a name 
 
-I dont know if i have to hardcode it
+I don't know if i have to hardcode it
 
  
  Ok so there will be a string to State maps.
@@ -28,7 +28,7 @@ I dont know if i have to hardcode it
 		ii) Heavy
 		iii) Special
 	7) spot enemy
-	8) aggro?
+	8) has aggro
  
  */
 	private char[] name;

@@ -1,0 +1,6 @@
+Brodrick
+res/player/6-2/Bro 6-2 commandmap200.png
+0,0,0,0
+res/player/triggers6-2.txt
+res/player/states6-2.txt
+res/player/sparks6-2.txt

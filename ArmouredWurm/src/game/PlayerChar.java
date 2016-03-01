@@ -50,6 +50,10 @@ public class PlayerChar extends Sprite
 	protected Trigger[] triggers;
 	protected State[] states;
 	protected Spark[] sparks;
+	protected String triggerloc;
+	protected String statesloc;
+	protected String sparkloc;
+	
 	
 	//should this be a char[]?
 	protected Map<char[],Trigger> triggerMap;
@@ -430,6 +434,10 @@ public class PlayerChar extends Sprite
 		4) load up the TSSs
 		5) ...
 		 */	
+		
+		
+		
+		//JOHN THROW SOME TRY CATCHES ON THIS!
 		super();
 		this.file = infile;
 
@@ -471,14 +479,13 @@ public class PlayerChar extends Sprite
 				if(new File(name).isFile())
 				{
 					spriteMap = ImageIO.read(new File(name));
-
 				}
 				else
 				{
 					spriteMap = ImageIO.read(getClass().getResource("/"+name));
 				}
 			}
-			catch (IOException e) 
+			catch (Exception e) 
 			{
 				System.out.println("Error, Bad Sprite:"+ name);
 			}
@@ -491,7 +498,11 @@ public class PlayerChar extends Sprite
 	        		Integer.parseInt(temp[1]), 
 	        		Integer.parseInt(temp[2]),
 	        		Integer.parseInt(temp[3]));
-	        
+	        //get locations for Trigger files
+	        triggerloc = br.readLine();
+	    	statesloc = br.readLine();
+	    	sparkloc = br.readLine();
+	    	
 	        	//Close the files 
 	        br.close();
 	        if(t ==1)
@@ -504,27 +515,24 @@ public class PlayerChar extends Sprite
 	    		isr.close();
 	        }
 	        
-	        String inTriggerFile = "JOHN FIX THIS!";
-	        String inSparkFile = "JOHN FIX THIS!";
-	        
 	        //TRIGGERS-------------------------------------------------------
-	        if(new File(inTriggerFile).isFile())
+	        if(new File(triggerloc).isFile())
 	    	{
 	    		t = 1;
-	    		fr = new FileReader(inTriggerFile);
+	    		fr = new FileReader(triggerloc);
 	    		br = new BufferedReader(fr);
 	    	}
 	    	else
 	    	{
 	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+inTriggerFile);
+	    		is = getClass().getResourceAsStream("/"+triggerloc);
 	    		isr = new InputStreamReader(is);
 	    		br = new BufferedReader(isr);
 	    	}
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
-	        
+	        System.out.println(br.readLine());
 	        // structure the Triggers files
 	        
 	        
@@ -539,24 +547,56 @@ public class PlayerChar extends Sprite
 	    		isr.close();
 	        }
 	        
-	      //Sparks---------------------------------------------------------
-	        if(new File(inSparkFile).isFile())
+	        //STATES---------------------------------------------------------
+	        if(new File(statesloc).isFile())
 	    	{
 	    		t = 1;
-	    		fr = new FileReader(inSparkFile);
+	    		fr = new FileReader(statesloc);
 	    		br = new BufferedReader(fr);
 	    	}
 	    	else
 	    	{
 	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+inSparkFile);
+	    		is = getClass().getResourceAsStream("/"+statesloc);
 	    		isr = new InputStreamReader(is);
 	    		br = new BufferedReader(isr);
 	    	}
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
+	        System.out.println(br.readLine());
+	        // structure the State files
 	        
+	        
+	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
+	        
+	        //Sparks---------------------------------------------------------
+	        if(new File(sparkloc).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(sparkloc);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream("/"+sparkloc);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	        
+	        //First metaData
+	        //[length] , [OTHER!?]
+	        System.out.println(br.readLine());
 	        // structure the Sparks files
 	        
 	        br.close();
@@ -570,6 +610,7 @@ public class PlayerChar extends Sprite
 	    		isr.close();
 	        }
 	        
+	      
 	        
 	        
 	    } catch (IOException e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!");} //JOHN FIX THIS!

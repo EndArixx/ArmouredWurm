@@ -37,7 +37,6 @@ public class Sprite{
 			if(new File(inImage).isFile())
 			{
 				spriteMap = ImageIO.read(new File(inImage));
-
 			}
 			else
 			{
