@@ -45,8 +45,8 @@ public class Trigger
 	/*Things that the trigger needs:
 		1) MoveStack
 		2) HP
-			i)min
-			ii)max
+			i)Min
+			ii)Max
 		3) current states
 			i) is HP a state?
 	

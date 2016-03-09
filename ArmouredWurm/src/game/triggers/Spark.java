@@ -19,8 +19,8 @@ public class Spark
 	public boolean looping;
 	public int speed;
 	//??
-	boolean atend;
-	boolean hangonend;
+	boolean atEnd;
+	boolean hangOnEnd;
 
 	
 	//can this animation be broken?
