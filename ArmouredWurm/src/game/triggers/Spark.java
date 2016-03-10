@@ -18,6 +18,7 @@ public class Spark
 	public int animationlength;
 	public boolean looping;
 	public int speed;
+	public AttackHitBoxes hitboxes;
 	//??
 	boolean atEnd;
 	boolean hangOnEnd;

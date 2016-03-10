@@ -43,7 +43,7 @@ public class Sprite{
 				spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
 			}
 		}
-		catch (IOException e) 
+		catch (Exception e) 
 		{
 			System.out.println("Error, Bad Sprite:"+ inImage);
 			//e.printStackTrace();
@@ -82,7 +82,7 @@ public class Sprite{
 				spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
 			}
 		}
-		catch (IOException e) 
+		catch (Exception e) 
 		{
 			System.out.println("Error, Bad Sprite:"+ inImage);
 			//e.printStackTrace();

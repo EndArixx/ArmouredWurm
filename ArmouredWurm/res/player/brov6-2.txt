@@ -4,3 +4,4 @@ res/player/6-2/Bro 6-2 commandmap200.png
 res/player/triggers6-2.txt
 res/player/states6-2.txt
 res/player/sparks6-2.txt
+res/player/attackhitboxes6-2.txt

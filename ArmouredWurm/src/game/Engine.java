@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.198
+ * version 1.0.199
  * 
  */
 
@@ -735,7 +735,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    		isr.close();
 	        }
 	        
-	    } catch (IOException e) 
+	    } catch (Exception e) 
 	    {
 	    	System.out.println("Im sorry the Map File: "+lvlname+" could not be loaded!");
 	    	this.Error = true;
@@ -815,6 +815,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 					//testing the new Trigger stuff!
 					//So this crashes eclipse......Joy
+					//Memory issssssssuesssssssssssssssssss :(
 			//PlayerChar test = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
 			
 					//Health bar stuff

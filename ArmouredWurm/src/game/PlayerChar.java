@@ -50,9 +50,11 @@ public class PlayerChar extends Sprite
 	protected Trigger[] triggers;
 	protected State[] states;
 	protected Spark[] sparks;
+	//MAP with string to attackhitbox here!
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
+	protected String attackloc;
 	
 	
 	//should this be a char[]?
@@ -147,7 +149,7 @@ public class PlayerChar extends Sprite
 					spriteMap = ImageIO.read(getClass().getResource("/"+name));
 				}
 			}
-			catch (IOException e) 
+			catch (Exception e) 
 			{
 				System.out.println("Error, Bad Sprite:"+ name);
 			}
@@ -423,6 +425,7 @@ public class PlayerChar extends Sprite
 		---------------------------------------------
 		 1)Triggers 
 		 2)Sparks
+		 	a) attack hitboxes
 		 3)States 
 		---------------------------------------------
 		  the goal is to load the three files listed above then use them to dynamically figure out which animation to run.
@@ -502,6 +505,7 @@ public class PlayerChar extends Sprite
 	        triggerloc = br.readLine();
 	    	statesloc = br.readLine();
 	    	sparkloc = br.readLine();
+	    	attackloc = br.readLine();
 	    	
 	        	//Close the files 
 	        br.close();
@@ -601,6 +605,37 @@ public class PlayerChar extends Sprite
 	        
 	        br.close();
 	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
+	        
+	      //Attack hitboxes---------------------------------------------------------
+	        if(new File(attackloc).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(attackloc);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream("/"+attackloc);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	        
+	        //First metaData
+	        //[length] , [OTHER!?]
+	        System.out.println(br.readLine());
+	        // structure the Attack hitboxes
+	        
+	        br.close();
+	        if(t == 1)
 	        {
 	        	fr.close();
 	        }
