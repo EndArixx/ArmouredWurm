@@ -469,10 +469,10 @@ public class PlayerChar extends Sprite
 	    		br = new BufferedReader(isr);
 	    	}
 	    	
-	        String line = br.readLine();
+	        String line = Tools.readlineadv(br);
 	        this.charname = line;
 	        
-	        line = br.readLine();
+	        line = Tools.readlineadv(br);
 	        this.name= line;
 	        
 	        
@@ -494,7 +494,7 @@ public class PlayerChar extends Sprite
 			}
 			spriteData.put(name,spriteMap);
 	        
-	        line = br.readLine();
+	        line = Tools.readlineadv(br);
 	        temp= line.split(",");
 	        this.setHitbox(
 	        		Integer.parseInt(temp[0]), 
@@ -502,10 +502,10 @@ public class PlayerChar extends Sprite
 	        		Integer.parseInt(temp[2]),
 	        		Integer.parseInt(temp[3]));
 	        //get locations for Trigger files
-	        triggerloc = br.readLine();
-	    	statesloc = br.readLine();
-	    	sparkloc = br.readLine();
-	    	attackloc = br.readLine();
+	        triggerloc = Tools.readlineadv(br);
+	    	statesloc = Tools.readlineadv(br);
+	    	sparkloc = Tools.readlineadv(br);
+	    	attackloc = Tools.readlineadv(br);
 	    	
 	        	//Close the files 
 	        br.close();
@@ -536,7 +536,7 @@ public class PlayerChar extends Sprite
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
-	        System.out.println(br.readLine());
+	        System.out.println(Tools.readlineadv(br));
 	        // structure the Triggers files
 	        
 	        
@@ -568,7 +568,7 @@ public class PlayerChar extends Sprite
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
-	        System.out.println(br.readLine());
+	        System.out.println(Tools.readlineadv(br));
 	        // structure the State files
 	        
 	        
@@ -600,7 +600,7 @@ public class PlayerChar extends Sprite
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
-	        System.out.println(br.readLine());
+	        System.out.println(Tools.readlineadv(br));
 	        // structure the Sparks files
 	        
 	        br.close();
@@ -631,7 +631,7 @@ public class PlayerChar extends Sprite
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
-	        System.out.println(br.readLine());
+	        System.out.println(Tools.readlineadv(br));
 	        // structure the Attack hitboxes
 	        
 	        br.close();

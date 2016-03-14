@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.200
+ * version 1.0.201
  * 
  */
 
@@ -236,11 +236,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    	
 	    	
 	    	
-	        String line = br.readLine();
+	        String line = Tools.readlineadv(br);
 	        name = line;
 	        
 	        	//Load in the TileData
-	        line = br.readLine();
+	        line = Tools.readlineadv(br);
 	        	//John comment logic, ALso look into removing the redundancy 
 	        if(!line.equals("null"))
 	        {
@@ -252,13 +252,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        		Integer.parseInt(temp[4]),lvlspriteData);
 	        }
 	        	//Load in World Data
-	        line = br.readLine();
+	        line = Tools.readlineadv(br);
 	        temp = line.split(",");
 	        theWorld = new World(Integer.parseInt(temp[0]),
 	        		Integer.parseInt(temp[1])); 
 	        
 	        	//Load in Lvl object
-	        line = br.readLine();
+	        line = Tools.readlineadv(br);
 	        temp = line.split(",");
 	        	//John switch these, you dont need the ints!
 	        int wnum = Integer.parseInt(temp[0]);
@@ -308,22 +308,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	//first load in looping background stuff
 	        for (int i= 0; i < wnum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-	        		temp = line.split(",");
-	        		weather[i] = new Looper(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-	        	}
+	        	line = Tools.readlineadv(br);
+        		temp = line.split(",");
+        		weather[i] = new Looper(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
         	}
 	        	//second load in ladders
 	        for (int i= 0; i < lnum; i++)
 	        {
-	        	line = br.readLine();
+	        	line = Tools.readlineadv(br);
 	        	if(line.charAt(0) == '#')
 	        	{
 	        			//This ignores comments
@@ -346,14 +338,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        	//third load in Platforms
 	        for (int i= 0; i < pnum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
+	        	line = Tools.readlineadv(br);
 		 	        temp = line.split(",");
 	 	        	if(temp.length <= 8)
 		 	        {
@@ -413,129 +398,97 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 	 	        	}
 	 	 	        	
 		 	        }
- 	        	}
  	        }
 	        for(int i= 0;i< dnum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		 	        temp = line.split(",");
-		 	        doors[i] = new Door(temp[0],
-		 	        		Integer.parseInt(temp[1]),
-		 	        		Integer.parseInt(temp[2]),
-		 	        		Integer.parseInt(temp[3]),
-		 	        		Integer.parseInt(temp[4]),
-		 	        		temp[5],
-		 	        		Integer.parseInt(temp[6]),
-		 	        		Integer.parseInt(temp[7]),lvlspriteData);
-		 	       if(temp.length >= 9)
-		 	        {
-		 	    	   doors[i].setHitbox(
-		        			Integer.parseInt(temp[8]),
-		        			Integer.parseInt(temp[9]),
-		        			Integer.parseInt(temp[10]),
-		        			Integer.parseInt(temp[11]));
-		 	        }
+	        	line = Tools.readlineadv(br);
+	 	        temp = line.split(",");
+	 	        doors[i] = new Door(temp[0],
+	 	        		Integer.parseInt(temp[1]),
+	 	        		Integer.parseInt(temp[2]),
+	 	        		Integer.parseInt(temp[3]),
+	 	        		Integer.parseInt(temp[4]),
+	 	        		temp[5],
+	 	        		Integer.parseInt(temp[6]),
+	 	        		Integer.parseInt(temp[7]),lvlspriteData);
+	 	       if(temp.length >= 9)
+	 	        {
+	 	    	   doors[i].setHitbox(
+	        			Integer.parseInt(temp[8]),
+	        			Integer.parseInt(temp[9]),
+	        			Integer.parseInt(temp[10]),
+	        			Integer.parseInt(temp[11]));
 	        	}
 	 	    }
 	        
 	        for(int i = 0; i < bnum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
+	        	line = Tools.readlineadv(br);
+	        	temp = line.split(",");
+	        	badguys[i] = new Soldier(
+	        			temp[0],temp[1],temp[2],
+	        			Integer.parseInt(temp[3]),
+	        			Integer.parseInt(temp[4]),
+	        			Integer.parseInt(temp[5]),
+	        			Integer.parseInt(temp[6]),
+	        			Integer.parseInt(temp[7]),
+	        			Integer.parseInt(temp[8]),lvlspriteData,soundHandler);
+	        	if(temp.length >= 10)
 	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		        	temp = line.split(",");
-		        	badguys[i] = new Soldier(
-		        			temp[0],temp[1],temp[2],
-		        			Integer.parseInt(temp[3]),
-		        			Integer.parseInt(temp[4]),
-		        			Integer.parseInt(temp[5]),
-		        			Integer.parseInt(temp[6]),
-		        			Integer.parseInt(temp[7]),
-		        			Integer.parseInt(temp[8]),lvlspriteData,soundHandler);
-		        	if(temp.length >= 10)
-		        	{
-		        		badguys[i].setPatrol(Integer.parseInt(temp[9]),Integer.parseInt(temp[10]));
-		        		badguys[i].setHitbox(Integer.parseInt(temp[11]), 
-		        				Integer.parseInt(temp[12]),
-		        				Integer.parseInt(temp[13]), 
-		        				Integer.parseInt(temp[14]));
-		        	}
+	        		badguys[i].setPatrol(Integer.parseInt(temp[9]),Integer.parseInt(temp[10]));
+	        		badguys[i].setHitbox(Integer.parseInt(temp[11]), 
+	        				Integer.parseInt(temp[12]),
+	        				Integer.parseInt(temp[13]), 
+	        				Integer.parseInt(temp[14]));
 	        	}
 	        	
 	        }
 	        for (int i= 0; i < snum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		 	        temp = line.split(",");
-		 	       spikes[i] = new Spike(temp[0],
-		 	    		   Integer.parseInt(temp[1]),
-		 	    		   Integer.parseInt(temp[2]),
-		 	    		  Integer.parseInt(temp[3]),
-		 	    		 Integer.parseInt(temp[4]),
-		 	    		Integer.parseInt(temp[5]),
-		 	    		Integer.parseInt(temp[6]),
-		 	    		Integer.parseInt(temp[7]),
-		 	    		Integer.parseInt(temp[8]),
-		 	    		   lvlspriteData);
-		 	        if(temp.length >= 9)
-		 	        {
-		 	        	spikes[i].setHitbox(
-		 	        			Integer.parseInt(temp[9]),
-		 	        			Integer.parseInt(temp[10]),
-		 	        			Integer.parseInt(temp[11]),
-		 	        			Integer.parseInt(temp[12]));
-		 	        }
-		 	        if(temp.length > 13)
-		 	        {
-			 	        temp2 = temp[13].split(">");
-		 	        	if(temp2.length == 4)//Boolean.parseBoolean(temp2[0]))
-		 	        	{
-		 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),lvlspriteData);
-		 	        	}
-		 	        	else if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
-	 	 	        	{
-		 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]),lvlspriteData);
-	 	 	        	}
-		 	        		//This make is Movable
-		 	        	temp2 = temp[14].split(">");
-		 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
-		 	        	{
-		 	        		spikes[i].make_movable(Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]));
-		 	        	}
-		 	        }
-	 	        	
+	        	line = Tools.readlineadv(br);
+	 	        temp = line.split(",");
+	 	        spikes[i] = new Spike(temp[0],
+	 	    		   Integer.parseInt(temp[1]),
+	 	    		   Integer.parseInt(temp[2]),
+	 	    		  Integer.parseInt(temp[3]),
+	 	    		 Integer.parseInt(temp[4]),
+	 	    		Integer.parseInt(temp[5]),
+	 	    		Integer.parseInt(temp[6]),
+	 	    		Integer.parseInt(temp[7]),
+	 	    		Integer.parseInt(temp[8]),
+	 	    		   lvlspriteData);
+	 	        if(temp.length >= 9)
+	 	        {
+	 	        	spikes[i].setHitbox(
+	 	        			Integer.parseInt(temp[9]),
+	 	        			Integer.parseInt(temp[10]),
+	 	        			Integer.parseInt(temp[11]),
+	 	        			Integer.parseInt(temp[12]));
 	 	        }
+	 	        if(temp.length > 13)
+	 	        {
+		 	        temp2 = temp[13].split(">");
+	 	        	if(temp2.length == 4)//Boolean.parseBoolean(temp2[0]))
+	 	        	{
+	 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),lvlspriteData);
+	 	        	}
+	 	        	else if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
+ 	 	        	{
+	 	        		spikes[i].make_Destroyable(temp2[1],Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]),lvlspriteData);
+ 	 	        	}
+	 	        		//This make is Movable
+	 	        	temp2 = temp[14].split(">");
+	 	        	if(temp2.length == 5)//Boolean.parseBoolean(temp2[0]))
+	 	        	{
+	 	        		spikes[i].make_movable(Integer.parseInt(temp2[1]),Integer.parseInt(temp2[2]),Integer.parseInt(temp2[3]),Integer.parseInt(temp2[4]));
+	 	        	}
+	 	        }
+ 	        
 	 	        
  	        }
 	        for(int i= 0; i < bombnum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
+	        	line = Tools.readlineadv(br);
 	        	temp = line.split(",");
 	        	bombs[i] = new Explosive(
 	        			temp[0],
@@ -554,170 +507,113 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	        			Integer.parseInt(temp[13]),
 	        			lvlspriteData
 	        			);
-	        	}
         	}
 	        for(int i = 0; i< hnum; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-	        		temp = line.split(",");
-	        		healthpicks[i] = new Platform(
-	        			temp[0],
+	        	line = Tools.readlineadv(br);
+        		temp = line.split(",");
+        		healthpicks[i] = new Platform(
+        			temp[0],
+        			Integer.parseInt(temp[1]),
+        			Integer.parseInt(temp[2]),
+        			Integer.parseInt(temp[3]),
+        			Integer.parseInt(temp[4]),
+        			Integer.parseInt(temp[5]),
+        			Integer.parseInt(temp[6]),
+        			lvlspriteData,
+        			Integer.parseInt(temp[7])
+        			);
+	        }
+	        for(int i = 0; i < paranum; i++)
+	        {
+	        	line = Tools.readlineadv(br);
+	        	temp = line.split(",");
+	        	parallax[i] = new Platform(temp[0],
+	        			Integer.parseInt(temp[1]),
+	        			Integer.parseInt(temp[2]),
+	        			lvlspriteData
+	        			);
+	        	parallax[i].setParSpeed(Double.parseDouble(temp[3]));
+	        	
+	        	parallaxStart[0][i] = Integer.parseInt(temp[1]); 
+	        	parallaxStart[1][i] = Integer.parseInt(temp[2]);
+        	}
+	        for(int i = 0; i< savenum; i++)
+	        {
+	        	line = Tools.readlineadv(br);
+	        	temp = line.split(",");
+	        	saveZone[i] = new Platform(temp[0],
 	        			Integer.parseInt(temp[1]),
 	        			Integer.parseInt(temp[2]),
 	        			Integer.parseInt(temp[3]),
 	        			Integer.parseInt(temp[4]),
 	        			Integer.parseInt(temp[5]),
 	        			Integer.parseInt(temp[6]),
-	        			lvlspriteData,
-	        			Integer.parseInt(temp[7])
+	        			Integer.parseInt(temp[7]),
+	        			lvlspriteData
 	        			);
-	        	}
-	        }
-	        for(int i = 0; i < paranum; i++)
-	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		        	temp = line.split(",");
-		        	parallax[i] = new Platform(temp[0],
-		        			Integer.parseInt(temp[1]),
-		        			Integer.parseInt(temp[2]),
-		        			lvlspriteData
-		        			);
-		        	parallax[i].setParSpeed(Double.parseDouble(temp[3]));
-		        	
-		        	parallaxStart[0][i] = Integer.parseInt(temp[1]); 
-		        	parallaxStart[1][i] = Integer.parseInt(temp[2]);
-	        	}
-        	}
-	        for(int i = 0; i< savenum; i++)
-	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		        	temp = line.split(",");
-		        	saveZone[i] = new Platform(temp[0],
-		        			Integer.parseInt(temp[1]),
-		        			Integer.parseInt(temp[2]),
-		        			Integer.parseInt(temp[3]),
-		        			Integer.parseInt(temp[4]),
-		        			Integer.parseInt(temp[5]),
-		        			Integer.parseInt(temp[6]),
-		        			Integer.parseInt(temp[7]),
-		        			lvlspriteData
-		        			);
-		        	saveZone[i].setValue(1);
-	        	}
+	        	saveZone[i].setValue(1);
 	        }
 	        	//John work on one way platforms
 	        for (int i= 0; i < onewayUnderPlatform.length; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		 	        temp = line.split(",");
-		 	        		//John Change this to animated
-		 	      	onewayUnderPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-		 	        if(temp.length >= 4)
-		 	        {
-		 	        	platforms[i].setHitbox(
-		 	        			Integer.parseInt(temp[3]),
-		 	        			Integer.parseInt(temp[4]),
-		 	        			Integer.parseInt(temp[5]),
-		 	        			Integer.parseInt(temp[6]));
-		 	        }
+	        	line = Tools.readlineadv(br);
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayUnderPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
 	 	        } 
  	        }
 	        for (int i= 0; i < onewayOverPlatform.length; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		 	        temp = line.split(",");
-		 	        		//John Change this to animated
-		 	      	onewayOverPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-		 	        if(temp.length >= 4)
-		 	        {
-		 	        	platforms[i].setHitbox(
-		 	        			Integer.parseInt(temp[3]),
-		 	        			Integer.parseInt(temp[4]),
-		 	        			Integer.parseInt(temp[5]),
-		 	        			Integer.parseInt(temp[6]));
-		 	        }
+	        	line = Tools.readlineadv(br);
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayOverPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
 	        	}
  	        }
 	        for (int i= 0; i < onewayLeftPlatform.length; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		 	        temp = line.split(",");
-		 	        		//John Change this to animated
-		 	      	onewayLeftPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-		 	        if(temp.length >= 4)
-		 	        {
-		 	        	platforms[i].setHitbox(
-		 	        			Integer.parseInt(temp[3]),
-		 	        			Integer.parseInt(temp[4]),
-		 	        			Integer.parseInt(temp[5]),
-		 	        			Integer.parseInt(temp[6]));
-		 	        }
-	        	}
+	        	line = Tools.readlineadv(br);
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayLeftPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        }
  	        }
 	        for (int i= 0; i < onewayRightPlatform.length; i++)
 	        {
-	        	line = br.readLine();
-	        	if(line.charAt(0) == '#')
-	        	{
-	        			//This ignores comments
-	        		i--;
-	        	}
-	        	else
-	        	{
-		 	        temp = line.split(",");
-		 	        		//John Change this to animated
-		 	      	onewayRightPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
-		 	        if(temp.length >= 4)
-		 	        {
-		 	        	platforms[i].setHitbox(
-		 	        			Integer.parseInt(temp[3]),
-		 	        			Integer.parseInt(temp[4]),
-		 	        			Integer.parseInt(temp[5]),
-		 	        			Integer.parseInt(temp[6]));
-		 	        }
-	 	        } 
+	        	line = Tools.readlineadv(br);
+	 	        temp = line.split(",");
+	 	        		//John Change this to animated
+	 	      	onewayRightPlatform[i] = new Platform(temp[0],Integer.parseInt(temp[1]),Integer.parseInt(temp[2]),lvlspriteData);
+	 	        if(temp.length >= 4)
+	 	        {
+	 	        	platforms[i].setHitbox(
+	 	        			Integer.parseInt(temp[3]),
+	 	        			Integer.parseInt(temp[4]),
+	 	        			Integer.parseInt(temp[5]),
+	 	        			Integer.parseInt(temp[6]));
+	 	        }
  	        }
 	        
 	        
@@ -942,22 +838,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    	this.isGameOver = false;
 	    	
 	    		//Name
-	    	String line  = br.readLine();
+	    	String line  = Tools.readlineadv(br);
 	    	saveName = line;
 	    	saveFileName = inSaveFile;
 	    	
 	    		//DATESTUFF
-	    	line  = br.readLine();
+	    	line  = Tools.readlineadv(br);
 	    	//System.out.println("Loading \"" + line + "\" File" );
 	    		//Player Stuff
-	    	line  = br.readLine();
+	    	line  = Tools.readlineadv(br);
 	    	player = new PlayerChar(line,permaSprites);
-	    	line = br.readLine();
+	    	line = Tools.readlineadv(br);
 	    	player.maxHP = Integer.parseInt(line);
 	    		// level stuff
-	    	line = br.readLine();
+	    	line = Tools.readlineadv(br);
 	    	loadLevel(line);
-	    	line = br.readLine();
+	    	line = Tools.readlineadv(br);
 	    	String[] temp = line.split(",");
 	    	player.setX(Integer.parseInt(temp[0]));
 			restartdata[0] =Integer.parseInt(temp[0]);

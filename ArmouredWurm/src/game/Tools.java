@@ -1,5 +1,8 @@
 package game;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
 public class Tools 
 {
 	
@@ -71,4 +74,16 @@ public class Tools
 				//SAFE!
 			return false;
 		}
+	
+	//This is my all new Advanced Readline
+	//This ignores any line which starts with a #
+	public static String readlineadv(BufferedReader br) throws IOException
+	{
+		String out = br.readLine();
+		while(out.charAt(0) == '#')
+		{
+			out = br.readLine();
+		}
+		return out;
+	}
 }
