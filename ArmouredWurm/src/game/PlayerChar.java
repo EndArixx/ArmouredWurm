@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
@@ -50,7 +51,7 @@ public class PlayerChar extends Sprite
 	protected Trigger[] triggers;
 	protected State[] states;
 	protected Spark[] sparks;
-	//MAP with string to attackhitbox here!
+	protected Map<String,AttackHitBoxes> HitboxMap;
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
@@ -631,9 +632,14 @@ public class PlayerChar extends Sprite
 	        
 	        //First metaData
 	        //[length] , [OTHER!?]
-	        System.out.println(Tools.readlineadv(br));
-	        // structure the Attack hitboxes
-	        
+	        this.HitboxMap = new HashMap<String,AttackHitBoxes>();
+	        AttackHitBoxes attackHB;
+	        while((line = Tools.readlineadv(br))!=null)
+	        {
+	        	temp= line.split(">");
+	        	attackHB = new AttackHitBoxes(temp[1]);
+		        this.HitboxMap.put(temp[0],attackHB);
+	        }
 	        br.close();
 	        if(t == 1)
 	        {
@@ -645,16 +651,17 @@ public class PlayerChar extends Sprite
 	    		isr.close();
 	        }
 	        
-	      
+	        //John Testing stuff
+	        System.out.println(HitboxMap.get("heavyPunchRH").getString());
 	        
-	        
-	    } catch (IOException e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!");} //JOHN FIX THIS!
+	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!");} //JOHN FIX THIS!
 		 
 		this.speedX = 0;
 		this.speedY = 0;
 		this.gravity = 0;
 	}
 	
+	//Public Methods------------------------------------------------------------------
 	public void triggerEngine(InputList inputs, MoveStack moveHistory)
 	{
 		//So this is how its gonna work.

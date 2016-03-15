@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.201
+ * version 1.0.202
  * 
  */
 
@@ -712,7 +712,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					//testing the new Trigger stuff!
 					//So this crashes eclipse......Joy
 					//Memory issssssssuesssssssssssssssssss :(
-			//PlayerChar test = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
+			PlayerChar test = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
 			
 					//Health bar stuff
 			restartdata[4] = (int) player.HP;

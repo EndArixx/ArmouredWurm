@@ -16,6 +16,7 @@ RunR,MAIN,0,8,16,?,false,20
 RunL,MAIN,0,9,16,?,false,20
 RunVR,MAIN,0,10,16,?,false,30
 RunVL,MAIN,0,11,16,?,false,30
+#attack stuff
 upperCutR,MAIN,0,12,10,?,true,upperCutRH
 upperCutL,MAIN,0,13,10,?,true,upperCutLH
 KickR,MAIN,0,14,16,?,true,KickLH

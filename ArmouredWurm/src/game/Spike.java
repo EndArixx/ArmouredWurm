@@ -32,8 +32,5 @@ public class Spike extends Platform
 		
 		animateCol();
 		
-	}
-	
-	
-	
+	}	
 }

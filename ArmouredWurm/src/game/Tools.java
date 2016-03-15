@@ -80,6 +80,8 @@ public class Tools
 	public static String readlineadv(BufferedReader br) throws IOException
 	{
 		String out = br.readLine();
+		if(out == null)
+			return null;
 		while(out.charAt(0) == '#')
 		{
 			out = br.readLine();
