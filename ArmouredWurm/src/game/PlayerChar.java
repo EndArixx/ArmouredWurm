@@ -540,6 +540,23 @@ public class PlayerChar extends Sprite
 	        System.out.println(Tools.readlineadv(br));
 	        // structure the Triggers files
 	        
+	        //TRIGGGGGERS
+	        /*
+	         
+	          ok so what does a trigger need?
+	          	a) history for combos
+	          	b) current keys being pressed
+	          	c) external info like on platform, falling etc
+	          	d) the current states that the player is in
+	          	
+	          	e) a name
+	          	f) the stats that this trigger changes
+	          	g) the sparks that it causes.
+	          
+	          
+
+	         */
+	        
 	        
 	        br.close();
 	        if(t ==1)

@@ -1,1 +1,5 @@
-THESE ARE TEH TRIGGERS!
+#THESE ARE TEH TRIGGERS!
+#structure 
+#Name;history;input;allowed states;type?;Spark;state;
+TrunR;?,?,?,?,?;Runing(input);feetonground,standing?;type3 (sparkand state);RunR;running?
+#the allowed states seems important, these are states teh player must be in order to trigger this...trigger

@@ -31,15 +31,25 @@ I don't know if i have to hardcode it
 	8) has aggro
  
  */
-	private char[] name;
+	private String name;
 	private boolean on;
+	//types
+	private boolean dead;
+	private boolean moving;
+	private boolean touchingGround;
+	private boolean idle;
+	private boolean attacking;
+	private boolean spotEnemy;
+	private boolean agroo;
+	private String[] subType;
 	
-	public State(char[] inName) 
+	
+	public State(String inName) 
 	{
 		this.name = inName;
 		this.on = false;
 	}
-	public char[] getName()
+	public String getName()
 	{
 		return name;
 	}
