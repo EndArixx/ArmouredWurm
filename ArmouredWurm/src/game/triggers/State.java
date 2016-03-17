@@ -30,6 +30,18 @@ I don't know if i have to hardcode it
 	7) spot enemy
 	8) has aggro
  
+ states should have features, things that can apply to multiple states
+
+the trigger system will worry about the acutal names of 'allowed states' which is more then one
+but when you actually go to pick a state it should be super simpler
+AKA
+NAME types and possibe suptimes.
+
+do i allow 'idential states?'
+sure why not?
+the trigger system is the one that assignis states.
+
+ 
  */
 	private String name;
 	private boolean on;

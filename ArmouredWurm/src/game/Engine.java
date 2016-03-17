@@ -4,7 +4,7 @@
  * created by: John Stanley
  * 
  * 
- * version 1.0.203
+ * version 1.0.204
  * 
  */
 
@@ -49,7 +49,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.203";
+	public String version = "Version 1.0.204";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
