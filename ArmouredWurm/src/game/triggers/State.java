@@ -77,6 +77,17 @@ the trigger system is the one that assigns states.
 		this( inName, inDead, inMoving, inTouchingGround, inIdle, inAttacking, inSpotEnemy);
 		this.subType = inSubType;
 	}
+	public State(String inName, String inputString) 
+	{
+		this.name = inName;
+		String[] splitString = inputString.split(",");
+		this.dead = Boolean.parseBoolean(splitString[0]);
+		this.moving = Boolean.parseBoolean(splitString[1]);
+		this.touchingGround = Boolean.parseBoolean(splitString[2]);
+		this.idle = Boolean.parseBoolean(splitString[3]);
+		this.attacking = Boolean.parseBoolean(splitString[4]);
+		this.spotEnemy = Boolean.parseBoolean(splitString[5]);
+	}
 	public boolean[] getTypes()
 	{
 		boolean[] out = {dead,moving,touchingGround,idle,attacking,spotEnemy};
@@ -90,6 +101,23 @@ the trigger system is the one that assigns states.
 	public String getName()
 	{
 		return name;
+	}
+	public void testStates()
+	{
+		System.out.print(name);
+		if(dead) System.out.print("DEAD ");
+		else System.out.print("Not DEAD ");
+		if(moving) System.out.print("Moving ");
+		else System.out.print("Not Moving ");
+		if(touchingGround) System.out.print("on ground ");
+		else System.out.print("Not on ground ");
+		if(touchingGround) System.out.print("Idle ");
+		else System.out.print("Not Idle ");
+		if(attacking) System.out.print("Attacking ");
+		else System.out.print("Not Attacking ");
+		if(spotEnemy) System.out.print("Sees enemy ");
+		else System.out.print("doesnt see enemy ");
+		System.out.println();
 	}
 
 	

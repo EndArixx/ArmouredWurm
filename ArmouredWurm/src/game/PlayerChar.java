@@ -52,6 +52,7 @@ public class PlayerChar extends Sprite
 	protected State[] states;
 	protected Spark[] sparks;
 	protected Map<String,AttackHitBoxes> HitboxMap;
+	protected Map<String,State> statesMap;
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
@@ -449,6 +450,7 @@ public class PlayerChar extends Sprite
 		FileReader fr = null;
 		BufferedReader br = null;
 		int t = 0;
+		int err = 0;
 		try 
 		{
 			
@@ -456,6 +458,7 @@ public class PlayerChar extends Sprite
 	    	InputStream is = null;
 	    	InputStreamReader isr = null;
 	    		//Favor external files, then internal
+	    	err= 1;
 	    	if(new File(infile).isFile())
 	    	{
 	    		t = 1;
@@ -476,7 +479,7 @@ public class PlayerChar extends Sprite
 	        line = Tools.readlineadv(br);
 	        this.name= line;
 	        
-	        
+	        err= 2;
 	        BufferedImage spriteMap = null;
 			try 
 			{
@@ -519,7 +522,7 @@ public class PlayerChar extends Sprite
 	        	is.close();
 	    		isr.close();
 	        }
-	        
+	        err= 3;
 	        //TRIGGERS-------------------------------------------------------
 	        if(new File(triggerloc).isFile())
 	    	{
@@ -568,7 +571,7 @@ public class PlayerChar extends Sprite
 	        	is.close();
 	    		isr.close();
 	        }
-	        
+	        err= 4;
 	        //STATES---------------------------------------------------------
 	        if(new File(statesloc).isFile())
 	    	{
@@ -584,10 +587,17 @@ public class PlayerChar extends Sprite
 	    		br = new BufferedReader(isr);
 	    	}
 	        
-	        //First metaData
-	        //[length] , [OTHER!?]
-	        System.out.println(Tools.readlineadv(br));
-	        // structure the State files
+	        this.statesMap = new HashMap<String,State>();
+	        State tempstate;
+	        while((line = Tools.readlineadv(br))!=null)
+	        {
+	        	temp= line.split(">");
+	        	tempstate = new State(temp[0],temp[1]);
+		        this.statesMap.put(temp[0],tempstate);
+		        
+		        this.statesMap.get(temp[0]).testStates();
+	        }
+	        br.close();
 	        
 	        
 	        br.close();
@@ -600,7 +610,7 @@ public class PlayerChar extends Sprite
 	        	is.close();
 	    		isr.close();
 	        }
-	        
+	        err= 5;
 	        //Sparks---------------------------------------------------------
 	        if(new File(sparkloc).isFile())
 	    	{
@@ -631,7 +641,7 @@ public class PlayerChar extends Sprite
 	        	is.close();
 	    		isr.close();
 	        }
-	        
+	        err= 6;
 	      //Attack hitboxes---------------------------------------------------------
 	        if(new File(attackloc).isFile())
 	    	{
@@ -671,7 +681,7 @@ public class PlayerChar extends Sprite
 	        //John Testing stuff
 	        System.out.println(HitboxMap.get("heavyPunchRH").getString());
 	        
-	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!");} //JOHN FIX THIS!
+	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
 		 
 		this.speedX = 0;
 		this.speedY = 0;
