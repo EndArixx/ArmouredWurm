@@ -2,5 +2,5 @@ New Game
 11/02/16 18:33:03
 res/player/brov4.txt
 100
-res/lvl2/saveRoom.jarm
-50,160,0,0
+res/TEST.txt
+0,0,0,0
