@@ -93,6 +93,23 @@ the trigger system is the one that assigns states.
 		boolean[] out = {dead,moving,touchingGround,idle,attacking,spotEnemy};
 		return out;
 	}
+	public String getTypeString()
+	{
+		String out ="";
+		if(dead) out += "1,";
+		else out += "0,";
+		if(moving)  out += "1,";
+		else out += "0,";
+		if(touchingGround)  out += "1,";
+		else out += "0,";
+		if(touchingGround) out += "1,";
+		else out += "0,";
+		if(attacking)  out += "1,";
+		else out += "0,";
+		if(spotEnemy) out += "1";
+		else out += "0";
+		return out;
+	}
 	public String[] getSubTypes()
 	{
 		return subType;

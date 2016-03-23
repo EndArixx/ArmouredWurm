@@ -53,6 +53,7 @@ public class PlayerChar extends Sprite
 	protected Spark[] sparks;
 	protected Map<String,AttackHitBoxes> HitboxMap;
 	protected Map<String,State> statesMap;
+	protected Map<String,Spark> sparksMap;
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
@@ -595,7 +596,9 @@ public class PlayerChar extends Sprite
 	        	tempstate = new State(temp[0],temp[1]);
 		        this.statesMap.put(temp[0],tempstate);
 		        
+		        //testing
 		        this.statesMap.get(temp[0]).testStates();
+		        System.out.println(this.statesMap.get(temp[0]).getTypeString());
 	        }
 	        br.close();
 	        
@@ -626,10 +629,16 @@ public class PlayerChar extends Sprite
 	    		br = new BufferedReader(isr);
 	    	}
 	        
-	        //First metaData
-	        //[length] , [OTHER!?]
-	        System.out.println(Tools.readlineadv(br));
-	        // structure the Sparks files
+	        this.sparksMap = new HashMap<String,Spark>();
+	        Spark tspark;
+	        while((line = Tools.readlineadv(br))!=null)
+	        {
+	        	tspark = new Spark(line);
+		        this.sparksMap.put(tspark.getName(),tspark);
+		        
+		        //testing
+		        System.out.println(this.sparksMap.get(tspark.getName()).testSpark());
+	        }
 	        
 	        br.close();
 	        if(t ==1)
@@ -681,7 +690,7 @@ public class PlayerChar extends Sprite
 	        //John Testing stuff
 	        System.out.println(HitboxMap.get("heavyPunchRH").getString());
 	        
-	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
+	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
 		 
 		this.speedX = 0;
 		this.speedY = 0;
