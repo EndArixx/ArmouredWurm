@@ -1,6 +1,6 @@
 package game.triggers;
 /*
- * This will be the move que.
+ * This will be the move stack.
  * This is going to keep track of the last 10 or so moves.
  * 
  * Thats right, this is for COMBOs!!!! AH YEAH!
@@ -10,13 +10,16 @@ package game.triggers;
  * Idea:
  * 		have a render option to show the moves so the player can practice COMBOS! OHYEAH!
  *
- *	Dont worry about "removing" things this is more about holding the Last 10 items. i guess its not really a queue its more of a stack.
+ *	Dont worry about "removing" things this is more about holding the Last 10 items. its a  of a stack.
  *
  *
  *	Guide 
 	L = light attack
 	H = Hevay attack
 	S = Special
+	
+	jump? moveleft moveright?
+	hmmmmmm
 	
 	
  */

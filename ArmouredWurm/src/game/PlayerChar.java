@@ -49,7 +49,7 @@ public class PlayerChar extends Sprite
 	
 	//COMBAT UPDATE 2016
 	protected Trigger[] triggers;
-	protected State[] states;
+	protected String state;
 	protected Spark[] sparks;
 	protected Map<String,AttackHitBoxes> HitboxMap;
 	protected Map<String,State> statesMap;
@@ -60,8 +60,8 @@ public class PlayerChar extends Sprite
 	protected String attackloc;
 	
 	
-	//should this be a char[]?
-	protected Map<char[],Trigger> triggerMap;
+	//should this be a String?
+	protected Map<String,Trigger> triggerMap;
 	
 	//Constructors---------------------------------------------------------------------
 	public PlayerChar(String infile,  Map<String,BufferedImage> spriteData)
@@ -698,7 +698,7 @@ public class PlayerChar extends Sprite
 	}
 	
 	//Public Methods------------------------------------------------------------------
-	public void triggerEngine(InputList inputs, MoveStack moveHistory)
+	public void triggerEngine(InputList inputs, MoveStack moveHistory)//john add external stuff
 	{
 		//So this is how its gonna work.
 		/*
@@ -730,19 +730,32 @@ public class PlayerChar extends Sprite
 		
 		//this should slowly reduce until either the trigger pulls or the default happens '%''%''%'etc
 		char[] history = moveHistory.getStack();
-		for(int i = 0 ; i < history.length && i >= 0; i++)
+		
+		String currentThings;
+		boolean succes = false;
+		//String history = String.valueOf(mStack.getStack());
+		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
-			if(triggerMap.get(history) != null)
-			{
-				triggerMap.get(history).Pull();
-				i = -1;
-			}
-			else
-			{
-				history[i] = '%';
-			}
-		}
-			
+			//John figure out a good seperator
+				//also figure the state stuff out.
+			currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
+			System.out.println(currentThings);
+			//if(triggerMap.get(currentThings) != null)
+			//{
+				//triggerMap.get(currentThings).Pull();
+				//i = -1; 
+				//success = true;
+			//}
+			//else
+			//{
+				history[ (history.length-1) - i] = '%';
+			//}
+		}	
+		/*
+		if(!success)
+			DEFAULT CASE!
+		 */
+
 		
 	}
 	

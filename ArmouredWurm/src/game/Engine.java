@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.208";
+	public String version = "Version 1.0.209";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -712,7 +712,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					//testing the new Trigger stuff!
 					//So this crashes eclipse......Joy
 					//Memory issssssssuesssssssssssssssssss :(
-			PlayerChar test = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
+			//PlayerChar test = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
 			
 					//Health bar stuff
 			restartdata[4] = (int) player.HP;
@@ -1720,6 +1720,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//sent input object to player class.
 		//System.out.println(input); //This is for testing
 		//userInput.moveStack.test();
+		
+		//john this is a good way to get to string.
+		//System.out.println(String.valueOf(mStack.getStack()));
+		player.triggerEngine(userInput, mStack);
 	}
 	
 	public void keyPressed(KeyEvent key) 

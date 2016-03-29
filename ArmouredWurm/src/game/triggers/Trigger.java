@@ -35,6 +35,28 @@ States
  */
 public class Trigger 
 {
+	
+	/*
+	 what does a trigger need?
+	 (these will all be in the map side)
+	 1) history 
+	 	the players previouse inputs
+	 2) buttons pressed 
+	 	current buttons being pressed
+	 3) external
+	 	stuff that is happening in the world around him (platforms, enemys)
+	 4) internal
+	 	player stuff, current state,etc
+ 	 5) other?
+ 	 
+ 	 what does a trigger do?
+ 	 causes a spark and possibly a state change.
+ 	 	 
+	 */
+	
+	
+	
+	
 	Spark spark;
 	State state;
 	PlayerChar player;
@@ -51,9 +73,15 @@ public class Trigger
 			i) is HP a state?
 	
 	*/
-	public Trigger(State in)
+	public Trigger(Spark in)
 	{
-		state = in;
+		spark = in;
+	}
+	public Trigger(String inline)
+	{
+		//parse through the inline stuff
+		
+		
 	}
 	
 	public void Pull()
