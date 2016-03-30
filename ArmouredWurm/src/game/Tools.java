@@ -77,15 +77,22 @@ public class Tools
 	
 	//This is my all new Advanced Readline
 	//This ignores any line which starts with a #
-	public static String readlineadv(BufferedReader br) throws IOException
+	public static String readlineadv(BufferedReader br)
 	{
-		String out = br.readLine();
-		if(out == null)
-			return null;
-		while(out.charAt(0) == '#')
+		try // john look into this
 		{
-			out = br.readLine();
+			String out = br.readLine();
+			if(out == null)
+				return null;
+			while(out.charAt(0) == '#')
+			{
+				out = br.readLine();
+			}
+			return out;
 		}
-		return out;
+		catch (Exception e)
+		{
+			return null;
+		}
 	}
 }

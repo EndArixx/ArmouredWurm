@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.209";
+	public String version = "Version 1.0.210";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -65,6 +65,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
+	public PlayerChar player2; //JOHN REMOVE!!!!!!!!!!!!!!!!!!!!
 	public Sprite playerHP;
 	public Sprite playerHPpips;
 	public int hx, hy,hxP,hyP, hpPipLen; //HPsW,
@@ -233,8 +234,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    		isr = new InputStreamReader(is);
 	    		br = new BufferedReader(isr);
 	    	}
-	    	
-	    	
 	    	
 	        String line = Tools.readlineadv(br);
 	        name = line;
@@ -712,7 +711,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					//testing the new Trigger stuff!
 					//So this crashes eclipse......Joy
 					//Memory issssssssuesssssssssssssssssss :(
-			//PlayerChar test = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
+			player2 = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
 			
 					//Health bar stuff
 			restartdata[4] = (int) player.HP;
@@ -1723,7 +1722,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		//john this is a good way to get to string.
 		//System.out.println(String.valueOf(mStack.getStack()));
-		player.triggerEngine(userInput, mStack);
+		player2.triggerEngine(userInput, mStack);
 	}
 	
 	public void keyPressed(KeyEvent key) 

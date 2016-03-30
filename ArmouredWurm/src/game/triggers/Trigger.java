@@ -61,6 +61,7 @@ public class Trigger
 	State state;
 	PlayerChar player;
 	State[] currentStates;
+	String name;
 	//John find a way to setup the cause of the trigger
 	
 	
@@ -71,7 +72,6 @@ public class Trigger
 			ii)Max
 		3) current states
 			i) is HP a state?
-	
 	*/
 	public Trigger(Spark in)
 	{
@@ -80,13 +80,21 @@ public class Trigger
 	public Trigger(String inline)
 	{
 		//parse through the inline stuff
-		
-		
+		String[] Data = inline.split(";");
+		name = Data[0];
+		System.out.println(inline);
 	}
 	
 	public void Pull()
 	{
-		spark.strike(player);
+		
+		System.out.println(name);
+		//spark.strike(player);
+		//state stuff?
+	}
+	public String getName()
+	{
+		return this.name;
 	}
 
 }

@@ -539,14 +539,13 @@ public class PlayerChar extends Sprite
 	    		br = new BufferedReader(isr);
 	    	}
 	        
-	        //First metaData
+	        //First metaData?
 	        //[length] , [OTHER!?]
-	        System.out.println(Tools.readlineadv(br));
+	        //System.out.println(Tools.readlineadv(br));
 	        // structure the Triggers files
 	        
 	        //TRIGGGGGERS
-	        /*
-	         
+	        /* 
 	          ok so what does a trigger need?
 	          	a) history for combos
 	          	b) current keys being pressed
@@ -556,12 +555,14 @@ public class PlayerChar extends Sprite
 	          	e) a name
 	          	f) the stats that this trigger changes
 	          	g) the sparks that it causes.
-	          
-	          
-
 	         */
-	        
-	        
+	        this.triggerMap = new HashMap<String,Trigger>();
+	        Trigger tri;
+	        while((line = Tools.readlineadv(br))!=null)
+	        {
+	        	 tri = new Trigger(line);
+		        this.triggerMap.put( tri.getName(), tri);
+	        }
 	        br.close();
 	        if(t ==1)
 	        {
@@ -590,6 +591,7 @@ public class PlayerChar extends Sprite
 	        
 	        this.statesMap = new HashMap<String,State>();
 	        State tempstate;
+	        
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	temp= line.split(">");
@@ -692,6 +694,7 @@ public class PlayerChar extends Sprite
 	        
 	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
 		 
+		
 		this.speedX = 0;
 		this.speedY = 0;
 		this.gravity = 0;
@@ -732,7 +735,8 @@ public class PlayerChar extends Sprite
 		char[] history = moveHistory.getStack();
 		
 		String currentThings;
-		boolean succes = false;
+		boolean success = false;
+		Trigger tri;
 		//String history = String.valueOf(mStack.getStack());
 		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
@@ -740,21 +744,23 @@ public class PlayerChar extends Sprite
 				//also figure the state stuff out.
 			currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
 			System.out.println(currentThings);
-			//if(triggerMap.get(currentThings) != null)
-			//{
-				//triggerMap.get(currentThings).Pull();
-				//i = -1; 
-				//success = true;
-			//}
-			//else
-			//{
+			tri = this.triggerMap.get(currentThings);
+			if(tri != null)
+			{
+				tri.Pull();
+				i = -1; 
+				success = true;
+			}
+			else
+			{
 				history[ (history.length-1) - i] = '%';
-			//}
+			}
 		}	
-		/*
 		if(!success)
-			DEFAULT CASE!
-		 */
+		{
+			System.out.println("DEFAULT TRIGGER!");
+		}
+		
 
 		
 	}
