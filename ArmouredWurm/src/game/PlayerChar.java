@@ -51,6 +51,7 @@ public class PlayerChar extends Sprite
 	protected Trigger[] triggers;
 	protected String state;
 	protected Spark[] sparks;
+	protected State currstate;
 	protected Map<String,AttackHitBoxes> HitboxMap;
 	protected Map<String,State> statesMap;
 	protected Map<String,Spark> sparksMap;
@@ -441,8 +442,6 @@ public class PlayerChar extends Sprite
 		5) ...
 		 */	
 		
-		
-		
 		//JOHN THROW SOME TRY CATCHES ON THIS!
 		super();
 		this.file = infile;
@@ -479,7 +478,7 @@ public class PlayerChar extends Sprite
 	        
 	        line = Tools.readlineadv(br);
 	        this.name= line;
-	        
+	        /* JOHN TURN THIS BACK ON WHEN YOU FIX THE SPRITE
 	        err= 2;
 	        BufferedImage spriteMap = null;
 			try 
@@ -497,7 +496,7 @@ public class PlayerChar extends Sprite
 			{
 				System.out.println("Error, Bad Sprite:"+ name);
 			}
-			spriteData.put(name,spriteMap);
+			spriteData.put(name,spriteMap);*/
 	        
 	        line = Tools.readlineadv(br);
 	        temp= line.split(",");
@@ -561,7 +560,7 @@ public class PlayerChar extends Sprite
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	 tri = new Trigger(line);
-		        this.triggerMap.put( tri.getName(), tri);
+		        this.triggerMap.put( tri.getName(), tri); //JOHN DONT MAP THE DAMN NAME MAP THE 'CAUSE'!
 	        }
 	        br.close();
 	        if(t ==1)
@@ -691,6 +690,8 @@ public class PlayerChar extends Sprite
 	        
 	        //John Testing stuff
 	        System.out.println(HitboxMap.get("heavyPunchRH").getString());
+	        this.name = "fred";
+	        
 	        
 	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
 		 
@@ -740,6 +741,7 @@ public class PlayerChar extends Sprite
 		//String history = String.valueOf(mStack.getStack());
 		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
+			System.out.println(history);
 			//John figure out a good seperator
 				//also figure the state stuff out.
 			currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
@@ -760,8 +762,6 @@ public class PlayerChar extends Sprite
 		{
 			System.out.println("DEFAULT TRIGGER!");
 		}
-		
-
 		
 	}
 	
@@ -1108,7 +1108,9 @@ public class PlayerChar extends Sprite
 		super.render(g, spriteData);
 	}
 	
-	public boolean fullHP()
+	
+	//------------------------------------------------------------MOAR
+	public boolean isfullHP()
 	{
 		if(this.HP == this.maxHP)
 		{

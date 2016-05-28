@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.210";
+	public String version = "Version 1.0.211";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -982,7 +982,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				
 				if(Tools.check_collision(player.getHitbox(),healthpicks[i].getHitbox()))
 				{
-					if(!player.fullHP())
+					if(!player.isfullHP())
 					{
 						player.addHP(healthpicks[i].getValue());
 						healthpicks[i].setTrueX(-healthpicks[i].getWidth()*2);
