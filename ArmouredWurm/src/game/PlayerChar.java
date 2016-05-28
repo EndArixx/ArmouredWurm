@@ -742,7 +742,7 @@ public class PlayerChar extends Sprite
 		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
 			System.out.println(history);
-			//John figure out a good seperator
+			//John figure out a good separator
 				//also figure the state stuff out.
 			currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
 			System.out.println(currentThings);
