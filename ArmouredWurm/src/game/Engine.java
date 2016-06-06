@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.212";
+	public String version = "Version 1.0.213";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1722,7 +1722,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		//john this is a good way to get to string.
 		//System.out.println(String.valueOf(mStack.getStack()));
-		player2.triggerEngine(userInput, mStack);
+		//player2.triggerEngine(userInput, mStack);
 	}
 	
 	public void keyPressed(KeyEvent key) 

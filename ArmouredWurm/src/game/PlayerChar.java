@@ -55,10 +55,12 @@ public class PlayerChar extends Sprite
 	protected Map<String,AttackHitBoxes> HitboxMap;
 	protected Map<String,State> statesMap;
 	protected Map<String,Spark> sparksMap;
+	protected Map<String,Value> valueMap;
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
 	protected String attackloc;
+	protected String valueloc;
 	
 	
 	//should this be a String?
@@ -510,6 +512,7 @@ public class PlayerChar extends Sprite
 	    	statesloc = Tools.readlineadv(br);
 	    	sparkloc = Tools.readlineadv(br);
 	    	attackloc = Tools.readlineadv(br);
+	    	valueloc = Tools.readlineadv(br);
 	    	
 	        	//Close the files 
 	        br.close();
@@ -688,10 +691,41 @@ public class PlayerChar extends Sprite
 	    		isr.close();
 	        }
 	        
-	        //John Testing stuff
-	        System.out.println(HitboxMap.get("heavyPunchRH").getString());
-	        this.name = "fred";
+	        err= 7;
+	      //Values---------------------------------------------------------
 	        
+	        if(new File(valueloc).isFile())
+	    	{
+	    		t = 1;
+	    		fr = new FileReader(valueloc);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else
+	    	{
+	    		t = 2;
+	    		is = getClass().getResourceAsStream("/"+valueloc);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+	        
+	        this.valueMap = new HashMap<String,Value>();
+	        Value tValue;
+	        while((line = Tools.readlineadv(br))!=null)
+	        {
+	        	tValue = new Value(line);
+		        this.valueMap.put(tValue.getName(),tValue);
+	        }
+	        
+	        br.close();
+	        if(t ==1)
+	        {
+	        	fr.close();
+	        }
+	        else if(t == 2)
+	        {
+	        	is.close();
+	    		isr.close();
+	        }
 	        
 	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
 		 

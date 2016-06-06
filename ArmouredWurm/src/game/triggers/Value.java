@@ -35,6 +35,14 @@ public class Value
 		maxValue= inMax;
 		minValue= inMin;
 	}
+	public Value(String indata)
+	{
+		String[] data = indata.split(",");
+		name = data[0];
+		curValue = Integer.parseInt(data[1]);
+		maxValue = Integer.parseInt(data[2]);
+		minValue = Integer.parseInt(data[3]);
+	}
 	
 	//SETS/GETS------------------------------------------------------
 	public void setValue(int in)
@@ -49,4 +57,6 @@ public class Value
 		{return this.maxValue;}
 	public int getMinValue()
 		{return this.minValue;}
+	public String getName() 
+		{return this.name;}
 }
