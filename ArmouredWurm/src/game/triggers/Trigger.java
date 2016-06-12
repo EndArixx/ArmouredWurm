@@ -54,17 +54,21 @@ public class Trigger
  	 	 
 	 */
 	
+	protected Spark spark;
+	protected State state;
+	protected PlayerChar player;
+	protected State[] currentStates;
+	protected String name;
 	
-	
-	
-	Spark spark;
-	State state;
-	PlayerChar player;
-	State[] currentStates;
-	String name;
 	//John find a way to setup the cause of the trigger
+	//#Name;history;input;allowed states;type?;Spark;state;
+	protected String cause;
+	protected String history;
+	protected String playerinput;
+	protected String allowedStates;
+	protected String type;
 	
-	
+
 	/*Things that the trigger needs:
 		1) MoveStack
 		2) HP
@@ -92,6 +96,11 @@ public class Trigger
 		//spark.strike(player);
 		//state stuff?
 	}
+	public String getCause()
+	{
+		return cause;
+	}
+	
 	public String getName()
 	{
 		return this.name;
