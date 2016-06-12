@@ -1,7 +1,11 @@
 package game;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class Tools 
 {
@@ -95,4 +99,61 @@ public class Tools
 			return null;
 		}
 	}
+	
+	
+	int type = 0;
+	FileReader fr = null;
+	BufferedReader br = null;
+	InputStream is = null;
+	InputStreamReader isr = null;
+	
+	//files opening logic
+	public BufferedReader getBR(String file)
+	{
+		try
+		{
+			if(new File(file).isFile())
+	    	{
+				type = 1;
+	    		fr = new FileReader(file);
+	    		br = new BufferedReader(fr);
+	    	}
+	    	else
+	    	{
+	    		type = 2;
+	    		is = getClass().getResourceAsStream("/"+file);
+	    		isr = new InputStreamReader(is);
+	    		br = new BufferedReader(isr);
+	    	}
+		}
+		catch (Exception e) 
+		{
+			type = -1;
+			System.out.println("Error opening: "+file);
+			return null;
+		}
+		return br;
+	}
+	public void closeBR()
+	{
+		try
+		{
+		br.close();
+        if(type ==1)
+        {
+        	fr.close();
+        }
+        else if(type == 2)
+        {
+        	is.close();
+    		isr.close();
+        }
+		}
+		catch (Exception e) 
+		{
+			type = -1;
+			System.out.println("Error");
+		}
+	}
+	
 }

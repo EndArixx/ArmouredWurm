@@ -449,37 +449,28 @@ public class PlayerChar extends Sprite
 		this.file = infile;
 
 		String[] temp;
-		FileReader fr = null;
 		BufferedReader br = null;
-		int t = 0;
+		
 		int err = 0;
 		try 
 		{
 			
 			//PLAYER FILE---------------------------------
-	    	InputStream is = null;
-	    	InputStreamReader isr = null;
+			
+			//create a new Armoured Wurm reader.
+			Tools reader = new Tools();
+			
+			
 	    		//Favor external files, then internal
 	    	err= 1;
-	    	if(new File(infile).isFile())
-	    	{
-	    		t = 1;
-	    		fr = new FileReader(infile);
-	    		br = new BufferedReader(fr);
-	    	}
-	    	else //John add a new case for if neither exists
-	    	{
-	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+infile);
-	    		isr = new InputStreamReader(is);
-	    		br = new BufferedReader(isr);
-	    	}
+	    	br = reader.getBR(infile);
 	    	
 	        String line = Tools.readlineadv(br);
 	        this.charname = line;
 	        
 	        line = Tools.readlineadv(br);
 	        this.name= line;
+	        
 	        /* JOHN TURN THIS BACK ON WHEN YOU FIX THE SPRITE
 	        err= 2;
 	        BufferedImage spriteMap = null;
@@ -515,82 +506,27 @@ public class PlayerChar extends Sprite
 	    	valueloc = Tools.readlineadv(br);
 	    	
 	        	//Close the files 
-	        br.close();
-	        if(t ==1)
-	        {
-	        	fr.close();
-	        }
-	        else if(t == 2)
-	        {
-	        	is.close();
-	    		isr.close();
-	        }
-	        err= 3;
+	    	reader.closeBR();
+	    	
+
 	        //TRIGGERS-------------------------------------------------------
-	        if(new File(triggerloc).isFile())
-	    	{
-	    		t = 1;
-	    		fr = new FileReader(triggerloc);
-	    		br = new BufferedReader(fr);
-	    	}
-	    	else
-	    	{
-	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+triggerloc);
-	    		isr = new InputStreamReader(is);
-	    		br = new BufferedReader(isr);
-	    	}
-	        
-	        //First metaData?
-	        //[length] , [OTHER!?]
-	        //System.out.println(Tools.readlineadv(br));
-	        // structure the Triggers files
-	        
-	        //TRIGGGGGERS
-	        /* 
-	          ok so what does a trigger need?
-	          	a) history for combos
-	          	b) current keys being pressed
-	          	c) external info like on platform, falling etc
-	          	d) the current states that the player is in
-	          	
-	          	e) a name
-	          	f) the stats that this trigger changes
-	          	g) the sparks that it causes.
-	         */
+	        err= 3;
+	    	reader.getBR(triggerloc);
 	        this.triggerMap = new HashMap<String,Trigger>();
 	        Trigger tri;
+	        
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	 tri = new Trigger(line);
-		        this.triggerMap.put( tri.getName(), tri); //JOHN DONT MAP THE DAMN NAME MAP THE 'CAUSE'!
+	        	 //John change this from mapping the current name and instead map a cause to it.
+	        	 this.triggerMap.put( tri.getName(), tri); 
 	        }
-	        br.close();
-	        if(t ==1)
-	        {
-	        	fr.close();
-	        }
-	        else if(t == 2)
-	        {
-	        	is.close();
-	    		isr.close();
-	        }
-	        err= 4;
-	        //STATES---------------------------------------------------------
-	        if(new File(statesloc).isFile())
-	    	{
-	    		t = 1;
-	    		fr = new FileReader(statesloc);
-	    		br = new BufferedReader(fr);
-	    	}
-	    	else
-	    	{
-	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+statesloc);
-	    		isr = new InputStreamReader(is);
-	    		br = new BufferedReader(isr);
-	    	}
+	        reader.closeBR();
 	        
+	     
+	        //STATES---------------------------------------------------------
+	        err= 4;
+	    	br = reader.getBR(statesloc);
 	        this.statesMap = new HashMap<String,State>();
 	        State tempstate;
 	        
@@ -599,79 +535,31 @@ public class PlayerChar extends Sprite
 	        	temp= line.split(">");
 	        	tempstate = new State(temp[0],temp[1]);
 		        this.statesMap.put(temp[0],tempstate);
-		        
-		        //testing
-		        this.statesMap.get(temp[0]).testStates();
-		        System.out.println(this.statesMap.get(temp[0]).getTypeString());
 	        }
-	        br.close();
+	        
+	        reader.closeBR();
 	        
 	        
-	        br.close();
-	        if(t ==1)
-	        {
-	        	fr.close();
-	        }
-	        else if(t == 2)
-	        {
-	        	is.close();
-	    		isr.close();
-	        }
-	        err= 5;
 	        //Sparks---------------------------------------------------------
+	        err= 5;
 	        if(new File(sparkloc).isFile())
-	    	{
-	    		t = 1;
-	    		fr = new FileReader(sparkloc);
-	    		br = new BufferedReader(fr);
-	    	}
-	    	else
-	    	{
-	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+sparkloc);
-	    		isr = new InputStreamReader(is);
-	    		br = new BufferedReader(isr);
-	    	}
-	        
+	    	br = reader.getBR(sparkloc);
 	        this.sparksMap = new HashMap<String,Spark>();
 	        Spark tspark;
+	        
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	tspark = new Spark(line);
 		        this.sparksMap.put(tspark.getName(),tspark);
-		        
-		        //testing
-		        System.out.println(this.sparksMap.get(tspark.getName()).testSpark());
 	        }
+	        reader.closeBR();
 	        
-	        br.close();
-	        if(t ==1)
-	        {
-	        	fr.close();
-	        }
-	        else if(t == 2)
-	        {
-	        	is.close();
-	    		isr.close();
-	        }
-	        err= 6;
+
 	      //Attack hitboxes---------------------------------------------------------
+	        err= 6;
 	        if(new File(attackloc).isFile())
-	    	{
-	    		t = 1;
-	    		fr = new FileReader(attackloc);
-	    		br = new BufferedReader(fr);
-	    	}
-	    	else
-	    	{
-	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+attackloc);
-	    		isr = new InputStreamReader(is);
-	    		br = new BufferedReader(isr);
-	    	}
+	    	br = reader.getBR(attackloc);
 	        
-	        //First metaData
-	        //[length] , [OTHER!?]
 	        this.HitboxMap = new HashMap<String,AttackHitBoxes>();
 	        AttackHitBoxes attackHB;
 	        while((line = Tools.readlineadv(br))!=null)
@@ -680,33 +568,13 @@ public class PlayerChar extends Sprite
 	        	attackHB = new AttackHitBoxes(temp[1]);
 		        this.HitboxMap.put(temp[0],attackHB);
 	        }
-	        br.close();
-	        if(t == 1)
-	        {
-	        	fr.close();
-	        }
-	        else if(t == 2)
-	        {
-	        	is.close();
-	    		isr.close();
-	        }
+	        reader.closeBR();
 	        
-	        err= 7;
+	        
+	        
 	      //Values---------------------------------------------------------
-	        
-	        if(new File(valueloc).isFile())
-	    	{
-	    		t = 1;
-	    		fr = new FileReader(valueloc);
-	    		br = new BufferedReader(fr);
-	    	}
-	    	else
-	    	{
-	    		t = 2;
-	    		is = getClass().getResourceAsStream("/"+valueloc);
-	    		isr = new InputStreamReader(is);
-	    		br = new BufferedReader(isr);
-	    	}
+	        err= 7;
+	    	br = reader.getBR(valueloc);
 	        
 	        this.valueMap = new HashMap<String,Value>();
 	        Value tValue;
@@ -716,16 +584,7 @@ public class PlayerChar extends Sprite
 		        this.valueMap.put(tValue.getName(),tValue);
 	        }
 	        
-	        br.close();
-	        if(t ==1)
-	        {
-	        	fr.close();
-	        }
-	        else if(t == 2)
-	        {
-	        	is.close();
-	    		isr.close();
-	        }
+	        reader.closeBR();
 	        
 	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
 		 
