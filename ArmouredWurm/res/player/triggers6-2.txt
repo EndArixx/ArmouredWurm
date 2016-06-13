@@ -1,5 +1,36 @@
 #THESE ARE TEH TRIGGERS!
 #structure 
-#Name;history;input;allowed states;type?;Spark;state;
-TrunR;?,?,?,?,?;Runing(input);feetonground,standing?;type3 (sparkand state);RunR;running?
+#Name;#history;#input;#allowed states;#type?;#Spark;#state;
+#Example? TrunR;?,?,?,?,?;Runing(input);feetonground,standing?;type3 (sparkand state);RunR;running?
 #the allowed states seems important, these are states teh player must be in order to trigger this...trigger
+coreR;history;input;allowed states;idle;coreR;state;
+coreL;history;input;allowed states;idle;coreL;state;
+StandR;history;input;allowed states;idle;StandR;state;
+StandL;history;input;allowed states;idle;StandL;state;
+IdleR;history;input;allowed states;idle;IdleR;state;
+IdleL;history;input;allowed states;idle;IdleL;state;
+FallR;history;input;allowed states;movement;FallR;state;
+FallL;history;input;allowed states;movement?;FallL;state;
+JumpR;history;input;allowed states;movement?;JumpR;state;
+JumpL;history;input;allowed states;movement?;JumpL;state;
+DeathR;history;input;allowed states;movement?;DeathR;state;
+DeathL;history;input;allowed states;movement?;DeathL;state;
+RunR;history;input;allowed states;movement?;RunR;state;
+RunL;history;input;allowed states;movement?;RunL;state;
+RunVR;history;input;allowed states;movement?;RunVR;state;
+RunVL;history;input;allowed states;movement?;RunVL;state;
+#attack stuff
+upperCutR;history;input;allowed states;Combat;upperCutR;state;
+upperCutL;history;input;allowed states;Combat;upperCutL;state;
+KickR;history;input;allowed states;Combat;KickR;state;
+KickL;history;input;allowed states;Combat;KickL;state;
+jabR;history;input;allowed states;Combat;jabR;state;
+jabL;history;input;allowed states;Combat;jabL;state;
+heavyPunchR;history;input;allowed states;Combat;heavyPunchR;state;
+heavyPunchL;history;input;allowed states;Combat;heavyPunchL;state;
+crossR;history;input;allowed states;Combat;crossR;state;
+crossL;history;input;allowed states;Combat;crossL;state;
+croutchR;history;input;allowed states;Combat;croutchR;state;
+croutchL;history;input;allowed states;Combat;croutchL;state;
+attackR;history;input;allowed states;Combat;attackR;state;
+attackL;history;input;allowed states;Combat;attackL;state;

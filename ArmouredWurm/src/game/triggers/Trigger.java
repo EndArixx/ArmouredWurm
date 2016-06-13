@@ -1,5 +1,7 @@
 package game.triggers;
 
+import java.util.Map;
+
 import game.PlayerChar;
 
 
@@ -56,37 +58,33 @@ public class Trigger
 	
 	protected Spark spark;
 	protected State state;
-	protected PlayerChar player;
+	protected PlayerChar player; //do I need this?
 	protected State[] currentStates;
 	protected String name;
 	
 	//John find a way to setup the cause of the trigger
 	//#Name;history;input;allowed states;type?;Spark;state;
 	protected String cause;
-	protected String history;
+	protected String history; //This should be a varchar[]!
 	protected String playerinput;
 	protected String allowedStates;
 	protected String type;
+	protected String sparkName;
+	protected String stateName;
 	
 
-	/*Things that the trigger needs:
-		1) MoveStack
-		2) HP
-			i)Min
-			ii)Max
-		3) current states
-			i) is HP a state?
-	*/
-	public Trigger(Spark in)
-	{
-		spark = in;
-	}
 	public Trigger(String inline)
 	{
-		//parse through the inline stuff
 		String[] Data = inline.split(";");
 		name = Data[0];
-		System.out.println(inline);
+		history = Data[1];
+		playerinput = Data[2];
+		allowedStates = Data[3];
+		type = Data[4];
+		sparkName = Data[5];
+		stateName = Data[6];
+		
+		//System.out.println(inline);
 	}
 	
 	public void Pull()
@@ -99,6 +97,16 @@ public class Trigger
 	public String getCause()
 	{
 		return cause;
+	}
+
+	//Set Sparks/States from Maps
+	public void getSparkfromMap(Map<String,Spark> sparksMap)
+	{
+		this.spark = sparksMap.get(sparkName);
+	}
+	public void gettatefromMap(Map<String,State> statesMap)
+	{
+		this.state = statesMap.get(stateName);
 	}
 	
 	public String getName()
