@@ -30,27 +30,29 @@ public class Sprite{
 	public Sprite(String inImage,int x,int y,  Map<String,BufferedImage> spriteData)
 	{
 		name = inImage;
-			//input is the image of the sprite itself, and its location.
-		BufferedImage spriteMap = null;
-		try 
+		if(!spriteData.containsKey(name))
 		{
-			if(new File(inImage).isFile())
+				//input is the image of the sprite itself, and its location.
+			BufferedImage spriteMap = null;
+			try 
 			{
-				spriteMap = ImageIO.read(new File(inImage));
+				if(new File(inImage).isFile())
+				{
+					spriteMap = ImageIO.read(new File(inImage));
+				}
+				else
+				{
+					spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
+				}
 			}
-			else
+			catch (Exception e) 
 			{
-				spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
+				System.out.println("Error, Bad Sprite:"+ inImage);
+				//e.printStackTrace();
 			}
+			
+			spriteData.put(inImage,spriteMap);
 		}
-		catch (Exception e) 
-		{
-			System.out.println("Error, Bad Sprite:"+ inImage);
-			//e.printStackTrace();
-		}
-		
-		spriteData.put(inImage,spriteMap);
-
 		this.fileName = inImage;
 		this.x = x;
 		this.y = y;
@@ -68,27 +70,30 @@ public class Sprite{
 	public Sprite(String inImage,int x,int y,int width ,int height,int rowN,int colN,int timerspeed, Map<String,BufferedImage> spriteData)
 	{
 		name = inImage;
-			//This input is for sprites with animation and stuff like that.
-		BufferedImage spriteMap = null;
-		try 
+		if(!spriteData.containsKey(name))
 		{
-			if(new File(inImage).isFile())
+				//This input is for sprites with animation and stuff like that.
+			BufferedImage spriteMap = null;
+			try 
 			{
-				spriteMap = ImageIO.read(new File(inImage));
-
+				if(new File(inImage).isFile())
+				{
+					spriteMap = ImageIO.read(new File(inImage));
+	
+				}
+				else
+				{
+					spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
+				}
 			}
-			else
+			catch (Exception e) 
 			{
-				spriteMap = ImageIO.read(getClass().getResource("/"+inImage));
+				System.out.println("Error, Bad Sprite:"+ inImage);
+				//e.printStackTrace();
 			}
+	
+			spriteData.put(inImage,spriteMap);
 		}
-		catch (Exception e) 
-		{
-			System.out.println("Error, Bad Sprite:"+ inImage);
-			//e.printStackTrace();
-		}
-		
-		spriteData.put(inImage,spriteMap);
 		
 		this.x = x;
 		this.y = y;
