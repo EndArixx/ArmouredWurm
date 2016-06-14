@@ -13,6 +13,12 @@ public class InputList
 	
 		//John here!
 	public MoveStack moveStack;
+	
+	public void setBooleans(String input)
+	{
+		//John 
+		//come up with an idea for this
+	}
 	public InputList() 
 	{
 		N = false;
