@@ -2,3 +2,7 @@
 #john ideas?
 HP,100,100,0
 runspeed,20,100,0
+#john look up gravity number from code
+fallspeed,0,30,-30
+#john come up with damage ammount, armour?
+armour,0,100,0

@@ -472,6 +472,7 @@ public class PlayerChar extends Sprite
 	        this.name= line;
 	        
 	        /* JOHN TURN THIS BACK ON WHEN YOU FIX THE SPRITE
+	         //Add support for multiple sprites
 	        err= 2;
 	        BufferedImage spriteMap = null;
 			try 

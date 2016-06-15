@@ -1,33 +1,41 @@
-#Name,Location,X,Y,Length,Speed,Hangonend,Looping,Value, hitbox
 #Default!
-coreR,MAIN,0,0,4,-5,false,0
-coreL,MAIN,0,0,4,-5,false,0
-StandR,MAIN,4,0,10,-5,false
-StandL,MAIN,4,1,10,-5,false
-IdleR,MAIN,0,2,10,-5,false
-IdleL,MAIN,0,3,10,-5,false
-FallR,MAIN,10,2,2,-5,false
-FallL,MAIN,10,3,2,-5,false
-JumpR,MAIN,0,4,10,-5,false,10
-JumpL,MAIN,4,5,10,-5,false,10
-DeathR,MAIN,0,6,8,-5,true
-DeathL,MAIN,0,7,8,-5,true
-RunR,MAIN,0,8,16,-5,false,20
-RunL,MAIN,0,9,16,-5,false,20
-RunVR,MAIN,0,10,16,-5,false,30
-RunVL,MAIN,0,11,16,-5,false,30
-#attack stuff
-upperCutR,MAIN,0,12,10,-5,true,-1,upperCutRH
-upperCutL,MAIN,0,13,10,-5,true,-1,upperCutLH
-KickR,MAIN,0,14,16,-5,true,-1,KickLH
-KickL,MAIN,0,15,16,-5,true,-1,KickRH
-jabR,MAIN,0,16,8,-5,true,-1,jabRH
-jabL,MAIN,0,17,8,-5,true,-1,jabLH
-heavyPunchR,MAIN,0,18,16,-5,true,-1,heavyPunchRH
-heavyPunchL,MAIN,0,19,16,-5,true,-1,heavyPunchLH
-crossR,MAIN,8,16,8,-5,true,-1,crossRH
-crossL,MAIN,8,17,8,-5,true,-1,crossLH
-croutchR,MAIN,6,6,1,-5,true
-croutchL,MAIN,6,7,1,-5,true
-attackR,MAIN,7,6,1,-5,true
-attackL,MAIN,7,7,1,-5,true
+#-------------Animations ---------------
+#Type,Name,Location,X,Y,Length,Speed,Hangonend,Looping,Value, hitbox
+A,coreR,MAIN,0,0,4,-5,false,0
+A,coreL,MAIN,0,0,4,-5,false,0
+A,StandR,MAIN,4,0,10,-5,false
+A,StandL,MAIN,4,1,10,-5,false
+A,IdleR,MAIN,0,2,10,-5,false
+A,IdleL,MAIN,0,3,10,-5,false
+A,FallR,MAIN,10,2,2,-5,false
+A,FallL,MAIN,10,3,2,-5,false
+A,JumpR,MAIN,0,4,10,-5,false,10
+A,JumpL,MAIN,4,5,10,-5,false,10
+A,DeathR,MAIN,0,6,8,-5,true
+A,DeathL,MAIN,0,7,8,-5,true
+A,RunR,MAIN,0,8,16,-5,false,20
+A,RunL,MAIN,0,9,16,-5,false,20
+A,RunVR,MAIN,0,10,16,-5,false,30
+A,RunVL,MAIN,0,11,16,-5,false,30
+A,#attack stuff
+A,upperCutR,MAIN,0,12,10,-5,true,-1,upperCutRH
+A,upperCutL,MAIN,0,13,10,-5,true,-1,upperCutLH
+A,KickR,MAIN,0,14,16,-5,true,-1,KickLH
+A,KickL,MAIN,0,15,16,-5,true,-1,KickRH
+A,jabR,MAIN,0,16,8,-5,true,-1,jabRH
+A,jabL,MAIN,0,17,8,-5,true,-1,jabLH
+A,heavyPunchR,MAIN,0,18,16,-5,true,-1,heavyPunchRH
+A,heavyPunchL,MAIN,0,19,16,-5,true,-1,heavyPunchLH
+A,crossR,MAIN,8,16,8,-5,true,-1,crossRH
+A,crossL,MAIN,8,17,8,-5,true,-1,crossLH
+A,croutchR,MAIN,6,6,1,-5,true
+A,croutchL,MAIN,6,7,1,-5,true
+A,attackR,MAIN,7,6,1,-5,true
+A,attackL,MAIN,7,7,1,-5,true
+#--------------State Changes -------------
+#type,nameofstate
+S,Sprinting
+S,standing
+s,combatstand
+s,attacking
+#John make a list of all the possible states. thanks bro

@@ -15,8 +15,15 @@ import game.PlayerChar;
  	punch 
  	kick
  	etc
+
+one trigger can cause multiple sparks.
+	animations
+	StateChanges
+	other?
  */
 
+
+	
 
 /*
 Inputs:
@@ -56,8 +63,6 @@ public class Trigger
  	 	 
 	 */
 	
-	protected Spark spark;
-	protected State state;
 	protected PlayerChar player; //do I need this?
 	protected State[] currentStates;
 	protected String name;
@@ -69,7 +74,7 @@ public class Trigger
 	protected String playerinput;
 	protected String allowedStates;
 	protected String type;
-	protected String sparkName;
+	protected String[] sparkNames;
 	protected String stateName;
 	
 
@@ -81,7 +86,7 @@ public class Trigger
 		playerinput = Data[2];
 		allowedStates = Data[3];
 		type = Data[4];
-		sparkName = Data[5];
+		sparkNames = Data[5].split(",");
 		stateName = Data[6];
 		
 		//System.out.println(inline);
@@ -97,16 +102,6 @@ public class Trigger
 	public String getCause()
 	{
 		return cause;
-	}
-
-	//Set Sparks/States from Maps
-	public void getSparkfromMap(Map<String,Spark> sparksMap)
-	{
-		this.spark = sparksMap.get(sparkName);
-	}
-	public void gettatefromMap(Map<String,State> statesMap)
-	{
-		this.state = statesMap.get(stateName);
 	}
 	
 	public String getName()

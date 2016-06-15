@@ -1,5 +1,8 @@
 #NAME>dead,moving,touchingGround,idle,attacking,spotEnemy,SUBTYPE;SUBTYPE2
-Sprintting>false,true,true,false,false,false,NONE
+#other possible states, facing forward (FF)
+Sprinting>false,true,true,false,false,false,NONE
 standing>false,false,true,true,false,false,NONE
 combatstand>false,false,true,true,false,true,NONE
 attacking>false,false,true,false,true,true,NONE
+falling>
+jumping>
