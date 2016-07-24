@@ -6,3 +6,4 @@ runspeed,20,100,0
 fallspeed,0,30,-30
 #john come up with damage ammount, armour?
 armour,0,100,0
+attack,10,20,0

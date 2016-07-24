@@ -1,4 +1,5 @@
 #Default!
+#a spark can cause multiple triggers?
 #-------------Animations ---------------
 #Type,Name,Location,X,Y,Length,Speed,Hangonend,Looping,Value, hitbox
 A,coreR,MAIN,0,0,4,-5,false,0

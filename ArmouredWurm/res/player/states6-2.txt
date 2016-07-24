@@ -1,8 +1,16 @@
-#NAME>dead,moving,touchingGround,idle,attacking,spotEnemy,SUBTYPE;SUBTYPE2
-#other possible states, facing forward (FF)
-Sprinting>false,true,true,false,false,false,NONE
-standing>false,false,true,true,false,false,NONE
-combatstand>false,false,true,true,false,true,NONE
-attacking>false,false,true,false,true,true,NONE
-falling>
-jumping>
+#NAME>dead,moving,touchingGround,idle,attacking,spotEnemy,Faceingforward,SUBTYPE;SUBTYPE2
+#other possible states
+SprintingR>false,true,true,false,false,false,1,NONE
+SprintingL>false,true,true,false,false,false,0,NONE
+standingR>false,false,true,true,false,false,1,NONE
+standingL>false,false,true,true,false,false,0,NONE
+combatstandR>false,false,true,true,false,true,1,NONE
+combatstandL>false,false,true,true,false,true,0,NONE
+attackingR>false,false,true,false,true,true,1,NONE
+attackingL>false,false,true,false,true,true,0,NONE
+fallingR>0,1,0,0,0,0,0,1,NONE
+fallingL>0,1,0,0,0,0,0,0,NONE
+jumpingR>0,1,0,0,0,0,0,1,NONE
+jumpingL>0,1,0,0,0,0,0,0,NONE
+deadR>1,0,1,0,0,0,1,NONE
+deadL>1,0,1,0,0,0,0,NONE

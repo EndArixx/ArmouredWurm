@@ -3,6 +3,8 @@
 #Name;#history;#input;#allowed states;#type?;#Spark;#state;
 #Example? TrunR;?,?,?,?,?;Runing(input);feetonground,standing?;type3 (sparkand state);RunR;running?
 #the allowed states seems important, these are states teh player must be in order to trigger this...trigger
+#
+#Can triggers lead to other triggers?
 coreR;history;X;allowed states;idle;coreR;state;
 coreL;history;X;allowed states;idle;coreL;state;
 StandR;history;X;allowed states;idle;StandR;state;
