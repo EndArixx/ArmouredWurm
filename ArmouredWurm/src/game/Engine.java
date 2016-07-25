@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.222";
+	public String version = "Version 1.0.223";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -65,7 +65,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public TileMap gameWorld;
 	public Looper weather[];
 	public PlayerChar player;
-	public PlayerChar player2; //JOHN REMOVE!!!!!!!!!!!!!!!!!!!!
+	public PlayerCharV2 player2; //Version 2.0 
 	public Sprite playerHP;
 	public Sprite playerHPpips;
 	public int hx, hy,hxP,hyP, hpPipLen; //HPsW,
@@ -711,7 +711,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					//testing the new Trigger stuff!
 					//So this crashes eclipse......Joy
 					//Memory issssssssuesssssssssssssssssss :(
-			player2 = new PlayerChar("res/player/brov6-2.txt",permaSprites,false);
+			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites,false);
 			
 					//Health bar stuff
 			restartdata[4] = (int) player.HP;

@@ -21,6 +21,7 @@ public class Spark
 	public int animationlength;
 	public boolean looping;
 	public int speed;
+	public String type;
 	//public AttackHitBoxes hitboxes;
 	public String hitboxName;
 	public int value;
@@ -43,23 +44,31 @@ public class Spark
 	public Spark(String inData)
 	{
 		String[] Data = inData.split(",");
-		this.name = Data[0];
-		this.Sprite = Data[1]; //JOHN THIS WILL NEED TO HAVE A WILD CARD
-		this.xloc = Integer.parseInt(Data[2]);
-		this.yloc = Integer.parseInt(Data[3]);
-		this.length = Integer.parseInt(Data[4]);
-		this.speed = Integer.parseInt(Data[5]); // JOHN WILD CARD OR Default
-		this.looping = Boolean.parseBoolean(Data[6]);
-		this.hitboxName = "NONE"; //default
-		if(Data.length > 7)
+		type = Data[0];
+		if(type == "A") //This is an animation
 		{
-			this.value = Integer.parseInt(Data[7]);
+			this.name = Data[1];
+			this.Sprite = Data[2]; //JOHN THIS WILL NEED TO HAVE A WILD CARD
+			this.xloc = Integer.parseInt(Data[3]);
+			this.yloc = Integer.parseInt(Data[4]);
+			this.length = Integer.parseInt(Data[5]);
+			this.speed = Integer.parseInt(Data[6]); // JOHN WILD CARD OR Default
+			this.looping = Boolean.parseBoolean(Data[7]);
+			this.hitboxName = "NONE"; //default
 			if(Data.length > 8)
 			{
-				this.hitboxName = Data[8];
+				this.value = Integer.parseInt(Data[8]);
+				if(Data.length > 9)
+				{
+					this.hitboxName = Data[9];
+				}
 			}
+			else this.value = -1; //Default
 		}
-		else this.value = -1; //Default
+		else //This is a state change 
+		{
+			this.name = Data[1];
+		}
 	}
 	public String getName()
 	{

@@ -46,7 +46,20 @@ public class Value
 	
 	//SETS/GETS------------------------------------------------------
 	public void setValue(int in)
-		{this.curValue=in;}
+		{
+			if (in > maxValue)
+			{
+				this.curValue = maxValue;
+			}
+			else if (in < minValue)
+			{
+				this.curValue = maxValue;
+			}
+			else
+			{
+				this.curValue=in;
+			}
+		}
 	public void setMaxValue(int in)
 		{this.maxValue=in;}
 	public void setMinValue(int in)

@@ -1,9 +1,17 @@
-#VAlues,Datatype?,start,max,min
-#john ideas?
+#VAlues,start,max,min
+#john ideas? datatype?
 HP,100,100,0
 runspeed,20,100,0
-#john look up gravity number from code
+#john look up gravity number from code 
 fallspeed,0,30,-30
 #john come up with damage ammount, armour?
 armour,0,100,0
 attack,10,20,0
+#boolean states##########################################
+dead,0,1,0
+moving,0,1,0
+touchingGround,0,1,0
+idle,0,1,0
+attacking,0,1,0
+spotEnemy,0,1,0
+Faceingforward,0,1,0
