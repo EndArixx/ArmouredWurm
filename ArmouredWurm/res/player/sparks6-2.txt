@@ -19,20 +19,20 @@ A,RunL,MAIN,0,9,16,-5,false,20
 A,RunVR,MAIN,0,10,16,-5,false,30
 A,RunVL,MAIN,0,11,16,-5,false,30
 #---------------attack stuff----------------
-A,upperCutR,MAIN,0,12,10,-5,true,-1,upperCutRH
-A,upperCutL,MAIN,0,13,10,-5,true,-1,upperCutLH
-A,KickR,MAIN,0,14,16,-5,true,-1,KickLH
-A,KickL,MAIN,0,15,16,-5,true,-1,KickRH
-A,jabR,MAIN,0,16,8,-5,true,-1,jabRH
-A,jabL,MAIN,0,17,8,-5,true,-1,jabLH
-A,heavyPunchR,MAIN,0,18,16,-5,true,-1,heavyPunchRH
-A,heavyPunchL,MAIN,0,19,16,-5,true,-1,heavyPunchLH
-A,crossR,MAIN,8,16,8,-5,true,-1,crossRH
-A,crossL,MAIN,8,17,8,-5,true,-1,crossLH
-A,croutchR,MAIN,6,6,1,-5,true
-A,croutchL,MAIN,6,7,1,-5,true
-A,attackR,MAIN,7,6,1,-5,true
-A,attackL,MAIN,7,7,1,-5,true
+A,upperCutR,AttackLoc,0,12,10,-5,true,-1,upperCutRH
+A,upperCutL,AttackLoc,0,13,10,-5,true,-1,upperCutLH
+A,KickR,AttackLoc,0,14,16,-5,true,-1,KickLH
+A,KickL,AttackLoc,0,15,16,-5,true,-1,KickRH
+A,jabR,AttackLoc,0,16,8,-5,true,-1,jabRH
+A,jabL,AttackLoc,0,17,8,-5,true,-1,jabLH
+A,heavyPunchR,AttackLoc,0,18,16,-5,true,-1,heavyPunchRH
+A,heavyPunchL,AttackLoc,0,19,16,-5,true,-1,heavyPunchLH
+A,crossR,AttackLoc,8,16,8,-5,true,-1,crossRH
+A,crossL,AttackLoc,8,17,8,-5,true,-1,crossLH
+A,croutchR,AttackLoc,6,6,1,-5,true
+A,croutchL,AttackLoc,6,7,1,-5,true
+A,attackR,AttackLoc,7,6,1,-5,true
+A,attackL,AttackLoc,7,7,1,-5,true
 #--------------State Changes -------------
 #type,nameofstate
 S,Sprinting

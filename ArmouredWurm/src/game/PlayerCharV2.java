@@ -37,6 +37,7 @@ public class PlayerCharV2 extends Sprite
 	protected Map<String,State> statesMap;
 	protected Map<String,Spark> sparksMap;
 	protected Map<String,Value> valueMap;
+	protected Map<String,String> playerSprites;
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
@@ -94,27 +95,6 @@ public class PlayerCharV2 extends Sprite
 	        line = Tools.readlineadv(br);
 	        this.name= line;
 	        
-	        /* JOHN TURN THIS BACK ON WHEN YOU FIX THE SPRITE
-	         //Add support for multiple sprites
-	        err= 2;
-	        BufferedImage spriteMap = null;
-			try 
-			{
-				if(new File(name).isFile())
-				{
-					spriteMap = ImageIO.read(new File(name));
-				}
-				else
-				{
-					spriteMap = ImageIO.read(getClass().getResource("/"+name));
-				}
-			}
-			catch (Exception e) 
-			{
-				System.out.println("Error, Bad Sprite:"+ name);
-			}
-			spriteData.put(name,spriteMap);*/
-	        
 	        line = Tools.readlineadv(br);
 	        temp= line.split(",");
 	        this.setHitbox(
@@ -128,11 +108,38 @@ public class PlayerCharV2 extends Sprite
 	    	sparkloc = Tools.readlineadv(br);
 	    	attackloc = Tools.readlineadv(br);
 	    	valueloc = Tools.readlineadv(br);
-	    	
+	    	String[] spritefiles = Tools.readlineadv(br).split(";");
 	        	//Close the files 
 	    	reader.closeBR();
 	    	
-
+	        err= 2;
+        	String spriteHead;
+        	String spriteTail;
+        	BufferedImage spriteMap = null;
+        	 this.playerSprites = new HashMap<String,String>();
+	        for(int i = 0; i < spritefiles.length; i++)
+	        {
+	        	temp = spritefiles[i].split(",");
+				try 
+				{
+					spriteHead = temp[0];
+					spriteTail = temp[1];
+					if(new File(spriteTail).isFile())
+					{
+						spriteMap = ImageIO.read(new File(spriteTail));
+					}
+					else
+					{
+						spriteMap = ImageIO.read(getClass().getResource("/"+spriteTail));
+					}
+					this.playerSprites.put(spriteHead,spriteTail);
+					spriteData.put(spriteTail,spriteMap);
+				}
+				catch (Exception e) 
+				{
+					System.out.println("Error, Bad Sprite:"+ spritefiles[i]);
+				}
+	        }
 	        //TRIGGERS-------------------------------------------------------
 	        err= 3;
 	    	reader.getBR(triggerloc);
@@ -173,7 +180,6 @@ public class PlayerCharV2 extends Sprite
 	        
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
-	        	System.out.println(line);
 	        	tspark = new Spark(line);
 		        this.sparksMap.put(tspark.getName(),tspark);
 	        }
