@@ -1,10 +1,10 @@
 Brodrick
 Brodrick T6 V2
-0,0,0,0
+0,0,200,200
 res/player/triggers6-2.txt
 res/player/states6-2.txt
 res/player/sparks6-2.txt
 res/player/attackhitboxes6-2.txt
 res/player/values6-2.txt
 #image stuff  (Name, path) sepperated by ';'
-Main,res/player/6-2/Bro 6-2 commandmapTOP.png;AttackLoc,res/player/6-2/Bro 6-2 commandmapBOTTOM.png
+Top,res/player/6-2/Bro 6-2 commandmapTOP.png;Bottom,res/player/6-2/Bro 6-2 commandmapBOTTOM.png

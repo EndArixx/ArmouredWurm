@@ -44,8 +44,8 @@ public class Spark
 	public Spark(String inData)
 	{
 		String[] Data = inData.split(",");
-		type = Data[0];
-		if(type == "A") //This is an animation
+		this.type = Data[0];
+		if(type.equals("A")) //This is an animation
 		{
 			this.name = Data[1];
 			this.Sprite = Data[2]; //JOHN THIS WILL NEED TO HAVE A WILD CARD
@@ -67,8 +67,8 @@ public class Spark
 		}
 		else //This is a state change 
 		{
-			this.name = Data[1];
-		}
+			this.name = Data[1];	
+		} 
 	}
 	public String getName()
 	{

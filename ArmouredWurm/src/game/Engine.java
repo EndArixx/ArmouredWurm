@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.225";
+	public String version = "Version 1.0.226";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -931,9 +931,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				soundHandler.update();
 			}
 			
-			player.update(damageQ); 
-			int i;
+			player.update(damageQ);
+			//TEST 
+			player2.update();
+			player2.testAni();
+
 			
+			int i;
 			for(i = 0; i < parallax.length;i++)
 			{
 
@@ -1238,6 +1242,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 				//render the player
 			player.render(g,permaSprites);
+			player2.render(g, permaSprites);
+			
 			for(i = 0; i < badguys.length; i++)
 			{
 				if(Tools.check_collision(windowHB,badguys[i].getHitbox())){badguys[i].render(g,lvlspriteData );}

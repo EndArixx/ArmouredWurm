@@ -19,7 +19,7 @@ public class Sprite{
 	protected boolean animate, firstloop;
 	protected int  x , y, width , height;
 	protected double speedX, speedY;
-	protected int rowN, colN, row, col;
+	protected int rowN, colN, row, col,colS = 0;
 	double timerspeed;
 	protected float timer;
 	protected int hitbox[] = new int[4];
@@ -140,7 +140,7 @@ public class Sprite{
 					col++;
 					if(col == colN)
 					{
-						col = 0;
+						col = colS;
 						timer = 0;
 						this.firstloop = false;
 					}
@@ -153,7 +153,7 @@ public class Sprite{
 		}
 		else
 		{
-			col = 0;
+			col = colS;
 			this.firstloop = false;
 			timer = 0;
 			

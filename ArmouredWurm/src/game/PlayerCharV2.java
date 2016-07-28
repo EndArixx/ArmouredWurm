@@ -38,11 +38,15 @@ public class PlayerCharV2 extends Sprite
 	protected Map<String,Spark> sparksMap;
 	protected Map<String,Value> valueMap;
 	protected Map<String,String> playerSprites;
+	
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
 	protected String attackloc;
 	protected String valueloc;
+	//JOHN REMOVE
+	protected String[] testAni;
+	protected int testN;
 	
 	//should this be a String?
 	protected Map<String,Trigger> triggerMap;
@@ -71,7 +75,9 @@ public class PlayerCharV2 extends Sprite
 		//JOHN THROW SOME TRY CATCHES ON THIS!
 		super();
 		this.file = infile;
-
+		this.animate = true;
+		this.firstloop = true;
+		
 		String[] temp;
 		BufferedReader br = null;
 		
@@ -97,11 +103,15 @@ public class PlayerCharV2 extends Sprite
 	        
 	        line = Tools.readlineadv(br);
 	        temp= line.split(",");
+	        //JOHN FIX THIS
 	        this.setHitbox(
 	        		Integer.parseInt(temp[0]), 
 	        		Integer.parseInt(temp[1]), 
 	        		Integer.parseInt(temp[2]),
 	        		Integer.parseInt(temp[3]));
+	        this.width =Integer.parseInt(temp[2]);
+	        this.height = Integer.parseInt(temp[3]);
+	        
 	        //get locations for Trigger files
 	        triggerloc = Tools.readlineadv(br);
 	    	statesloc = Tools.readlineadv(br);
@@ -177,11 +187,17 @@ public class PlayerCharV2 extends Sprite
 	    	br = reader.getBR(sparkloc);
 	        this.sparksMap = new HashMap<String,Spark>();
 	        Spark tspark;
-	        
+	        testAni = new String[30]; //TEST
+	        int testI = 0; //TEST
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	tspark = new Spark(line);
-		        this.sparksMap.put(tspark.getName(),tspark);
+	        	this.sparksMap.put(tspark.getName(),tspark);
+		        if(tspark.type.equals("A")) //TEST
+		        {
+		        	testAni[testI] = tspark.name;
+		        	testI++;
+		        }
 	        }
 	        reader.closeBR();
 	        
@@ -224,8 +240,37 @@ public class PlayerCharV2 extends Sprite
 		this.speedY = 0;
 		this.gravity = 0;
 		*/
-		
-		//JOHN SET UP HITBOXES BRO
+		this.x = 200;
+		this.y = 200;
+	}
+	
+	//Update
+	public void update()
+	{
+		this.animateCol();
+	}
+	
+	public void testAni()
+	{
+		if (testN >= testAni.length)
+		{
+			testN = 0;
+		}
+		System.out.println(timer +" "+ timerspeed);
+		 
+		if (!firstloop)
+		{
+			firstloop = true;
+			Spark x = sparksMap.get(testAni[testN]);
+			col = x.xloc;
+			colS = x.xloc;
+			row = x.yloc;
+			this.timerspeed = x.speed;
+			colN = x.length + x.xloc;
+			System.out.println(x.name+" "+testN + " " + x.animationlength);
+			this.name = playerSprites.get(x.Sprite);
+			testN++;
+		}
 	}
 	
 	public void triggerEngine(InputList inputs, MoveStack moveHistory)//john add external stuff
