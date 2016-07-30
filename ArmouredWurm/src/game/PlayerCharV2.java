@@ -44,7 +44,8 @@ public class PlayerCharV2 extends Sprite
 	protected String sparkloc;
 	protected String attackloc;
 	protected String valueloc;
-	//JOHN REMOVE
+	
+	//JOHN REMOVEl
 	protected String[] testAni;
 	protected int testN;
 	
@@ -103,14 +104,16 @@ public class PlayerCharV2 extends Sprite
 	        
 	        line = Tools.readlineadv(br);
 	        temp= line.split(",");
-	        //JOHN FIX THIS
+	        
+	        //Set hitbox shtuff
+	        this.width =Integer.parseInt(temp[0]);
+	        this.height = Integer.parseInt(temp[1]);
 	        this.setHitbox(
-	        		Integer.parseInt(temp[0]), 
-	        		Integer.parseInt(temp[1]), 
-	        		Integer.parseInt(temp[2]),
-	        		Integer.parseInt(temp[3]));
-	        this.width =Integer.parseInt(temp[2]);
-	        this.height = Integer.parseInt(temp[3]);
+	        		Integer.parseInt(temp[2]), 
+	        		Integer.parseInt(temp[3]), 
+	        		Integer.parseInt(temp[4]),
+	        		Integer.parseInt(temp[5]));
+
 	        
 	        //get locations for Trigger files
 	        triggerloc = Tools.readlineadv(br);
@@ -252,14 +255,14 @@ public class PlayerCharV2 extends Sprite
 	
 	public void testAni()
 	{
-		if (testN >= testAni.length)
-		{
-			testN = 0;
-		}
-		System.out.println(timer +" "+ timerspeed);
-		 
+		
 		if (!firstloop)
 		{
+			testN++;
+			if (testN >= testAni.length)
+			{
+				testN = 0;
+			}
 			firstloop = true;
 			Spark x = sparksMap.get(testAni[testN]);
 			col = x.xloc;
@@ -267,9 +270,8 @@ public class PlayerCharV2 extends Sprite
 			row = x.yloc;
 			this.timerspeed = x.speed;
 			colN = x.length + x.xloc;
-			System.out.println(x.name+" "+testN + " " + x.animationlength);
 			this.name = playerSprites.get(x.Sprite);
-			testN++;
+
 		}
 	}
 	
@@ -337,7 +339,10 @@ public class PlayerCharV2 extends Sprite
 	}
 	
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
-	{			
+	{	
+		g.setColor(Color.GREEN);
+		g.drawString(sparksMap.get(testAni[testN]).getName(),200,200); //TEST
+		
 		if(Engine.renderHitBox)
 		{
 			g.setColor(Color.BLUE);

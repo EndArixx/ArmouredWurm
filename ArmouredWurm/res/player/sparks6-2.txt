@@ -11,7 +11,7 @@ A,IdleL,Top,0,3,10,5,false
 A,FallR,Top,10,2,2,5,false
 A,FallL,Top,10,3,2,5,false
 A,JumpR,Top,0,4,10,5,false,10
-A,JumpL,Top,4,5,10,5,false,10
+A,JumpL,Top,0,5,10,5,false,10
 A,DeathR,Top,0,6,8,5,true
 A,DeathL,Top,0,7,8,5,true
 A,RunR,Top,0,8,16,5,false,20
