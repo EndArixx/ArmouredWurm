@@ -76,6 +76,12 @@ public class Value
 	{
 		this.curValue += in;
 		if(curValue < minValue)
-		{this.curValue = minValue;}
+		{
+			this.curValue = minValue;
+		}
+		if(curValue > maxValue)
+		{
+			this.curValue = maxValue;
+		}
 	}
 }

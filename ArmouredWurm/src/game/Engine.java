@@ -1727,8 +1727,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//userInput.moveStack.test();
 		
 		//john this is a good way to get to string.
-		//System.out.println(String.valueOf(mStack.getStack()));
-		//player2.triggerEngine(userInput, mStack);
+		System.out.println(String.valueOf(mStack.getStack()));
+		player2.triggerEngine(userInput, mStack);
 	}
 	
 	public void keyPressed(KeyEvent key) 

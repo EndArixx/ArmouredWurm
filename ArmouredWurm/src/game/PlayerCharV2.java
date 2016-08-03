@@ -255,14 +255,30 @@ public class PlayerCharV2 extends Sprite
 	
 	public void testAni()
 	{
-		/*
-		int hp = this.valueMap.get("HP").getValue();
+		//Testing for values, its fully operational. :)
+		/* 
 		int dead = this.valueMap.get("dead").getValue();
 		
-		if(dead = 1)
+		if(dead == 1)
 		{
-			this.valueMap.get("HP").setMaxValue();
-		}*/
+			this.valueMap.get("HP").add(-1);
+		}
+		else 
+		{
+			this.valueMap.get("HP").add(1);
+		}
+		if(this.valueMap.get("HP").getValue() == this.valueMap.get("HP").getMaxValue())
+		{
+			this.valueMap.get("dead").setValue(1);
+		}
+		if(this.valueMap.get("HP").getValue() == this.valueMap.get("HP").getMinValue())
+		{
+			this.valueMap.get("dead").setValue(0);
+		}
+				
+		System.out.println(this.valueMap.get("HP").getValue());
+		*/
+
 		
 		if (!firstloop)
 		{
@@ -320,14 +336,19 @@ public class PlayerCharV2 extends Sprite
 		boolean success = false;
 		Trigger tri;
 		//String history = String.valueOf(mStack.getStack());
+		
+		//TESTING
+		currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
+		System.out.println(currentThings);
+		
 		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
-			System.out.println(history);
 			//John figure out a good separator
 				//also figure the state stuff out.
 			currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
-			System.out.println(currentThings);
+			
 			tri = this.triggerMap.get(currentThings);
+			
 			if(tri != null)
 			{
 				tri.Pull();
@@ -341,7 +362,7 @@ public class PlayerCharV2 extends Sprite
 		}	
 		if(!success)
 		{
-			System.out.println("DEFAULT TRIGGER!");
+			//System.out.println("DEFAULT TRIGGER!");
 		}
 		
 	}
