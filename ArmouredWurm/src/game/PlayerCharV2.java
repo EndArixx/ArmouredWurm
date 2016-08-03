@@ -255,6 +255,14 @@ public class PlayerCharV2 extends Sprite
 	
 	public void testAni()
 	{
+		/*
+		int hp = this.valueMap.get("HP").getValue();
+		int dead = this.valueMap.get("dead").getValue();
+		
+		if(dead = 1)
+		{
+			this.valueMap.get("HP").setMaxValue();
+		}*/
 		
 		if (!firstloop)
 		{

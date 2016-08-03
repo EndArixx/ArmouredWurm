@@ -72,4 +72,10 @@ public class Value
 		{return this.minValue;}
 	public String getName() 
 		{return this.name;}
+	public void add(int in)
+	{
+		this.curValue += in;
+		if(curValue < minValue)
+		{this.curValue = minValue;}
+	}
 }
