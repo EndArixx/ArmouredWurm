@@ -1,5 +1,7 @@
 package game.triggers;
 
+import game.Tools;
+
 public class InputList 
 {
 	public boolean N;
@@ -14,10 +16,16 @@ public class InputList
 		//John here!
 	public MoveStack moveStack;
 	
-	public void setBooleans(String input)
+	public void setBooleans(int input)
 	{
-		//John 
-		//come up with an idea for this
+		boolean[] list = Tools.IntToBoolean(input);
+		N = list[0];
+		S = list[0];
+		E = list[0];
+		W = list[0];
+		AL = list[0];
+		AH = list[0];
+		AS = list[0];
 	}
 	public InputList() 
 	{
@@ -29,6 +37,19 @@ public class InputList
 		AL = false;
 		AH = false;
 		AS = false;
+	}
+	public boolean[] getList()
+	{
+		//John fix this
+		boolean[] out = new boolean[7];
+		out[0] = N;
+		out[1] = S;
+		out[2] = E;
+		out[3] = W;
+		out[4] = AL;
+		out[5] = AH;
+		out[6] = AS;
+		return out;
 	}
 	public String toString()
 	{

@@ -339,7 +339,8 @@ public class PlayerCharV2 extends Sprite
 		
 		//TESTING
 		currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
-		System.out.println(currentThings);
+		
+		System.out.println(currentThings + " " + Tools.BooleansToInt(inputs.getList()));
 		
 		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{

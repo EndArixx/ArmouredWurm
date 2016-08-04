@@ -32,7 +32,7 @@ public class Tools
 			int secondY,
 			int secondwid,
 			int secondhig)
-		{
+	{
 				//grace is a small amount of over lap the the program allows
 				//make each box smaller by the amount of grace set above
 			firstX+=grace ; 
@@ -77,7 +77,36 @@ public class Tools
 			}
 				//SAFE!
 			return false;
+	}
+	
+	//John look into this
+	public static int BooleansToInt(boolean[] inBool)
+	{
+		int out = 0;
+		for(int i = 0 ; i < inBool.length; i++)
+		{
+			if(inBool[inBool.length- i-1])
+			{
+				int nth = 1;
+				for (int j = 0; j < i; j++)
+				{
+					nth = nth * 2;
+				}
+				out += nth;
+			}
 		}
+		return out;
+	}
+	
+	//John look into this.
+	public static boolean[] IntToBoolean(int inInt)
+	{
+		    boolean[] out = new boolean[8];
+		    for (int i = 0; i < 8; i++) {
+		        out[8 - 1 - i] = (1 << i & inInt) != 0;
+		    }
+		    return out;
+	}
 	
 	//This is my all new Advanced Readline
 	//This ignores any line which starts with a #
