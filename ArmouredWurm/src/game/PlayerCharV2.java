@@ -324,6 +324,13 @@ public class PlayerCharV2 extends Sprite
 		 			second try %BC
 					third try %%C
 					finally just run the default.
+					NEW IDEA
+					
+					H = ABC
+					1st ABC
+					2nd BC
+					3rd C
+		
 		 4) then run the correct trigger
 		 	
 		 */
