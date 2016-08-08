@@ -1,38 +1,39 @@
 #THESE ARE TEH TRIGGERS!
 #structure 
-#Name;#history;#input;#allowed states;#type?;#Spark;#state;
+#Name;#history;#input;#allowed_states;#type?;#Spark;#state;
 #Example? TrunR;?,?,?,?,?;Runing(input);feetonground,standing?;type3 (sparkand state);RunR;running?
-#the allowed states seems important, these are states teh player must be in order to trigger this...trigger
-#
+#the allowed_states seems important, these are states teh player must be in order to trigger this...trigger
+# X = none?
 #Can triggers lead to other triggers?
-coreR;history;X;allowed states;idle;coreR;state;
-coreL;history;X;allowed states;idle;coreL;state;
-StandR;history;X;allowed states;idle;StandR;state;
-StandL;history;X;allowed states;idle;StandL;state;
-IdleR;history;X;allowed states;idle;IdleR;state;
-IdleL;history;X;allowed states;idle;IdleL;state;
-FallR;history;X;allowed states;movement;FallR;state;
-FallL;history;X;allowed states;movement?;FallL;state;
-JumpR;history;N;allowed states;movement?;JumpR;state;
-JumpL;history;N;allowed states;movement?;JumpL;state;
-DeathR;history;X;allowed states;movement?;DeathR;state;
-DeathL;history;X;allowed states;movement?;DeathL;state;
-RunR;history;E;allowed states;movement?;RunR;state;
-RunL;history;W;allowed states;movement?;RunL;state;
-RunVR;history;E;allowed states;movement?;RunVR;state;
-RunVL;history;W;allowed states;movement?;RunVL;state;
+coreR;%;X;EndOfSparkR;idle;coreR;standingR;
+coreL;%;X;EndOfSparkL;idle;coreL;standingL;
+StandR;%;X;EndOfSparkR;idle;StandR;standingR;
+StandL;%;X;EndOfSparkL;idle;StandL;standingL;
+IdleR;%;X;standingR;idle;IdleR;standingR;
+IdleL;%;X;standingL;idle;IdleL;standingL;
+FallR;%;X;fallingR;movement;FallR;fallingR;
+FallL;%;X;fallingL;movement;FallL;fallingL;
+JumpR;%;N;SprintingR,standingR;movement;JumpR;jumpingR;
+JumpL;%;N;SprintingL,standingL;movement;JumpL;jumpingL;
+DeathR;%;X;;movement;DeathR;deadR;
+DeathL;%;X;;movement;DeathL;deadR;
+RunR;%;E;standingR;movement;RunR;SprintingR;
+RunL;%;W;standingL;movement;RunL;SprintingL;
+RunVR;%;E;standingR;movement;RunVR;SprintingR;
+RunVL;%;W;standingL;movement;RunVL;SprintingL;
 #attack stuff
-upperCutR;history;AH;allowed states;Combat;upperCutR;state;
-upperCutL;history;AH;allowed states;Combat;upperCutL;state;
-KickR;history;AS;allowed states;Combat;KickR;state;
-KickL;history;AS;allowed states;Combat;KickL;state;
-jabR;history;AL;allowed states;Combat;jabR;state;
-jabL;history;AL;allowed states;Combat;jabL;state;
-heavyPunchR;history;AH;allowed states;Combat;heavyPunchR;state;
-heavyPunchL;history;AH;allowed states;Combat;heavyPunchL;state;
-crossR;history;AL;allowed states;Combat;crossR;state;
-crossL;history;AL;allowed states;Combat;crossL;state;
-croutchR;history;X;allowed states;Combat;croutchR;state;
-croutchL;history;X;allowed states;Combat;croutchL;state;
-attackR;history;AH;allowed states;Combat;attackR;state;
-attackL;history;AH;allowed states;Combat;attackL;state;
+upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;
+upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;
+KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;
+KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;
+jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;
+jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;
+heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;
+heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;
+crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;
+crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;
+croutchR;%;X;combatstandR,standingR;Combat;croutchR;attackingR;
+croutchL;%;X;combatstandL,standingL;Combat;croutchL;attackingL;
+attackR;%;AH;combatstandR,standingR;Combat;attackR;attackingR;
+attackL;%;AH;combatstandL,standingL;Combat;attackL;attackingL;
+#john what about jumping attacks?
