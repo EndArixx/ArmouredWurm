@@ -417,4 +417,28 @@ public class PlayerCharV2 extends Sprite
 		this.feethitbox[3] = height/4;
 	}
 	
+	public int getValue(String valueName)
+	{
+		try
+		{
+			return valueMap.get(valueName).getValue();
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following valuse could not be found: " + valueName);
+			return 0;
+		}
+	}
+	
+	public void setValue(String valueName, int value)
+	{
+		try
+		{
+			valueMap.get(valueName).setValue(value);
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following valuse could not be found: " + valueName);
+		}
+	}
 }
