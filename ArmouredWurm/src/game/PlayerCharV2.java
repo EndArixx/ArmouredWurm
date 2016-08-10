@@ -163,7 +163,12 @@ public class PlayerCharV2 extends Sprite
 	        {
 	        	 tri = new Trigger(line);
 	        	 //John change this from mapping the current name and instead map a cause to it.
-	        	 this.triggerMap.put( tri.getName(), tri); 
+	        	 String[] causes = tri.getCauses();
+	        	 for (int i = 0; i < causes.length; i++)
+	        	 {
+		        	 this.triggerMap.put( causes[i], tri); 
+	        	 }
+
 	        }
 	        reader.closeBR();
 	        
@@ -345,7 +350,7 @@ public class PlayerCharV2 extends Sprite
 		//String history = String.valueOf(mStack.getStack());
 		
 		//TESTING
-		currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
+		currentThings = Trigger.buildCause(inputs.toString(), String.valueOf(history), state); //John add HP and stuff
 		
 		System.out.println(currentThings + " " + Tools.BooleansToInt(inputs.getList()));
 		
@@ -353,7 +358,7 @@ public class PlayerCharV2 extends Sprite
 		{
 			//John figure out a good separator
 				//also figure the state stuff out.
-			currentThings= inputs.toString() +';'+ String.valueOf(history) +';'+ state ; //John add HP and stuff
+			currentThings = Trigger.buildCause(inputs.toString(), String.valueOf(history), state);
 			
 			tri = this.triggerMap.get(currentThings);
 			

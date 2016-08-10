@@ -69,7 +69,7 @@ public class Trigger
 	
 	//John find a way to setup the cause of the trigger
 	//#Name;history;input;allowed states;type?;Spark;state;
-	protected String cause;
+	protected String[] causes;
 	protected String history; //This should be a varchar[]!
 	protected String playerinput;
 	protected String allowedStates;
@@ -89,7 +89,26 @@ public class Trigger
 		sparkNames = Data[5].split(",");
 		stateName = Data[6];
 		
+		causes = buildCauses(playerinput,history,allowedStates);
+		
 		//System.out.println(inline);
+	}
+	
+	//Build the Causes
+	public static String buildCause(String ininputs, String inhistory, String instate)
+	{
+		String cause = ininputs+";"+inhistory+";"+instate;
+		
+		return cause;
+	}
+	public static String[] buildCauses(String ininputs, String inhistory, String inallowedStates)
+	{
+		String[] causes = inallowedStates.split(";");//= inputs+";"+history+";"+state;
+		for(int i =0 ; i< causes.length ; i++ )
+		{
+			causes[i] = buildCause(ininputs,inhistory,inallowedStates);
+		}
+		return causes;
 	}
 	
 	public void Pull()
@@ -99,9 +118,9 @@ public class Trigger
 		//spark.strike(player);
 		//state stuff?
 	}
-	public String getCause()
+	public String[] getCauses()
 	{
-		return cause;
+		return causes;
 	}
 	
 	public String getName()

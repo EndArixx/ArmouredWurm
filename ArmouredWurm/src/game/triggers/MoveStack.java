@@ -30,7 +30,7 @@ public class MoveStack {
 	private int stackP;
 	public MoveStack() 
 	{
-		stackLen = 10;
+		stackLen = 5;
 		stackMain = new char[stackLen];
 		for(int i = 0; i<stackLen;i++)
 		{
