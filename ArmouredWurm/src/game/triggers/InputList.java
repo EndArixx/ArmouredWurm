@@ -51,6 +51,26 @@ public class InputList
 		out[6] = AS;
 		return out;
 	}
+	public String getOn()
+	{
+		//John you are going to have to think of a system where order isnt important
+		String out = "";
+		if(N)
+			out += "N";
+		if(S)
+			out += "S";
+		if(E)
+			out += "E";
+		if(W)
+			out += "W";
+		if(AL)
+			out += "AL";
+		if(AH)
+			out += "AH";
+		if(AS)
+			out += "AS";
+		return out;
+	}
 	public String toString()
 	{
 		String out = "";

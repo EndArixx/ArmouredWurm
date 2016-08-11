@@ -2,6 +2,8 @@ Brodrick
 Brodrick T6 V2
 #width,height,HITBOX
 200,200,0,0,200,200
+#starting state
+standingR
 res/player/triggers6-2.txt
 res/player/states6-2.txt
 res/player/sparks6-2.txt

@@ -30,13 +30,7 @@ public class MoveStack {
 	private int stackP;
 	public MoveStack() 
 	{
-		stackLen = 5;
-		stackMain = new char[stackLen];
-		for(int i = 0; i<stackLen;i++)
-		{
-			stackMain[i] = 0;
-		}
-				
+		 this(10); 		
 	}
 	public MoveStack(int len) 
 	{

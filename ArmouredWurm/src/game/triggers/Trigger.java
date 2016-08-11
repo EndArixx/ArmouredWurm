@@ -103,10 +103,10 @@ public class Trigger
 	}
 	public static String[] buildCauses(String ininputs, String inhistory, String inallowedStates)
 	{
-		String[] causes = inallowedStates.split(";");//= inputs+";"+history+";"+state;
-		for(int i =0 ; i< causes.length ; i++ )
+		String[] causes = inallowedStates.split(",");//= inputs+";"+history+";"+state;
+		for(int i = 0 ; i < causes.length ; i++ )
 		{
-			causes[i] = buildCause(ininputs,inhistory,inallowedStates);
+			causes[i] = buildCause(ininputs,inhistory,causes[i]);
 		}
 		return causes;
 	}
@@ -127,7 +127,14 @@ public class Trigger
 	{
 		return this.name;
 	}
-
+	public String[] getSparks()
+	{
+		return this.sparkNames;
+	}
+	public String getState()
+	{
+		return this.stateName;
+	}
 }
 
 

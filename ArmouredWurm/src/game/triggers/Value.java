@@ -27,7 +27,6 @@ public class Value
 	private int maxValue;
 	private int minValue;
 	
-	
 	public Value(String inname, int inMax,int inCur, int inMin) 
 	{
 		name = inname;
@@ -82,6 +81,17 @@ public class Value
 		if(curValue > maxValue)
 		{
 			this.curValue = maxValue;
+		}
+	}
+	public boolean getBool()
+	{
+		if(curValue == 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 }

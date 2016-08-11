@@ -114,6 +114,7 @@ public class PlayerCharV2 extends Sprite
 	        		Integer.parseInt(temp[4]),
 	        		Integer.parseInt(temp[5]));
 
+	        String tempcurrstate = Tools.readlineadv(br);
 	        
 	        //get locations for Trigger files
 	        triggerloc = Tools.readlineadv(br);
@@ -186,6 +187,8 @@ public class PlayerCharV2 extends Sprite
 		        this.statesMap.put(temp[0],tempstate);
 	        }
 	        
+	        this.currstate = this.statesMap.get(tempcurrstate);
+	        
 	        reader.closeBR();
 	        
 	        
@@ -238,6 +241,9 @@ public class PlayerCharV2 extends Sprite
 	        	tValue = new Value(line);
 		        this.valueMap.put(tValue.getName(),tValue);
 	        }
+	        
+	        //john set up an init
+	        testAni();
 	        
 	        reader.closeBR();
 	        
@@ -346,37 +352,51 @@ public class PlayerCharV2 extends Sprite
 		
 		String currentThings;
 		boolean success = false;
-		Trigger tri;
+		Trigger tri = null;
 		//String history = String.valueOf(mStack.getStack());
 		
-		//TESTING
-		currentThings = Trigger.buildCause(inputs.toString(), String.valueOf(history), state); //John add HP and stuff
+		currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(history), this.currstate.getName()); //John add HP and stuff
 		
-		System.out.println(currentThings + " " + Tools.BooleansToInt(inputs.getList()));
-		
-		for(int i = 0 ; i < history.length && i >= 0; i++)//DEFAULT ALL % ?
+		for(int i = 0 ; i <= history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
 			//John figure out a good separator
 				//also figure the state stuff out.
-			currentThings = Trigger.buildCause(inputs.toString(), String.valueOf(history), state);
+			currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(history), this.currstate.getName());
+			
+			//System.out.println(currentThings);
 			
 			tri = this.triggerMap.get(currentThings);
 			
 			if(tri != null)
 			{
-				tri.Pull();
+				//tri.Pull();
 				i = -1; 
 				success = true;
 			}
-			else
+			else if(i != history.length)
 			{
 				history[ (history.length-1) - i] = '%';
 			}
 		}	
-		if(!success)
+		if(success)
 		{
-			//System.out.println("DEFAULT TRIGGER!");
+			//testing stuff
+			if (!firstloop)
+			{
+				System.out.println("FOUND ONE "+ currentThings);
+				firstloop = true;
+				//using 0 for testing John fix this
+				Spark sx = sparksMap.get(tri.getSparks()[0]);
+				col = sx.xloc;
+				colS = sx.xloc;
+				row = sx.yloc;
+				this.timerspeed = sx.speed;
+				colN = sx.length + sx.xloc;
+				this.name = playerSprites.get(sx.Sprite);
+				this.currstate = this.statesMap.get(tri.getState());
+			}
 		}
+		
 		
 	}
 	

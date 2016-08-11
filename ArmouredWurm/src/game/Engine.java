@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.235";
+	public String version = "Version 1.0.236";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -652,7 +652,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			permaSprites = new HashMap<String,BufferedImage>();
 			
 				//This is the move History
-			mStack = new MoveStack(10);
+			mStack = new MoveStack(5);
 			
 				//SET up menu here 
 			this.inMainMenu = true;
@@ -932,9 +932,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			
 			player.update(damageQ);
-			//TEST 
 			player2.update();
-			player2.testAni();
 
 			
 			int i;
