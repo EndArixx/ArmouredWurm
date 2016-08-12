@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.236";
+	public String version = "Version 1.0.237";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -932,6 +932,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			
 			player.update(damageQ);
+			combat();
 			player2.update();
 
 			
@@ -1343,7 +1344,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
 			{	
 				movement();
-				combat();
+				//combat();
 				update();
 				
 				next_game_tick += SKIP_TICKS;

@@ -113,8 +113,10 @@ public class PlayerCharV2 extends Sprite
 	        		Integer.parseInt(temp[3]), 
 	        		Integer.parseInt(temp[4]),
 	        		Integer.parseInt(temp[5]));
-
-	        String tempcurrstate = Tools.readlineadv(br);
+	        temp = Tools.readlineadv(br).split(",");
+	        
+	        String startState = temp[0];
+	        String startSpark = temp[1];
 	        
 	        //get locations for Trigger files
 	        triggerloc = Tools.readlineadv(br);
@@ -156,7 +158,7 @@ public class PlayerCharV2 extends Sprite
 	        }
 	        //TRIGGERS-------------------------------------------------------
 	        err= 3;
-	    	reader.getBR(triggerloc);
+	    	br = reader.getBR(triggerloc);
 	        this.triggerMap = new HashMap<String,Trigger>();
 	        Trigger tri;
 	        
@@ -186,9 +188,6 @@ public class PlayerCharV2 extends Sprite
 	        	tempstate = new State(temp[0],temp[1]);
 		        this.statesMap.put(temp[0],tempstate);
 	        }
-	        
-	        this.currstate = this.statesMap.get(tempcurrstate);
-	        
 	        reader.closeBR();
 	        
 	        
@@ -243,8 +242,16 @@ public class PlayerCharV2 extends Sprite
 	        }
 	        
 	        //john set up an init
-	        testAni();
-	        
+	        this.currstate = this.statesMap.get(startState);
+			firstloop = true;
+			
+			Spark x = sparksMap.get(startSpark);
+			col = x.xloc;
+			colS = x.xloc;
+			row = x.yloc;
+			this.timerspeed = x.speed;
+			colN = x.length + x.xloc;
+			this.name = playerSprites.get(x.Sprite);
 	        reader.closeBR();
 	        
 	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
@@ -256,6 +263,10 @@ public class PlayerCharV2 extends Sprite
 		*/
 		this.x = 200;
 		this.y = 200;
+		
+        
+
+        
 	}
 	
 	//Update
@@ -359,11 +370,9 @@ public class PlayerCharV2 extends Sprite
 		
 		for(int i = 0 ; i <= history.length && i >= 0; i++)//DEFAULT ALL % ?
 		{
-			//John figure out a good separator
-				//also figure the state stuff out.
-			currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(history), this.currstate.getName());
 			
-			//System.out.println(currentThings);
+			currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(history), this.currstate.getName());
+			System.out.println(currentThings);
 			
 			tri = this.triggerMap.get(currentThings);
 			
@@ -377,7 +386,7 @@ public class PlayerCharV2 extends Sprite
 			{
 				history[ (history.length-1) - i] = '%';
 			}
-		}	
+		}
 		if(success)
 		{
 			//testing stuff
