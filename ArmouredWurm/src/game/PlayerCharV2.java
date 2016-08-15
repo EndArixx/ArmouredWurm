@@ -364,28 +364,27 @@ public class PlayerCharV2 extends Sprite
 		String currentThings;
 		boolean success = false;
 		Trigger tri = null;
+		String currHistory = String.valueOf(history);
 		//String history = String.valueOf(mStack.getStack());
-		
-		currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(history), this.currstate.getName()); //John add HP and stuff
-		
-		for(int i = 0 ; i <= history.length && i >= 0; i++)//DEFAULT ALL % ?
+		currentThings = null;
+		for(int i = 0 ; i <= history.length; i++)
 		{
 			
-			currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(history), this.currstate.getName());
+			currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(currHistory), this.currstate.getName());
 			System.out.println(currentThings);
 			
-			tri = this.triggerMap.get(currentThings);
-			
-			if(tri != null)
+			if (this.triggerMap.containsKey(currentThings))
 			{
-				//tri.Pull();
-				i = -1; 
-				success = true;
+				 tri = this.triggerMap.get(currentThings);
+				 //i = Integer.MAX_VALUE;
+				 success = true;
+				 break;
 			}
 			else if(i != history.length)
 			{
-				history[ (history.length-1) - i] = '%';
+				currHistory = currHistory.substring(1);
 			}
+			System.out.println("END "+i);
 		}
 		if(success)
 		{

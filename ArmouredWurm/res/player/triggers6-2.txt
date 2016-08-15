@@ -5,35 +5,35 @@
 #the allowed_states seems important, these are states teh player must be in order to trigger this...trigger
 # X = none?
 #Can triggers lead to other triggers?
-coreR;%%%%%;X;EndOfSparkR;idle;coreR;standingR;
-coreL;%%%%%;X;EndOfSparkL;idle;coreL;standingL;
-StandR;%%%%%;X;EndOfSparkR;idle;StandR;standingR;
-StandL;%%%%%;X;EndOfSparkL;idle;StandL;standingL;
-IdleR;%%%%%;X;standingR;idle;IdleR;standingR;
-IdleL;%%%%%;X;standingL;idle;IdleL;standingL;
-FallR;%%%%%;X;fallingR;movement;FallR;fallingR;
-FallL;%%%%%;X;fallingL;movement;FallL;fallingL;
-JumpR;%%%%%;N;SprintingR,standingR;movement;JumpR;jumpingR;
-JumpL;%%%%%;N;SprintingL,standingL;movement;JumpL;jumpingL;
-DeathR;%%%%%;X;;movement;DeathR;deadR;
-DeathL;%%%%%;X;;movement;DeathL;deadR;
-RunR;%%%%%;E;standingR;movement;RunR;SprintingR;
-RunL;%%%%%;W;standingL;movement;RunL;SprintingL;
-RunVR;%%%%%;E;standingR;movement;RunVR;SprintingR;
-RunVL;%%%%%;W;standingL;movement;RunVL;SprintingL;
+coreR;;X;SprintingR,EndOfSparkR;idle;coreR;standingR;
+coreL;;X;SprintingL,EndOfSparkL;idle;coreL;standingL;
+StandR;;X;SprintingR,EndOfSparkR;idle;StandR;standingR;
+StandL;;X;SprintingL,EndOfSparkL;idle;StandL;standingL;
+IdleR;;X;standingR;idle;IdleR;standingR;
+IdleL;;X;standingL;idle;IdleL;standingL;
+FallR;;X;fallingR;movement;FallR;fallingR;
+FallL;;X;fallingL;movement;FallL;fallingL;
+JumpR;;N;SprintingR,standingR;movement;JumpR;jumpingR;
+JumpL;;N;SprintingL,standingL;movement;JumpL;jumpingL;
+DeathR;;X;;movement;DeathR;deadR;
+DeathL;;X;;movement;DeathL;deadR;
+RunR;;E;standingR;movement;RunR;SprintingR;
+RunL;;W;standingL;movement;RunL;SprintingL;
+RunVR;;E;standingR;movement;RunVR;SprintingR;
+RunVL;;W;standingL;movement;RunVL;SprintingL;
 #attack stuff
-upperCutR;%%LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;
-upperCutL;%%LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;
-KickR;%%LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;
-KickL;%%LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;
-jabR;L;%%%AL;combatstandR,standingR;Combat;jabR;attackingR;
-jabL;L;%%%AL;combatstandL,standingL;Combat;jabL;attackingL;
-heavyPunchR;%%%%H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;
-heavyPunchL;%%%%H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;
-crossR;%%%LL;AL;combatstandR,standingR;Combat;crossR;attackingR;
-crossL;%%%LL;AL;combatstandL,standingL;Combat;crossL;attackingL;
-croutchR;%%%%%;X;combatstandR,standingR;Combat;croutchR;attackingR;
-croutchL;%%%%%;X;combatstandL,standingL;Combat;croutchL;attackingL;
-attackR;%%%%%;AH;combatstandR,standingR;Combat;attackR;attackingR;
-attackL;%%%%%;AH;combatstandL,standingL;Combat;attackL;attackingL;
+upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;
+upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;
+KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;
+KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;
+jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;
+jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;
+heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;
+heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;
+crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;
+crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;
+croutchR;;X;combatstandR,standingR;Combat;croutchR;attackingR;
+croutchL;;X;combatstandL,standingL;Combat;croutchL;attackingL;
+attackR;;AH;combatstandR,standingR;Combat;attackR;attackingR;
+attackL;;AH;combatstandL,standingL;Combat;attackL;attackingL;
 #john what about jumping attacks?
