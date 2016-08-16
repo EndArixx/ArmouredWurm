@@ -76,7 +76,7 @@ public class Trigger
 	protected String type;
 	protected String[] sparkNames;
 	protected String stateName;
-	
+	protected boolean Interuptable;
 
 	public Trigger(String inline)
 	{
@@ -88,6 +88,7 @@ public class Trigger
 		type = Data[4];
 		sparkNames = Data[5].split(",");
 		stateName = Data[6];
+		Interuptable = Boolean.parseBoolean(Data[7]);
 		
 		buildCauses(playerinput,history,allowedStates);
 	}
@@ -131,6 +132,10 @@ public class Trigger
 	public String getState()
 	{
 		return this.stateName;
+	}
+	public boolean isInteruptable()
+	{
+		return this.Interuptable;
 	}
 }
 

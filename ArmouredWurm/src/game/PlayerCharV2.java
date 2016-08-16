@@ -39,6 +39,8 @@ public class PlayerCharV2 extends Sprite
 	protected Map<String,Value> valueMap;
 	protected Map<String,String> playerSprites;
 	
+	protected boolean isInteruptable;
+	
 	protected String triggerloc;
 	protected String statesloc;
 	protected String sparkloc;
@@ -252,6 +254,7 @@ public class PlayerCharV2 extends Sprite
 			this.timerspeed = x.speed;
 			colN = x.length + x.xloc;
 			this.name = playerSprites.get(x.Sprite);
+			this.isInteruptable = true;
 	        reader.closeBR();
 	        
 	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
@@ -367,31 +370,30 @@ public class PlayerCharV2 extends Sprite
 		String currHistory = String.valueOf(history);
 		//String history = String.valueOf(mStack.getStack());
 		currentThings = null;
-		for(int i = 0 ; i <= history.length; i++)
+		
+		if(isInteruptable|| !this.firstloop)
 		{
-			
-			currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(currHistory), this.currstate.getName());
-			System.out.println(currentThings);
-			
-			if (this.triggerMap.containsKey(currentThings))
+			for(int i = 0 ; i <= history.length; i++)
 			{
-				 tri = this.triggerMap.get(currentThings);
-				 //i = Integer.MAX_VALUE;
-				 success = true;
-				 break;
+				
+				currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(currHistory), this.currstate.getName());
+				System.out.println(currentThings);
+				
+				if (this.triggerMap.containsKey(currentThings))
+				{
+					 tri = this.triggerMap.get(currentThings);
+					 //i = Integer.MAX_VALUE;
+					 success = true;
+					 break;
+				}
+				else if(i != history.length)
+				{
+					currHistory = currHistory.substring(1);
+				}
+				System.out.println("END "+i);
 			}
-			else if(i != history.length)
+			if(success)
 			{
-				currHistory = currHistory.substring(1);
-			}
-			System.out.println("END "+i);
-		}
-		if(success)
-		{
-			//testing stuff
-			if (!firstloop)
-			{
-				System.out.println("FOUND ONE "+ currentThings);
 				firstloop = true;
 				//using 0 for testing John fix this
 				Spark sx = sparksMap.get(tri.getSparks()[0]);
@@ -402,9 +404,10 @@ public class PlayerCharV2 extends Sprite
 				colN = sx.length + sx.xloc;
 				this.name = playerSprites.get(sx.Sprite);
 				this.currstate = this.statesMap.get(tri.getState());
+				this.isInteruptable = tri.isInteruptable();
+			
 			}
 		}
-		
 		
 	}
 	
