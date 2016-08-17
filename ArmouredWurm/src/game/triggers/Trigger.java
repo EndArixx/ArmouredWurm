@@ -72,7 +72,7 @@ public class Trigger
 	protected String[] causes;
 	protected String history; //This should be a varchar[]!
 	protected String playerinput;
-	protected String[] allowedStates;
+	protected String allowedStates;
 	protected String type;
 	protected String[] sparkNames;
 	protected String stateName;
@@ -84,13 +84,13 @@ public class Trigger
 		name = Data[0];
 		history = Data[1];
 		playerinput = Data[2];
-		allowedStates = Data[3].split(",");
+		allowedStates = Data[3];
 		type = Data[4];
 		sparkNames = Data[5].split(",");
 		stateName = Data[6];
 		Interuptable = Boolean.parseBoolean(Data[7]);
 		
-		buildCauses(playerinput,history,allowedStates);
+		buildCauses(playerinput,history,allowedStates.split(","));
 	}
 	
 	//Build the Causes
@@ -136,6 +136,10 @@ public class Trigger
 	public boolean isInteruptable()
 	{
 		return this.Interuptable;
+	}
+	public String getAllowedStates()
+	{
+		return this.allowedStates;
 	}
 }
 

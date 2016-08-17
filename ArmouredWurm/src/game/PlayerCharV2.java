@@ -11,7 +11,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -39,6 +42,9 @@ public class PlayerCharV2 extends Sprite
 	protected Map<String,Value> valueMap;
 	protected Map<String,String> playerSprites;
 	
+	protected Map<String,Trigger> triggerMap;
+	protected List<String> triggerNames;
+	
 	protected boolean isInteruptable;
 	
 	protected String triggerloc;
@@ -47,12 +53,10 @@ public class PlayerCharV2 extends Sprite
 	protected String attackloc;
 	protected String valueloc;
 	
-	//JOHN REMOVEl
+	//JOHN REMOVE!
 	protected String[] testAni;
 	protected int testN;
-	
-	//should this be a String?
-	protected Map<String,Trigger> triggerMap;
+
 	
 	//Constructors 
 	public PlayerCharV2(String infile, Map<String,BufferedImage> spriteData, boolean derp)
@@ -163,16 +167,18 @@ public class PlayerCharV2 extends Sprite
 	    	br = reader.getBR(triggerloc);
 	        this.triggerMap = new HashMap<String,Trigger>();
 	        Trigger tri;
-	        
+	        this.triggerNames = new ArrayList<String>();
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	 tri = new Trigger(line);
-	        	 //John change this from mapping the current name and instead map a cause to it.
-	        	 String[] causes = tri.getCauses();
-	        	 for (int i = 0; i < causes.length; i++)
-	        	 {
-		        	 this.triggerMap.put( causes[i], tri); 
-	        	 }
+	        	 //String[] causes = tri.getCauses();
+	        	 //for (int i = 0; i < causes.length; i++)
+	        	 //{
+		        	 //this.triggerMap.put( causes[i], tri);
+	        		 //john think about this
+	        	 //}
+        		 this.triggerMap.put(tri.getName(), tri);
+        		 this.triggerNames.add(tri.getName());
 
 	        }
 	        reader.closeBR();
@@ -355,8 +361,10 @@ public class PlayerCharV2 extends Sprite
 					1st ABC
 					2nd BC
 					3rd C
-		
+					
 		 4) then run the correct trigger
+		 
+		 5)Another new idea! remove the MAP instead lets just loop through and reduce the file only has 40 lines right now.
 		 	
 		 */
 		
@@ -364,12 +372,14 @@ public class PlayerCharV2 extends Sprite
 		//this should slowly reduce until either the trigger pulls or the default happens '%''%''%'etc
 		char[] history = moveHistory.getStack();
 		
+		/*//This relatively worked, but i have a better idea John remove this eventually
 		String currentThings;
 		boolean success = false;
 		Trigger tri = null;
 		String currHistory = String.valueOf(history);
 		//String history = String.valueOf(mStack.getStack());
 		currentThings = null;
+		
 		
 		if(isInteruptable|| !this.firstloop)
 		{
@@ -408,7 +418,22 @@ public class PlayerCharV2 extends Sprite
 			
 			}
 		}
-		
+		//*/
+		Trigger tri = null;
+		List<String> TriggerList = new ArrayList<String>();
+		this.state = this.currstate.getName();
+		System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
+		for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
+		{
+			String current = x.next();
+			tri  = this.triggerMap.get(current);
+			System.out.println(tri.getAllowedStates());
+			if(tri.getAllowedStates().contains(this.state))
+			{
+				System.out.println("BOOM");
+			}
+		}
+
 	}
 	
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
