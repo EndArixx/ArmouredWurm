@@ -419,6 +419,7 @@ public class PlayerCharV2 extends Sprite
 			}
 		}
 		//*/
+		boolean success = false;
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
 		this.state = this.currstate.getName();
@@ -430,10 +431,39 @@ public class PlayerCharV2 extends Sprite
 			System.out.println(tri.getAllowedStates());
 			if(tri.getAllowedStates().contains(this.state))
 			{
-				System.out.println("BOOM");
+				TriggerList.add(current);
 			}
 		}
-
+		if(TriggerList.size() > 1)
+		{
+			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
+			{
+				String current = x.next();
+				tri  = this.triggerMap.get(current);
+				System.out.println(tri.getAllowedStates());
+				if(tri.getAllowedStates().contains(this.state))
+				{
+					TriggerList.add(current);
+				}
+			}
+		}
+		
+		
+		if(TriggerList.size() == 1)
+		{
+			firstloop = true;
+			//using 0 for testing John fix this
+			Spark sx = sparksMap.get(tri.getSparks()[0]);
+			col = sx.xloc;
+			colS = sx.xloc;
+			row = sx.yloc;
+			this.timerspeed = sx.speed;
+			colN = sx.length + sx.xloc;
+			this.name = playerSprites.get(sx.Sprite);
+			this.currstate = this.statesMap.get(tri.getState());
+			this.isInteruptable = tri.isInteruptable();
+		
+		}
 	}
 	
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)

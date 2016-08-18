@@ -5,6 +5,7 @@
 #the allowed_states seems important, these are states teh player must be in order to trigger this...trigger
 # X = none?
 #Can triggers lead to other triggers?
+#john add value types!
 coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;
 coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;
 StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;
