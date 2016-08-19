@@ -424,6 +424,8 @@ public class PlayerCharV2 extends Sprite
 		List<String> TriggerList = new ArrayList<String>();
 		this.state = this.currstate.getName();
 		System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
+		
+		//John this is dumb
 		for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
 		{
 			String current = x.next();
@@ -434,23 +436,41 @@ public class PlayerCharV2 extends Sprite
 				TriggerList.add(current);
 			}
 		}
+		
+		//CHECK STATES
 		if(TriggerList.size() > 1)
 		{
 			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
 			{
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
-				System.out.println(tri.getAllowedStates());
-				if(tri.getAllowedStates().contains(this.state))
+				if(!tri.getAllowedStates().contains(this.state))
 				{
-					TriggerList.add(current);
+					TriggerList.remove(current);
 				}
 			}
 		}
 		
-		
-		if(TriggerList.size() == 1)
+		//Check Control Input
+		if(TriggerList.size() > 1)
 		{
+			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
+			{
+				String current = x.next();
+				tri  = this.triggerMap.get(current);
+				if(!tri.getInputControl().equals(this.state))
+				{
+					TriggerList.remove(current);
+				}
+			}
+		}
+		
+		//Check history
+		
+		
+		if(!triggerNames.isEmpty()) 
+		{
+			tri = this.triggerMap.get(this.triggerNames.get(0));
 			firstloop = true;
 			//using 0 for testing John fix this
 			Spark sx = sparksMap.get(tri.getSparks()[0]);
@@ -462,7 +482,6 @@ public class PlayerCharV2 extends Sprite
 			this.name = playerSprites.get(sx.Sprite);
 			this.currstate = this.statesMap.get(tri.getState());
 			this.isInteruptable = tri.isInteruptable();
-		
 		}
 	}
 	

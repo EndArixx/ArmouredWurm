@@ -137,6 +137,10 @@ public class Trigger
 	{
 		return this.Interuptable;
 	}
+	public String getInputControl()
+	{
+		return this.playerinput;
+	}
 	public String getAllowedStates()
 	{
 		return this.allowedStates;
