@@ -145,6 +145,11 @@ public class Trigger
 	{
 		return this.allowedStates;
 	}
+	
+	public String getHistory()
+	{
+		return this.history;
+	}
 }
 
 

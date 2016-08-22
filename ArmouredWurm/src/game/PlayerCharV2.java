@@ -466,7 +466,36 @@ public class PlayerCharV2 extends Sprite
 		}
 		
 		//Check history
-		
+		if(TriggerList.size() > 1)
+		{
+			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
+			{
+				String current = x.next();
+				boolean goodhistory = false;
+				String currHistory = String.valueOf(history);
+				tri = this.triggerMap.get(current);
+				
+				
+				for(int i = 0 ; i <= history.length; i++)
+				{
+					if (tri.getHistory().equals(currHistory))
+					{
+						 //i = Integer.MAX_VALUE;
+						 goodhistory = true;
+						 break;
+					}
+					else if(i != history.length)
+					{
+						currHistory = currHistory.substring(1);
+					}
+					System.out.println("END "+i);
+				}
+				if(!goodhistory)
+				{
+					TriggerList.remove(current);
+				}
+			}
+		}
 		
 		if(!triggerNames.isEmpty()) 
 		{
