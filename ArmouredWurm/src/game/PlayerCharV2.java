@@ -423,14 +423,14 @@ public class PlayerCharV2 extends Sprite
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
 		this.state = this.currstate.getName();
-		System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
+		//System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
 		
 		//John this is dumb
 		for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
 		{
 			String current = x.next();
 			tri  = this.triggerMap.get(current);
-			System.out.println(tri.getAllowedStates());
+			//System.out.println(tri.getAllowedStates());
 			if(tri.getAllowedStates().contains(this.state))
 			{
 				TriggerList.add(current);
@@ -443,10 +443,12 @@ public class PlayerCharV2 extends Sprite
 			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
 			{
 				String current = x.next();
+				System.out.println("States " + current);
 				tri  = this.triggerMap.get(current);
 				if(!tri.getAllowedStates().contains(this.state))
 				{
-					TriggerList.remove(current);
+					//TriggerList.remove(current);
+					x.remove();
 				}
 			}
 		}
@@ -457,10 +459,12 @@ public class PlayerCharV2 extends Sprite
 			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
 			{
 				String current = x.next();
+				System.out.println("Inputs " + current);
 				tri  = this.triggerMap.get(current);
-				if(!tri.getInputControl().equals(this.state))
+				if(!tri.getInputControl().equals(inputs.getOn()))
 				{
-					TriggerList.remove(current);
+					//TriggerList.remove(current);
+					x.remove();
 				}
 			}
 		}
@@ -474,7 +478,7 @@ public class PlayerCharV2 extends Sprite
 				boolean goodhistory = false;
 				String currHistory = String.valueOf(history);
 				tri = this.triggerMap.get(current);
-				
+				System.out.println("History " + current);
 				
 				for(int i = 0 ; i <= history.length; i++)
 				{
@@ -492,13 +496,15 @@ public class PlayerCharV2 extends Sprite
 				}
 				if(!goodhistory)
 				{
-					TriggerList.remove(current);
+					//TriggerList.remove(current);
+					x.remove();
 				}
 			}
 		}
 		
 		if(!triggerNames.isEmpty()) 
 		{
+			System.out.println(triggerNames.get(0));
 			tri = this.triggerMap.get(this.triggerNames.get(0));
 			firstloop = true;
 			//using 0 for testing John fix this
