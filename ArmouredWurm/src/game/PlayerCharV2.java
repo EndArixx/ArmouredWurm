@@ -419,60 +419,81 @@ public class PlayerCharV2 extends Sprite
 			}
 		}
 		//*/
+		
+		if(!this.firstloop)
+		{
+			return;
+		}
 		boolean success = false;
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
+		List<String> StupidClone =  new ArrayList<String>();
 		this.state = this.currstate.getName();
 		//System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
 		
-		//John this is dumb
-		for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
+		/*for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
 		{
 			String current = x.next();
 			tri  = this.triggerMap.get(current);
-			//System.out.println(tri.getAllowedStates());
+			System.out.println(tri.getAllowedStates()+" "+this.state);
 			if(tri.getAllowedStates().contains(this.state))
 			{
 				TriggerList.add(current);
 			}
-		}
+		}*/
+		
 		
 		//CHECK STATES
+		TriggerList.addAll(triggerNames);
+		StupidClone.addAll(TriggerList);
 		if(TriggerList.size() > 1)
 		{
-			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
+			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
 			{
 				String current = x.next();
-				System.out.println("States " + current);
 				tri  = this.triggerMap.get(current);
 				if(!tri.getAllowedStates().contains(this.state))
 				{
-					//TriggerList.remove(current);
-					x.remove();
+					TriggerList.remove(current);
+					System.out.println("State OFF " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
+					//x.remove();
+				}
+				else
+				{
+					System.out.println("State ON " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
 				}
 			}
 		}
 		
 		//Check Control Input
+		StupidClone.clear();
+		StupidClone.addAll(TriggerList);
 		if(TriggerList.size() > 1)
 		{
-			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
+			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
 			{
 				String current = x.next();
-				System.out.println("Inputs " + current);
+				
 				tri  = this.triggerMap.get(current);
 				if(!tri.getInputControl().equals(inputs.getOn()))
 				{
-					//TriggerList.remove(current);
-					x.remove();
+					TriggerList.remove(current);
+					System.out.println("Inputs OFF " + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
+					//x.remove();
+				}
+				else
+				{
+					System.out.println("Inputs ON "  + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
 				}
 			}
 		}
 		
 		//Check history
+		StupidClone.clear();
+		StupidClone.addAll(TriggerList);
 		if(TriggerList.size() > 1)
 		{
-			for(Iterator<String> x = TriggerList.iterator(); x.hasNext();)
+			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
 			{
 				String current = x.next();
 				boolean goodhistory = false;
@@ -482,7 +503,7 @@ public class PlayerCharV2 extends Sprite
 				
 				for(int i = 0 ; i <= history.length; i++)
 				{
-					if (tri.getHistory().equals(currHistory))
+					if (!tri.getHistory().equals(currHistory))
 					{
 						 //i = Integer.MAX_VALUE;
 						 goodhistory = true;
@@ -496,16 +517,18 @@ public class PlayerCharV2 extends Sprite
 				}
 				if(!goodhistory)
 				{
-					//TriggerList.remove(current);
-					x.remove();
+					System.out.println("weiner");
+					TriggerList.remove(current);
+					//x.remove();
 				}
 			}
 		}
 		
-		if(!triggerNames.isEmpty()) 
+		
+		if(!TriggerList.isEmpty()) 
 		{
-			System.out.println(triggerNames.get(0));
-			tri = this.triggerMap.get(this.triggerNames.get(0));
+			System.out.println("BOOOOOOOOM "+TriggerList.get(0));
+			tri = this.triggerMap.get(TriggerList.get(0));
 			firstloop = true;
 			//using 0 for testing John fix this
 			Spark sx = sparksMap.get(tri.getSparks()[0]);
