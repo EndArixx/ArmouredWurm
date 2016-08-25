@@ -330,6 +330,13 @@ public class PlayerCharV2 extends Sprite
 		}
 	}
 	
+	public void animateCol()
+	{
+		super.animateCol();
+		
+		//JOHN PUT SPECIFIC LOGIC IN HERE!
+	}
+	
 	public void triggerEngine(InputList inputs, MoveStack moveHistory)//john add external stuff
 	{
 		//So this is how its gonna work.
@@ -523,7 +530,25 @@ public class PlayerCharV2 extends Sprite
 				}
 			}
 		}
-		
+
+
+		//CHECK VALUES
+		TriggerList.addAll(triggerNames);
+		StupidClone.addAll(TriggerList);
+		if(TriggerList.size() > 1)
+		{
+			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
+			{
+				String current = x.next();
+				tri  = this.triggerMap.get(current);
+				
+				//VALUE STUFF
+				
+				//if(!tri.getAllowedStates().contains(this.state))
+				{}
+			
+			}
+		}
 		
 		if(!TriggerList.isEmpty()) 
 		{
