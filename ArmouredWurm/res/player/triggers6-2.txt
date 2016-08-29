@@ -1,41 +1,40 @@
 #THESE ARE TEH TRIGGERS!
 #structure 
-#Name;#history;#input;#allowed_states;#type?;#Spark;#state;IsInteruptible
+#Name;#history;#input;#allowed_states;#type?;#Spark;#state;IsInteruptible;ValueMarkers
 #Example? TrunR;?,?,?,?,?;Runing(input);feetonground,standing?;type3 (sparkand state);RunR;running?
 #the allowed_states seems important, these are states teh player must be in order to trigger this...trigger
 # X = none?
 #Can triggers lead to other triggers?
 #john add value types!
-coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;
-coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;
-StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;
-StandL;;;fallingL,SprintingL,EndOfSparkL,jumpingL;idle;StandL;standingL;true;
-IdleR;;;standingR;idle;IdleR;standingR;true;
-IdleL;;;standingL;idle;IdleL;standingL;true;
-FallR;;;jumpingR;movement;FallR;fallingR;true;
-FallL;;;jumpingR;movement;FallL;fallingL;true;
-JumpR;;N;SprintingR,standingR;movement;JumpR;jumpingR;true;
-JumpL;;N;SprintingL,standingL;movement;JumpL;jumpingL;true;
-DeathR;;X;;movement;DeathR;deadR;true;
-DeathL;;X;;movement;DeathL;deadR;true;
-RunR;;E;standingR;movement;RunR;SprintingR;true;
-RunL;;W;standingL;movement;RunL;SprintingL;true;
-RunVR;;E;standingR;movement;RunVR;SprintingR;true;
-RunVL;;W;standingL;movement;RunVL;SprintingL;true;
+coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;FF=1
+coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;FF=0
+StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;FF=1
+StandL;;;fallingL,SprintingL,EndOfSparkL,jumpingL;idle;StandL;standingL;true;FF=0
+IdleR;;;standingR;idle;IdleR;standingR;true;FF=1
+IdleL;;;standingL;idle;IdleL;standingL;true;FF=0
+FallR;;;jumpingR;movement;FallR;fallingR;true;FF=1
+FallL;;;jumpingR;movement;FallL;fallingL;true;FF=0
+JumpR;;N;SprintingR,standingR;movement;JumpR;jumpingR;true;FF=1
+JumpL;;N;SprintingL,standingL;movement;JumpL;jumpingL;true;FF=0
+DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF=1
+DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF=0
+RunR;;E;standingR;movement;RunR;SprintingR;true;FF=1
+RunL;;W;standingL;movement;RunL;SprintingL;true;FF=0
+RunVR;;E;standingR;movement;RunVR;SprintingR;true;FF=1
+RunVL;;W;standingL;movement;RunVL;SprintingL;true;FF=0
 #attack stuff
-upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;
-upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;
-KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;
-KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;False;
-jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;False;
-jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;False;
-heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;False;
-heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;False;
-crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;False;
-crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;False;
-croutchR;;X;combatstandR,standingR;Combat;croutchR;attackingR;False;
-croutchL;;X;combatstandL,standingL;Combat;croutchL;attackingL;False;
-attackR;;AH;combatstandR,standingR;Combat;attackR;attackingR;False;
-attackL;;AH;combatstandL,standingL;Combat;attackL;attackingL;False;
-#john what about jumping attacks?
+upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF=1
+upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF=0
+KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;FF=1
+KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;False;FF=0
+jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;False;FF=1
+jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;False;FF=0
+heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;False;FF=1
+heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;False;FF=0
+crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;False;FF=1
+crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;False;FF=0
+croutchR;;X;combatstandR,standingR;Combat;croutchR;attackingR;False;FF=1
+croutchL;;X;combatstandL,standingL;Combat;croutchL;attackingL;False;FF=0
+attackR;;AH;combatstandR,standingR;Combat;attackR;attackingR;False;FF=1
+attackL;;AH;combatstandL,standingL;Combat;attackL;attackingL;False;FF=0
 #john what about jumping attacks?

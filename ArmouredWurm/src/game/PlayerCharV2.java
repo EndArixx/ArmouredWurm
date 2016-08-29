@@ -541,12 +541,12 @@ public class PlayerCharV2 extends Sprite
 			{
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
-				
-				//VALUE STUFF
-				
-				//if(!tri.getAllowedStates().contains(this.state))
-				{}
-			
+				boolean valid = true;
+				String[] values = tri.getValueMarkers();
+				for(int i = 0; i < values.length;i++)
+				{
+					//JOHN DO VALUE EVALUATION HERE!
+				}
 			}
 		}
 		

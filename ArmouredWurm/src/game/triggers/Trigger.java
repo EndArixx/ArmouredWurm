@@ -76,6 +76,7 @@ public class Trigger
 	protected String type;
 	protected String[] sparkNames;
 	protected String stateName;
+	protected String[] ValueMarkers;
 	protected boolean Interuptable;
 
 	public Trigger(String inline)
@@ -89,6 +90,14 @@ public class Trigger
 		sparkNames = Data[5].split(",");
 		stateName = Data[6];
 		Interuptable = Boolean.parseBoolean(Data[7]);
+		if( Data.length > 8) 
+		{
+			ValueMarkers = Data[8].split(",");	
+		}
+		else
+		{
+			ValueMarkers = null;
+		}
 		
 		buildCauses(playerinput,history,allowedStates.split(","));
 	}
@@ -149,6 +158,10 @@ public class Trigger
 	public String getHistory()
 	{
 		return this.history;
+	}
+	public String[] getValueMarkers()
+	{
+		return this.ValueMarkers;
 	}
 }
 
