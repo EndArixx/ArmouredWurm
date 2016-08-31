@@ -6,35 +6,35 @@
 # X = none?
 #Can triggers lead to other triggers?
 #john add value types!
-coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;FF=1
-coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;FF=0
-StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;FF=1
-StandL;;;fallingL,SprintingL,EndOfSparkL,jumpingL;idle;StandL;standingL;true;FF=0
-IdleR;;;standingR;idle;IdleR;standingR;true;FF=1
-IdleL;;;standingL;idle;IdleL;standingL;true;FF=0
-FallR;;;jumpingR;movement;FallR;fallingR;true;FF=1
-FallL;;;jumpingR;movement;FallL;fallingL;true;FF=0
-JumpR;;N;SprintingR,standingR;movement;JumpR;jumpingR;true;FF=1
-JumpL;;N;SprintingL,standingL;movement;JumpL;jumpingL;true;FF=0
-DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF=1
-DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF=0
-RunR;;E;standingR;movement;RunR;SprintingR;true;FF=1
-RunL;;W;standingL;movement;RunL;SprintingL;true;FF=0
-RunVR;;E;standingR;movement;RunVR;SprintingR;true;FF=1
-RunVL;;W;standingL;movement;RunVL;SprintingL;true;FF=0
+coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;FF==1
+coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;FF==0
+StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;FF==1
+StandL;;;fallingL,SprintingL,EndOfSparkL,jumpingL;idle;StandL;standingL;true;FF==0
+IdleR;;;standingR;idle;IdleR;standingR;true;FF==1
+IdleL;;;standingL;idle;IdleL;standingL;true;FF==0
+FallR;;;jumpingR;movement;FallR;fallingR;true;FF==1
+FallL;;;jumpingR;movement;FallL;fallingL;true;FF==0
+JumpR;;N;SprintingR,standingR;movement;JumpR;jumpingR;true;FF==1
+JumpL;;N;SprintingL,standingL;movement;JumpL;jumpingL;true;FF==0
+DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF==1
+DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF==0
+RunR;;E;standingR;movement;RunR;SprintingR;true;FF==1
+RunL;;W;standingL;movement;RunL;SprintingL;true;FF==0
+RunVR;;E;standingR;movement;RunVR;SprintingR;true;FF==1
+RunVL;;W;standingL;movement;RunVL;SprintingL;true;FF==0
 #attack stuff
-upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF=1
-upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF=0
-KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;FF=1
-KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;False;FF=0
-jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;False;FF=1
-jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;False;FF=0
-heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;False;FF=1
-heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;False;FF=0
-crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;False;FF=1
-crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;False;FF=0
-croutchR;;X;combatstandR,standingR;Combat;croutchR;attackingR;False;FF=1
-croutchL;;X;combatstandL,standingL;Combat;croutchL;attackingL;False;FF=0
-attackR;;AH;combatstandR,standingR;Combat;attackR;attackingR;False;FF=1
-attackL;;AH;combatstandL,standingL;Combat;attackL;attackingL;False;FF=0
+upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF==1
+upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF==0
+KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;FF==1
+KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;False;FF==0
+jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;False;FF==1
+jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;False;FF==0
+heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;False;FF==1
+heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;False;FF==0
+crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;False;FF==1
+crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;False;FF==0
+croutchR;;X;combatstandR,standingR;Combat;croutchR;attackingR;False;FF==1
+croutchL;;X;combatstandL,standingL;Combat;croutchL;attackingL;False;FF==0
+attackR;;AH;combatstandR,standingR;Combat;attackR;attackingR;False;FF==1
+attackL;;AH;combatstandL,standingL;Combat;attackL;attackingL;False;FF==0
 #john what about jumping attacks?

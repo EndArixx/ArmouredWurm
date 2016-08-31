@@ -16,7 +16,7 @@ touchingGround,0,1,0
 idle,0,1,0
 attacking,0,1,0
 spotEnemy,0,1,0
-Faceingforward,0,1,0
+FF,0,1,0
 endOfSpark,0,1,0
 #other booleans############
 doublejump,0,1,0

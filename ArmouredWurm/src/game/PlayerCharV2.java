@@ -431,7 +431,7 @@ public class PlayerCharV2 extends Sprite
 		{
 			return;
 		}
-		boolean success = false;
+
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
 		List<String> StupidClone =  new ArrayList<String>();
@@ -524,7 +524,7 @@ public class PlayerCharV2 extends Sprite
 				}
 				if(!goodhistory)
 				{
-					System.out.println("weiner");
+					System.out.println("History");
 					TriggerList.remove(current);
 					//x.remove();
 				}
@@ -542,10 +542,73 @@ public class PlayerCharV2 extends Sprite
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
 				boolean valid = true;
+				String[] temp;
+				
 				String[] values = tri.getValueMarkers();
-				for(int i = 0; i < values.length;i++)
+				for(int i = 0; i < values.length && valid;i++)
 				{
-					//JOHN DO VALUE EVALUATION HERE!
+					//Supported types !=,<=,>=,==,>,<
+					
+					//Not equal
+					if(values[i].contains("!="))
+					{
+						temp = values[i].split("!=");
+						if(Integer.parseInt(temp[0]) != Integer.parseInt(temp[1]))
+							{valid= true;}
+						else{valid = false;}
+					}
+					
+					//Less Then OR Equal
+					else if(values[i].contains("<="))
+					{
+						temp = values[i].split("<=");
+						if(this.valueMap.get(temp[0]).getValue() <= Integer.parseInt(temp[1]))
+							{valid= true;}
+						else{valid = false;}
+					}
+					
+					//Greater Then OR Equal
+					else if(values[i].contains(">="))
+					{
+						temp = values[i].split(">=");
+						if(this.valueMap.get(temp[0]).getValue() >= Integer.parseInt(temp[1]))
+							{valid= true;}
+						else{valid = false;}
+					}
+					
+					//Equal
+					else if(values[i].contains("=="))
+					{
+						temp = values[i].split("==");
+						if(this.valueMap.get(temp[0]).getValue() == Integer.parseInt(temp[1]))
+							{valid= true;}
+						else{valid = false;}
+					}
+					
+					//Less Then
+					else if(values[i].contains("<"))
+					{
+						temp = values[i].split("<");
+						if(this.valueMap.get(temp[0]).getValue() <= Integer.parseInt(temp[1]))
+							{valid= true;}
+						else{valid = false;}
+					}
+					
+					//Greater Then
+					else if(values[i].contains(">"))
+					{
+						temp = values[i].split(">");
+						if(this.valueMap.get(temp[0]).getValue() > Integer.parseInt(temp[1]))
+							{valid= true;}
+						else{valid = false;}
+					}
+					
+					else
+					{
+						System.out.println("Unknown ValueEvaluation: "+values[i]);
+						valid = false;
+					}
+					
 				}
 			}
 		}
