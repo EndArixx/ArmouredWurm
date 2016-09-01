@@ -338,7 +338,7 @@ public class PlayerCharV2 extends Sprite
 		//JOHN PUT SPECIFIC LOGIC IN HERE!
 	}
 	
-	public void triggerEngine(InputList inputs, MoveStack moveHistory)//john add external stuff
+	public void triggerEngine(InputList inputs, MoveStack moveHistory,boolean inFF)//john add external stuff
 	{
 		//So this is how its gonna work.
 		/*
@@ -434,7 +434,7 @@ public class PlayerCharV2 extends Sprite
 		}
 		
 		//Testing stuff
-		this.valueMap.get("FF").setValue( this.testPlayer.getFacingForward() ? 1 : 0);
+		this.valueMap.get("FF").setValue(inFF ? 1 : 0);
 		
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
@@ -537,7 +537,7 @@ public class PlayerCharV2 extends Sprite
 
 
 		//CHECK VALUES
-		TriggerList.addAll(triggerNames);
+		StupidClone.clear();
 		StupidClone.addAll(TriggerList);
 		if(TriggerList.size() > 1)
 		{
@@ -624,7 +624,7 @@ public class PlayerCharV2 extends Sprite
 		
 		if(!TriggerList.isEmpty()) 
 		{
-			System.out.println("BOOOOOOOOM "+TriggerList.get(0));
+			System.out.println("BOOOOOOOOM "+TriggerList.get(0) +" "+inputs.getOn() +" FF:"+this.valueMap.get("FF").getValue() );
 			tri = this.triggerMap.get(TriggerList.get(0));
 			firstloop = true;
 			//using 0 for testing John fix this
