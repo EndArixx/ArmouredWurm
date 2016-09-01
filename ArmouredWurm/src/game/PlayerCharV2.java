@@ -56,10 +56,10 @@ public class PlayerCharV2 extends Sprite
 	//JOHN REMOVE!
 	protected String[] testAni;
 	protected int testN;
-
+	protected PlayerChar testPlayer;
 	
 	//Constructors 
-	public PlayerCharV2(String infile, Map<String,BufferedImage> spriteData, boolean derp)
+	public PlayerCharV2(String infile, Map<String,BufferedImage> spriteData, PlayerChar inplayer)
 	{
 		/*
 		 NEW IDEA! 
@@ -273,7 +273,8 @@ public class PlayerCharV2 extends Sprite
 		this.x = 200;
 		this.y = 200;
 		
-        
+        //REMOVE 
+		this.testPlayer = inplayer;
 
         
 	}
@@ -427,11 +428,14 @@ public class PlayerCharV2 extends Sprite
 		}
 		//*/
 		
-		if(!this.firstloop)
+		if(this.firstloop)
 		{
 			return;
 		}
-
+		
+		//Testing stuff
+		this.valueMap.get("FF").setValue( this.testPlayer.getFacingForward() ? 1 : 0);
+		
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
 		List<String> StupidClone =  new ArrayList<String>();
@@ -524,7 +528,7 @@ public class PlayerCharV2 extends Sprite
 				}
 				if(!goodhistory)
 				{
-					System.out.println("History");
+					System.out.println("History"); //JOHN ADDRESS THIS
 					TriggerList.remove(current);
 					//x.remove();
 				}
@@ -541,6 +545,7 @@ public class PlayerCharV2 extends Sprite
 			{
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
+				System.out.println("VAlues " + current);
 				boolean valid = true;
 				String[] temp;
 				
@@ -609,6 +614,10 @@ public class PlayerCharV2 extends Sprite
 						valid = false;
 					}
 					
+				}
+				if(!valid)
+				{	
+					TriggerList.remove(current);
 				}
 			}
 		}

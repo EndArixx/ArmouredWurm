@@ -16,12 +16,12 @@ FallR;;;jumpingR;movement;FallR;fallingR;true;FF==1
 FallL;;;jumpingR;movement;FallL;fallingL;true;FF==0
 JumpR;;N;SprintingR,standingR;movement;JumpR;jumpingR;true;FF==1
 JumpL;;N;SprintingL,standingL;movement;JumpL;jumpingL;true;FF==0
-DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF==1
-DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF==0
+DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF==1,HP<=0
+DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF==0,HP<=0
 RunR;;E;standingR;movement;RunR;SprintingR;true;FF==1
 RunL;;W;standingL;movement;RunL;SprintingL;true;FF==0
-RunVR;;E;standingR;movement;RunVR;SprintingR;true;FF==1
-RunVL;;W;standingL;movement;RunVL;SprintingL;true;FF==0
+RunVR;;E;standingR;movement;RunVR;SprintingR;true;FF==1,HP<50
+RunVL;;W;standingL;movement;RunVL;SprintingL;true;FF==0,HP<50
 #attack stuff
 upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF==1
 upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF==0
