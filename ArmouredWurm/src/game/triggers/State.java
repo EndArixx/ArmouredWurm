@@ -1,5 +1,8 @@
 package game.triggers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class State 
 {
 /*
@@ -49,6 +52,11 @@ the trigger system is the one that assigns states.
  
  */
 	private String name;
+	protected Map<String,Boolean> StateMap;
+	private int count;
+	
+	
+	
 	//private boolean on;
 	//types
 	private boolean dead;
@@ -60,6 +68,21 @@ the trigger system is the one that assigns states.
 	//private boolean agro;
 	private String[] subType;
 	//IF YOU ADD SOMETHING HERE ADD IT TO THE RETURN STATEMENT!
+	
+	//New Dynamic State idea.
+	public State(String[] inNames,String[] inStates)
+	{
+		this.StateMap = new HashMap<String,Boolean>();
+		this.count = inNames.length;
+		for(int i = 0; i < count; i++)
+		{
+			//Do i need this map?
+			//WHat about just an array istead?
+			this.StateMap.put(inNames[i],Boolean.parseBoolean(inStates[i]));
+		}	
+		
+	}
+	
 	
 	public State(String inName,boolean inDead,boolean inMoving,boolean inTouchingGround,boolean inIdle,boolean inAttacking,boolean inSpotEnemy) 
 	{
@@ -77,6 +100,7 @@ the trigger system is the one that assigns states.
 		this( inName, inDead, inMoving, inTouchingGround, inIdle, inAttacking, inSpotEnemy);
 		this.subType = inSubType;
 	}
+	
 	public State(String inName, String inputString) 
 	{
 		this.name = inName;
