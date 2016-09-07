@@ -189,11 +189,11 @@ public class PlayerCharV2 extends Sprite
 	    	br = reader.getBR(statesloc);
 	        this.statesMap = new HashMap<String,State>();
 	        State tempstate;
-	        
+	        String[] tempStateNames = Tools.readlineadv(br).split(">");
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	temp= line.split(">");
-	        	tempstate = new State(temp[0],temp[1]);
+	        	tempstate = new State(temp[0],tempStateNames,temp[1].split(","));
 		        this.statesMap.put(temp[0],tempstate);
 	        }
 	        reader.closeBR();
@@ -263,7 +263,7 @@ public class PlayerCharV2 extends Sprite
 			this.isInteruptable = true;
 	        reader.closeBR();
 	        
-	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err);} //JOHN FIX THIS!
+	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err + "\n " + e.toString());} //JOHN FIX THIS!
 		 
 		/*//These will be values;
 		this.speedX = 0;
