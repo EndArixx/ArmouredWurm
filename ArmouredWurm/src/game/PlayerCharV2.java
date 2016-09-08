@@ -37,6 +37,7 @@ public class PlayerCharV2 extends Sprite
 	protected Spark[] sparks;
 	protected State currstate;
 	protected Map<String,AttackHitBoxes> HitboxMap;
+	protected String[] masterState;
 	protected Map<String,State> statesMap;
 	protected Map<String,Spark> sparksMap;
 	protected Map<String,Value> valueMap;
@@ -189,11 +190,11 @@ public class PlayerCharV2 extends Sprite
 	    	br = reader.getBR(statesloc);
 	        this.statesMap = new HashMap<String,State>();
 	        State tempstate;
-	        String[] tempStateNames = Tools.readlineadv(br).split(">");
+	        masterState = Tools.readlineadv(br).split(">");
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	temp= line.split(">");
-	        	tempstate = new State(temp[0],tempStateNames,temp[1].split(","));
+	        	tempstate = new State(temp[0],masterState,temp[1].split(","));
 		        this.statesMap.put(temp[0],tempstate);
 	        }
 	        reader.closeBR();
@@ -267,7 +268,7 @@ public class PlayerCharV2 extends Sprite
 		 
 		/*//These will be values;
 		this.speedX = 0;
-		this.speedY = 0;
+		this.speedY = 0; 
 		this.gravity = 0;
 		*/
 		this.x = 200;
@@ -636,6 +637,10 @@ public class PlayerCharV2 extends Sprite
 			colN = sx.length + sx.xloc;
 			this.name = playerSprites.get(sx.Sprite);
 			this.currstate = this.statesMap.get(tri.getState());
+			for(int i = 0;i < this.masterState.length; i++)
+			{
+				this.valueMap.get(masterState[i]).setValue(this.currstate.getValue(masterState[i]));
+			}
 			this.isInteruptable = tri.isInteruptable();
 		}
 	}

@@ -94,4 +94,15 @@ public class Value
 			return true;
 		}
 	}
+	public void setValue(boolean value) 
+	{
+		if(value)
+		{
+			this.curValue = 1;
+		}
+		else
+		{
+			this.curValue = 0;
+		}
+	}
 }

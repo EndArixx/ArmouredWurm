@@ -73,13 +73,36 @@ the trigger system is the one that assigns states.
 			}
 		}
 		
+	}
+	public boolean getValue(String inName)
+	{
+		for(int i = 0;i < count;i++)
+		{
+			if(stateNames.equals(inName))
+			{
+				return stateValues[i];
+			}
+		}
 		
+		//Default to false.
+		return false; 
+	}
+	
+	public String[] getStateNames()
+	{
+		return this.stateNames;
+	}
+	
+	public boolean[] getStateValues()
+	{
+		return this.stateValues;
 	}
 	
 	public int getStateNumber()
 	{
 		return Tools.BooleansToInt(stateValues);
 	}
+	
 	
 	public String getName()
 	{
