@@ -62,23 +62,25 @@ the trigger system is the one that assigns states.
 	{
 		this.name = inName;
 		this.count = inStateNames.length;
-		stateNames = new String[count];
-		stateValues = new boolean[count];
+		this.stateNames = new String[count];
+		this.stateValues = new boolean[count];
+		System.out.println("-------------"+this.name);
 		for(int i = 0; i < count; i++)
 		{
 			if(i < inStateValues.length)
 			{
-				stateNames[i] = inStateNames[i];
-				stateValues[i] = Boolean.parseBoolean(inStateValues[i]);
+				
+				this.stateNames[i] = inStateNames[i];
+				this.stateValues[i] = Boolean.parseBoolean(inStateValues[i]);
+				System.out.println(stateNames[i] +":"+stateValues[i]);
 			}
 		}
-		
 	}
 	public boolean getValue(String inName)
 	{
 		for(int i = 0;i < count;i++)
 		{
-			if(stateNames.equals(inName))
+			if(stateNames[i].equals(inName))
 			{
 				return stateValues[i];
 			}

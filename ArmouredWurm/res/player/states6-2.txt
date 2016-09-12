@@ -1,7 +1,7 @@
-#NAME>dead,moving,touchingGround,idle,attacking,spotEnemy,FaceingForward,endOfSpark
+#NAME>dead,moving,touchingGround,idle,attacking,spotEnemy,FaceingForward,endOfSpark?,hasEnd?
 #these values are storoed in the 'values' file and should be loaded at run time.
 #other possible states
-dead>moving>touchingGround>idle>attacking>spotEnemy>FF>endOfSpark
+dead>moving>touchingGround>idle>attacking>spotEnemy>FF
 SprintingR>false,true,true,false,false,false,1
 SprintingL>false,true,true,false,false,false,0
 standingR>false,false,true,true,false,false,1
@@ -19,4 +19,3 @@ deadL>1,0,1,0,0,0,0
 #john thing about this!
 EndOfSparkR>,0,0,0,0,0,0,0
 EndOfSparkL>,0,0,0,0,0,0,0
-

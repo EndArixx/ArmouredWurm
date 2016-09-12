@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 
 import javax.imageio.ImageIO;
@@ -380,54 +381,7 @@ public class PlayerCharV2 extends Sprite
 		
 		//this should slowly reduce until either the trigger pulls or the default happens '%''%''%'etc
 		char[] history = moveHistory.getStack();
-		
-		/*//This relatively worked, but i have a better idea John remove this eventually
-		String currentThings;
-		boolean success = false;
-		Trigger tri = null;
-		String currHistory = String.valueOf(history);
-		//String history = String.valueOf(mStack.getStack());
-		currentThings = null;
-		
-		
-		if(isInteruptable|| !this.firstloop)
-		{
-			for(int i = 0 ; i <= history.length; i++)
-			{
-				
-				currentThings = Trigger.buildCause(inputs.getOn(), String.valueOf(currHistory), this.currstate.getName());
-				System.out.println(currentThings);
-				
-				if (this.triggerMap.containsKey(currentThings))
-				{
-					 tri = this.triggerMap.get(currentThings);
-					 //i = Integer.MAX_VALUE;
-					 success = true;
-					 break;
-				}
-				else if(i != history.length)
-				{
-					currHistory = currHistory.substring(1);
-				}
-				System.out.println("END "+i);
-			}
-			if(success)
-			{
-				firstloop = true;
-				//using 0 for testing John fix this
-				Spark sx = sparksMap.get(tri.getSparks()[0]);
-				col = sx.xloc;
-				colS = sx.xloc;
-				row = sx.yloc;
-				this.timerspeed = sx.speed;
-				colN = sx.length + sx.xloc;
-				this.name = playerSprites.get(sx.Sprite);
-				this.currstate = this.statesMap.get(tri.getState());
-				this.isInteruptable = tri.isInteruptable();
-			
-			}
-		}
-		//*/
+		boolean testmode = false;
 		
 		if(this.firstloop)
 		{
@@ -467,12 +421,12 @@ public class PlayerCharV2 extends Sprite
 				if(!tri.getAllowedStates().contains(this.state))
 				{
 					TriggerList.remove(current);
-					System.out.println("State OFF " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
+					if(testmode) System.out.println("State OFF " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
 					//x.remove();
 				}
 				else
 				{
-					System.out.println("State ON " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
+					if(testmode)System.out.println("State ON " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
 				}
 			}
 		}
@@ -490,12 +444,12 @@ public class PlayerCharV2 extends Sprite
 				if(!tri.getInputControl().equals(inputs.getOn()))
 				{
 					TriggerList.remove(current);
-					System.out.println("Inputs OFF " + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
+					if(testmode)System.out.println("Inputs OFF " + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
 					//x.remove();
 				}
 				else
 				{
-					System.out.println("Inputs ON "  + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
+					if(testmode)System.out.println("Inputs ON "  + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
 				}
 			}
 		}
@@ -511,7 +465,7 @@ public class PlayerCharV2 extends Sprite
 				boolean goodhistory = false;
 				String currHistory = String.valueOf(history);
 				tri = this.triggerMap.get(current);
-				System.out.println("History " + current);
+				if(testmode)System.out.println("History " + current);
 				
 				for(int i = 0 ; i <= history.length; i++)
 				{
@@ -529,7 +483,7 @@ public class PlayerCharV2 extends Sprite
 				}
 				if(!goodhistory)
 				{
-					System.out.println("History"); //JOHN ADDRESS THIS
+					if(testmode)System.out.println("History"); //JOHN ADDRESS THIS
 					TriggerList.remove(current);
 					//x.remove();
 				}
@@ -546,7 +500,7 @@ public class PlayerCharV2 extends Sprite
 			{
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
-				System.out.println("VAlues " + current);
+				if(testmode)System.out.println("VAlues " + current);
 				boolean valid = true;
 				String[] temp;
 				
@@ -611,7 +565,7 @@ public class PlayerCharV2 extends Sprite
 					
 					else
 					{
-						System.out.println("Unknown ValueEvaluation: "+values[i]);
+						if(testmode) System.out.println("Unknown ValueEvaluation: "+values[i]);
 						valid = false;
 					}
 					
@@ -621,11 +575,18 @@ public class PlayerCharV2 extends Sprite
 					TriggerList.remove(current);
 				}
 			}
+			
 		}
-		
+		if(testmode || true)
+		{
+			for (Entry<String, Value> entry : this.valueMap.entrySet())
+			{
+				System.out.println(entry.getKey() + "/" + entry.getValue().getValue());
+			}
+		}
 		if(!TriggerList.isEmpty()) 
 		{
-			System.out.println("BOOOOOOOOM "+TriggerList.get(0) +" "+inputs.getOn() +" FF:"+this.valueMap.get("FF").getValue() );
+			if(testmode)System.out.println("BOOOOOOOOM "+TriggerList.get(0) +" "+inputs.getOn() +" FF:"+this.valueMap.get("FF").getValue() );
 			tri = this.triggerMap.get(TriggerList.get(0));
 			firstloop = true;
 			//using 0 for testing John fix this
@@ -637,9 +598,11 @@ public class PlayerCharV2 extends Sprite
 			colN = sx.length + sx.xloc;
 			this.name = playerSprites.get(sx.Sprite);
 			this.currstate = this.statesMap.get(tri.getState());
+			if(testmode|| true)System.out.println("-----------"+currstate.getName());
 			for(int i = 0;i < this.masterState.length; i++)
 			{
 				this.valueMap.get(masterState[i]).setValue(this.currstate.getValue(masterState[i]));
+				if(testmode|| true)System.out.println(masterState[i]+ "  " + this.currstate.getValue(masterState[i]));
 			}
 			this.isInteruptable = tri.isInteruptable();
 		}
