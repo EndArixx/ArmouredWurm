@@ -272,8 +272,6 @@ public class PlayerCharV2 extends Sprite
 		this.speedY = 0; 
 		this.gravity = 0;
 		*/
-		this.x = 200;
-		this.y = 200;
 		
         //REMOVE 
 		this.testPlayer = inplayer;
@@ -382,6 +380,8 @@ public class PlayerCharV2 extends Sprite
 		//this should slowly reduce until either the trigger pulls or the default happens '%''%''%'etc
 		char[] history = moveHistory.getStack();
 		boolean testmode = false;
+		this.x = this.valueMap.get("X").getValue();
+		this.y = this.valueMap.get("Y").getValue();
 		
 		if(this.firstloop)
 		{

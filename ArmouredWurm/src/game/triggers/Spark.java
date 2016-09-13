@@ -25,22 +25,22 @@ public class Spark
 	//public AttackHitBoxes hitboxes;
 	public String hitboxName;
 	public int value;
-	//??
-	boolean atEnd;
-	boolean hangOnEnd;
-
 	
-	//can this animation be broken?
-	String spriteName;
-	public Spark(String inName, int inx,int iny,int inlen,String inloc,int inspeed,boolean loops ) 
-	{
-		this.name = inName;
-		xloc = inx;
-		yloc = iny;
-		animationlength = inlen;
-		looping = loops;
-		speed = inspeed;
-	}
+	//??
+	protected boolean atEnd;
+	protected boolean hangOnEnd;
+	
+	//Value sparks, John look into an inheritance system.
+	protected String valueName;
+	protected int kindOfChange;
+	/*
+	  Error     0
+	  Max   >   1
+	  Min   <   2
+	  Plus  +   3
+	  Set   =   4
+	 */
+	
 	public Spark(String inData)
 	{
 		String[] Data = inData.split(",");
@@ -65,33 +65,45 @@ public class Spark
 			}
 			else this.value = -1; //Default
 		}
+		else if(type.equals("V"))
+		{
+			this.name = Data[1];
+			this.valueName = Data[2];
+			switch(Data[3])
+			{
+				case ">":
+					kindOfChange = 1;
+					break;
+				case "<":
+					kindOfChange = 2;
+					break;
+				case "+":
+					kindOfChange = 3;
+					break;
+				case "=":
+					kindOfChange = 4;
+					break;
+				default:
+					kindOfChange = 0;
+			}
+			this.value = Integer.parseInt(Data[3]);
+			
+		}
 		else //This is a state change 
 		{
 			this.name = Data[1];	
 		} 
 	}
+	public int getValue()
+	{
+		return this.value;
+	}
+	public String getValueName()
+	{
+		return this.valueName;
+	}
 	public String getName()
 	{
 		return this.name;
-	}
-	public void strike(PlayerChar player)
-	{
-		//this will send the correct data to the player to run the animation.
-		//should i send data to the player, or should the player access it?
-	}
-	
-	public String testSpark()
-	{
-		String out ="";
-		out += this.name +", ";
-		out += this.Sprite+", ";
-		out += this.xloc+", ";
-		out += this.yloc+", ";
-		out += this.length+", ";
-		out += this.speed+", ";
-		out += this.looping+", ";
-		out += this.value+", ";
-		out += this.hitboxName+"";
-		return out;
 	}
 }
