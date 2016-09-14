@@ -64,7 +64,6 @@ the trigger system is the one that assigns states.
 		this.count = inStateNames.length;
 		this.stateNames = new String[count];
 		this.stateValues = new boolean[count];
-		System.out.println("-------------"+this.name);
 		for(int i = 0; i < count; i++)
 		{
 			if(i < inStateValues.length)

@@ -62,15 +62,11 @@ public class Trigger
  	 causes a spark and possibly a state change.
  	 	 
 	 */
-	
-	protected PlayerChar player; //do I need this?
 	protected State[] currentStates;
 	protected String name;
+
 	
-	//John find a way to setup the cause of the trigger
-	//#Name;history;input;allowed states;type?;Spark;state;
-	protected String[] causes;
-	protected String history; //This should be a varchar[]!
+	protected String history; //This should be a varchar[]?
 	protected String playerinput;
 	protected String allowedStates;
 	protected String type;
@@ -98,36 +94,6 @@ public class Trigger
 		{
 			ValueMarkers = null;
 		}
-		
-		buildCauses(playerinput,history,allowedStates.split(","));
-	}
-	
-	//Build the Causes
-	public static String buildCause(String ininputs, String inhistory, String instate)
-	{
-		String cause = ininputs+";"+inhistory+";"+instate;
-		
-		return cause;
-	}
-	public void buildCauses(String ininputs, String inhistory, String[] inallowedStates)
-	{
-		causes = new String[inallowedStates.length];
-		for(int i = 0 ; i < inallowedStates.length ; i++ )
-		{
-			causes[i] = buildCause(ininputs,inhistory,inallowedStates[i]);
-		}
-	}
-	
-	public void Pull()
-	{
-		
-		System.out.println(name);
-		//spark.strike(player);
-		//state stuff?
-	}
-	public String[] getCauses()
-	{
-		return causes;
 	}
 	
 	public String getName()

@@ -37,6 +37,9 @@ A,attackL,Top,7,7,1,5,true
 #type,nameofstate
 S,Sprinting
 S,standing
-s,combatstand
-s,attacking
+S,combatstand
+S,attacking
+#--------------Value chages ---------------
+#Type,Name,ValueName,kind of change(Max>,Min<,Plus+,set=),new value,
+V,fullHP,HP,=,100
 #John make a list of all the possible states. thanks bro

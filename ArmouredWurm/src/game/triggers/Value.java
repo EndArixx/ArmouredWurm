@@ -1,23 +1,4 @@
 package game.triggers;
-/*
-what is a value?
-originally i was thinking a value was the same as a state.
-AND I WAS WRONG!
-a states is esseutially a boolean that descripts what the character is doing.
-A Value is a number that says something about the character.
-
-example
-HP
-run speed
-armor 
-damage
-
-notes:
-are negative numbers allowed?
-
-what about default values?
-
-*/
 
 public class Value 
 {
@@ -71,6 +52,7 @@ public class Value
 		{return this.minValue;}
 	public String getName() 
 		{return this.name;}
+	
 	public void add(int in)
 	{
 		this.curValue += in;
@@ -85,13 +67,13 @@ public class Value
 	}
 	public boolean getBool()
 	{
-		if(curValue == 0)
+		if(curValue == 1)
 		{
-			return false;
+			return true;
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 	public void setValue(boolean value) 

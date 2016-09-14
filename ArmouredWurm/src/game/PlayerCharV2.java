@@ -250,8 +250,6 @@ public class PlayerCharV2 extends Sprite
 	        	tValue = new Value(line);
 		        this.valueMap.put(tValue.getName(),tValue);
 	        }
-	        
-	        //john set up an init
 	        this.currstate = this.statesMap.get(startState);
 			firstloop = true;
 			
@@ -265,16 +263,10 @@ public class PlayerCharV2 extends Sprite
 			this.isInteruptable = true;
 	        reader.closeBR();
 	        
-	    } catch (Exception e) {System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err + "\n " + e.toString());} //JOHN FIX THIS!
-		 
-		/*//These will be values;
-		this.speedX = 0;
-		this.speedY = 0; 
-		this.gravity = 0;
-		*/
-		
-        //REMOVE 
-		this.testPlayer = inplayer;
+	    } catch (Exception e) 
+		{
+	    	System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err + "\n " + e.toString());
+	    } 
 
         
 	}
@@ -340,7 +332,6 @@ public class PlayerCharV2 extends Sprite
 	
 	public void triggerEngine(InputList inputs, MoveStack moveHistory,boolean inFF)//john add external stuff
 	{
-		//So this is how its gonna work.
 		/*
 		 1) pass in the following
 		 	a) external inputs
@@ -350,25 +341,16 @@ public class PlayerCharV2 extends Sprite
 		 	b) move history (this is a history of the keys pressed)
 		 
 		 2) load up the triggers/states
-		 
-		 2.5) states will be an internal 'Array'
-		 
 		
 		 3) take the inputs/state/and history to select the correct Trigger.
 		 	the correct trigger will be choose by a combination of a Map and a wild card.
-		 		Example idea (% is wildcard)
 		 		 	move
-		 		 	History = ABC 
-		 			first try ABC
-		 			second try %BC
-					third try %%C
-					finally just run the default.
-					NEW IDEA
-					
+		 		 	
 					H = ABC
-					1st ABC
-					2nd BC
-					3rd C
+					1st 'ABC'
+					2nd 'BC'
+					3rd 'C'
+					4th ''
 					
 		 4) then run the correct trigger
 		 
@@ -377,7 +359,6 @@ public class PlayerCharV2 extends Sprite
 		 */
 		
 		
-		//this should slowly reduce until either the trigger pulls or the default happens '%''%''%'etc
 		char[] history = moveHistory.getStack();
 		boolean testmode = false;
 		this.x = this.valueMap.get("X").getValue();

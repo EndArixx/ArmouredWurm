@@ -80,7 +80,6 @@ public class MoveStack {
 			
 		}
 		System.out.println();
-		
 	}
 	
 }

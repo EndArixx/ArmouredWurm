@@ -5,7 +5,7 @@ runspeed,20,100,0
 X,200,10000,0
 Y,200,10000,0
 #john look up gravity number from code 
-fallspeed,0,30,-30
+gravity,0,30,-30
 #john come up with damage ammount, armour?
 armour,0,100,0
 attack,10,20,0
