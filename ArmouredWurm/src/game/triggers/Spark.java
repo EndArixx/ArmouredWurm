@@ -86,7 +86,7 @@ public class Spark
 				default:
 					kindOfChange = 0;
 			}
-			this.value = Integer.parseInt(Data[3]);
+			this.value = Integer.parseInt(Data[4]);
 			
 		}
 		else //This is a state change 

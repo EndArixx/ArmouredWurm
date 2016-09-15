@@ -207,17 +207,10 @@ public class PlayerCharV2 extends Sprite
 	    	br = reader.getBR(sparkloc);
 	        this.sparksMap = new HashMap<String,Spark>();
 	        Spark tspark;
-	        testAni = new String[30]; //TEST
-	        int testI = 0; //TEST
 	        while((line = Tools.readlineadv(br))!=null)
 	        {
 	        	tspark = new Spark(line);
 	        	this.sparksMap.put(tspark.getName(),tspark);
-		        if(tspark.type.equals("A")) //TEST
-		        {
-		        	testAni[testI] = tspark.name;
-		        	testI++;
-		        }
 	        }
 	        reader.closeBR();
 	        
@@ -558,7 +551,7 @@ public class PlayerCharV2 extends Sprite
 			}
 			
 		}
-		if(testmode || true)
+		if(testmode)
 		{
 			for (Entry<String, Value> entry : this.valueMap.entrySet())
 			{
@@ -579,11 +572,11 @@ public class PlayerCharV2 extends Sprite
 			colN = sx.length + sx.xloc;
 			this.name = playerSprites.get(sx.Sprite);
 			this.currstate = this.statesMap.get(tri.getState());
-			if(testmode|| true)System.out.println("-----------"+currstate.getName());
+			if(testmode)System.out.println("-----------"+currstate.getName());
 			for(int i = 0;i < this.masterState.length; i++)
 			{
 				this.valueMap.get(masterState[i]).setValue(this.currstate.getValue(masterState[i]));
-				if(testmode|| true)System.out.println(masterState[i]+ "  " + this.currstate.getValue(masterState[i]));
+				if(testmode)System.out.println(masterState[i]+ "  " + this.currstate.getValue(masterState[i]));
 			}
 			this.isInteruptable = tri.isInteruptable();
 		}
@@ -592,7 +585,6 @@ public class PlayerCharV2 extends Sprite
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
 	{	
 		g.setColor(Color.GREEN);
-		g.drawString(sparksMap.get(testAni[testN]).getName(),200,200); //TEST
 		
 		if(Engine.renderHitBox)
 		{

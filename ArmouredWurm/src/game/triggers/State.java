@@ -71,7 +71,6 @@ the trigger system is the one that assigns states.
 				
 				this.stateNames[i] = inStateNames[i];
 				this.stateValues[i] = Boolean.parseBoolean(inStateValues[i]);
-				System.out.println(stateNames[i] +":"+stateValues[i]);
 			}
 		}
 	}
