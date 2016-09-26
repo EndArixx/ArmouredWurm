@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.258";
+	public String version = "Version 1.0.259";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -64,7 +64,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	public World theWorld;
 	public TileMap gameWorld;
 	public Looper weather[];
-	public PlayerChar player;
+	
+	//Disabled. look for the following tag and make sure you replace them all with Player2 :)
+	//playerSwitchTag
+	//public PlayerChar player;
 	public PlayerCharV2 player2; //Version 2.0 
 	public Sprite playerHP;
 	public Sprite playerHPpips;
@@ -705,16 +708,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			gameover = new Sprite("res/gameover.png",0,0,permaSprites );
 			isGameOver = false;
 			
+			//playerSwitchTag
 					//Player stuff (john set this up in the save file)
-			player = new PlayerChar("res/player/brov4.txt",permaSprites);
+			//player = new PlayerChar("res/player/brov4.txt",permaSprites);
 			
 					//testing the new Trigger stuff!
 					//So this crashes eclipse......Joy
 					//Memory issssssssuesssssssssssssssssss :(
-			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites,player);
+			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites);
 			
 					//Health bar stuff
-			restartdata[4] = (int) player.HP;
+			restartdata[4] = (int) player2.getValue("HP");
 			this.hx = 50;
 			this.hy = 50;
 			this.hyP = 22;
@@ -745,7 +749,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 * 5) 	mapfile
 		 * 6)	zonedata: playerX, playerY, mapX, mapY
 		 */
-		player.addHP(player.maxHP);
+		
+		//playerSwitchTag
+		//player.addHP(player.maxHP);
+		
+		
 		try
 		{
 			File theDir = new File("savegames");
@@ -768,8 +776,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 			Date dateobj = new Date();
 			fw.write(df.format(dateobj) + "\n");
+			//playerSwitchTag
+			/*
 			fw.write(player.file + "\n");
 			fw.write((int) player.maxHP  +"\n");
+			*/
 			fw.write(lvlName + "\n");
 			fw.write(restartdata[0] +","+
 				(restartdata[1] )+","+
@@ -846,17 +857,25 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    	//System.out.println("Loading \"" + line + "\" File" );
 	    		//Player Stuff
 	    	line  = Tools.readlineadv(br);
-	    	player = new PlayerChar(line,permaSprites);
+	    	
+	    	//playerSwitchTag
+	    	//player = new PlayerChar(line,permaSprites);
+	    	
 	    	line = Tools.readlineadv(br);
-	    	player.maxHP = Integer.parseInt(line);
+
+	    	//playerSwitchTag
+	    	//player.maxHP = Integer.parseInt(line);
+	    	
 	    		// level stuff
 	    	line = Tools.readlineadv(br);
 	    	loadLevel(line);
 	    	line = Tools.readlineadv(br);
 	    	String[] temp = line.split(",");
-	    	player.setX(Integer.parseInt(temp[0]));
+	    	//playerSwitchTag
+	    	//player.setX(Integer.parseInt(temp[0]));
 			restartdata[0] =Integer.parseInt(temp[0]);
-			player.setY(Integer.parseInt(temp[1]));
+			//playerSwitchTag
+			//player.setY(Integer.parseInt(temp[1]));
 			restartdata[1] = Integer.parseInt(temp[1]);
 			theWorld.setX(Integer.parseInt(temp[2]));
 			restartdata[2] = Integer.parseInt(temp[2]);
@@ -905,10 +924,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if((!isLoading && !isPaused && !isGameOver && !inMainMenu )||oneupdate)
 		{	
 			oneupdate=false;
+			//playerSwitchTag
+			/*
 			if(player.getDead())
 			{
 				this.isGameOver = true;
 			}
+			*/
 			/*if(player.HP > 0)
 			{
 					//Old Health bar.
@@ -916,6 +938,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}*/
 			for(int i = 0; i < doors.length ; i++)
 			{
+				//playerSwitchTag
+				/*
 				if(Tools.check_collision(doors[i].getHitbox(),player.getHitbox()))
 				{
 					isLoading = true;
@@ -923,6 +947,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					isLoadingF = false;
 					//isLoading = false;
 				}
+				*/
 			}
 			theWorld.update();
 			
@@ -930,8 +955,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				soundHandler.update();
 			}
-			
-			player.update(damageQ);
+			//playerSwitchTag
+			//player.update(damageQ);
 			combat();
 			player2.update();
 
@@ -969,11 +994,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 
 				saveZone[i].update(theWorld);
+				//playerSwitchTag
+				/*
 				if(Tools.check_collision(player.getHitbox(),saveZone[i].getHitbox()))
 				{
 					saveZone[i].setValue(0);
 					saveFile();
 				}
+				*/
 				if(!Tools.check_collision(theWorld.getHitbox(),saveZone[i].getHitbox()))
 				{
 					saveZone[i].setValue(1);
@@ -982,7 +1010,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < healthpicks.length; i++)
 			{
 				healthpicks[i].update(theWorld);
-				
+				//playerSwitchTag
+				/*
 				if(Tools.check_collision(player.getHitbox(),healthpicks[i].getHitbox()))
 				{
 					if(!player.isfullHP())
@@ -991,19 +1020,24 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						healthpicks[i].setTrueX(-healthpicks[i].getWidth()*2);
 					}
 				}
+				*/
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
 				badguys[i].update(theWorld, platforms, damageQ);
-				badguys[i].sight(player, theWorld);
+				//playerSwitchTag
+				//badguys[i].sight(player, theWorld);
 			}
 			for(i = 0; i< bombs.length; i++)
 			{
 				bombs[i].update(theWorld,damageQ);
 				if(bombs[i].getType() == 0)
 				{
+					//playerSwitchTag
+					/*
 					if(Tools.check_collision(player.getfrontHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
 					if(Tools.check_collision(player.getbackHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
+					*/
 						//John add checks for good bombs and things
 				}
 			}
@@ -1012,8 +1046,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(x.getType() == 0 || x.getType() == 4 || x.getType() == 5)
 				{
+					//playerSwitchTag
+					/*
 					if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
 					if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
+					*/
 				}
 				if(x.getType() == 3)
 				{
@@ -1113,16 +1150,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				int[] tplayer = doors[loadTarget].playerloc;
 				int[] tworld = doors[loadTarget].mapstart;
 				loadLevel(doors[loadTarget].newMap);
-				player.setX(tplayer[0]);
+				//playerSwitchTag
+				//player.setX(tplayer[0]);
 				restartdata[0] = tplayer[0];
-				player.setY(tplayer[1]);
+				//playerSwitchTag
+				//player.setY(tplayer[1]);
 				restartdata[1] = tplayer[1];
 				theWorld.setX(tworld[0]);
 				restartdata[2] = tworld[0];
 				theWorld.setY(tworld[1]);
 				restartdata[3] = tworld[1];
 				
-				restartdata[4] =(int) player.HP;
+				//playerSwitchTag
+				//restartdata[4] =(int) player.HP;
 				
 					//John look into preventing world popping!
 				/*player.update(damageQ);
@@ -1137,11 +1177,15 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				loadTarget = 0;
 				loadLevel(lvlName);
+				//playerSwitchTag
+				/*
 				player.setX(restartdata[0]);
 				player.setY(restartdata[1] );
+				*/
 				theWorld.setX(restartdata[2]);
 				theWorld.setY(restartdata[3]);
-				player.HP = restartdata[4];
+				//playerSwitchTag
+				//player.HP = restartdata[4];
 			}	
 			isLoadingF = true;
 			if(loadCont)
@@ -1240,7 +1284,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				if(Tools.check_collision(windowHB,bombs[i].getHitbox())){bombs[i].render(g,lvlspriteData );}
 			}
 				//render the player
-			player.render(g,permaSprites);
+			
+			//playerSwitchTag
+			//player.render(g,permaSprites);
 			player2.render(g, permaSprites);
 			
 			for(i = 0; i < badguys.length; i++)
@@ -1259,6 +1305,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 				damageQhitbox.clear();
 			}
+			//playerSwitchTag
+			/*
 			if(player.HP > 0)
 			{
 				//g.drawImage(permaSprites.get(playerHP.name),playerHP.x, playerHP.y , (int) (HPsW*(player.HP/player.maxHP)) , playerHP.height, null);
@@ -1269,6 +1317,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					playerHPpips.render(g,permaSprites);
 				}
 			}
+			*/
 			/*//These are from a really old version of the game.
 			for(i = 0; i < bomb.length; i++)
 			{
@@ -1389,12 +1438,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			use this as the input passer.
 			
 			 */
+		
+		//playerSwitchTag
+		/*
 		if(!isLoading && !isPaused && !inMainMenu)
 		{
 
 			if(F)
 			{
-				player.fire(theWorld);
+				//playerSwitchTag
+				//player.fire(theWorld);
 			}
 			boolean onplatform = false;
 			boolean headbonk = false;
@@ -1406,6 +1459,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			int movingPlatspeed = 0;
 			for(int i = 0; i < ladders.length ; i++)
 			{
+				//playerSwitchTag
 				if(Tools.check_collision(ladders[i].getHitbox(), player.getHitbox()))
 				{
 					onladder = true;
@@ -1467,8 +1521,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				headbonk= true;
 			}
-			
-			
 				
 			
 			
@@ -1696,7 +1748,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//player.setOnladder(true)
 			}
 		}
-		
+		*/
 	}
 
 	private void combat()
@@ -1728,7 +1780,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//john this is a good way to get to string.
 		
 		//System.out.println(String.valueOf(mStack.getStack()));
-		player2.triggerEngine(userInput, mStack,player.getFacingForward());
+		player2.triggerEngine(userInput, mStack);
 	}
 	
 	public void keyPressed(KeyEvent key) 
@@ -1795,6 +1847,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 	
 					break;
+					
+					//playerSwitchTag
+					/*
 	 			case KeyEvent.VK_LEFT:
 					if(!player.getAttacking())
 					{
@@ -1823,7 +1878,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						}
 					}
 					break;
-					
+					*/
 					
 				//-------------------------(Y)
 				case KeyEvent.VK_W: //UP
@@ -1973,6 +2028,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					}
 	
 					break;
+					
+					
+					//playerSwitchTag
+					/*
 	 			case KeyEvent.VK_A:
 					if(!player.getAttacking())
 					{
@@ -2001,7 +2060,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						}
 					}
 					break;
-					
+					*/
 					
 				//-------------------------(Y)
 				case KeyEvent.VK_UP: //UP

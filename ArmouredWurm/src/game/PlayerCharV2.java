@@ -58,10 +58,9 @@ public class PlayerCharV2 extends Sprite
 	//JOHN REMOVE!
 	protected String[] testAni;
 	protected int testN;
-	protected PlayerChar testPlayer;
 	
 	//Constructors 
-	public PlayerCharV2(String infile, Map<String,BufferedImage> spriteData, PlayerChar inplayer)
+	public PlayerCharV2(String infile, Map<String,BufferedImage> spriteData)
 	{
 		/*
 		 NEW IDEA! 
@@ -323,7 +322,7 @@ public class PlayerCharV2 extends Sprite
 		//JOHN PUT SPECIFIC LOGIC IN HERE!
 	}
 	
-	public void triggerEngine(InputList inputs, MoveStack moveHistory,boolean inFF)//john add external stuff
+	public void triggerEngine(InputList inputs, MoveStack moveHistory)//john add external stuff
 	{
 		/*
 		 1) pass in the following
@@ -363,7 +362,7 @@ public class PlayerCharV2 extends Sprite
 		}
 		
 		//Testing stuff
-		this.valueMap.get("FF").setValue(inFF ? 1 : 0);
+		//this.valueMap.get("FF").setValue(inFF ? 1 : 0);
 		
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
