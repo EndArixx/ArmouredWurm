@@ -622,6 +622,8 @@ public class PlayerCharV2 extends Sprite
 		this.feethitbox[3] = height/4;
 	}
 	
+	//Value stuff------------------------------------------------------
+	
 	public int getValue(String valueName)
 	{
 		try
@@ -630,7 +632,7 @@ public class PlayerCharV2 extends Sprite
 		}
 		catch (Exception e) 
 		{
-			System.out.println("The following valuse could not be found: " + valueName);
+			System.out.println("The following values could not be found: " + valueName);
 			return 0;
 		}
 	}
@@ -643,7 +645,77 @@ public class PlayerCharV2 extends Sprite
 		}
 		catch (Exception e) 
 		{
-			System.out.println("The following valuse could not be found: " + valueName);
+			System.out.println("The following max values could not be found: " + valueName);
 		}
 	}
+	
+	public int getMaxValue(String valueName)
+	{
+		try
+		{
+			return valueMap.get(valueName).getMaxValue();
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following values could not be found: " + valueName);
+			return 0;
+		}
+	}
+	
+	public void setMaxValue(String valueName, int value)
+	{
+		try
+		{
+			valueMap.get(valueName).setMaxValue(value);
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following max values could not be found: " + valueName);
+		}
+	}
+	
+	public void addValue(String valueName, int value)
+	{
+		try
+		{
+			Value temp = valueMap.get(valueName);
+			temp.setValue(temp.getValue() + value);
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following max values could not be found: " + valueName);
+		}
+	}
+	
+	
+	public void setValueToMax(String valueName)
+	{
+		try
+		{
+			Value temp = valueMap.get(valueName);
+			temp.setValue(temp.getMaxValue());
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following max values could not be found: " + valueName);
+		}
+	}
+	
+	public boolean isValueMax(String valueName)
+	{
+		try
+		{
+			Value temp = valueMap.get(valueName);
+			if(temp.getMaxValue() == temp.getValue())
+			{
+				return true;
+			}
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following isMax values could not be found: " + valueName);
+		}
+		return false;
+	}
+	
 }

@@ -1,6 +1,6 @@
 New Game
 11/02/16 18:33:03
-res/player/brov4.txt
+res/player/brov6-2.txt
 100
 res/TEST.txt
 0,0,0,0

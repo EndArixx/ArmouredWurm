@@ -1,8 +1,8 @@
 NEW GAME!
 23/06/15 11:32:15
-res/player/brov4.txt
+res/player/brov6-2.txt
 100
 res/lvl1/lvl1map.jarm
 0,500,0,-1440
 
-//JOHN HIDE THIS FILE. IT SHOULD NOT BE MODIFIED!
+#JOHN HIDE THIS FILE. IT SHOULD NOT BE MODIFIED!

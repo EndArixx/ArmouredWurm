@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.259";
+	public String version = "Version 1.0.260";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -69,6 +69,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	//playerSwitchTag
 	//public PlayerChar player;
 	public PlayerCharV2 player2; //Version 2.0 
+	public String valueNameHP= "HP";
+	
 	public Sprite playerHP;
 	public Sprite playerHPpips;
 	public int hx, hy,hxP,hyP, hpPipLen; //HPsW,
@@ -718,7 +720,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites);
 			
 					//Health bar stuff
-			restartdata[4] = (int) player2.getValue("HP");
+			restartdata[4] = (int) player2.getValue(valueNameHP);
 			this.hx = 50;
 			this.hy = 50;
 			this.hyP = 22;
@@ -750,9 +752,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 * 6)	zonedata: playerX, playerY, mapX, mapY
 		 */
 		
-		//playerSwitchTag
-		//player.addHP(player.maxHP);
-		
+		player2.setValueToMax(valueNameHP);
 		
 		try
 		{
@@ -776,11 +776,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 			Date dateobj = new Date();
 			fw.write(df.format(dateobj) + "\n");
-			//playerSwitchTag
-			/*
-			fw.write(player.file + "\n");
-			fw.write((int) player.maxHP  +"\n");
-			*/
+			
+			fw.write(player2.file + "\n");
+			fw.write((int) player2.getMaxValue(valueNameHP)  +"\n");
+			
 			fw.write(lvlName + "\n");
 			fw.write(restartdata[0] +","+
 				(restartdata[1] )+","+
@@ -858,13 +857,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    		//Player Stuff
 	    	line  = Tools.readlineadv(br);
 	    	
-	    	//playerSwitchTag
-	    	//player = new PlayerChar(line,permaSprites);
+	    	player2 = new PlayerCharV2(line,permaSprites);
 	    	
 	    	line = Tools.readlineadv(br);
 
-	    	//playerSwitchTag
-	    	//player.maxHP = Integer.parseInt(line);
+	    	player2.setMaxValue(valueNameHP, Integer.parseInt(line));
 	    	
 	    		// level stuff
 	    	line = Tools.readlineadv(br);
@@ -931,23 +928,21 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				this.isGameOver = true;
 			}
 			*/
-			/*if(player.HP > 0)
+			if(player2.getValue(valueNameHP) > 0)
 			{
 					//Old Health bar.
 				//playerHP.width =(int) (playerHP.width*(player.HP/player.maxHP));
-			}*/
+			}
 			for(int i = 0; i < doors.length ; i++)
 			{
-				//playerSwitchTag
-				/*
-				if(Tools.check_collision(doors[i].getHitbox(),player.getHitbox()))
+				if(Tools.check_collision(doors[i].getHitbox(),player2.getHitbox()))
 				{
 					isLoading = true;
 					this.loadTarget = i;
 					isLoadingF = false;
 					//isLoading = false;
 				}
-				*/
+				
 			}
 			theWorld.update();
 			
@@ -955,9 +950,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				soundHandler.update();
 			}
-			//playerSwitchTag
-			//player.update(damageQ);
+			
 			combat();
+			//John make sure you update it 
 			player2.update();
 
 			
@@ -994,14 +989,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 
 				saveZone[i].update(theWorld);
-				//playerSwitchTag
-				/*
-				if(Tools.check_collision(player.getHitbox(),saveZone[i].getHitbox()))
+				if(Tools.check_collision(player2.getHitbox(),saveZone[i].getHitbox()))
 				{
 					saveZone[i].setValue(0);
 					saveFile();
 				}
-				*/
 				if(!Tools.check_collision(theWorld.getHitbox(),saveZone[i].getHitbox()))
 				{
 					saveZone[i].setValue(1);
@@ -1010,17 +1002,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < healthpicks.length; i++)
 			{
 				healthpicks[i].update(theWorld);
-				//playerSwitchTag
-				/*
-				if(Tools.check_collision(player.getHitbox(),healthpicks[i].getHitbox()))
+				if(Tools.check_collision(player2.getHitbox(),healthpicks[i].getHitbox()))
 				{
-					if(!player.isfullHP())
+					if(!player2.isValueMax(valueNameHP))
 					{
-						player.addHP(healthpicks[i].getValue());
+						player2.addValue(valueNameHP, healthpicks[i].getValue());
 						healthpicks[i].setTrueX(-healthpicks[i].getWidth()*2);
 					}
 				}
-				*/
 			}
 			for(i = 0; i < badguys.length; i++)
 			{
