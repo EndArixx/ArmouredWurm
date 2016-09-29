@@ -621,7 +621,43 @@ public class PlayerCharV2 extends Sprite
 		this.feethitbox[2] = 3*(width/4);
 		this.feethitbox[3] = height/4;
 	}
-	
+
+	public int[] getheadHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + headhitbox[0];
+		outbox[1] = y + headhitbox[1];
+		outbox[2] = headhitbox[2];
+		outbox[3] = headhitbox[3];
+		return outbox;
+	}
+	public int[] getfrontHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + fronthitbox[0];
+		outbox[1] = y + fronthitbox[1];
+		outbox[2] = fronthitbox[2];
+		outbox[3] = fronthitbox[3];
+		return outbox;
+	}
+	public int[] getbackHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + backhitbox[0];
+		outbox[1] = y + backhitbox[1];
+		outbox[2] = backhitbox[2];
+		outbox[3] = backhitbox[3];
+		return outbox;
+	}
+	public int[] getfeetHitbox()
+	{
+		int outbox[] = new int[4];
+		outbox[0] = x + feethitbox[0];
+		outbox[1] = y + feethitbox[1];
+		outbox[2] = feethitbox[2];
+		outbox[3] = feethitbox[3];
+		return outbox;
+	}
 	//Value stuff------------------------------------------------------
 	
 	public int getValue(String valueName)
@@ -710,6 +746,20 @@ public class PlayerCharV2 extends Sprite
 			{
 				return true;
 			}
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following isMax values could not be found: " + valueName);
+		}
+		return false;
+	}
+	
+	public boolean isValue(String valueName)
+	{
+		try
+		{
+			Value temp = valueMap.get(valueName);
+			return temp.getBool();
 		}
 		catch (Exception e) 
 		{

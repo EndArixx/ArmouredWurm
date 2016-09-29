@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.260";
+	public String version = "Version 1.0.261";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -868,11 +868,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	    	loadLevel(line);
 	    	line = Tools.readlineadv(br);
 	    	String[] temp = line.split(",");
-	    	//playerSwitchTag
-	    	//player.setX(Integer.parseInt(temp[0]));
+	    	player2.setX(Integer.parseInt(temp[0]));
 			restartdata[0] =Integer.parseInt(temp[0]);
-			//playerSwitchTag
-			//player.setY(Integer.parseInt(temp[1]));
+			player2.setY(Integer.parseInt(temp[1]));
 			restartdata[1] = Integer.parseInt(temp[1]);
 			theWorld.setX(Integer.parseInt(temp[2]));
 			restartdata[2] = Integer.parseInt(temp[2]);
@@ -921,13 +919,12 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if((!isLoading && !isPaused && !isGameOver && !inMainMenu )||oneupdate)
 		{	
 			oneupdate=false;
-			//playerSwitchTag
-			/*
-			if(player.getDead())
+			//playerSwitchTag John keep an eye on this
+			if(player2.isValue("dead"))
 			{
 				this.isGameOver = true;
 			}
-			*/
+			
 			if(player2.getValue(valueNameHP) > 0)
 			{
 					//Old Health bar.
@@ -1022,11 +1019,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				bombs[i].update(theWorld,damageQ);
 				if(bombs[i].getType() == 0)
 				{
-					//playerSwitchTag
-					/*
-					if(Tools.check_collision(player.getfrontHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
-					if(Tools.check_collision(player.getbackHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
-					*/
+					if(Tools.check_collision(player2.getfrontHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
+					if(Tools.check_collision(player2.getbackHitbox(),bombs[i].getHitbox())){bombs[i].explode();}
 						//John add checks for good bombs and things
 				}
 			}
@@ -1036,9 +1030,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				if(x.getType() == 0 || x.getType() == 4 || x.getType() == 5)
 				{
 					//playerSwitchTag
-					/*
-					if(Tools.check_collision(player.getfrontHitbox(),x.getHitbox())){player.damage(x.amount);}
-					if(Tools.check_collision(player.getbackHitbox(),x.getHitbox())){player.damage(x.amount);}
+					/* john setup damage stuff
+					if(Tools.check_collision(player2.getfrontHitbox(),x.getHitbox())){player2.damage(x.amount);}
+					if(Tools.check_collision(player2.getbackHitbox(),x.getHitbox())){player2.damage(x.amount);}
 					*/
 				}
 				if(x.getType() == 3)
@@ -1139,19 +1133,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				int[] tplayer = doors[loadTarget].playerloc;
 				int[] tworld = doors[loadTarget].mapstart;
 				loadLevel(doors[loadTarget].newMap);
-				//playerSwitchTag
-				//player.setX(tplayer[0]);
+				player2.setX(tplayer[0]);
 				restartdata[0] = tplayer[0];
-				//playerSwitchTag
-				//player.setY(tplayer[1]);
+				player2.setY(tplayer[1]);
 				restartdata[1] = tplayer[1];
 				theWorld.setX(tworld[0]);
 				restartdata[2] = tworld[0];
 				theWorld.setY(tworld[1]);
 				restartdata[3] = tworld[1];
 				
-				//playerSwitchTag
-				//restartdata[4] =(int) player.HP;
+				restartdata[4] =(int) player2.getValue(this.valueNameHP);
 				
 					//John look into preventing world popping!
 				/*player.update(damageQ);
@@ -1166,15 +1157,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				loadTarget = 0;
 				loadLevel(lvlName);
-				//playerSwitchTag
-				/*
-				player.setX(restartdata[0]);
-				player.setY(restartdata[1] );
-				*/
+
+				player2.setX(restartdata[0]);
+				player2.setY(restartdata[1] );
+				
 				theWorld.setX(restartdata[2]);
 				theWorld.setY(restartdata[3]);
-				//playerSwitchTag
-				//player.HP = restartdata[4];
+				
+				player2.setValue(this.valueNameHP, restartdata[4]);
 			}	
 			isLoadingF = true;
 			if(loadCont)
@@ -1294,19 +1284,18 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}
 				damageQhitbox.clear();
 			}
-			//playerSwitchTag
-			/*
-			if(player.HP > 0)
+
+			if(player2.getValue(valueNameHP) > 0)
 			{
 				//g.drawImage(permaSprites.get(playerHP.name),playerHP.x, playerHP.y , (int) (HPsW*(player.HP/player.maxHP)) , playerHP.height, null);
 				playerHP.render(g,permaSprites);
-				for(i = 0; i < player.HP/10; i++)
+				for(i = 0; i < player2.getValue(valueNameHP)/10; i++)
 				{
 					playerHPpips.setX(playerHP.getX() + this.hxP + (i*this.hpPipLen));
 					playerHPpips.render(g,permaSprites);
 				}
 			}
-			*/
+
 			/*//These are from a really old version of the game.
 			for(i = 0; i < bomb.length; i++)
 			{
