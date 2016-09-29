@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.261";
+	public String version = "Version 1.0.262";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1417,8 +1417,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			 */
 		
-		//playerSwitchTag
-		/*
 		if(!isLoading && !isPaused && !inMainMenu)
 		{
 
@@ -1438,7 +1436,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(int i = 0; i < ladders.length ; i++)
 			{
 				//playerSwitchTag
-				if(Tools.check_collision(ladders[i].getHitbox(), player.getHitbox()))
+				if(Tools.check_collision(ladders[i].getHitbox(), player2.getHitbox()))
 				{
 					onladder = true;
 				}
@@ -1447,22 +1445,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(!platforms[i].isDestroyable()||!platforms[i].isDestroyed())
 				{
-					if(!onladder && !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player.getheadHitbox()))
+					if(!onladder && !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player2.getheadHitbox()))
 						{headbonk = true;}}
 					
-					if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player.getfrontHitbox()))
+					if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getfrontHitbox()))
 						{
 							frontbonk = true;
 							if(platforms[i].getMoving())
 								{movingPlatspeed = platforms[i].movingSpeed();}
 						}
-					if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player.getbackHitbox()))
+					if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getbackHitbox()))
 						{
 							backbonk = true;
 							if(platforms[i].getMoving())
 								{movingPlatspeed = platforms[i].movingSpeed();}
 						}
-					if(!onladder && !onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player.getfeetHitbox()))
+					if(!onladder && !onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player2.getfeetHitbox()))
 					{
 						onplatform = true;
 							
@@ -1478,24 +1476,24 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				
 				if(movingPlatspeed < 0 )
 				{
-					if(player.getX() >  6*window.width/16)
-						{player.setX(player.getX() + movingPlatspeed);}
+					if(player2.getX() >  6*window.width/16)
+						{player2.setX(player2.getX() + movingPlatspeed);}
 					else if(theWorld.getX() < 0)
 						{theWorld.moveXp(-movingPlatspeed);}
-					else if(player.getX() > 0)
-						{player.setX(player.getX() + movingPlatspeed);}
+					else if(player2.getX() > 0)
+						{player2.setX(player2.getX() + movingPlatspeed);}
 				}
 				else if(movingPlatspeed > 0 )
 				{
-					if(player.getX() <  6*window.width/16)
-						{player.setX(player.getX() + movingPlatspeed);}
+					if(player2.getX() <  6*window.width/16)
+						{player2.setX(player2.getX() + movingPlatspeed);}
 					else if(-theWorld.getX() < theWorld.getWidth()-window.width)
 						{theWorld.moveXp(-movingPlatspeed);}
-					else if(player.getX() < window.width -player.getWidth())
-						{player.setX(player.getX() + movingPlatspeed);}
+					else if(player2.getX() < window.width -player2.getWidth())
+						{player2.setX(player2.getX() + movingPlatspeed);}
 				}
 			}
-			if(player.getY() < 1)
+			if(player2.getY() < 1)
 			{
 				headbonk= true;
 			}
@@ -1503,73 +1501,91 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			
 				//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (!player.getJumping() && !onplatform && !onladder)
+			if (!player2.isValue("isFalling") && !onplatform && !onladder)
 			{
-				if(player.gravity <0 ) {player.gravity = 0;}
+				if(player2.getValue("gravity") < 0 ) {player2.setValue("gravity", 0); }
 				
-				if(player.getY() < 6*window.height/9-player.getHeight())
+				if(player2.getY() < 6*window.height/9-player2.getHeight())
 				{
-					player.fall();
+					//playerSwitchTag
+					//player.fall();
 	 			}
 				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
 				{
 					
-					if(player.gravity < player.gettopGravity()) 
+					if(player2.getValue("gravity") < player2.getMaxValue("gravity")) 
 					{
-						player.gravity = player.gravity + player.fallrate;  
+						//playerSwitchTag
+						//player.gravity = player.gravity + player.fallrate;  
 					}
 					
-					theWorld.moveYn((int)player.getGravity());					
-					player.setfalling(true);				
+					//playerSwitchTag
+					//theWorld.moveYn((int)player.getGravity());					
+					//playerSwitchTag
+					//player.setfalling(true);				
 				}
-				else if(player.getY() < window.height-player.getHeight())
+				else if(player2.getY() < window.height-player2.getHeight())
 				{
-					player.fall();
+					//playerSwitchTag
+					//player.fall();
 				}
 				else
 				{
-					player.setfalling(false);
+					//playerSwitchTag
+					//player.setfalling(false);
 				}
 	
 			}
 			else
 			{
-				player.setfalling(false);
+				//playerSwitchTag
+				//player.setfalling(false);
 				falling = false;
+				//playerSwitchTag
+				/*
 				if(!player.getJumping())
 				{
 					player.gravity = 0;
 				}
+				*/
 			}
 				//NORTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (N && !headbonk)
 			{
 				if(onladder)
 				{
-					if(player.getY() > window.height/9)
+					if(player2.getY() > window.height/9)
 					{
-						player.setY((int) (player.getY() - player.gettopRunSpeed()));
+						//playerSwitchTag
+						//player2.setY((int) (player2.getY() - player.gettopRunSpeed()));
 					}
+					//playerSwitchTag
+					/*
 					else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
 					{
-						theWorld.moveYn((int) -player.gettopRunSpeed());	
-					}
-					else if(player.getY() > 0)
+						//playerSwitchTag
+						//theWorld.moveYn((int) -player.gettopRunSpeed());	
+					}*/
+					else if(player2.getY() > 0)
 					{
-						player.setY((int) (player.getY() - player.gettopRunSpeed()));
+						//playerSwitchTag
+						//player2.setY((int) (player2.getY() - player.gettopRunSpeed()));
 					}
 				}
 				else
 				{
-					player.setJumping(true);
+					//playerSwitchTag
+					/*
+					//player.setJumping(true);
 					if((onplatform || onladder|| player.getY() >= window.height-player.getHeight()) && Jh)
 					{
 						player.gravity = -player.gettopJump();
 						Jh = false;
 					}
+					*/
 					
-					
-					
+					//playerSwitchTag
+					/*
 					if(player.gravity < 0)
 					{
 						if(player.getY() > window.height/9)
@@ -1594,15 +1610,17 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					else
 					{
 						player.setJumping(false);
-					}
+					}*/
 				}	
 			}
 			else
 			{
-				player.setJumping(false);
+				//playerSwitchTag
+				//player.setJumping(false);
 			}
 			
-			
+			//playerSwitchTag
+			/*
 				//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (W && !backbonk && ((!player.getAttacking()) || player.getJA()))
 			{ 
@@ -1647,6 +1665,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				player.setbackward(false);
 			}
+			*/
+			
+			//playerSwitchTag
+			/*
 				//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (E && !frontbonk && ((!player.getAttacking()) || player.getJA()))
 			{
@@ -1698,26 +1720,31 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				player.speedX = 0;
 			}
+			*/
+			
 			//SOUTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if(S && onladder)
 			{
+				//playerSwitchTag
 					//this is so that the ladder movements aren't based on gravity.
-				if(player.gravity <0 ) {player.gravity = 0;}
+				//if(player.gravity <0 ) {player.gravity = 0;}
 				//player.setOnladder(true)
 				
 				
-				if(player.getY() < 8*window.height/9-player.getHeight())
+				if(player2.getY() < 8*window.height/9-player2.getHeight())
 				{
-					player.moveYp();
+					//playerSwitchTag
+					//player2.moveYp();
 	 			}
 				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
 				{
-					
-					theWorld.moveYn((int) player.gettopRunSpeed());					
+					//playerSwitchTag
+					//theWorld.moveYn((int) player.gettopRunSpeed());					
 				}
-				else if(player.getY() < window.height-player.getHeight())
+				else if(player2.getY() < window.height-player2.getHeight())
 				{
-					player.moveYp();
+					//playerSwitchTag
+					//player.moveYp();
 				}
 				
 			}
@@ -1726,7 +1753,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				//player.setOnladder(true)
 			}
 		}
-		*/
 	}
 
 	private void combat()
