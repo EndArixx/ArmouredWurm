@@ -2,7 +2,8 @@
 #john ideas? datatype?
 HP,100,100,0
 runspeed,20,100,0
-fallspeed,30,100,0
+fallSpeed,30,100,0
+fallRate,5,20,0
 X,200,10000,0
 Y,200,10000,0
 #john look up gravity number from code 
@@ -22,3 +23,4 @@ endOfSpark,0,1,0
 #other booleans############
 doublejump,0,1,0
 isFalling,0,1,0
+isInvulnerable,0,1,0

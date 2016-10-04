@@ -379,7 +379,7 @@ public class Soldier extends PlayerChar
 		this.colN = moving[1];
 	}
 		//----------------------------------------------------------------------------------------SIGHT
-	public void sight(PlayerChar target,World theWorld)
+	public void sight(Sprite target,World theWorld)
 	{
 		if(dying || dead)
 		{

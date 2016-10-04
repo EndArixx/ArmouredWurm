@@ -658,6 +658,19 @@ public class PlayerCharV2 extends Sprite
 		outbox[3] = feethitbox[3];
 		return outbox;
 	}
+	
+	public void damage(int amount)
+	{		
+		//playerSwitchTag
+		//John set this up
+	}
+	public void fall()
+	{
+		//playerSwitchTag
+		//John set this up
+	}
+	
+	
 	//Value stuff------------------------------------------------------
 	
 	public int getValue(String valueName)

@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.262";
+	public String version = "Version 1.0.263";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -710,13 +710,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			gameover = new Sprite("res/gameover.png",0,0,permaSprites );
 			isGameOver = false;
 			
-			//playerSwitchTag
-					//Player stuff (john set this up in the save file)
-			//player = new PlayerChar("res/player/brov4.txt",permaSprites);
 			
-					//testing the new Trigger stuff!
-					//So this crashes eclipse......Joy
-					//Memory issssssssuesssssssssssssssssss :(
 			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites);
 			
 					//Health bar stuff
@@ -919,6 +913,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if((!isLoading && !isPaused && !isGameOver && !inMainMenu )||oneupdate)
 		{	
 			oneupdate=false;
+			
 			//playerSwitchTag John keep an eye on this
 			if(player2.isValue("dead"))
 			{
@@ -949,7 +944,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			
 			combat();
-			//John make sure you update it 
+			//playerSwitchTag make sure you update it 
 			player2.update();
 
 			
@@ -1011,8 +1006,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			for(i = 0; i < badguys.length; i++)
 			{
 				badguys[i].update(theWorld, platforms, damageQ);
-				//playerSwitchTag
-				//badguys[i].sight(player, theWorld);
+				badguys[i].sight(player2, theWorld);
 			}
 			for(i = 0; i< bombs.length; i++)
 			{
@@ -1029,11 +1023,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			{
 				if(x.getType() == 0 || x.getType() == 4 || x.getType() == 5)
 				{
-					//playerSwitchTag
-					/* john setup damage stuff
 					if(Tools.check_collision(player2.getfrontHitbox(),x.getHitbox())){player2.damage(x.amount);}
 					if(Tools.check_collision(player2.getbackHitbox(),x.getHitbox())){player2.damage(x.amount);}
-					*/
 				}
 				if(x.getType() == 3)
 				{
@@ -1263,9 +1254,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				if(Tools.check_collision(windowHB,bombs[i].getHitbox())){bombs[i].render(g,lvlspriteData );}
 			}
 				//render the player
-			
-			//playerSwitchTag
-			//player.render(g,permaSprites);
 			player2.render(g, permaSprites);
 			
 			for(i = 0; i < badguys.length; i++)
@@ -1419,12 +1407,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 		if(!isLoading && !isPaused && !inMainMenu)
 		{
-
-			if(F)
-			{
-				//playerSwitchTag
-				//player.fire(theWorld);
-			}
 			boolean onplatform = false;
 			boolean headbonk = false;
 			boolean frontbonk = false;
@@ -1435,7 +1417,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			int movingPlatspeed = 0;
 			for(int i = 0; i < ladders.length ; i++)
 			{
-				//playerSwitchTag
 				if(Tools.check_collision(ladders[i].getHitbox(), player2.getHitbox()))
 				{
 					onladder = true;
@@ -1499,7 +1480,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 				
 			
-			
+			//playerSwitchTag
 				//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (!player2.isValue("isFalling") && !onplatform && !onladder)
 			{
@@ -1507,47 +1488,37 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				
 				if(player2.getY() < 6*window.height/9-player2.getHeight())
 				{
-					//playerSwitchTag
-					//player.fall();
+					player2.fall();
 	 			}
 				else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
 				{
 					
 					if(player2.getValue("gravity") < player2.getMaxValue("gravity")) 
 					{
-						//playerSwitchTag
-						//player.gravity = player.gravity + player.fallrate;  
+						player2.setValue("gravity", player2.getValue("gravity") + player2.getValue("fallRate"));  
 					}
 					
-					//playerSwitchTag
-					//theWorld.moveYn((int)player.getGravity());					
-					//playerSwitchTag
-					//player.setfalling(true);				
+					theWorld.moveYn((int)player2.getValue("gravity") );							
+					player2.setValue("isFalling", 1);
 				}
 				else if(player2.getY() < window.height-player2.getHeight())
 				{
-					//playerSwitchTag
-					//player.fall();
+					player2.fall();
 				}
 				else
 				{
-					//playerSwitchTag
-					//player.setfalling(false);
+					player2.setValue("isFalling", 0);
 				}
 	
 			}
 			else
 			{
-				//playerSwitchTag
-				//player.setfalling(false);
+				player2.setValue("isFalling", 0);
 				falling = false;
-				//playerSwitchTag
-				/*
-				if(!player.getJumping())
+				if(!player2.isValue("isJumping"))
 				{
-					player.gravity = 0;
+					player2.setValue("gravity", 0);
 				}
-				*/
 			}
 				//NORTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (N && !headbonk)
@@ -1556,47 +1527,40 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				{
 					if(player2.getY() > window.height/9)
 					{
-						//playerSwitchTag
-						//player2.setY((int) (player2.getY() - player.gettopRunSpeed()));
+						player2.setY((int) (player2.getY() - player2.getValue("runspeed")));
 					}
-					//playerSwitchTag
-					/*
-					else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
+
+					else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player2.getValue("gravity"))
 					{
-						//playerSwitchTag
-						//theWorld.moveYn((int) -player.gettopRunSpeed());	
-					}*/
+						theWorld.moveYn((int) - player2.getValue("runspeed"));	
+					}
 					else if(player2.getY() > 0)
 					{
-						//playerSwitchTag
-						//player2.setY((int) (player2.getY() - player.gettopRunSpeed()));
+						player2.setY((int) (player2.getY() - player2.getValue("runspeed")));
 					}
 				}
 				else
 				{
-					//playerSwitchTag
-					/*
-					//player.setJumping(true);
-					if((onplatform || onladder|| player.getY() >= window.height-player.getHeight()) && Jh)
+					player2.setValue("isJumping", 1);
+					if((onplatform || onladder|| player2.getY() >= window.height-player2.getHeight()) && Jh)
 					{
-						player.gravity = -player.gettopJump();
+						player2.setValue("gravity",-player2.getValue("jumpSpeed"));  
 						Jh = false;
 					}
-					*/
 					
 					//playerSwitchTag
 					/*
-					if(player.gravity < 0)
+					if(player2.getValue("gravity")  < 0)
 					{
-						if(player.getY() > window.height/9)
+						if(player2.getY() > window.height/9)
 						{
-							player.moveYn();
+							//player2.moveYn();
 						}
 						else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
 						{
 							//theWorld.moveYp(player.speedY);
 							
-							if(player.gravity < player.gettopGravity()) 
+							if(player2.getValue("gravity") < player.gettopGravity()) 
 							{
 								player.gravity = player.gravity + player.fallrate;
 							}
