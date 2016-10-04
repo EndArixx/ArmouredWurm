@@ -353,8 +353,8 @@ public class PlayerCharV2 extends Sprite
 		
 		char[] history = moveHistory.getStack();
 		boolean testmode = false;
-		this.x = this.valueMap.get("X").getValue();
-		this.y = this.valueMap.get("Y").getValue();
+		//this.x = this.valueMap.get("X").getValue();
+		//this.y = this.valueMap.get("Y").getValue();
 		
 		if(this.firstloop)
 		{

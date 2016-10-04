@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.263";
+	public String version = "Version 1.0.264";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -914,7 +914,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{	
 			oneupdate=false;
 			
-			//playerSwitchTag John keep an eye on this
 			if(player2.isValue("dead"))
 			{
 				this.isGameOver = true;
@@ -1480,7 +1479,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 				
 			
-			//playerSwitchTag
 				//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (!player2.isValue("isFalling") && !onplatform && !onladder)
 			{
@@ -1548,143 +1546,139 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						Jh = false;
 					}
 					
-					//playerSwitchTag
-					/*
 					if(player2.getValue("gravity")  < 0)
 					{
 						if(player2.getY() > window.height/9)
 						{
 							//player2.moveYn();
 						}
-						else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player.getGravity())
+						else if (theWorld.getY() < theWorld.height-window.height && theWorld.getY() < player2.getValue("gravity") )
 						{
-							//theWorld.moveYp(player.speedY);
+							//theWorld.moveYp(player.speedY);sa
 							
-							if(player2.getValue("gravity") < player.gettopGravity()) 
+							if(player2.getValue("gravity") < player2.getMaxValue("Gravity")) 
 							{
-								player.gravity = player.gravity + player.fallrate;
+								player2.setValue("gravity", player2.getValue("gravity") + player2.getValue("fallRate"));
 							}
-							theWorld.moveYn((int) player.getGravity());
+							theWorld.moveYn((int) player2.getValue("gravity"));
 						}
-						else if(player.getY() > 0)
+						else if(player2.getY() > 0)
 						{
-							player.moveYn();
+							//player2.moveYn();
 						}
 					}
 					else
 					{
-						player.setJumping(false);
-					}*/
+						player2.setValue("isJumping", 0);
+					}
 				}	
 			}
 			else
 			{
-				//playerSwitchTag
-				//player.setJumping(false);
+				player2.setValue("isJumping", 0);
 			}
 			
-			//playerSwitchTag
-			/*
 				//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (W && !backbonk && ((!player.getAttacking()) || player.getJA()))
+			if (W && !backbonk 	)//playerSwitchTag && ((!player2.getAttacking()) || player2.getJA()))
 			{ 
-				player.setFaceForward(false);
-				player.setbackward(true);
-				if(player.getX() >  6*window.width/16)
+				player2.setValue("FF", 0);
+				//playerSwitchTag
+				//player2.setbackward(true);
+				if(player2.getX() >  6*window.width/16)
 				{
 						//this if statement is to prevent the player from getting stuck in a wall;
-					if(!frontbonk ||player.speedX <= 0) 
+					if(!frontbonk ||player2.speedX <= 0) 	//playerSwitchTag
 					{
-						player.moveXn();
+						//playerSwitchTag
+						//player2.moveXn();
 					}
-					else if(player.speedX > -player.topRunSpeed)
+					//playerSwitchTagelse if(player2.speedX > -player2.topRunSpeed)
 					{
-						player.speedX -= player.runrate;
+						//playerSwitchTagplayer2.speedX -= player2.runrate;
 					}
 				}
 				else if(theWorld.getX() < 0)
 				{
-					if(player.speedX > -player.topRunSpeed)
+					//playerSwitchTagif(player2.speedX > -player2.topRunSpeed)
 					{
-						player.speedX -= player.runrate;
+						//playerSwitchTagplayer2.speedX -= player2.runrate;
 					}
-					if(!frontbonk || player.speedX <= 0)
+					if(!frontbonk || player2.speedX <= 0)
 					{
-						theWorld.moveXp((int) -player.speedX);
+						theWorld.moveXp((int) -player2.speedX);
 					}
 				}
-				else if(player.getX() > 0)
+				else if(player2.getX() > 0)
 				{
-					if(!frontbonk || player.speedX <= 0)
+					if(!frontbonk || player2.speedX <= 0)
 					{
-						player.moveXn();
+						//playerSwitchTag
+						//player2.moveXn();
 					}
-					else if(player.speedX > -player.topRunSpeed)
+					//playerSwitchTagelse if(player.speedX > -player.topRunSpeed)
 					{
-						player.speedX -= player.runrate;
+						//playerSwitchTagplayer2.speedX -= player.runrate;
 					}
 				}
 			}
 			else
 			{
-				player.setbackward(false);
+				//playerSwitchTag player.setbackward(false);
 			}
-			*/
 			
-			//playerSwitchTag
-			/*
 				//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (E && !frontbonk && ((!player.getAttacking()) || player.getJA()))
+			if (E && !frontbonk )//playerSwitchTag && ((!player.getAttacking()) || player.getJA()))
 			{
-				player.setFaceForward(true);
-				player.setForward(true);
-				if(player.getX() < 6*window.width/16)
+				player2.setValue("FF", 1);
+				//playerSwitchTag player.setForward(true);
+				if(player2.getX() < 6*window.width/16)
 				{
-					if (!backbonk || player.speedX >= 0)
+					if (!backbonk || player2.speedX >= 0)
 					{
-						player.moveXp();
+						//playerSwitchTag 
+						//player2.moveXp();
 					}
-					else if(player.speedX < player.topRunSpeed)
+					//playerSwitchTag else if(player2.speedX < player.topRunSpeed)
 					{
-						player.speedX += player.runrate;
+						//playerSwitchTag player2.speedX += player.runrate;
 					}
 				}
 				else if(-theWorld.getX() < theWorld.getWidth()-window.width)
 				{
 
-					if(player.speedX < player.topRunSpeed)
+					//playerSwitchTag if(player2.speedX < player2.topRunSpeed)
 					{
-						player.speedX += player.runrate;
+						//playerSwitchTag player2.speedX += player.runrate;
 					}
-					if (!backbonk || player.speedX >= 0)
+					if (!backbonk || player2.speedX >= 0)
 					{
-						theWorld.moveXp((int) -player.speedX);
+						theWorld.moveXp((int) -player2.speedX);
 					}
 				}
-				else if (player.getX() < window.width -player.getWidth())
+				else if (player2.getX() < window.width -player2.getWidth())
 				{
-					if(!backbonk || player.speedX >= 0)
+					//playerSwitchTag if(!backbonk || player.speedX >= 0)
 					{
-						player.moveXp();
+						//playerSwitchTag 
+						//player2.moveXp();
 					}
-					else if(player.speedX < player.topRunSpeed)
+					//playerSwitchTag else if(player2.speedX < player.topRunSpeed)
 					{
-						player.speedX += player.runrate;
+						//playerSwitchTag player.speedX += player2.runrate;
 					}
 						 
 				}
 			}
 			else
 			{	
-					//JOHN RETHING KNOCKBACK!
-				player.setForward(false);
+				player2.setValue("FF",0);
 			}
 			
 			if(!E&& !W)
 			{
-				player.speedX = 0;
+				//playerSwitchTag 
+				player2.speedX = 0;
 			}
-			*/
 			
 			//SOUTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if(S && onladder)
