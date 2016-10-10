@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.265";
+	public String version = "Version 1.0.266";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1358,7 +1358,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			while(  System.currentTimeMillis() > next_game_tick && loops < MAX_FRAMESKIP) 
 			{	
 				movement();
-				//combat();
+				combat();
 				update();
 				
 				next_game_tick += SKIP_TICKS;
@@ -1395,19 +1395,97 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	private void movement()
 	{
 		//Movement 2.0 designed for the Trigger engine.
+		if(!isLoading && !isPaused && !inMainMenu)
+		{
+		
+		//Set up all player hit detections.--------------------------------------
+		boolean onplatform = false;
+		boolean headbonk = false;
+		boolean frontbonk = false;
+		boolean backbonk = false;
+		boolean onladder = false;
+		boolean falling = true;
+			//John this might need to change
+		int movingPlatspeed = 0;
+		for(int i = 0; i < ladders.length ; i++)
+		{
+			if(Tools.check_collision(ladders[i].getHitbox(), player2.getHitbox()))
+			{
+				onladder = true;
+			}
+		}
+		for(int i = 0; i < platforms.length; i++)
+		{
+			if(!platforms[i].isDestroyable()||!platforms[i].isDestroyed())
+			{
+				if(!onladder && !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player2.getheadHitbox()))
+					{headbonk = true;}}
+				
+				if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getfrontHitbox()))
+					{
+						frontbonk = true;
+						if(platforms[i].getMoving())
+							{movingPlatspeed = platforms[i].movingSpeed();}
+					}
+				if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getbackHitbox()))
+					{
+						backbonk = true;
+						if(platforms[i].getMoving())
+							{movingPlatspeed = platforms[i].movingSpeed();}
+					}
+				if(!onladder && !onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player2.getfeetHitbox()))
+				{
+					onplatform = true;
+						
+						//MOVING PLATFORM Logic
+					if(platforms[i].getMoving())
+						{movingPlatspeed = platforms[i].movingSpeed();}
+				}}
+			}
+		}
+			//this will move the player if they are on a moving platform
+		if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0))
+		{
+			
+			if(movingPlatspeed < 0 )
+			{
+				if(player2.getX() >  6*window.width/16)
+					{player2.setX(player2.getX() + movingPlatspeed);}
+				else if(theWorld.getX() < 0)
+					{theWorld.moveXp(-movingPlatspeed);}
+				else if(player2.getX() > 0)
+					{player2.setX(player2.getX() + movingPlatspeed);}
+			}
+			else if(movingPlatspeed > 0 )
+			{
+				if(player2.getX() <  6*window.width/16)
+					{player2.setX(player2.getX() + movingPlatspeed);}
+				else if(-theWorld.getX() < theWorld.getWidth()-window.width)
+					{theWorld.moveXp(-movingPlatspeed);}
+				else if(player2.getX() < window.width -player2.getWidth())
+					{player2.setX(player2.getX() + movingPlatspeed);}
+			}
+		}
+		if(player2.getY() < 1)
+		{
+			headbonk= true;
+		}
+		
+		System.out.println();
+		if (onplatform) System.out.print("onplatform ");
+		if (headbonk) System.out.print("headbonk ");
+		if (frontbonk) System.out.print("frontbonk ");
+		if (backbonk ) System.out.print("backbonk ");
+		if (onladder ) System.out.print("onladder ");
+		if (falling) System.out.print("falling ");
+		System.out.println();
+		} //End of menuShtuff
+		
 	}
 	
 	private void movementOld(PlayerChar player)
 	{
-			/*
-			~new combat update!~
-			This will now only handle passing the inputs and all the movement should be handled by the Update method.
-			Hopefully i will be able to retire this method.
-			
-			OR 
-			use this as the input passer.
-			
-			 */
+		
 		if(!isLoading && !isPaused && !inMainMenu)
 		{
 
