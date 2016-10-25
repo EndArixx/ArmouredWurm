@@ -55,6 +55,16 @@ public class PlayerCharV2 extends Sprite
 	protected String attackloc;
 	protected String valueloc;
 	
+	//i have begun to realize some things shouldn't be dynamic, adding NEEDED variables:
+	protected int XVel; //This is the CUrrent speed
+	protected int YVel;
+	protected int Xaccel; //This is the acceleration of said values.
+	protected int YaccelUp;
+	protected int YaccelDn;
+	protected int MaxXVel; //Max veloceties. 
+	protected int MaxYVelUp;
+	protected int MaxYVelDn; //terminal velocity (+y)
+	
 	//JOHN REMOVE!
 	protected String[] testAni;
 	protected int testN;
