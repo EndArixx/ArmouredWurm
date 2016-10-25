@@ -3,6 +3,7 @@ package game;
 import game.triggers.*;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -64,6 +65,43 @@ public class PlayerCharV2 extends Sprite
 	protected int MaxXVel; //Max veloceties. 
 	protected int MaxYVelUp;
 	protected int MaxYVelDn; //terminal velocity (+y)
+	
+	
+	//this will be the method that engine.Movement will call
+	protected void MoveRight(World world,Dimension window)
+	{
+		moveX(world,window,this.XVel);
+	}
+	protected void Moveleft(World world,Dimension window)
+	{
+		moveX(world,window,this.XVel);
+	}
+	protected void MoveUP(World world,Dimension window)
+	{
+		moveY(world,window,this.XVel);
+	}
+	protected void MoveDown(World world,Dimension window)
+	{
+		moveY(world,window,this.XVel);
+	}
+	protected void Fall(World world,Dimension window)
+	{
+		moveY(world,window,this.XVel);
+	}
+	private void moveX(World w,Dimension D, int amount)
+	{
+		
+	}
+	private void moveY(World w,Dimension D, int amount)
+	{
+		
+	}
+	
+	//Acceleration 
+	protected void Accelerate()
+	{
+		//STUB THIS WILL BE USED FOR ALL ACCERALTION.
+	}
 	
 	//JOHN REMOVE!
 	protected String[] testAni;
