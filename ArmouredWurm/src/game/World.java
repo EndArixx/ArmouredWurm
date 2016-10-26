@@ -57,6 +57,15 @@ public class World
 	{return x;}
 	public int getY()
 	{return y;}
+	public void moveX(double speed)
+	{
+		this.x = (int) (this.x + speed);
+	}
+	public void moveY(double speed)
+	{
+		this.y = (int) (this.y + speed);
+	}
+	//LEGACY JOHN REMOVE THESE!
 	public void moveXp(double speed)
 	{
 		this.x = (int) (this.x + speed);

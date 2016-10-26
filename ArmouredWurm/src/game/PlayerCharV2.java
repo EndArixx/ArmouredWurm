@@ -74,27 +74,57 @@ public class PlayerCharV2 extends Sprite
 	}
 	protected void Moveleft(World world,Dimension window)
 	{
-		moveX(world,window,this.XVel);
+		moveX(world,window,-this.XVel);
 	}
 	protected void MoveUP(World world,Dimension window)
 	{
-		moveY(world,window,this.XVel);
+		moveY(world,window,-this.YVel);
 	}
 	protected void MoveDown(World world,Dimension window)
 	{
-		moveY(world,window,this.XVel);
+		moveY(world,window,this.YVel);
 	}
 	protected void Fall(World world,Dimension window)
 	{
-		moveY(world,window,this.XVel);
+		moveY(world,window,-this.YVel); //THIS WILL NEED A GRAVITY VALUE
 	}
-	private void moveX(World w,Dimension D, int amount)
+	private void moveX(World theWorld,Dimension window, int amount)
 	{
-		
+		if(this.x >  6*window.width/16) //JOHN ADD A UTILITY?
+		{
+			x += amount;
+		}
+		else if(theWorld.getX() < 0)
+		{
+			theWorld.moveX(-amount);
+		}
+		else if(x > 0)
+		{
+			x += + amount;
+		}
+		else
+		{
+			//you hit the end of the world!
+		}
 	}
-	private void moveY(World w,Dimension D, int amount)
+	private void moveY(World theWorld,Dimension window, int amount)
 	{
-		
+		if(this.y >  6*window.height/9-this.height) //JOHN ADD A UTILITY?
+		{
+			y += amount;
+		}
+		else if(theWorld.getY() < 0)
+		{
+			theWorld.moveY(-amount);
+		}
+		else if(y > 0)
+		{
+			y += + amount;
+		}
+		else
+		{
+			//you hit the end of the world!
+		}
 	}
 	
 	//Acceleration 

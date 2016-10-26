@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.268";
+	public String version = "Version 1.0.269";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1447,23 +1447,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0))
 		{
 			
+			//JOHN REE WRITE THIS!
 			if(movingPlatspeed < 0 )
 			{
-				if(player2.getX() >  6*window.width/16)
-					{player2.setX(player2.getX() + movingPlatspeed);}
-				else if(theWorld.getX() < 0)
-					{theWorld.moveXp(-movingPlatspeed);}
-				else if(player2.getX() > 0)
-					{player2.setX(player2.getX() + movingPlatspeed);}
+				//HERE LEFT
 			}
 			else if(movingPlatspeed > 0 )
 			{
-				if(player2.getX() <  6*window.width/16)
-					{player2.setX(player2.getX() + movingPlatspeed);}
-				else if(-theWorld.getX() < theWorld.getWidth()-window.width)
-					{theWorld.moveXp(-movingPlatspeed);}
-				else if(player2.getX() < window.width -player2.getWidth())
-					{player2.setX(player2.getX() + movingPlatspeed);}
+				//HERE! RIGHT
 			}
 		}
 		if(player2.getY() < 1)
