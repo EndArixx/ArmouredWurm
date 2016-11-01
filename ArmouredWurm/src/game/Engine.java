@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.270";
+	public String version = "Version 1.0.271";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1460,6 +1460,39 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		if(player2.getY() < 1)
 		{
 			headbonk= true;
+		}
+		
+		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//if (!player.getJumping() && !onplatform && !onladder)
+		{
+	
+		}
+	
+			//NORTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//if (N && !headbonk)
+		{
+			
+		}
+		
+		
+			//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//if (W && !backbonk && ((!player.getAttacking()) || player.getJA()))
+		{ 
+			
+		}
+	
+		
+			//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//if (E && !frontbonk && ((!player.getAttacking()) || player.getJA()))
+		{
+			
+		}
+	
+	
+		//SOUTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		//if(S && onladder)
+		{
+			
 		}
 		
 		System.out.println();

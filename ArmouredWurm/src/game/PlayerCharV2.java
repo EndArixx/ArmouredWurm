@@ -56,14 +56,14 @@ public class PlayerCharV2 extends Sprite
 	protected String attackloc;
 	protected String valueloc;
 	
-	protected int XVel; //This is the CUrrent speed
-	protected int YVel;
-	protected int Xaccel; //This is the acceleration of said values.
-	protected int YaccelUp;
-	protected int YaccelDn;
-	protected int MaxXVel; //Max veloceties. 
-	protected int MaxYVelUp;
-	protected int MaxYVelDn; //terminal velocity (+y)
+	protected double XVel; //This is the CUrrent speed
+	protected double YVel;
+	protected double Xaccel; //This is the acceleration of said values.
+	protected double YaccelUp;
+	protected double YaccelDn;
+	protected double MaxXVel; //Max veloceties. 
+	protected double MaxYVelUp;
+	protected double MaxYVelDn; //terminal velocity (+y)
 	
 	//JOHN REMOVE!
 	protected String[] testAni;
@@ -619,7 +619,7 @@ public class PlayerCharV2 extends Sprite
 		moveY(world,window,gravity);
 	}
 	
-	private void moveX(World theWorld,Dimension window, int amount)
+	private void moveX(World theWorld,Dimension window, double amount)
 	{
 		if(this.x >  6*window.width/16) //JOHN ADD A UTILITY?
 		{
@@ -631,14 +631,16 @@ public class PlayerCharV2 extends Sprite
 		}
 		else if(x > 0)
 		{
-			x += + amount;
+			x += amount;
 		}
 		else
 		{
 			//you hit the end of the world!
+			
+			//dont move
 		}
 	}
-	private void moveY(World theWorld,Dimension window, int amount)
+	private void moveY(World theWorld,Dimension window, double amount)
 	{
 		if(this.y >  6*window.height/9-this.height) //JOHN ADD A UTILITY?
 		{
@@ -650,7 +652,7 @@ public class PlayerCharV2 extends Sprite
 		}
 		else if(y > 0)
 		{
-			y += + amount;
+			y += amount;
 		}
 		else
 		{
@@ -659,7 +661,7 @@ public class PlayerCharV2 extends Sprite
 	}
 	
 	//Acceleration 
-	protected void Accelerate()
+	protected double  Accelerate(double rate,double speed)
 	{
 		//STUB THIS WILL BE USED FOR ALL ACCERALTION.
 		//inputs: prolly just booleans to see if moving left, right,up and down...falling?
@@ -669,7 +671,12 @@ public class PlayerCharV2 extends Sprite
 		
 		//what does this do?
 		//this will be used to allow the game accelerate teh player, so the player will build up speed and slow down gradually.
+		double out;
+
+		out = speed + rate;
+
 		
+		return out;
 	}
 		
 	public void damage(int amount)
