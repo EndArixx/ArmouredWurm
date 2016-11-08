@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.271";
+	public String version = "Version 1.0.272";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1461,6 +1461,16 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			headbonk= true;
 		}
+		
+		
+		
+		//John Build the Rates HERE
+		/*
+		 	step 1) get how X or Y has/Have increased
+		  	step 2) Run Accelerate
+		  	step 3) actually move the player.
+		  
+		 */
 		
 		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		//if (!player.getJumping() && !onplatform && !onladder)

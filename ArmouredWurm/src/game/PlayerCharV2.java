@@ -661,22 +661,10 @@ public class PlayerCharV2 extends Sprite
 	}
 	
 	//Acceleration 
-	protected double  Accelerate(double rate,double speed)
+	protected void Accelerate(double xRate,double yRate)
 	{
-		//STUB THIS WILL BE USED FOR ALL ACCERALTION.
-		//inputs: prolly just booleans to see if moving left, right,up and down...falling?
-		
-		//do i need the movebuttons?
-		//hmmmmm
-		
-		//what does this do?
-		//this will be used to allow the game accelerate teh player, so the player will build up speed and slow down gradually.
-		double out;
-
-		out = speed + rate;
-
-		
-		return out;
+		this.speedX += xRate;
+		this.speedY += yRate;
 	}
 		
 	public void damage(int amount)
