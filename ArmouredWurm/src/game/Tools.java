@@ -117,6 +117,7 @@ public class Tools
 			String out = br.readLine();
 			if(out == null)
 				return null;
+			out = out.trim();
 			while(out.charAt(0) == '#')
 			{
 				out = br.readLine();

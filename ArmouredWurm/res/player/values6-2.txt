@@ -7,7 +7,7 @@ fallRate,5,20,0
 jumpSpeed,30,100,0
 X,200,10000,0
 Y,200,10000,0
-#john look up gravity number from code 
+#john look up gravity number from code
 gravity,0,30,-30
 #john come up with damage ammount, armour?
 armour,0,100,0
@@ -21,6 +21,15 @@ attacking,0,1,0
 spotEnemy,0,1,0
 FF,0,1,0
 endOfSpark,0,1,0
+#Must have Values for Movement#########
+XVel,0,100,-100
+YVel,0,100,-100
+Xaccel,5,50,0
+YaccelUp,5,50,0
+YaccelDn,5,50,0
+MaxXVel,5,50,0
+MaxYVelUp,5,50,0
+MaxYVelDn,5,50,0
 #other booleans############
 doublejump,0,1,0
 isFalling,0,1,0

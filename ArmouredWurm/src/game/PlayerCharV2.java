@@ -62,8 +62,10 @@ public class PlayerCharV2 extends Sprite
 	protected double YaccelUp;
 	protected double YaccelDn;
 	protected double MaxXVel; //Max veloceties. 
-	protected double MaxYVelUp;
+	protected double MaxYVelUp;  //This needs to be negative
 	protected double MaxYVelDn; //terminal velocity (+y)
+	
+	protected boolean isInAnimation; //Use this to force the animation to fully playout
 	
 	//JOHN REMOVE!
 	protected String[] testAni;
@@ -252,9 +254,13 @@ public class PlayerCharV2 extends Sprite
 	        	tValue = new Value(line);
 		        this.valueMap.put(tValue.getName(),tValue);
 	        }
+	        reader.closeBR();
+			
+			
+			//OTHER-----------------------------------------------------------
 	        this.currstate = this.statesMap.get(startState);
 			firstloop = true;
-			
+			err= 8;
 			Spark x = sparksMap.get(startSpark);
 			col = x.xloc;
 			colS = x.xloc;
@@ -636,8 +642,7 @@ public class PlayerCharV2 extends Sprite
 		else
 		{
 			//you hit the end of the world!
-			
-			//dont move
+
 		}
 	}
 	private void moveY(World theWorld,Dimension window, double amount)
@@ -663,8 +668,35 @@ public class PlayerCharV2 extends Sprite
 	//Acceleration 
 	protected void Accelerate(double xRate,double yRate)
 	{
-		this.speedX += xRate;
-		this.speedY += yRate;
+		this.XVel += xRate;
+		this.YVel += yRate;
+		
+		//check against max
+		if(this.XVel > this.MaxXVel)
+		{
+			this.XVel = this.MaxXVel;
+		}
+
+		if(this.YVel < 0)
+		{
+			if(this.YVel < this.MaxYVelUp) 
+			{
+				this.YVel = this.MaxYVelUp;
+			}
+		}
+		else if(this.YVel > 0)
+		{
+			if(this.YVel > this.MaxYVelDn)
+			{
+				this.YVel = this.MaxYVelDn;
+			}
+		}
+		else
+		{
+			//Zero aka no movement
+		}
+		
+		
 	}
 		
 	public void damage(int amount)
@@ -815,8 +847,7 @@ public class PlayerCharV2 extends Sprite
 			System.out.println("The following max values could not be found: " + valueName);
 		}
 	}
-	
-	
+		
 	public void setValueToMax(String valueName)
 	{
 		try
