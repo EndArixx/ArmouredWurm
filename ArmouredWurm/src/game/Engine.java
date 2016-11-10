@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.273";
+	public String version = "Version 1.0.274";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1473,37 +1473,47 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 */
 		
 		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//if (!player.getJumping() && !onplatform && !onladder)
+		if (!onplatform && !onladder)
 		{
-	
+			//John This wont work :(
+			player2.Fall(theWorld, window,player2.YaccelDn);
 		}
 	
 			//NORTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//if (N && !headbonk)
+		if (N && !headbonk)
 		{
-			
+			//John This wont work :(
+			player2.MoveUP(theWorld, window);
 		}
 		
 		
 			//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//if (W && !backbonk && ((!player.getAttacking()) || player.getJA()))
+		if (W && !backbonk && (!player2.isInAnimation))
 		{ 
-			
+			//John This wont work :(
+			player2.MoveLeft(theWorld, window);
 		}
 	
 		
 			//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//if (E && !frontbonk && ((!player.getAttacking()) || player.getJA()))
+		if (E && !frontbonk &&(!player2.isInAnimation))
 		{
-			
+			//John This wont work :(
+			player2.MoveRight(theWorld, window);
 		}
 	
 	
 		//SOUTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//if(S && onladder)
+		if(S && onladder)
 		{
 			
 		}
+		
+		//accelerate Move Zone--------------------------------------------
+		player2.Accelerate();
+		//JOHN HERE You need to make a genericMove?;
+		//player2.moveXn(speed);
+		
 		
 		System.out.println();
 		if (onplatform) System.out.print("onplatform ");

@@ -58,12 +58,15 @@ public class PlayerCharV2 extends Sprite
 	
 	protected double XVel; //This is the CUrrent speed
 	protected double YVel;
-	protected double Xaccel; //This is the acceleration of said values.
+	protected double Xaccel; //This is the acceleration of said values.(how much it increases by)
 	protected double YaccelUp;
 	protected double YaccelDn;
+	
 	protected double MaxXVel; //Max veloceties. 
 	protected double MaxYVelUp;  //This needs to be negative
 	protected double MaxYVelDn; //terminal velocity (+y)
+	//SpeedX = current X speed
+	//SpeedY = current Y Speed
 	
 	protected boolean isInAnimation; //Use this to force the animation to fully playout
 	
@@ -605,7 +608,7 @@ public class PlayerCharV2 extends Sprite
 		moveX(world,window,this.XVel);
 	}
 	
-	protected void Moveleft(World world,Dimension window)
+	protected void MoveLeft(World world,Dimension window)
 	{
 		moveX(world,window,-this.XVel);
 	}
@@ -620,7 +623,7 @@ public class PlayerCharV2 extends Sprite
 		moveY(world,window,this.YVel);
 	}
 	
-	protected void Fall(World world,Dimension window, int gravity)
+	protected void Fall(World world,Dimension window, double gravity)
 	{
 		moveY(world,window,gravity);
 	}
@@ -695,8 +698,10 @@ public class PlayerCharV2 extends Sprite
 		{
 			//Zero aka no movement
 		}
-		
-		
+	}
+	protected void Accelerate()
+	{
+		this.Accelerate(this.speedX,this.speedY);
 	}
 		
 	public void damage(int amount)
