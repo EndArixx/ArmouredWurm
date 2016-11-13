@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.274";
+	public String version = "Version 1.0.275";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1450,11 +1450,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//JOHN REE WRITE THIS!
 			if(movingPlatspeed < 0 )
 			{
-				//HERE LEFT
+				//HERE LEFT john added platspeed to the acceleration
 			}
 			else if(movingPlatspeed > 0 )
 			{
-				//HERE! RIGHT
+				//HERE! RIGHT john added platspeed to the acceleration
 			}
 		}
 		if(player2.getY() < 1)
@@ -1472,17 +1472,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		  
 		 */
 		
+		boolean hasMovedX = false;
+		boolean hasMovedY = false;
 		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if (!onplatform && !onladder)
 		{
-			//John This wont work :(
+			hasMovedY = true;
 			player2.Fall(theWorld, window,player2.YaccelDn);
 		}
 	
 			//NORTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if (N && !headbonk)
 		{
-			//John This wont work :(
+			hasMovedY = true;
 			player2.MoveUP(theWorld, window);
 		}
 		
@@ -1490,31 +1492,36 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if (W && !backbonk && (!player2.isInAnimation))
 		{ 
-			//John This wont work :(
+			hasMovedX = true;
 			player2.MoveLeft(theWorld, window);
 		}
-	
 		
 			//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if (E && !frontbonk &&(!player2.isInAnimation))
 		{
-			//John This wont work :(
+			hasMovedX = true;
 			player2.MoveRight(theWorld, window);
 		}
-	
-	
-		//SOUTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			//South~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if(S && onladder)
 		{
-			
+			hasMovedY= true;
+			player2.MoveDown(theWorld, window);
 		}
 		
+		if(!hasMovedX)
+		{
+			player2.DecelerateX();
+		}
+		if(!hasMovedY)
+		{
+			player2.DecelerateY();
+		}
+	
 		//accelerate Move Zone--------------------------------------------
-		player2.Accelerate();
-		//JOHN HERE You need to make a genericMove?;
-		//player2.moveXn(speed);
+		player2.Move(theWorld, window);
 		
-		
+		//PRINT STUFF FOR DEBUGGGING
 		System.out.println();
 		if (onplatform) System.out.print("onplatform ");
 		if (headbonk) System.out.print("headbonk ");

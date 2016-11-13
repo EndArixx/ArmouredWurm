@@ -65,7 +65,7 @@ public class PlayerCharV2 extends Sprite
 	protected double MaxXVel; //Max veloceties. 
 	protected double MaxYVelUp;  //This needs to be negative
 	protected double MaxYVelDn; //terminal velocity (+y)
-	//SpeedX = current X speed
+	//SpeedX = current X speed 
 	//SpeedY = current Y Speed
 	
 	protected boolean isInAnimation; //Use this to force the animation to fully playout
@@ -261,6 +261,17 @@ public class PlayerCharV2 extends Sprite
 			
 			
 			//OTHER-----------------------------------------------------------
+	        
+	        //Load up moveSpeeds
+	        this.XVel = this.getValue("XVel");
+	        this.YVel = this.getValue("YVel");
+	        this.Xaccel = this.getValue("Xaccel");
+	        this.YaccelUp = this.getValue("YaccelUp"); 
+	        this.YaccelDn = this.getValue("YaccelDn");
+	        this.MaxXVel = this.getValue("MaxXVel");
+	        this.MaxYVelUp = this.getValue("MaxYVelUp");
+	        this.MaxYVelUp = this.getValue("MaxYVelUp");
+	        
 	        this.currstate = this.statesMap.get(startState);
 			firstloop = true;
 			err= 8;
@@ -600,32 +611,27 @@ public class PlayerCharV2 extends Sprite
 		}
 	}
 	
-	
 	//Movement Zone---------------------------------------------------------
 	//this will be the method that engine.Movement will call
 	protected void MoveRight(World world,Dimension window)
 	{
-		moveX(world,window,this.XVel);
+		this.AccelerateX(this.Xaccel);
 	}
-	
 	protected void MoveLeft(World world,Dimension window)
 	{
-		moveX(world,window,-this.XVel);
+		this.AccelerateX(- this.Xaccel);
 	}
-	
 	protected void MoveUP(World world,Dimension window)
 	{
-		moveY(world,window,-this.YVel);
+		this.AccelerateY(this.YaccelUp);
 	}
-	
 	protected void MoveDown(World world,Dimension window)
 	{
-		moveY(world,window,this.YVel);
+		this.AccelerateY(- this.YaccelUp);
 	}
-	
 	protected void Fall(World world,Dimension window, double gravity)
 	{
-		moveY(world,window,gravity);
+		this.AccelerateY(this.YaccelDn);
 	}
 	
 	private void moveX(World theWorld,Dimension window, double amount)
@@ -667,18 +673,37 @@ public class PlayerCharV2 extends Sprite
 			//you hit the end of the world!
 		}
 	}
+	public void Move(World theWorld,Dimension window)
+	{
+		if(this.XVel != 0)
+		{
+			this.moveX(theWorld, window, XVel);
+		}
+		if(this.YVel != 0)
+		{
+			this.moveY(theWorld, window, YVel);
+		}
+	}
 	
-	//Acceleration 
+	//Acceleration ---------------------------------------------------------
 	protected void Accelerate(double xRate,double yRate)
 	{
+		this.AccelerateX(xRate);
+		this.AccelerateY(yRate);
+	}
+	protected void AccelerateX(double xRate)
+	{
 		this.XVel += xRate;
-		this.YVel += yRate;
 		
 		//check against max
 		if(this.XVel > this.MaxXVel)
 		{
 			this.XVel = this.MaxXVel;
 		}
+	}
+	protected void AccelerateY(double yRate)
+	{
+		this.YVel += yRate;
 
 		if(this.YVel < 0)
 		{
@@ -699,11 +724,17 @@ public class PlayerCharV2 extends Sprite
 			//Zero aka no movement
 		}
 	}
-	protected void Accelerate()
+	
+	protected void DecelerateX()
 	{
-		this.Accelerate(this.speedX,this.speedY);
+		//John add a reduces counter
 	}
-		
+	protected void DecelerateY()
+	{
+		//John add a reduces counter
+	}
+	
+	// MORE STUFFFFFFFFFFFF----------------------------------------------------------
 	public void damage(int amount)
 	{		
 		//playerSwitchTag
