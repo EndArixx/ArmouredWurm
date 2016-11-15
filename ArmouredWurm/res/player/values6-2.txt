@@ -21,15 +21,15 @@ attacking,0,1,0
 spotEnemy,0,1,0
 FF,0,1,0
 endOfSpark,0,1,0
-#Must have Values for Movement#########
+#Must have Values for Movement######### 
 XVel,0,100,-100
 YVel,0,100,-100
-Xaccel,5,50,0
-YaccelUp,5,50,0
-YaccelDn,5,50,0
-MaxXVel,5,50,0
-MaxYVelUp,5,50,0
-MaxYVelDn,5,50,0
+Xaccel,1,100,0
+YaccelUp,1,100,0
+YaccelDn,1,100,0
+MaxXVel,5,100,0
+MaxYVelUp,5,100,0
+MaxYVelDn,5,100,0
 #other booleans############
 doublejump,0,1,0
 isFalling,0,1,0

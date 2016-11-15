@@ -48,9 +48,9 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.275";
+	public String version = "Version 1.0.276";
 		//For Testing hitboxes 
-	public final static boolean renderHitBox = false;
+	public final static boolean renderHitBox = true;
 	public boolean isEngine;
 		//THESE ARE VARIABLES!
 	public Soldier badguys[];
@@ -1450,7 +1450,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//JOHN REE WRITE THIS!
 			if(movingPlatspeed < 0 )
 			{
-				//HERE LEFT john added platspeed to the acceleration
+				//HERE LEFT john added platspeed to the acceleration hmm you need to fix this! 
 			}
 			else if(movingPlatspeed > 0 )
 			{

@@ -636,22 +636,43 @@ public class PlayerCharV2 extends Sprite
 	
 	private void moveX(World theWorld,Dimension window, double amount)
 	{
-		if(this.x >  6*window.width/16) //JOHN ADD A UTILITY?
+		if(amount < 0) //WEST
 		{
-			x += amount;
+			if(this.x >  6*window.width/16) //JOHN ADD A UTILITY?
+			{
+				x += amount;
+			}
+			else if(theWorld.getX() < 0)
+			{
+				theWorld.moveX(-amount);
+			}
+			else if(x > 0)
+			{
+				x += amount;
+			}
+			else
+			{
+				//you hit the end of the world
+			}
 		}
-		else if(theWorld.getX() < 0)
+		if(amount > 0) //EAST
 		{
-			theWorld.moveX(-amount);
-		}
-		else if(x > 0)
-		{
-			x += amount;
-		}
-		else
-		{
-			//you hit the end of the world!
-
+			if(this.x <  6*window.width/16) //JOHN ADD A UTILITY?
+			{
+				x += amount;
+			}
+			else if(-theWorld.getX() < theWorld.getWidth()-window.width)
+			{
+				theWorld.moveX(-amount);
+			}
+			else if (this.x < window.width -this.width)
+			{
+				x += amount;
+			}
+			else
+			{
+				//you hit the end of the world
+			}
 		}
 	}
 	private void moveY(World theWorld,Dimension window, double amount)
@@ -694,11 +715,14 @@ public class PlayerCharV2 extends Sprite
 	protected void AccelerateX(double xRate)
 	{
 		this.XVel += xRate;
-		
 		//check against max
 		if(this.XVel > this.MaxXVel)
 		{
 			this.XVel = this.MaxXVel;
+		}
+		if(this.XVel < -this.MaxXVel)
+		{
+			this.XVel = -this.MaxXVel;
 		}
 	}
 	protected void AccelerateY(double yRate)
@@ -727,7 +751,18 @@ public class PlayerCharV2 extends Sprite
 	
 	protected void DecelerateX()
 	{
-		//John add a reduces counter
+		if(XVel >= 1)
+		{
+			this.XVel -= this.Xaccel;
+		}
+		else if(XVel <= -1)
+		{
+			this.XVel += this.Xaccel;
+		}
+		else
+		{
+			this.XVel = 0;
+		}
 	}
 	protected void DecelerateY()
 	{
