@@ -270,7 +270,7 @@ public class PlayerCharV2 extends Sprite
 	        this.YaccelDn = this.getValue("YaccelDn");
 	        this.MaxXVel = this.getValue("MaxXVel");
 	        this.MaxYVelUp = this.getValue("MaxYVelUp");
-	        this.MaxYVelUp = this.getValue("MaxYVelUp");
+	        this.MaxYVelDn = this.getValue("MaxYVelDn");
 	        
 	        this.currstate = this.statesMap.get(startState);
 			firstloop = true;
@@ -621,24 +621,16 @@ public class PlayerCharV2 extends Sprite
 	{
 		this.AccelerateX(- this.Xaccel);
 	}
-	protected void MoveUP(World world,Dimension window)
+	protected void jump(World world,Dimension window)
 	{
-		this.AccelerateY(this.YaccelUp);
-	}
-	protected void MoveDown(World world,Dimension window)
-	{
-		this.AccelerateY(- this.YaccelUp);
-	}
-	protected void Fall(World world,Dimension window, double gravity)
-	{
-		this.AccelerateY(this.YaccelDn);
+		this.AccelerateY(-this.YaccelUp);
 	}
 	
 	private void moveX(World theWorld,Dimension window, double amount)
 	{
 		if(amount < 0) //WEST
 		{
-			if(this.x >  6*window.width/16) //JOHN ADD A UTILITY?
+			if(this.x >  6*window.width/16)
 			{
 				x += amount;
 			}
@@ -657,7 +649,7 @@ public class PlayerCharV2 extends Sprite
 		}
 		if(amount > 0) //EAST
 		{
-			if(this.x <  6*window.width/16) //JOHN ADD A UTILITY?
+			if(this.x <  6*window.width/16)
 			{
 				x += amount;
 			}
@@ -677,28 +669,61 @@ public class PlayerCharV2 extends Sprite
 	}
 	private void moveY(World theWorld,Dimension window, double amount)
 	{
-		if(this.y >  6*window.height/9-this.height) //JOHN ADD A UTILITY?
+		if(amount < 0)//UP
 		{
-			y += amount;
+			if(this.y >  6*window.height/9-this.height) 
+			{
+				y += amount;
+			}
+			else if(theWorld.getY() < 0)
+			{
+				theWorld.moveY(-amount);
+			}
+			else if(y > 0)
+			{
+				y += amount;
+			}
+			else
+			{
+				//you hit the end of the world!
+			}
 		}
-		else if(theWorld.getY() < 0)
+		if(amount > 0)//DOWN
 		{
-			theWorld.moveY(-amount);
-		}
-		else if(y > 0)
-		{
-			y += amount;
-		}
-		else
-		{
-			//you hit the end of the world!
+			if(this.y < 6*window.height/9-this.height) 
+			{
+				y += amount;
+			}
+			else if(-theWorld.getY()+window.getHeight() < theWorld.getHeight())
+			{
+				theWorld.moveY(-amount);
+			}
+			else if(this.y < window.height-this.height)
+			{
+				y += amount;
+			}
+			else
+			{
+				//you hit the end of the world!
+			}
 		}
 	}
-	public void Move(World theWorld,Dimension window)
+	public void move(World theWorld,Dimension window)
 	{
 		if(this.XVel != 0)
 		{
 			this.moveX(theWorld, window, XVel);
+		}
+		if(this.YVel != 0)
+		{
+			this.moveY(theWorld, window, YVel);
+		}
+	}
+	public void moveWithForce(int startforce,World theWorld,Dimension window)
+	{
+		if(this.XVel + startforce != 0 )
+		{
+			this.moveX(theWorld, window,startforce + XVel);
 		}
 		if(this.YVel != 0)
 		{
@@ -727,35 +752,20 @@ public class PlayerCharV2 extends Sprite
 	}
 	protected void AccelerateY(double yRate)
 	{
-		this.YVel += yRate;
-
-		if(this.YVel < 0)
+		if(yRate < 0)
 		{
-			if(this.YVel < this.MaxYVelUp) 
-			{
-				this.YVel = this.MaxYVelUp;
-			}
+			this.YVel = yRate;
 		}
-		else if(this.YVel > 0)
-		{
-			if(this.YVel > this.MaxYVelDn)
-			{
-				this.YVel = this.MaxYVelDn;
-			}
-		}
-		else
-		{
-			//Zero aka no movement
-		}
+		//Removed down, that is handled by DecelerateY.
 	}
 	
 	protected void DecelerateX()
 	{
-		if(XVel >= 1)
+		if(XVel >= Xaccel)
 		{
 			this.XVel -= this.Xaccel;
 		}
-		else if(XVel <= -1)
+		else if(XVel <= -Xaccel)
 		{
 			this.XVel += this.Xaccel;
 		}
@@ -766,7 +776,12 @@ public class PlayerCharV2 extends Sprite
 	}
 	protected void DecelerateY()
 	{
-		//John add a reduces counter
+
+		this.YVel += this.YaccelDn;
+		if(YVel > this.MaxYVelDn)
+		{
+			this.YVel = this.MaxYVelDn;
+		}
 	}
 	
 	// MORE STUFFFFFFFFFFFF----------------------------------------------------------

@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.276";
+	public String version = "Version 1.0.277";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -1404,9 +1404,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		boolean frontbonk = false;
 		boolean backbonk = false;
 		boolean onladder = false;
-		boolean falling = true;
-			//John this might need to change
 		int movingPlatspeed = 0;
+		
 		for(int i = 0; i < ladders.length ; i++)
 		{
 			if(Tools.check_collision(ladders[i].getHitbox(), player2.getHitbox()))
@@ -1443,51 +1442,27 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				}}
 			}
 		}
-			//this will move the player if they are on a moving platform
-		if((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0))
+			//if you hit a wall the platform will no longer pull you along.
+		if(!((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0)))
 		{
-			
-			//JOHN REE WRITE THIS!
-			if(movingPlatspeed < 0 )
-			{
-				//HERE LEFT john added platspeed to the acceleration hmm you need to fix this! 
-			}
-			else if(movingPlatspeed > 0 )
-			{
-				//HERE! RIGHT john added platspeed to the acceleration
-			}
+			movingPlatspeed = 0;
 		}
 		if(player2.getY() < 1)
 		{
 			headbonk= true;
 		}
-		
-		
-		
-		//John Build the Rates HERE
-		/*
-		 	step 1) get how X or Y has/Have increased
-		  	step 2) Run Accelerate
-		  	step 3) actually move the player.
-		  
-		 */
+		if(player2.getY() >= window.height-player2.getHeight())
+		{
+			onplatform = true;
+		}
 		
 		boolean hasMovedX = false;
-		boolean hasMovedY = false;
-		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		if (!onplatform && !onladder)
-		{
-			hasMovedY = true;
-			player2.Fall(theWorld, window,player2.YaccelDn);
-		}
 	
-			//NORTH~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		if (N && !headbonk)
+			//JUMP~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if (N && !headbonk && onplatform)
 		{
-			hasMovedY = true;
-			player2.MoveUP(theWorld, window);
+			player2.jump(theWorld, window);
 		}
-		
 		
 			//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 		if (W && !backbonk && (!player2.isInAnimation))
@@ -1502,35 +1477,25 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			hasMovedX = true;
 			player2.MoveRight(theWorld, window);
 		}
-			//South~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		if(S && onladder)
-		{
-			hasMovedY= true;
-			player2.MoveDown(theWorld, window);
-		}
 		
+		//John add a deadstop if the player hits a wall!
 		if(!hasMovedX)
 		{
 			player2.DecelerateX();
 		}
-		if(!hasMovedY)
+		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		if((!N && player2.YVel < 0)||(headbonk && player2.YVel < 0) || (onplatform && player2.YVel > 0))
+		{
+			 player2.YVel = 0;
+		}
+		if(!onplatform)
 		{
 			player2.DecelerateY();
 		}
-	
 		//accelerate Move Zone--------------------------------------------
-		player2.Move(theWorld, window);
+		player2.moveWithForce(movingPlatspeed,theWorld, window);
 		
-		//PRINT STUFF FOR DEBUGGGING
-		System.out.println();
-		if (onplatform) System.out.print("onplatform ");
-		if (headbonk) System.out.print("headbonk ");
-		if (frontbonk) System.out.print("frontbonk ");
-		if (backbonk ) System.out.print("backbonk ");
-		if (onladder ) System.out.print("onladder ");
-		if (falling) System.out.print("falling ");
-		System.out.println();
-		} //End of menuShtuff
+		} 
 		
 	}
 	

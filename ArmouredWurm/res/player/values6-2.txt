@@ -25,11 +25,11 @@ endOfSpark,0,1,0
 XVel,0,100,-100
 YVel,0,100,-100
 Xaccel,1,100,0
-YaccelUp,1,100,0
+YaccelUp,25,100,0
 YaccelDn,1,100,0
-MaxXVel,5,100,0
-MaxYVelUp,5,100,0
-MaxYVelDn,5,100,0
+MaxXVel,15,100,0
+MaxYVelUp,25,100,0
+MaxYVelDn,25,100,0
 #other booleans############
 doublejump,0,1,0
 isFalling,0,1,0
