@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.277";
+	public String version = "Version 1.0.278";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -1403,21 +1403,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		boolean headbonk = false;
 		boolean frontbonk = false;
 		boolean backbonk = false;
-		boolean onladder = false;
 		int movingPlatspeed = 0;
 		
-		for(int i = 0; i < ladders.length ; i++)
-		{
-			if(Tools.check_collision(ladders[i].getHitbox(), player2.getHitbox()))
-			{
-				onladder = true;
-			}
-		}
 		for(int i = 0; i < platforms.length; i++)
 		{
 			if(!platforms[i].isDestroyable()||!platforms[i].isDestroyed())
 			{
-				if(!onladder && !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player2.getheadHitbox()))
+				if( !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player2.getheadHitbox()))
 					{headbonk = true;}}
 				
 				if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getfrontHitbox()))
@@ -1432,7 +1424,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						if(platforms[i].getMoving())
 							{movingPlatspeed = platforms[i].movingSpeed();}
 					}
-				if(!onladder && !onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player2.getfeetHitbox()))
+				if(!onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player2.getfeetHitbox()))
 				{
 					onplatform = true;
 						
@@ -1443,10 +1435,10 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 		}
 			//if you hit a wall the platform will no longer pull you along.
-		if(!((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0)))
-		{
-			movingPlatspeed = 0;
-		}
+		//if(!((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0)))
+		//{
+		//	movingPlatspeed = 0;
+		//}
 		if(player2.getY() < 1)
 		{
 			headbonk= true;
@@ -1478,15 +1470,22 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			player2.MoveRight(theWorld, window);
 		}
 		
-		//John add a deadstop if the player hits a wall!
-		if(!hasMovedX)
-		{
-			player2.DecelerateX();
-		}
-		//gravity~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		
+
+		//Zero out values when things get hit
 		if((!N && player2.YVel < 0)||(headbonk && player2.YVel < 0) || (onplatform && player2.YVel > 0))
 		{
 			 player2.YVel = 0;
+		}
+		if((frontbonk && player2.XVel > 0) || (backbonk && player2.XVel < 0))
+		{
+			 player2.XVel = 0;
+		}
+		
+		//if things haven't been zeroed out then decelerate
+		if(!hasMovedX)
+		{
+			player2.DecelerateX();
 		}
 		if(!onplatform)
 		{
@@ -1499,7 +1498,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		
 	}
 	
-	private void movementOld(PlayerChar player)
+	private void movement(PlayerChar player, boolean OLD)
 	{
 		
 		if(!isLoading && !isPaused && !inMainMenu)
