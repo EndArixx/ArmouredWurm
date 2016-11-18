@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.278";
+	public String version = "Version 1.0.279";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -1397,102 +1397,149 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		//Movement 2.0 designed for the Trigger engine.
 		if(!isLoading && !isPaused && !inMainMenu)
 		{
-		
-		//Set up all player hit detections.--------------------------------------
-		boolean onplatform = false;
-		boolean headbonk = false;
-		boolean frontbonk = false;
-		boolean backbonk = false;
-		int movingPlatspeed = 0;
-		
-		for(int i = 0; i < platforms.length; i++)
-		{
-			if(!platforms[i].isDestroyable()||!platforms[i].isDestroyed())
+			
+			//Set up all player hit detections.--------------------------------------
+			boolean onplatform = false;
+			boolean headbonk = false;
+			boolean frontbonk = false;
+			boolean backbonk = false;
+			int movingPlatspeed = 0;
+			boolean isStuckTop = false;
+			boolean isStuckBottom = false;
+			boolean isStuckFront = false;
+			boolean isStuckBack = false;
+			int stuckX = (1 + (int) player2.Xaccel);
+			int stuckY = (1 + (int) player2.YaccelDn);
+			
+			for(int i = 0; i < platforms.length; i++)
 			{
-				if( !headbonk){if(Tools.check_collision(platforms[i].getHitbox(), player2.getheadHitbox()))
-					{headbonk = true;}}
-				
-				if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getfrontHitbox()))
-					{
-						frontbonk = true;
-						if(platforms[i].getMoving())
-							{movingPlatspeed = platforms[i].movingSpeed();}
-					}
-				if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getbackHitbox()))
-					{
-						backbonk = true;
-						if(platforms[i].getMoving())
-							{movingPlatspeed = platforms[i].movingSpeed();}
-					}
-				if(!onplatform){if (Tools.check_collision(platforms[i].getHitbox(), player2.getfeetHitbox()))
+				if(!platforms[i].isDestroyable()||!platforms[i].isDestroyed())
 				{
-					onplatform = true;
-						
-						//MOVING PLATFORM Logic
-					if(platforms[i].getMoving())
-						{movingPlatspeed = platforms[i].movingSpeed();}
-				}}
+					if( !headbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getheadHitbox()))
+					{
+						headbonk = true;
+						if(Tools.check_collision(platforms[i].getHitbox()[0] + (stuckY/2), platforms[i].getHitbox()[1] + (stuckY/2), platforms[i].getHitbox()[2] - stuckY, platforms[i].getHitbox()[3] - stuckY, player2.getheadHitbox()[0], player2.getheadHitbox()[1], player2.getheadHitbox()[2], player2.getheadHitbox()[3]))
+						{
+							isStuckTop = true;
+						}
+					}
+					
+					if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getfrontHitbox()))
+						{
+							frontbonk = true;
+							if(platforms[i].getMoving())
+								{movingPlatspeed = platforms[i].movingSpeed();}
+							if(Tools.check_collision(platforms[i].getHitbox()[0] + (stuckX/2), platforms[i].getHitbox()[1] + (stuckX/2), platforms[i].getHitbox()[2] - stuckX, platforms[i].getHitbox()[3] - stuckX, player2.getfrontHitbox()[0], player2.getfrontHitbox()[1], player2.getfrontHitbox()[2], player2.getfrontHitbox()[3]))
+							{
+								isStuckFront = true;
+							}
+						}
+					if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getbackHitbox()))
+						{
+							backbonk = true;
+							if(platforms[i].getMoving())
+								{movingPlatspeed = platforms[i].movingSpeed();}
+							if(Tools.check_collision(platforms[i].getHitbox()[0] + (stuckX/2), platforms[i].getHitbox()[1] + (stuckX/2), platforms[i].getHitbox()[2] - stuckX, platforms[i].getHitbox()[3] - stuckX, player2.getbackHitbox()[0], player2.getbackHitbox()[1], player2.getbackHitbox()[2], player2.getbackHitbox()[3]))
+							{
+								isStuckBack = true;
+							}
+						}
+					if(!onplatform && Tools.check_collision(platforms[i].getHitbox(), player2.getfeetHitbox()))
+					{
+						onplatform = true;
+							
+							//MOVING PLATFORM Logic
+						if(platforms[i].getMoving())
+							{movingPlatspeed = platforms[i].movingSpeed();}
+						if(Tools.check_collision(platforms[i].getHitbox()[0] + (stuckY/2), platforms[i].getHitbox()[1] + (stuckY/2), platforms[i].getHitbox()[2] - stuckY, platforms[i].getHitbox()[3] - stuckY, player2.getfeetHitbox()[0], player2.getfeetHitbox()[1], player2.getfeetHitbox()[2], player2.getfeetHitbox()[3]))
+						{
+							isStuckBottom = true;
+						}
+					}
+				}
 			}
-		}
-			//if you hit a wall the platform will no longer pull you along.
-		//if(!((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0)))
-		//{
-		//	movingPlatspeed = 0;
-		//}
-		if(player2.getY() < 1)
-		{
-			headbonk= true;
-		}
-		if(player2.getY() >= window.height-player2.getHeight())
-		{
-			onplatform = true;
-		}
+				//if you hit a wall the platform will no longer pull you along.
+			//if(!((!backbonk || movingPlatspeed > 0) && (!frontbonk|| movingPlatspeed < 0)))
+			//{
+			//	movingPlatspeed = 0;
+			//}
+			if(player2.getY() < 1)
+			{
+				headbonk= true;
+			}
+			if(player2.getY() >= window.height-player2.getHeight())
+			{
+				onplatform = true;
+			}
+			
+			boolean hasMovedX = false;
 		
-		boolean hasMovedX = false;
+				//JUMP~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			if (N && !headbonk && onplatform)
+			{
+				player2.jump(theWorld, window);
+			}
+			
+				//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			if (W && !backbonk && (!player2.isInAnimation))
+			{ 
+				hasMovedX = true;
+				player2.MoveLeft(theWorld, window);
+			}
+			
+				//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			if (E && !frontbonk &&(!player2.isInAnimation))
+			{
+				hasMovedX = true;
+				player2.MoveRight(theWorld, window);
+			}
+			
+			
 	
-			//JUMP~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		if (N && !headbonk && onplatform)
-		{
-			player2.jump(theWorld, window);
-		}
-		
-			//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		if (W && !backbonk && (!player2.isInAnimation))
-		{ 
-			hasMovedX = true;
-			player2.MoveLeft(theWorld, window);
-		}
-		
-			//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		if (E && !frontbonk &&(!player2.isInAnimation))
-		{
-			hasMovedX = true;
-			player2.MoveRight(theWorld, window);
-		}
-		
-		
-
-		//Zero out values when things get hit
-		if((!N && player2.YVel < 0)||(headbonk && player2.YVel < 0) || (onplatform && player2.YVel > 0))
-		{
-			 player2.YVel = 0;
-		}
-		if((frontbonk && player2.XVel > 0) || (backbonk && player2.XVel < 0))
-		{
-			 player2.XVel = 0;
-		}
-		
-		//if things haven't been zeroed out then decelerate
-		if(!hasMovedX)
-		{
-			player2.DecelerateX();
-		}
-		if(!onplatform)
-		{
-			player2.DecelerateY();
-		}
-		//accelerate Move Zone--------------------------------------------
-		player2.moveWithForce(movingPlatspeed,theWorld, window);
+			//Zero out values when things get hit
+			if((!N && player2.YVel < 0)||(headbonk && player2.YVel < 0) || (onplatform && player2.YVel > 0))
+			{
+				 player2.YVel = 0;
+			}
+			if((frontbonk && player2.XVel > 0) || (backbonk && player2.XVel < 0))
+			{
+				 player2.XVel = 0;
+			}
+			
+			//if things haven't been zeroed out then decelerate
+			if(!hasMovedX)
+			{
+				player2.DecelerateX();
+			}
+			if(!onplatform)
+			{
+				player2.DecelerateY();
+			}
+			//accelerate Move Zone--------------------------------------------
+			player2.moveWithForce(movingPlatspeed,theWorld, window);
+			
+			//Stuck Logic-----------------------------------------------------
+			//Top
+			if(isStuckTop)
+			{
+				player2.moveY(theWorld, window, 1);
+			}
+			//Bottom
+			else if(isStuckBottom)
+			{
+				player2.moveY(theWorld, window, -1);
+			}
+			//Front
+			if(isStuckFront)
+			{
+				player2.moveX(theWorld, window, -1);
+			}
+			//Back
+			else if(isStuckBack)
+			{
+				player2.moveX(theWorld, window, 1);
+			}
+			
 		
 		} 
 		

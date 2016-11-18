@@ -626,7 +626,7 @@ public class PlayerCharV2 extends Sprite
 		this.AccelerateY(-this.YaccelUp);
 	}
 	
-	private void moveX(World theWorld,Dimension window, double amount)
+	protected void moveX(World theWorld,Dimension window, double amount)
 	{
 		if(amount < 0) //WEST
 		{
@@ -667,7 +667,7 @@ public class PlayerCharV2 extends Sprite
 			}
 		}
 	}
-	private void moveY(World theWorld,Dimension window, double amount)
+	protected void moveY(World theWorld,Dimension window, double amount)
 	{
 		if(amount < 0)//UP
 		{
