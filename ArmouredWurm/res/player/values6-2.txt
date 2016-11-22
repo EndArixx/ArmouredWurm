@@ -25,7 +25,7 @@ endOfSpark,0,1,0
 XVel,0,100,-100
 YVel,0,100,-100
 Xaccel,5,100,0
-YaccelUp,25,100,0
+YaccelUp,30,100,0
 YaccelDn,1,100,0
 MaxXVel,10,100,0
 MaxYVelUp,25,100,0

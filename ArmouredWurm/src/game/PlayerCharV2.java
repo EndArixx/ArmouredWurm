@@ -296,6 +296,10 @@ public class PlayerCharV2 extends Sprite
 	//Update
 	public void update()
 	{
+		//grab the current speeds for movement
+		this.setValue("XVel",(int) this.XVel);
+        this.setValue("YVel",(int) this.YVel);
+        
 		this.animateCol();
 	}
 	

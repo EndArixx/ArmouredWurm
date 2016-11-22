@@ -18,8 +18,8 @@ JumpR;;N;SprintingR,standingR,SprintingL,standingL;movement;JumpR;jumpingR;true;
 JumpL;;N;SprintingR,standingR,SprintingL,standingL;movement;JumpL;jumpingL;true;FF==0
 DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF==1,HP<=0
 DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF==0,HP<=0
-RunR;;E;standingR,standingL;movement;RunR;SprintingR;true;FF==1
-RunL;;W;standingR,standingL;movement;RunL;SprintingL;true;FF==0
+RunR;;E;standingR,standingL;movement;RunR;SprintingR;true;FF==1,XVel>0
+RunL;;W;standingR,standingL;movement;RunL;SprintingL;true;FF==0,XVel<0
 RunVR;;E;standingR,standingL;movement;RunVR;SprintingR;true;FF==1,HP<50
 RunVL;;W;standingR,standingL;movement;RunVL;SprintingL;true;FF==0,HP<50
 #attack stuff
