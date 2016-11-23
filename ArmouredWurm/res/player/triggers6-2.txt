@@ -10,18 +10,18 @@ coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;FF==1
 coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;FF==0
 StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;FF==1
 StandL;;;fallingL,SprintingL,EndOfSparkL,jumpingL;idle;StandL;standingL;true;FF==0
-IdleR;;;standingR;idle;IdleR;standingR;true;FF==1
-IdleL;;;standingL;idle;IdleL;standingL;true;FF==0
-FallR;;;jumpingR;movement;FallR;fallingR;true;FF==1
-FallL;;;jumpingR;movement;FallL;fallingL;true;FF==0
+IdleR;;;standingR;idle;IdleR;standingR;true;FF==1,YVel<0
+IdleL;;;standingL;idle;IdleL;standingL;true;FF==0,YVel<0
+FallR;;;jumpingR,SprintingR,FallL;movement;FallR;fallingR;true;FF==1,YVel>0
+FallL;;;jumpingL,SprintingL,FallR;movement;FallL;fallingL;true;FF==0,YVel>0
 JumpR;;N;SprintingR,standingR,SprintingL,standingL;movement;JumpR;jumpingR;true;FF==1
 JumpL;;N;SprintingR,standingR,SprintingL,standingL;movement;JumpL;jumpingL;true;FF==0
-DeathR;;X;;movement;DeathR;deadR;true;HP<=0;FF==1,HP<=0
-DeathL;;X;;movement;DeathL;deadR;true;HP<=0;FF==0,HP<=0
+DeathR;;;;movement;DeathR;deadR;true;HP<=0;FF==1,HP<=0
+DeathL;;;;movement;DeathL;deadR;true;HP<=0;FF==0,HP<=0
 RunR;;E;standingR,standingL;movement;RunR;SprintingR;true;FF==1,XVel>0
 RunL;;W;standingR,standingL;movement;RunL;SprintingL;true;FF==0,XVel<0
-RunVR;;E;standingR,standingL;movement;RunVR;SprintingR;true;FF==1,HP<50
-RunVL;;W;standingR,standingL;movement;RunVL;SprintingL;true;FF==0,HP<50
+RunVR;;E;standingR,standingL;movement;RunVR;SprintingR;true;FF==1,HP<50,XVel>0
+RunVL;;W;standingR,standingL;movement;RunVL;SprintingL;true;FF==0,HP<50,XVel<0
 #attack stuff
 upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF==1
 upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF==0

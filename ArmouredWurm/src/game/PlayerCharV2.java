@@ -34,6 +34,7 @@ public class PlayerCharV2 extends Sprite
 	protected int fronthitbox[] = new int[4];
 	
 	//COMBAT UPDATE 2016
+	protected String currentTrigger;
 	protected Trigger[] triggers;
 	protected String state;
 	protected Spark[] sparks;
@@ -390,13 +391,10 @@ public class PlayerCharV2 extends Sprite
 		//this.x = this.valueMap.get("X").getValue();
 		//this.y = this.valueMap.get("Y").getValue();
 		
-		if(this.firstloop)
-		{
-			return;
-		}
-		
-		//Testing stuff
-		//this.valueMap.get("FF").setValue(inFF ? 1 : 0);
+		//if(this.firstloop)
+		//{
+		//	return;
+		//}
 		
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
@@ -595,6 +593,10 @@ public class PlayerCharV2 extends Sprite
 		{
 			if(testmode)System.out.println("BOOOOOOOOM "+TriggerList.get(0) +" "+inputs.getOn() +" FF:"+this.valueMap.get("FF").getValue() );
 			tri = this.triggerMap.get(TriggerList.get(0));
+			if(this.currentTrigger == tri.getName()){return;} //This was causing issues
+			
+			
+			this.currentTrigger = tri.getName();
 			firstloop = true;
 			//using 0 for testing John fix this
 			Spark sx = sparksMap.get(tri.getSparks()[0]);
@@ -727,6 +729,9 @@ public class PlayerCharV2 extends Sprite
 	{
 		if(this.XVel + startforce != 0 )
 		{
+			if(this.XVel > 0) this.setValue("FF", 1);
+			else if(this.XVel < 0)this.setValue("FF", 0);
+			
 			this.moveX(theWorld, window,startforce + XVel);
 		}
 		if(this.YVel != 0)
