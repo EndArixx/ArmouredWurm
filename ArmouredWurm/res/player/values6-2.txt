@@ -24,10 +24,10 @@ endOfSpark,0,1,0
 #Must have Values for Movement######### 
 XVel,0,100,-100
 YVel,0,100,-100
-Xaccel,5,100,0
+Xaccel,2,100,0
 YaccelUp,30,100,0
 YaccelDn,1,100,0
-MaxXVel,10,100,0
+MaxXVel,15,100,0
 MaxYVelUp,25,100,0
 MaxYVelDn,20,100,0
 #other booleans############

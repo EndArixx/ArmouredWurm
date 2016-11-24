@@ -5,24 +5,32 @@
 #the allowed_states seems important, these are states teh player must be in order to trigger this...trigger
 # X = none?
 #Can triggers lead to other triggers?
-#john add value types!
-coreR;S;;SprintingR,EndOfSparkR,jumpingR;idle;coreR;standingR;true;FF==1
-coreL;S;;SprintingL,EndOfSparkL,jumpingL;idle;coreL;standingL;true;FF==0
-StandR;;;fallingR,SprintingR,EndOfSparkR,jumpingR;idle;StandR;standingR;true;FF==1
-StandL;;;fallingL,SprintingL,EndOfSparkL,jumpingL;idle;StandL;standingL;true;FF==0
-IdleR;;;standingR;idle;IdleR;standingR;true;FF==1,YVel<0
-IdleL;;;standingL;idle;IdleL;standingL;true;FF==0,YVel<0
-FallR;;;jumpingR,SprintingR,FallL;movement;FallR;fallingR;true;FF==1,YVel>0
-FallL;;;jumpingL,SprintingL,FallR;movement;FallL;fallingL;true;FF==0,YVel>0
-JumpR;;N;SprintingR,standingR,SprintingL,standingL;movement;JumpR;jumpingR;true;FF==1
-JumpL;;N;SprintingR,standingR,SprintingL,standingL;movement;JumpL;jumpingL;true;FF==0
-DeathR;;;;movement;DeathR;deadR;true;HP<=0;FF==1,HP<=0
-DeathL;;;;movement;DeathL;deadR;true;HP<=0;FF==0,HP<=0
-RunR;;E;standingR,standingL;movement;RunR;SprintingR;true;FF==1,XVel>0
-RunL;;W;standingR,standingL;movement;RunL;SprintingL;true;FF==0,XVel<0
-RunVR;;E;standingR,standingL;movement;RunVR;SprintingR;true;FF==1,HP<50,XVel>0
-RunVL;;W;standingR,standingL;movement;RunVL;SprintingL;true;FF==0,HP<50,XVel<0
-#attack stuff
+#JOHN redesign the states :)
+coreR;S;;MovingState;idle;coreR;MovingState;true;FF==1,YVel==0,XVel==0
+coreL;S;;MovingState;idle;coreL;MovingState;true;FF==0,YVel==0,XVel==0
+StandR;;;MovingState;idle;StandR;MovingState;true;FF==1,YVel==0,XVel==0
+StandL;;;MovingState;idle;StandL;MovingState;true;FF==0,YVel==0,XVel==0
+IdleR;;;MovingState;idle;IdleR;MovingState;true;FF==1,YVel==0,XVel==0,HP<50
+IdleL;;;MovingState;idle;IdleL;MovingState;true;FF==0,YVel==0,XVel==0,HP<50
+FallR;;;MovingState;movement;FallR;MovingState;true;FF==1,YVel>0
+FallR1;;E;MovingState;movement;FallR;MovingState;true;FF==1,YVel>0
+FallR2;;W;MovingState;movement;FallR;MovingState;true;FF==1,YVel>0
+FallL;;;MovingState;movement;FallL;MovingState;true;FF==0,YVel>0
+FallL1;;E;MovingState;movement;FallL;MovingState;true;FF==0,YVel>0
+FallL2;;W;MovingState;movement;FallL;MovingState;true;FF==0,YVel>0
+JumpR;;N;MovingState;movement;JumpR;MovingState;true;FF==1,YVel<0
+JumpR1;;NE;MovingState;movement;JumpR;MovingState;true;FF==1,YVel<0
+JumpR2;;NW;MovingState;movement;JumpR;MovingState;true;FF==1,YVel<0
+JumpL;;N;MovingState;movement;JumpL;MovingState;true;FF==0,YVel<0
+JumpL1;;NE;MovingState;movement;JumpL;MovingState;true;FF==0,YVel<0
+JumpL2;;NW;MovingState;movement;JumpL;MovingState;true;FF==0,YVel<0
+RunR;;E;MovingState;movement;RunR;MovingState;true;FF==1,YVel==0,XVel>0
+RunL;;W;MovingState;movement;RunL;MovingState;true;FF==0,YVel==0,XVel<0
+RunVR;;E;MovingState;movement;RunVR;MovingState;true;FF==1,HP<50,YVel==0,XVel>0
+RunVL;;W;MovingState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
+DeathR;;;;movement;DeathR;dead;true;HP<=0;FF==1,HP<=0
+DeathL;;;;movement;DeathL;dead;true;HP<=0;FF==0,HP<=0
+#attack stuff``````````````````````````````````````````````````````````````````````````````
 upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF==1
 upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF==0
 KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;FF==1

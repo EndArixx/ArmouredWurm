@@ -199,7 +199,6 @@ public class PlayerCharV2 extends Sprite
 
 	        }
 	        reader.closeBR();
-	        
 	     
 	        //STATES---------------------------------------------------------
 	        err= 4;
@@ -273,8 +272,10 @@ public class PlayerCharV2 extends Sprite
 	        this.MaxYVelUp = this.getValue("MaxYVelUp");
 	        this.MaxYVelDn = this.getValue("MaxYVelDn");
 	        
+	        this.currentTrigger = this.triggerNames.get(0);
 	        this.currstate = this.statesMap.get(startState);
 			firstloop = true;
+			
 			err= 8;
 			Spark x = sparksMap.get(startSpark);
 			col = x.xloc;
@@ -299,7 +300,7 @@ public class PlayerCharV2 extends Sprite
 	{
 		//grab the current speeds for movement
 		this.setValue("XVel",(int) this.XVel);
-        this.setValue("YVel",(int) this.YVel);
+        this.setValue("YVel",(int) this.YVel);       
         
 		this.animateCol();
 	}
@@ -388,6 +389,7 @@ public class PlayerCharV2 extends Sprite
 		
 		char[] history = moveHistory.getStack();
 		boolean testmode = false;
+        if (testmode) System.out.println("X:"+this.getValue("XVel") + " - Y:" +this.getValue("YVel") + " FF" + this.getValue("FF") );
 		//this.x = this.valueMap.get("X").getValue();
 		//this.y = this.valueMap.get("Y").getValue();
 		
