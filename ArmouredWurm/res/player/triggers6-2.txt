@@ -5,7 +5,11 @@
 #the allowed_states seems important, these are states teh player must be in order to trigger this...trigger
 # X = none?
 #Can triggers lead to other triggers?
-#JOHN redesign the states :)
+#----------------------------------------------------
+#THINGS TO DO!
+# 1)    JOHN redesign the states :)
+# 2)    john Fix the duplicate Errors (fallR,R1,R2)
+#----------------------------------------------------
 coreR;S;;MovingState;idle;coreR;MovingState;true;FF==1,YVel==0,XVel==0
 coreL;S;;MovingState;idle;coreL;MovingState;true;FF==0,YVel==0,XVel==0
 StandR;;;MovingState;idle;StandR;MovingState;true;FF==1,YVel==0,XVel==0
@@ -30,7 +34,7 @@ RunVR;;E;MovingState;movement;RunVR;MovingState;true;FF==1,HP<50,YVel==0,XVel>0
 RunVL;;W;MovingState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
 DeathR;;;;movement;DeathR;dead;true;HP<=0;FF==1,HP<=0
 DeathL;;;;movement;DeathL;dead;true;HP<=0;FF==0,HP<=0
-#attack stuff``````````````````````````````````````````````````````````````````````````````
+#ATTACK ANIMATIONS-------------------------------------------------------------------
 upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF==1
 upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF==0
 KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;FF==1
