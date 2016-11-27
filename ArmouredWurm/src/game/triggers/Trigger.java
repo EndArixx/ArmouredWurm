@@ -67,7 +67,7 @@ public class Trigger
 
 	
 	protected String history; //This should be a varchar[]?
-	protected String playerinput;
+	protected String[] playerinput;
 	protected String allowedStates;
 	protected String type;
 	protected String[] sparkNames;
@@ -80,7 +80,7 @@ public class Trigger
 		String[] Data = inline.split(";");
 		name = Data[0];
 		history = Data[1];
-		playerinput = Data[2];
+		playerinput = Data[2].split(",");
 		allowedStates = Data[3];
 		type = Data[4];
 		sparkNames = Data[5].split(",");
@@ -112,7 +112,7 @@ public class Trigger
 	{
 		return this.Interuptable;
 	}
-	public String getInputControl()
+	public String[] getInputControl()
 	{
 		return this.playerinput;
 	}

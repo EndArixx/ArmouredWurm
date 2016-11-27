@@ -448,11 +448,17 @@ public class PlayerCharV2 extends Sprite
 				String current = x.next();
 				
 				tri  = this.triggerMap.get(current);
-				if(!tri.getInputControl().equals(inputs.getOn()))
+				boolean inputOn = false;
+				String[] triInputs = tri.getInputControl();
+				for(int i = 0; i < triInputs.length;i++)
+				{
+					if (triInputs[i].equals(inputs.getOn()))
+						{inputOn = true;}
+				}
+				if(!inputOn)
 				{
 					TriggerList.remove(current);
 					if(testmode)System.out.println("Inputs OFF " + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
-					//x.remove();
 				}
 				else
 				{
