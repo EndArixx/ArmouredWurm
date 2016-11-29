@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.284";
+	public String version = "Version 1.0.285";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1427,7 +1427,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					if (!frontbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getfrontHitbox()))
 						{
 							frontbonk = true;
-							if(platforms[i].getMoving())
+							if(platforms[i].getMoving() && platforms[i].movingSpeed() < 0)
 								{movingPlatspeed = platforms[i].movingSpeed();}
 							if(Tools.check_collision(platforms[i].getHitbox()[0] + (stuckX/2), platforms[i].getHitbox()[1] + (stuckX/2), platforms[i].getHitbox()[2] - stuckX, platforms[i].getHitbox()[3] - stuckX, player2.getfrontHitbox()[0], player2.getfrontHitbox()[1], player2.getfrontHitbox()[2], player2.getfrontHitbox()[3]))
 							{
@@ -1437,7 +1437,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					if (!backbonk && Tools.check_collision(platforms[i].getHitbox(), player2.getbackHitbox()))
 						{
 							backbonk = true;
-							if(platforms[i].getMoving())
+							if(platforms[i].getMoving() && platforms[i].movingSpeed() > 0)
 								{movingPlatspeed = platforms[i].movingSpeed();}
 							if(Tools.check_collision(platforms[i].getHitbox()[0] + (stuckX/2), platforms[i].getHitbox()[1] + (stuckX/2), platforms[i].getHitbox()[2] - stuckX, platforms[i].getHitbox()[3] - stuckX, player2.getbackHitbox()[0], player2.getbackHitbox()[1], player2.getbackHitbox()[2], player2.getbackHitbox()[3]))
 							{
