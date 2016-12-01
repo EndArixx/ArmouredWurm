@@ -3,6 +3,7 @@
 #other possible states
 dead>moving>touchingGround>idle>attacking>spotEnemy
 MovingState>false,true,true,false,false,false,1
+CombatState>false,true,true,false,true,false,1
 SprintingR>false,true,true,false,false,false,1
 SprintingL>false,true,true,false,false,false,0
 Sprinting>false,true,true,false,false,false,0

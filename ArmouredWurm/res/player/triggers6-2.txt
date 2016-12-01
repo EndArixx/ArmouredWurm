@@ -10,10 +10,10 @@
 # 1)    JOHN redesign the states :)
 # 2)    john Fix the duplicate Errors (fallR,R1,R2)
 #----------------------------------------------------
-coreR;S;;MovingState;idle;coreR;MovingState;true;FF==1,YVel==0,XVel==0
-coreL;S;;MovingState;idle;coreL;MovingState;true;FF==0,YVel==0,XVel==0
-StandR;;;MovingState;idle;StandR;MovingState;true;FF==1,YVel==0,XVel==0
-StandL;;;MovingState;idle;StandL;MovingState;true;FF==0,YVel==0,XVel==0
+coreR;S;;MovingState,CombatState;idle;coreR;MovingState;true;FF==1,YVel==0,XVel==0
+coreL;S;;MovingState,CombatState;idle;coreL;MovingState;true;FF==0,YVel==0,XVel==0
+StandR;;;MovingState,CombatState;idle;StandR;MovingState;true;FF==1,YVel==0,XVel==0
+StandL;;;MovingState,CombatState;idle;StandL;MovingState;true;FF==0,YVel==0,XVel==0
 IdleR;;;MovingState;idle;IdleR;MovingState;true;FF==1,YVel==0,XVel==0,HP<50
 IdleL;;;MovingState;idle;IdleL;MovingState;true;FF==0,YVel==0,XVel==0,HP<50
 FallR;;,E,W;MovingState;movement;FallR;MovingState;true;FF==1,YVel>0
@@ -27,18 +27,18 @@ RunVL;;W;MovingState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
 DeathR;;;;movement;DeathR;dead;true;HP<=0;FF==1,HP<=0
 DeathL;;;;movement;DeathL;dead;true;HP<=0;FF==0,HP<=0
 #ATTACK ANIMATIONS-------------------------------------------------------------------
-upperCutR;LLH;AH;combatstandR,standingR;Combat;upperCutR;attackingR;False;FF==1
-upperCutL;LLH;AH;combatstandL,standingL;Combat;upperCutL;attackingL;False;FF==0
-KickR;LHH;AS;combatstandR,standingR;Combat;KickR;attackingR;False;FF==1
-KickL;LHH;AS;combatstandL,standingL;Combat;KickL;attackingL;False;FF==0
-jabR;L;AL;combatstandR,standingR;Combat;jabR;attackingR;False;FF==1
-jabL;L;AL;combatstandL,standingL;Combat;jabL;attackingL;False;FF==0
-heavyPunchR;H;AH;combatstandR,standingR;Combat;heavyPunchR;attackingR;False;FF==1
-heavyPunchL;H;AH;combatstandL,standingL;Combat;heavyPunchL;attackingL;False;FF==0
-crossR;LL;AL;combatstandR,standingR;Combat;crossR;attackingR;False;FF==1
-crossL;LL;AL;combatstandL,standingL;Combat;crossL;attackingL;False;FF==0
-croutchR;;X;combatstandR,standingR;Combat;croutchR;attackingR;False;FF==1
-croutchL;;X;combatstandL,standingL;Combat;croutchL;attackingL;False;FF==0
-attackR;;AH;combatstandR,standingR;Combat;attackR;attackingR;False;FF==1
-attackL;;AH;combatstandL,standingL;Combat;attackL;attackingL;False;FF==0
+upperCutR;LLH;AH;MovingState;Combat;upperCutR;CombatState;False;FF==1
+upperCutL;LLH;AH;MovingState;Combat;upperCutL;CombatState;False;FF==0
+KickR;LHH;AS;MovingState;Combat;KickR;CombatState;False;FF==1
+KickL;LHH;AS;MovingState;Combat;KickL;CombatState;False;FF==0
+jabR;L;AL;MovingState;Combat;jabR;CombatState;False;FF==1
+jabL;L;AL;MovingState;Combat;jabL;CombatState;False;FF==0
+heavyPunchR;H;AH;MovingState;Combat;heavyPunchR;CombatState;False;FF==1
+heavyPunchL;H;AH;MovingState;Combat;heavyPunchL;CombatState;False;FF==0
+crossR;LL;AL;MovingState;Combat;crossR;CombatState;False;FF==1
+crossL;LL;AL;MovingState;Combat;crossL;CombatState;False;FF==0
+croutchR;;X;MovingState;Combat;croutchR;CombatState;False;FF==1
+croutchL;;X;MovingState;Combat;croutchL;CombatState;False;FF==0
+attackR;;AH;MovingState;Combat;attackR;CombatState;False;FF==1
+attackL;;AH;MovingState;Combat;attackL;CombatState;False;FF==0
 #john what about jumping attacks?

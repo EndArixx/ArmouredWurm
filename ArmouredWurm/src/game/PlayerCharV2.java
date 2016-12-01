@@ -389,14 +389,14 @@ public class PlayerCharV2 extends Sprite
 		
 		char[] history = moveHistory.getStack();
 		boolean testmode = false;
-        if (testmode) System.out.println("X:"+this.getValue("XVel") + " - Y:" +this.getValue("YVel") + " FF" + this.getValue("FF") );
+        //if (testmode) System.out.println("X:"+this.getValue("XVel") + " - Y:" +this.getValue("YVel") + " FF" + this.getValue("FF") );
 		//this.x = this.valueMap.get("X").getValue();
 		//this.y = this.valueMap.get("Y").getValue();
 		
-		//if(this.firstloop)
-		//{
-		//	return;
-		//}
+		if(this.firstloop && !this.isInteruptable)
+		{
+			return;
+		}
 		
 		Trigger tri = null;
 		List<String> TriggerList = new ArrayList<String>();
@@ -606,6 +606,7 @@ public class PlayerCharV2 extends Sprite
 			
 			this.currentTrigger = tri.getName();
 			firstloop = true;
+			this.isInteruptable = tri.isInteruptable();
 			//using 0 for testing John fix this
 			Spark sx = sparksMap.get(tri.getSparks()[0]);
 			col = sx.xloc;
