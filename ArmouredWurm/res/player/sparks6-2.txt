@@ -19,16 +19,16 @@ A,RunL,Top,0,9,16,5,false,20
 A,RunVR,Bottom,0,0,16,5,false,30
 A,RunVL,Bottom,0,1,16,5,false,30
 #---------------attack stuff----------------
-A,upperCutR,Bottom,0,2,10,5,true,-1,upperCutRH
-A,upperCutL,Bottom,0,3,10,5,true,-1,upperCutLH
-A,KickR,Bottom,0,4,16,5,true,-1,KickLH
-A,KickL,Bottom,0,5,16,5,true,-1,KickRH
-A,jabR,Bottom,0,6,8,5,true,-1,jabRH
-A,jabL,Bottom,8,6,8,5,true,-1,jabLH
-A,heavyPunchR,Bottom,0,8,16,5,true,-1,heavyPunchRH
-A,heavyPunchL,Bottom,0,9,16,5,true,-1,heavyPunchLH
-A,crossR,Bottom,0,7,8,5,true,-1,crossRH
-A,crossL,Bottom,8,7,8,5,true,-1,crossLH
+A,upperCutR,Bottom,0,2,10,3,true,-1,upperCutRH
+A,upperCutL,Bottom,0,3,10,3,true,-1,upperCutLH
+A,KickR,Bottom,0,4,16,3,true,-1,KickLH
+A,KickL,Bottom,0,5,16,3,true,-1,KickRH
+A,jabR,Bottom,0,6,8,3,true,-1,jabRH
+A,jabL,Bottom,8,6,8,3,true,-1,jabLH
+A,heavyPunchR,Bottom,0,8,16,3,true,-1,heavyPunchRH
+A,heavyPunchL,Bottom,0,9,16,3,true,-1,heavyPunchLH
+A,crossR,Bottom,0,7,8,3,true,-1,crossRH
+A,crossL,Bottom,8,7,8,3,true,-1,crossLH
 A,croutchR,Top,6,6,1,5,true
 A,croutchL,Top,6,7,1,5,true
 A,attackR,Top,7,6,1,5,true

@@ -478,12 +478,13 @@ public class PlayerCharV2 extends Sprite
 				boolean goodhistory = false;
 				String currHistory = String.valueOf(history);
 				tri = this.triggerMap.get(current);
-				if(testmode)System.out.println("History " + current);
+				if(testmode)System.out.println("History " + current + " " + currHistory);
 				
 				for(int i = 0 ; i <= history.length; i++)
 				{
-					if (!tri.getHistory().equals(currHistory))
+					if (tri.getHistory().equals(currHistory))
 					{
+						System.out.println("BOOOM!" + current + " " + tri.getHistory());
 						 //i = Integer.MAX_VALUE;
 						 goodhistory = true;
 						 break;
@@ -492,7 +493,7 @@ public class PlayerCharV2 extends Sprite
 					{
 						currHistory = currHistory.substring(1);
 					}
-					System.out.println("END "+i);
+					if(testmode)System.out.println("END "+i);
 				}
 				if(!goodhistory)
 				{
@@ -502,7 +503,6 @@ public class PlayerCharV2 extends Sprite
 				}
 			}
 		}
-
 
 		//CHECK VALUES
 		StupidClone.clear();

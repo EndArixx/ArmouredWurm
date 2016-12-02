@@ -18,12 +18,12 @@ IdleR;;;MovingState;idle;IdleR;MovingState;true;FF==1,YVel==0,XVel==0,HP<50
 IdleL;;;MovingState;idle;IdleL;MovingState;true;FF==0,YVel==0,XVel==0,HP<50
 FallR;;,E,W;MovingState;movement;FallR;MovingState;true;FF==1,YVel>0
 FallL;;,E,W;MovingState;movement;FallL;MovingState;true;FF==0,YVel>0
-JumpR;;N,NE,NW;MovingState;movement;JumpR;MovingState;true;FF==1,YVel<0
-JumpL;;N,NE,NW;MovingState;movement;JumpL;MovingState;true;FF==0,YVel<0
+JumpR;;N,NE,NW;MovingState,CombatState;movement;JumpR;MovingState;true;FF==1,YVel<0
+JumpL;;N,NE,NW;MovingState,CombatState;movement;JumpL;MovingState;true;FF==0,YVel<0
 RunR;;E;MovingState;movement;RunR;MovingState;true;FF==1,YVel==0,XVel>0
 RunL;;W;MovingState;movement;RunL;MovingState;true;FF==0,YVel==0,XVel<0
-RunVR;;E;MovingState;movement;RunVR;MovingState;true;FF==1,HP<50,YVel==0,XVel>0
-RunVL;;W;MovingState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
+RunVR;;E;CombatState;movement;RunVR;MovingState;true;FF==1,HP<50,YVel==0,XVel>0
+RunVL;;W;CombatState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
 DeathR;;;;movement;DeathR;dead;true;HP<=0;FF==1,HP<=0
 DeathL;;;;movement;DeathL;dead;true;HP<=0;FF==0,HP<=0
 #ATTACK ANIMATIONS-------------------------------------------------------------------
