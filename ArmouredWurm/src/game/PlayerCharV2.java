@@ -484,14 +484,13 @@ public class PlayerCharV2 extends Sprite
 				{
 					if (tri.getHistory().equals(currHistory))
 					{
-						System.out.println("BOOOM!" + current + " " + tri.getHistory());
 						 //i = Integer.MAX_VALUE;
 						 goodhistory = true;
 						 break;
 					}
 					else if(i != history.length)
 					{
-						currHistory = currHistory.substring(1);
+						currHistory = currHistory.substring(0,currHistory.length()-1);
 					}
 					if(testmode)System.out.println("END "+i);
 				}

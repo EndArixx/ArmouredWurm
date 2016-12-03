@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.287";
+	public String version = "Version 1.0.288";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -1859,6 +1859,11 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 	private void combat()
 	{
+		if(isLoading || isPaused || inMainMenu)
+		{	
+			//if its not gameplay, EJECT!
+			return;
+		}
 		//this is for the new combat update.
 		
 		//create the input object right now this is a string ill prolly change it later
@@ -2321,7 +2326,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	 				if(attackL == 0)
 	 				{ 
 	 					attackL = 1;
-	 					mStack.add('L');
+	 					if(player2.isInteruptable)mStack.add('L');
 	 				}
 	 				else attackL = 2;
 	 				break;
@@ -2330,7 +2335,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					if(attackH == 0)
 					{ 
 						attackH = 1;
-						mStack.add('H');
+						if(player2.isInteruptable)mStack.add('H');
 					}
 					else attackH = 2;
 					break;
@@ -2339,7 +2344,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 					if(attackS == 0)
 					{ 
 						attackS = 1;
-						mStack.add('S');
+						if(player2.isInteruptable)mStack.add('S');
 					}
 					else attackS = 2;
 					break;
