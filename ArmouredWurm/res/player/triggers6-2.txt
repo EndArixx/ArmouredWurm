@@ -27,18 +27,18 @@ RunVL;;W;CombatState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
 DeathR;;;;movement;DeathR;dead;true;HP<=0;FF==1,HP<=0
 DeathL;;;;movement;DeathL;dead;true;HP<=0;FF==0,HP<=0
 #ATTACK ANIMATIONS-------------------------------------------------------------------
-upperCutR;HLL;AH;MovingState;Combat;upperCutR;CombatState;False;FF==1
-upperCutL;HLL;AH;MovingState;Combat;upperCutL;CombatState;False;FF==0
-KickR;SLHL;AS;MovingState;Combat;KickR;CombatState;False;FF==1
-KickL;SLHL;AS;MovingState;Combat;KickL;CombatState;False;FF==0
-crossR;LL;AL;MovingState;Combat;crossR;CombatState;False;FF==1
-crossL;LL;AL;MovingState;Combat;crossL;CombatState;False;FF==0
-jabR;L;AL;MovingState;Combat;jabR;CombatState;False;FF==1
-jabL;L;AL;MovingState;Combat;jabL;CombatState;False;FF==0
-heavyPunchR;H;AH;MovingState;Combat;heavyPunchR;CombatState;False;FF==1
-heavyPunchL;H;AH;MovingState;Combat;heavyPunchL;CombatState;False;FF==0
-croutchR;;X;MovingState;Combat;croutchR;CombatState;False;FF==1
-croutchL;;X;MovingState;Combat;croutchL;CombatState;False;FF==0
-attackR;;X;MovingState;Combat;attackR;CombatState;False;FF==1
-attackL;;X;MovingState;Combat;attackL;CombatState;False;FF==0
+upperCutR;HLL;AH,EAH,WAH;MovingState;Combat;upperCutR;CombatState;False;FF==1,YVel==0
+upperCutL;HLL;AH,EAH,WAH;MovingState;Combat;upperCutL;CombatState;False;FF==0,YVel==0
+KickR;SLHL;AS,EAS,WAS;MovingState;Combat;KickR;CombatState;False;FF==1,YVel==0
+KickL;SLHL;AS,EAS,WAS;MovingState;Combat;KickL;CombatState;False;FF==0,YVel==0
+crossR;LL;AL,EAL,WAL;MovingState;Combat;crossR;CombatState;False;FF==1,YVel==0
+crossL;LL;AL,EAL,WAL;MovingState;Combat;crossL;CombatState;False;FF==0,YVel==0
+jabR;L;AL,EAL,WAL;MovingState;Combat;jabR;CombatState;False;FF==1,YVel==0
+jabL;L;AL,EAL,WAL;MovingState;Combat;jabL;CombatState;False;FF==0,YVel==0
+heavyPunchR;H;AH,EAH,WAH;MovingState;Combat;heavyPunchR;CombatState;False;FF==1,YVel==0
+heavyPunchL;H;AH,EAH,WAH;MovingState;Combat;heavyPunchL;CombatState;False;FF==0,YVel==0
+croutchR;;X;MovingState;Combat;croutchR;CombatState;False;FF==1,YVel==0
+croutchL;;X;MovingState;Combat;croutchL;CombatState;False;FF==0,YVel==0
+attackR;;X;MovingState;Combat;attackR;CombatState;False;FF==1,YVel==0
+attackL;;X;MovingState;Combat;attackL;CombatState;False;FF==0,YVel==0
 #john what about jumping attacks?
