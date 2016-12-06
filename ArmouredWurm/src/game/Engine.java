@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.289";
+	public String version = "Version 1.0.290";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 	public boolean isEngine;
@@ -69,7 +69,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	//playerSwitchTag
 	//public PlayerChar player;
 	public PlayerCharV2 player2; //Version 2.0 
-	public String valueNameHP= "HP";
+	public String valueNameHP;
 	
 	public Sprite playerHP;
 	public Sprite playerHPpips;
@@ -712,7 +712,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			
 			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites);
-			
+			valueNameHP = player2.HPName;
 					//Health bar stuff
 			restartdata[4] = (int) player2.getValue(valueNameHP);
 			this.hx = 50;
@@ -942,7 +942,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				soundHandler.update();
 			}
 			
-			combat();
+
 			//playerSwitchTag make sure you update it 
 			player2.update();
 

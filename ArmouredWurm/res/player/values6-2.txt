@@ -22,6 +22,7 @@ spotEnemy,0,1,0
 FF,0,1,0
 endOfSpark,0,1,0
 #Must have Values for Movement######### 
+InvolTime,25,0,100
 XVel,0,100,-100
 YVel,0,100,-100
 Xaccel,2,100,0

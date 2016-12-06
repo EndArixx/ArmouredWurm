@@ -48,7 +48,8 @@ public class PlayerCharV2 extends Sprite
 	
 	protected Map<String,Trigger> triggerMap;
 	protected List<String> triggerNames;
-	
+	protected String HPName = "HP";
+	protected int invol; //invulnerable timer
 	protected boolean isInteruptable;
 	
 	protected String triggerloc;
@@ -301,6 +302,18 @@ public class PlayerCharV2 extends Sprite
 		//grab the current speeds for movement
 		this.setValue("XVel",(int) this.XVel);
         this.setValue("YVel",(int) this.YVel);       
+        
+		if(invol > 0)
+		{
+			if(invol >= this.getValue("InvolTime"))
+			{
+				invol = 0;
+			}
+			else
+			{
+				invol++;
+			}
+		}
         
 		this.animateCol();
 	}
@@ -804,8 +817,11 @@ public class PlayerCharV2 extends Sprite
 	// MORE STUFFFFFFFFFFFF----------------------------------------------------------
 	public void damage(int amount)
 	{		
-		//playerSwitchTag
-		//John set this up
+		if(invol == 0)
+		{
+			invol++;
+			this.setValue(this.HPName, this.getValue(this.HPName) - amount);
+		}
 	}
 	
 	public void render(Graphics g,  Map<String,BufferedImage> spriteData)
