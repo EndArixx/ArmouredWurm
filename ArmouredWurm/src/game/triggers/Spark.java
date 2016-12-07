@@ -54,7 +54,7 @@ public class Spark
 			this.length = Integer.parseInt(Data[5]);
 			this.speed = Integer.parseInt(Data[6]); // JOHN WILD CARD OR Default
 			this.looping = Boolean.parseBoolean(Data[7]);
-			this.hitboxName = "NONE"; //default
+			this.hitboxName = ""; //default
 			if(Data.length > 8)
 			{
 				this.value = Integer.parseInt(Data[8]);
@@ -105,5 +105,17 @@ public class Spark
 	public String getName()
 	{
 		return this.name;
+	}
+	public boolean hasHitBox()
+	{
+		if(this.hitboxName != "")
+		{
+			return true;
+		}
+		return false;
+	}
+	public String getHitBox()
+	{
+		return this.hitboxName;
 	}
 }

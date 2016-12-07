@@ -1,5 +1,7 @@
 package game.triggers;
 
+import game.DamageHitbox;
+
 public class AttackHitBoxes 
 {
 	//This will be used for hitbox generation with the new trigger system
@@ -37,7 +39,22 @@ public class AttackHitBoxes
 	}
 	public int[] getHitBox(int index, int x, int y)
 	{
-		int[] out =  {internalHitboxes[index][0]+x,internalHitboxes[index][1]+y,internalHitboxes[index][2],internalHitboxes[index][3]};
+		try
+		{
+			int[] out =  {internalHitboxes[index][0]+x,internalHitboxes[index][1]+y,internalHitboxes[index][2],internalHitboxes[index][3]};
+			return out;
+		}
+		catch (Exception e) 
+		{
+			return new int[] {0,0,0,0};
+		}
+	}
+	public DamageHitbox getDamageHitBox(int index, int x, int y)
+	{
+		DamageHitbox out;
+		int[] hitbox = getHitBox(index,x,y);
+		//JOHN FIX THIS!
+		out = new DamageHitbox(hitbox,10,3);
 		return out;
 	}
 	

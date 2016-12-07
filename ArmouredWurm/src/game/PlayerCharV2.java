@@ -39,6 +39,8 @@ public class PlayerCharV2 extends Sprite
 	protected String state;
 	protected Spark[] sparks;
 	protected State currstate;
+	protected AttackHitBoxes currHitbox;
+	protected boolean hasDamageHitbox;
 	protected Map<String,AttackHitBoxes> HitboxMap;
 	protected String[] masterState;
 	protected Map<String,State> statesMap;
@@ -276,6 +278,7 @@ public class PlayerCharV2 extends Sprite
 	        this.currentTrigger = this.triggerNames.get(0);
 	        this.currstate = this.statesMap.get(startState);
 			firstloop = true;
+			hasDamageHitbox = false;
 			
 			err= 8;
 			Spark x = sparksMap.get(startSpark);
@@ -297,11 +300,17 @@ public class PlayerCharV2 extends Sprite
 	}
 	
 	//Update
-	public void update()
+	public void update( Queue<DamageHitbox> damageQ)
 	{
 		//grab the current speeds for movement
 		this.setValue("XVel",(int) this.XVel);
         this.setValue("YVel",(int) this.YVel);       
+        
+        //hitbox stuff
+        if(this.hasDamageHitbox)
+        {
+        	damageQ.add(this.currHitbox.getDamageHitBox(this.col, this.x, this.y));
+        }
         
 		if(invol > 0)
 		{
@@ -627,6 +636,15 @@ public class PlayerCharV2 extends Sprite
 			this.timerspeed = sx.speed;
 			colN = sx.length + sx.xloc;
 			this.name = playerSprites.get(sx.Sprite);
+			if(sx.hasHitBox())
+			{
+				this.hasDamageHitbox = true;
+				this.currHitbox = this.HitboxMap.get(sx.getHitBox());
+			}
+			else
+			{
+				this.hasDamageHitbox= false;
+			}
 			this.currstate = this.statesMap.get(tri.getState());
 			if(testmode)System.out.println("-----------"+currstate.getName());
 			for(int i = 0;i < this.masterState.length; i++)
