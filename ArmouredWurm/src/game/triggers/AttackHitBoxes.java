@@ -13,9 +13,15 @@ public class AttackHitBoxes
 	private int[][] internalHitboxes;
 		//a normal hitbox is only for points...but this might need an offset
 	private int lenofData = 4;
+		//order amount;Type;
+	private int amount;
+	private int type;
+
+
+	
 	public AttackHitBoxes(int[][] in) 
 	{
-		internalHitboxes = in;
+		internalHitboxes = in;	
 	}
 	public AttackHitBoxes(String in)
 	{
@@ -24,19 +30,41 @@ public class AttackHitBoxes
 		internalHitboxes = new int[hitboxes.length][lenofData];
 		for(int i = 0; i < (hitboxes.length); i++)
 		{
-			hit = hitboxes[i].split(",");
-			
-			for (int j = 0; j< lenofData; j++)
+			if(i == 0)
 			{
-				internalHitboxes[i][j] = Integer.parseInt(hit[j]);
+				amount = Integer.parseInt( hitboxes[i]);
+			}
+			else if(i == 1)
+			{
+				type = Integer.parseInt( hitboxes[i]);
+			}
+			else
+			{
+				hit = hitboxes[i].split(",");
+				if(hitboxes.length == 1)
+				{
+					for (int j = 0; j< lenofData; j++)
+					{
+						internalHitboxes[i][j] = 0;
+					}
+				}
+				else
+				{
+					for (int j = 0; j< lenofData; j++)
+					{
+						internalHitboxes[i][j] = Integer.parseInt(hit[j]);
+					}
+				}
 			}
 		}
 		
 	}
+	
 	public int[] getHitBox(int index)
 	{	
 		return internalHitboxes[index];
 	}
+	
 	public int[] getHitBox(int index, int x, int y)
 	{
 		try
@@ -54,8 +82,7 @@ public class AttackHitBoxes
 	{
 		DamageHitbox out;
 		int[] hitbox = getHitBox(index,x,y);
-		//JOHN FIX THIS!
-		out = new DamageHitbox(hitbox,10,3);
+		out = new DamageHitbox(hitbox,amount,type);
 		return out;
 	}
 	
@@ -72,5 +99,15 @@ public class AttackHitBoxes
 			out += " ";
 		}
 		return out; 
+	}
+	
+	public int getAmount()
+	{
+		return amount;
+	}
+	
+	public int getType()
+	{
+		return type;
 	}
 }
