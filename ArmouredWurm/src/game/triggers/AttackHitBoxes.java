@@ -46,6 +46,7 @@ public class AttackHitBoxes
 		}
 		catch (Exception e) 
 		{
+			System.out.println("hitbox error:"+e.toString());
 			return new int[] {0,0,0,0};
 		}
 	}

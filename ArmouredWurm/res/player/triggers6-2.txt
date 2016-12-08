@@ -8,7 +8,6 @@
 #----------------------------------------------------
 #THINGS TO DO!
 # 1)    JOHN redesign the states :)
-# 2)    john Fix the duplicate Errors (fallR,R1,R2)
 #----------------------------------------------------
 coreR;S;;MovingState,CombatState;idle;coreR;MovingState;true;FF==1,YVel==0,XVel==0
 coreL;S;;MovingState,CombatState;idle;coreL;MovingState;true;FF==0,YVel==0,XVel==0

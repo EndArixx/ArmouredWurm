@@ -309,7 +309,7 @@ public class PlayerCharV2 extends Sprite
         //hitbox stuff
         if(this.hasDamageHitbox)
         {
-        	damageQ.add(this.currHitbox.getDamageHitBox(this.col, this.x, this.y));
+        	damageQ.add(this.currHitbox.getDamageHitBox(this.col - this.colS, this.x, this.y));
         }
         
 		if(invol > 0)

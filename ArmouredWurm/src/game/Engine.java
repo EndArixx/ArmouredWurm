@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.291";
+	public String version = "Version 1.0.292";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;

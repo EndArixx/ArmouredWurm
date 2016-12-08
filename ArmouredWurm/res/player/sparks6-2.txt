@@ -21,8 +21,8 @@ A,RunVL,Bottom,0,1,16,5,false,30
 #---------------attack stuff----------------
 A,upperCutR,Bottom,0,2,10,3,true,-1,upperCutRH
 A,upperCutL,Bottom,0,3,10,3,true,-1,upperCutLH
-A,KickR,Bottom,0,4,16,3,true,-1,KickLH
-A,KickL,Bottom,0,5,16,3,true,-1,KickRH
+A,KickR,Bottom,0,4,16,3,true,-1,KickRH
+A,KickL,Bottom,0,5,16,3,true,-1,KickLH
 A,jabR,Bottom,0,6,8,3,true,-1,jabRH
 A,jabL,Bottom,8,6,8,3,true,-1,jabLH
 A,heavyPunchR,Bottom,0,8,16,3,true,-1,heavyPunchRH
