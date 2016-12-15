@@ -4,6 +4,7 @@
 dead>moving>touchingGround>idle>attacking>spotEnemy
 MovingState>false,true,true,false,false,false,1
 CombatState>false,true,true,false,true,false,1
+dead>1,0,1,0,0,0,1
 #old john figure this out!
 SprintingR>false,true,true,false,false,false,1
 SprintingL>false,true,true,false,false,false,0
@@ -21,8 +22,6 @@ falling>0,1,0,0,0,0,0,0
 jumpingR>0,1,0,0,0,0,0,1
 jumpingL>0,1,0,0,0,0,0,0
 jumping>0,1,0,0,0,0,0,0
-deadR>1,0,1,0,0,0,1
-deadL>1,0,1,0,0,0,0
 #john think about this!
 EndOfSparkR>,0,0,0,0,0,0,0
 EndOfSparkL>,0,0,0,0,0,0,0

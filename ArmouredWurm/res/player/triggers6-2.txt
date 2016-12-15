@@ -9,6 +9,8 @@
 #THINGS TO DO!
 # 1)    JOHN redesign the states :)
 #----------------------------------------------------
+DeathR;;;MovingState,CombatState;movement;DeathR;CombatState;false;HP<=0;FF==1
+DeathL;;;MovingState,CombatState;movement;DeathL;CombatState;false;HP<=0;FF==0
 coreR;S;;MovingState,CombatState;idle;coreR;MovingState;true;FF==1,YVel==0,XVel==0
 coreL;S;;MovingState,CombatState;idle;coreL;MovingState;true;FF==0,YVel==0,XVel==0
 StandR;;;MovingState,CombatState;idle;StandR;MovingState;true;FF==1,YVel==0,XVel==0
@@ -23,8 +25,6 @@ RunR;;E;MovingState;movement;RunR;MovingState;true;FF==1,YVel==0,XVel>0
 RunL;;W;MovingState;movement;RunL;MovingState;true;FF==0,YVel==0,XVel<0
 RunVR;;E;CombatState;movement;RunVR;MovingState;true;FF==1,HP<50,YVel==0,XVel>0
 RunVL;;W;CombatState;movement;RunVL;MovingState;true;FF==0,HP<50,YVel==0,XVel<0
-DeathR;;;;movement;DeathR;dead;true;HP<=0;FF==1,HP<=0
-DeathL;;;;movement;DeathL;dead;true;HP<=0;FF==0,HP<=0
 #ATTACK ANIMATIONS-------------------------------------------------------------------
 upperCutR;HLL;AH,EAH,WAH;MovingState;Combat;upperCutR;CombatState;False;FF==1,YVel==0
 upperCutL;HLL;AH,EAH,WAH;MovingState;Combat;upperCutL;CombatState;False;FF==0,YVel==0

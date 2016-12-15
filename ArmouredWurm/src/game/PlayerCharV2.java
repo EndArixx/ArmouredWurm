@@ -323,12 +323,13 @@ public class PlayerCharV2 extends Sprite
 				invol++;
 			}
 		}
+		
         //Death stuff
-		if(this.getValue(this.HPName) >=0 && this.col + this.colS == this.colN)
+		if(this.getValue(this.HPName) <= 0 && !this.firstloop)
 		{
 			this.setValue("dead", true);
 		}
-		else //John look into this!
+		else if(this.getValue(this.HPName) >= 0)
 		{
 			this.setValue("dead", false);
 		}

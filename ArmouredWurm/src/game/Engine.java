@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.294";
+	public String version = "Version 1.0.295";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -2066,7 +2066,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						break;
 						
 				case KeyEvent.VK_ESCAPE: //Paused
-					if(!inMainMenu && !isLoading)
+					if(!inMainMenu && !isLoading && !isGameOver)
 					{
 						if(isPaused)
 						{
@@ -2248,7 +2248,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 						break;
 						
 				case KeyEvent.VK_ESCAPE: //Paused
-					if(!inMainMenu && !isLoading)
+					if(!inMainMenu && !isLoading && !isGameOver)
 					{
 						if(isPaused)
 						{
