@@ -323,7 +323,15 @@ public class PlayerCharV2 extends Sprite
 				invol++;
 			}
 		}
-        
+        //Death stuff
+		if(this.getValue(this.HPName) >=0 && this.col + this.colS == this.colN)
+		{
+			this.setValue("dead", true);
+		}
+		else //John look into this!
+		{
+			this.setValue("dead", false);
+		}
 		this.animateCol();
 	}
 	
@@ -838,7 +846,8 @@ public class PlayerCharV2 extends Sprite
 		if(invol == 0)
 		{
 			invol++;
-			this.setValue(this.HPName, this.getValue(this.HPName) - amount);
+			this.addValue(this.HPName,-amount);
+			//this.setValue(this.HPName,this.getValue(this.HPName) + amount);
 		}
 	}
 	
@@ -859,6 +868,7 @@ public class PlayerCharV2 extends Sprite
 		super.render(g, spriteData);
 	}
 	
+	//Hitbox Stuff---------------------------------------------------
 	public void setHitbox(int x, int y, int width, int height)
 	{
 		this.hitbox[0] = x;
@@ -882,7 +892,6 @@ public class PlayerCharV2 extends Sprite
 		this.feethitbox[2] = 3*(width/4);
 		this.feethitbox[3] = height/4;
 	}
-
 	public int[] getheadHitbox()
 	{
 		int outbox[] = new int[4];
@@ -921,7 +930,6 @@ public class PlayerCharV2 extends Sprite
 	}
 	
 	//Value stuff------------------------------------------------------
-	
 	public int getValue(String valueName)
 	{
 		try
@@ -934,7 +942,6 @@ public class PlayerCharV2 extends Sprite
 			return 0;
 		}
 	}
-	
 	public void setValue(String valueName, int value)
 	{
 		try
@@ -943,10 +950,20 @@ public class PlayerCharV2 extends Sprite
 		}
 		catch (Exception e) 
 		{
-			System.out.println("The following max values could not be found: " + valueName);
+			System.out.println("The following set values could not be found: " + valueName);
 		}
 	}
-	
+	public void setValue(String valueName, boolean value)
+	{
+		try
+		{
+			valueMap.get(valueName).setValue(value);
+		}
+		catch (Exception e) 
+		{
+			System.out.println("The following set values could not be found: " + valueName);
+		}
+	}
 	public int getMaxValue(String valueName)
 	{
 		try
@@ -959,7 +976,6 @@ public class PlayerCharV2 extends Sprite
 			return 0;
 		}
 	}
-	
 	public void setMaxValue(String valueName, int value)
 	{
 		try
@@ -971,20 +987,18 @@ public class PlayerCharV2 extends Sprite
 			System.out.println("The following max values could not be found: " + valueName);
 		}
 	}
-	
 	public void addValue(String valueName, int value)
 	{
 		try
 		{
-			Value temp = valueMap.get(valueName);
-			temp.setValue(temp.getValue() + value);
+			valueMap.get(valueName).addValue(value);
 		}
 		catch (Exception e) 
 		{
-			System.out.println("The following max values could not be found: " + valueName);
+			System.out.println("The following add values could not be found: " + valueName);
 		}
 	}
-		
+
 	public void setValueToMax(String valueName)
 	{
 		try
@@ -997,7 +1011,6 @@ public class PlayerCharV2 extends Sprite
 			System.out.println("The following max values could not be found: " + valueName);
 		}
 	}
-	
 	public boolean isValueMax(String valueName)
 	{
 		try
@@ -1014,7 +1027,6 @@ public class PlayerCharV2 extends Sprite
 		}
 		return false;
 	}
-	
 	public boolean isValue(String valueName)
 	{
 		try

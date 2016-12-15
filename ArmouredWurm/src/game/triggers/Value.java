@@ -53,7 +53,7 @@ public class Value
 	public String getName() 
 		{return this.name;}
 	
-	public void add(int in)
+	public void addValue(int in)
 	{
 		this.curValue += in;
 		if(curValue < minValue)

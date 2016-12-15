@@ -27,7 +27,7 @@ public class AttackHitBoxes
 	{
 		String[] hitboxes = in.split(";");
 		String[] hit;
-		internalHitboxes = new int[hitboxes.length][lenofData];
+		internalHitboxes = new int[hitboxes.length-2][lenofData];
 		for(int i = 0; i < (hitboxes.length); i++)
 		{
 			if(i == 0)
@@ -45,14 +45,14 @@ public class AttackHitBoxes
 				{
 					for (int j = 0; j< lenofData; j++)
 					{
-						internalHitboxes[i][j] = 0;
+						internalHitboxes[i-2][j] = 0;
 					}
 				}
 				else
 				{
 					for (int j = 0; j< lenofData; j++)
 					{
-						internalHitboxes[i][j] = Integer.parseInt(hit[j]);
+						internalHitboxes[i-2][j] = Integer.parseInt(hit[j]);
 					}
 				}
 			}
