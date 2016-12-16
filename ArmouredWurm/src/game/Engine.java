@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.295";
+	public String version = "Version 1.0.296";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -943,7 +943,6 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			}
 			
 
-			//playerSwitchTag make sure you update it 
 			player2.update(damageQ);
 
 			

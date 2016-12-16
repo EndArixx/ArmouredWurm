@@ -231,7 +231,7 @@ public class Soldier extends PlayerChar
 				}
 			}
 			
-			if(this.HP == 0)
+			if(this.HP <= 0)
 			{
 				startDie();
 			}

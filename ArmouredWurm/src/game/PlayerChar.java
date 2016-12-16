@@ -415,7 +415,7 @@ public class PlayerChar extends Sprite
 		System.out.println("OUCH! THAT HURT!");
 	}
 	public void damage(int amount)
-	{		
+	{	
 		if(invol == 0)
 		{
 				//heavy damage?
