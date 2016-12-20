@@ -73,7 +73,8 @@ public class Trigger
 	protected String[] sparkNames;
 	protected String stateName;
 	protected String[] ValueMarkers;
-	protected boolean Interuptable;
+	protected boolean interuptable;
+	protected boolean moveable;
 
 	public Trigger(String inline)
 	{
@@ -85,10 +86,11 @@ public class Trigger
 		type = Data[4];
 		sparkNames = Data[5].split(",");
 		stateName = Data[6];
-		Interuptable = Boolean.parseBoolean(Data[7]);
-		if( Data.length > 8) 
+		interuptable = Boolean.parseBoolean(Data[7]);
+		moveable = Boolean.parseBoolean(Data[8]);
+		if( Data.length > 9) 
 		{
-			ValueMarkers = Data[8].split(",");	
+			ValueMarkers = Data[9].split(",");	
 		}
 		else
 		{
@@ -110,7 +112,11 @@ public class Trigger
 	}
 	public boolean isInteruptable()
 	{
-		return this.Interuptable;
+		return this.interuptable;
+	}
+	public boolean isMoveable()
+	{
+		return this.moveable;
 	}
 	public String[] getInputControl()
 	{

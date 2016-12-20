@@ -52,7 +52,8 @@ public class PlayerCharV2 extends Sprite
 	protected List<String> triggerNames;
 	protected String HPName = "HP";
 	protected int invol; //invulnerable timer
-	protected boolean isInteruptable;
+	protected boolean isInteruptable; //This indicates if the animation can change
+	protected boolean isMoveable; //this indicates whether or not they playercan move in a spcific animation.
 	
 	protected String triggerloc;
 	protected String statesloc;
@@ -71,8 +72,6 @@ public class PlayerCharV2 extends Sprite
 	protected double MaxYVelDn; //terminal velocity (+y)
 	//SpeedX = current X speed 
 	//SpeedY = current Y Speed
-	
-	protected boolean isInAnimation; //Use this to force the animation to fully playout
 	
 	//JOHN REMOVE!
 	protected String[] testAni;
@@ -289,6 +288,7 @@ public class PlayerCharV2 extends Sprite
 			colN = x.length + x.xloc;
 			this.name = playerSprites.get(x.Sprite);
 			this.isInteruptable = true;
+			this.isMoveable = true;
 	        reader.closeBR();
 	        
 	    } catch (Exception e) 
@@ -419,7 +419,6 @@ public class PlayerCharV2 extends Sprite
 		
 		
 		char[] history = moveHistory.getStack();
-		boolean testmode = false;
         //if (testmode) System.out.println("X:"+this.getValue("XVel") + " - Y:" +this.getValue("YVel") + " FF" + this.getValue("FF") );
 		//this.x = this.valueMap.get("X").getValue();
 		//this.y = this.valueMap.get("Y").getValue();
@@ -459,12 +458,7 @@ public class PlayerCharV2 extends Sprite
 				if(!tri.getAllowedStates().contains(this.state))
 				{
 					TriggerList.remove(current);
-					if(testmode) System.out.println("State OFF " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
 					//x.remove();
-				}
-				else
-				{
-					if(testmode)System.out.println("State ON " + current +"  "+tri.getAllowedStates() +" -"+  this.state);
 				}
 			}
 		}
@@ -489,11 +483,6 @@ public class PlayerCharV2 extends Sprite
 				if(!inputOn)
 				{
 					TriggerList.remove(current);
-					if(testmode)System.out.println("Inputs OFF " + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
-				}
-				else
-				{
-					if(testmode)System.out.println("Inputs ON "  + current +"  "+tri.getInputControl() + "-"+inputs.getOn());
 				}
 			}
 		}
@@ -509,7 +498,6 @@ public class PlayerCharV2 extends Sprite
 				boolean goodhistory = false;
 				String currHistory = String.valueOf(history);
 				tri = this.triggerMap.get(current);
-				if(testmode)System.out.println("History " + current + " " + currHistory);
 				
 				for(int i = 0 ; i <= history.length; i++)
 				{
@@ -523,11 +511,9 @@ public class PlayerCharV2 extends Sprite
 					{
 						currHistory = currHistory.substring(0,currHistory.length()-1);
 					}
-					if(testmode)System.out.println("END "+i);
 				}
 				if(!goodhistory)
 				{
-					if(testmode)System.out.println("History"); //JOHN ADDRESS THIS
 					TriggerList.remove(current);
 					//x.remove();
 				}
@@ -543,7 +529,6 @@ public class PlayerCharV2 extends Sprite
 			{
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
-				if(testmode)System.out.println("VAlues " + current);
 				boolean valid = true;
 				String[] temp;
 				
@@ -608,7 +593,6 @@ public class PlayerCharV2 extends Sprite
 					
 					else
 					{
-						if(testmode) System.out.println("Unknown ValueEvaluation: "+values[i]);
 						valid = false;
 					}
 					
@@ -620,16 +604,8 @@ public class PlayerCharV2 extends Sprite
 			}
 			
 		}
-		if(testmode)
-		{
-			for (Entry<String, Value> entry : this.valueMap.entrySet())
-			{
-				System.out.println(entry.getKey() + "/" + entry.getValue().getValue());
-			}
-		}
 		if(!TriggerList.isEmpty()) 
 		{
-			if(testmode)System.out.println("BOOOOOOOOM "+TriggerList.get(0) +" "+inputs.getOn() +" FF:"+this.valueMap.get("FF").getValue() );
 			tri = this.triggerMap.get(TriggerList.get(0));
 			if(this.currentTrigger == tri.getName()){return;} //This was causing issues
 			
@@ -637,6 +613,7 @@ public class PlayerCharV2 extends Sprite
 			this.currentTrigger = tri.getName();
 			firstloop = true;
 			this.isInteruptable = tri.isInteruptable();
+			this.isMoveable = tri.isMoveable();
 			//using 0 for testing John fix this
 			Spark sx = sparksMap.get(tri.getSparks()[0]);
 			col = sx.xloc;
@@ -655,11 +632,9 @@ public class PlayerCharV2 extends Sprite
 				this.hasDamageHitbox= false;
 			}
 			this.currstate = this.statesMap.get(tri.getState());
-			if(testmode)System.out.println("-----------"+currstate.getName());
 			for(int i = 0;i < this.masterState.length; i++)
 			{
 				this.valueMap.get(masterState[i]).setValue(this.currstate.getValue(masterState[i]));
-				if(testmode)System.out.println(masterState[i]+ "  " + this.currstate.getValue(masterState[i]));
 			}
 			this.isInteruptable = tri.isInteruptable();
 		}

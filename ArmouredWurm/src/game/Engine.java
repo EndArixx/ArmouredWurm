@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.296";
+	public String version = "Version 1.0.297";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -1472,26 +1472,29 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			
 			boolean hasMovedX = false;
 		
-				//JUMP~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (N && !headbonk && onplatform && player2.isInteruptable)
+			if(player2.isMoveable)
 			{
-				player2.jump(theWorld, window);
+					//JUMP~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				if (N && !headbonk && onplatform)
+				{
+					player2.jump(theWorld, window);
+				}
+				
+					//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				if (W && !backbonk)
+				{ 
+					hasMovedX = true;
+					player2.MoveLeft(theWorld, window);
+				}
+				
+					//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				if (E && !frontbonk)
+				{
+					hasMovedX = true;
+					player2.MoveRight(theWorld, window);
+				}
 			}
-			
-				//WEST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (W && !backbonk && (!player2.isInAnimation)&& player2.isInteruptable)
-			{ 
-				hasMovedX = true;
-				player2.MoveLeft(theWorld, window);
-			}
-			
-				//EAST~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (E && !frontbonk &&(!player2.isInAnimation)&& player2.isInteruptable)
-			{
-				hasMovedX = true;
-				player2.MoveRight(theWorld, window);
-			}
-			
+
 			
 	
 			//Zero out values when things get hit
