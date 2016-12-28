@@ -295,6 +295,12 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	}
 	public void saveLevel(String lvlname)
 	{
+		
+		if(this.SavePause >= System.currentTimeMillis() - 5000)
+		{
+			return; //This only allows you to save every five seconds
+		}
+		SavePause = System.currentTimeMillis();
 		try
 		{
 			FileWriter fw = new FileWriter(lvlname);
@@ -603,12 +609,13 @@ public class LevelEditor extends Engine implements Runnable, KeyListener
 	{	
 		this.Error = false;
 		soundHandler = new SoundEngine();
+		this.SavePause = System.currentTimeMillis();
 		
 		this.windowHB[0]= 0;
 		this.windowHB[1]= 0;
 		this.windowHB[2]= window.width;
 		this.windowHB[3]= window.height;
-		
+			
 		lvlspriteData = new HashMap<String,BufferedImage>();
 		permaSprites = new HashMap<String,BufferedImage>();
 		

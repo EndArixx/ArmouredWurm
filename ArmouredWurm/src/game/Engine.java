@@ -48,7 +48,7 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.0.298";
+	public String version = "Version 1.0.299";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = true;
 	public boolean isEngine;
@@ -117,6 +117,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	
 		//save File 
 	private String saveName,saveFileName;
+	protected long SavePause; //Added this so you cannot spam the save.
 	
 		//Loading screen variables
 	private String lvl = "res/TEST.txt";
@@ -653,6 +654,8 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			windowHB[2]= window.width;
 			windowHB[3]= window.height;
 			
+			this.SavePause = System.currentTimeMillis();
+			
 			lvlspriteData = new HashMap<String,BufferedImage>();
 			permaSprites = new HashMap<String,BufferedImage>();
 			
@@ -746,8 +749,14 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		 * 6)	zonedata: playerX, playerY, mapX, mapY
 		 */
 		
-		player2.setValueToMax(valueNameHP);
 		
+		
+		player2.setValueToMax(valueNameHP);
+		if(this.SavePause >= System.currentTimeMillis() - 5000)
+		{
+			return; //This only allows you to save every five seconds
+		}
+		SavePause = System.currentTimeMillis();
 		try
 		{
 			File theDir = new File("savegames");
