@@ -70,12 +70,6 @@ public class PlayerCharV2 extends Sprite
 	protected double MaxXVel; //Max veloceties. 
 	protected double MaxYVelUp;  //This needs to be negative
 	protected double MaxYVelDn; //terminal velocity (+y)
-	//SpeedX = current X speed 
-	//SpeedY = current Y Speed
-	
-	//JOHN REMOVE!
-	protected String[] testAni;
-	protected int testN;
 	
 	//Constructors 
 	public PlayerCharV2(String infile, Map<String,BufferedImage> spriteData)
@@ -336,52 +330,6 @@ public class PlayerCharV2 extends Sprite
 		this.animateCol();
 	}
 	
-	public void testAni()
-	{
-		//Testing for values, its fully operational. :)
-		/* 
-		int dead = this.valueMap.get("dead").getValue();
-		
-		if(dead == 1)
-		{
-			this.valueMap.get("HP").add(-1);
-		}
-		else 
-		{
-			this.valueMap.get("HP").add(1);
-		}
-		if(this.valueMap.get("HP").getValue() == this.valueMap.get("HP").getMaxValue())
-		{
-			this.valueMap.get("dead").setValue(1);
-		}
-		if(this.valueMap.get("HP").getValue() == this.valueMap.get("HP").getMinValue())
-		{
-			this.valueMap.get("dead").setValue(0);
-		}
-				
-		System.out.println(this.valueMap.get("HP").getValue());
-		*/
-
-		
-		if (!firstloop)
-		{
-			testN++;
-			if (testN >= testAni.length)
-			{
-				testN = 0;
-			}
-			firstloop = true;
-			Spark x = sparksMap.get(testAni[testN]);
-			col = x.xloc;
-			colS = x.xloc;
-			row = x.yloc;
-			this.timerspeed = x.speed;
-			colN = x.length + x.xloc;
-			this.name = playerSprites.get(x.Sprite);
-
-		}
-	}
-	
 	public void animateCol()
 	{
 		super.animateCol();
@@ -423,220 +371,233 @@ public class PlayerCharV2 extends Sprite
 		//this.x = this.valueMap.get("X").getValue();
 		//this.y = this.valueMap.get("Y").getValue();
 		
-		if(this.firstloop && !this.isInteruptable)
+		int err = 0;
+		try
 		{
-			return;
-		}
-		
-		Trigger tri = null;
-		List<String> TriggerList = new ArrayList<String>();
-		List<String> StupidClone =  new ArrayList<String>();
-		this.state = this.currstate.getName();
-		//System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
-		
-		/*for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
-		{
-			String current = x.next();
-			tri  = this.triggerMap.get(current);
-			System.out.println(tri.getAllowedStates()+" "+this.state);
-			if(tri.getAllowedStates().contains(this.state))
+			if(this.firstloop && !this.isInteruptable)
 			{
-				TriggerList.add(current);
+				return;
 			}
-		}*/
-		
-		
-		//CHECK STATES
-		TriggerList.addAll(triggerNames);
-		StupidClone.addAll(TriggerList);
-		if(TriggerList.size() > 1)
-		{
-			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
+			
+			Trigger tri = null;
+			List<String> TriggerList = new ArrayList<String>();
+			List<String> StupidClone =  new ArrayList<String>();
+			this.state = this.currstate.getName();
+			//System.out.println("NEW LOOP " + this.state + " : " + this.currstate.getName());
+			
+			/*for(Iterator<String> x = this.triggerNames.iterator(); x.hasNext();)
 			{
 				String current = x.next();
 				tri  = this.triggerMap.get(current);
-				if(!tri.getAllowedStates().contains(this.state))
+				System.out.println(tri.getAllowedStates()+" "+this.state);
+				if(tri.getAllowedStates().contains(this.state))
 				{
-					TriggerList.remove(current);
-					//x.remove();
+					TriggerList.add(current);
 				}
-			}
-		}
-		
-		//Check Control Input
-		StupidClone.clear();
-		StupidClone.addAll(TriggerList);
-		if(TriggerList.size() > 1)
-		{
-			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
+			}*/
+			
+			
+			//CHECK STATES
+			err = 1;
+			TriggerList.addAll(triggerNames);
+			StupidClone.addAll(TriggerList);
+			if(TriggerList.size() > 1)
 			{
-				String current = x.next();
-				
-				tri  = this.triggerMap.get(current);
-				boolean inputOn = false;
-				String[] triInputs = tri.getInputControl();
-				for(int i = 0; i < triInputs.length;i++)
+				for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
 				{
-					if (triInputs[i].equals(inputs.getOn()))
-						{inputOn = true;}
-				}
-				if(!inputOn)
-				{
-					TriggerList.remove(current);
-				}
-			}
-		}
-		
-		//Check history
-		StupidClone.clear();
-		StupidClone.addAll(TriggerList);
-		if(TriggerList.size() > 1)
-		{
-			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
-			{
-				String current = x.next();
-				boolean goodhistory = false;
-				String currHistory = String.valueOf(history);
-				tri = this.triggerMap.get(current);
-				
-				for(int i = 0 ; i <= history.length; i++)
-				{
-					if (tri.getHistory().equals(currHistory))
+					String current = x.next();
+					tri  = this.triggerMap.get(current);
+					if(!tri.getAllowedStates().contains(this.state))
 					{
-						 //i = Integer.MAX_VALUE;
-						 goodhistory = true;
-						 break;
+						TriggerList.remove(current);
+						//x.remove();
 					}
-					else if(i != history.length)
-					{
-						currHistory = currHistory.substring(0,currHistory.length()-1);
-					}
-				}
-				if(!goodhistory)
-				{
-					TriggerList.remove(current);
-					//x.remove();
-				}
-			}
-		}
-
-		//CHECK VALUES
-		StupidClone.clear();
-		StupidClone.addAll(TriggerList);
-		if(TriggerList.size() > 1)
-		{
-			for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
-			{
-				String current = x.next();
-				tri  = this.triggerMap.get(current);
-				boolean valid = true;
-				String[] temp;
-				
-				String[] values = tri.getValueMarkers();
-				for(int i = 0; i < values.length && valid;i++)
-				{
-					//Supported types !=,<=,>=,==,>,<
-					
-					//Not equal
-					if(values[i].contains("!="))
-					{
-						temp = values[i].split("!=");
-						if(Integer.parseInt(temp[0]) != Integer.parseInt(temp[1]))
-							{valid= true;}
-						else{valid = false;}
-					}
-					
-					//Less Then OR Equal
-					else if(values[i].contains("<="))
-					{
-						temp = values[i].split("<=");
-						if(this.valueMap.get(temp[0]).getValue() <= Integer.parseInt(temp[1]))
-							{valid= true;}
-						else{valid = false;}
-					}
-					
-					//Greater Then OR Equal
-					else if(values[i].contains(">="))
-					{
-						temp = values[i].split(">=");
-						if(this.valueMap.get(temp[0]).getValue() >= Integer.parseInt(temp[1]))
-							{valid= true;}
-						else{valid = false;}
-					}
-					
-					//Equal
-					else if(values[i].contains("=="))
-					{
-						temp = values[i].split("==");
-						if(this.valueMap.get(temp[0]).getValue() == Integer.parseInt(temp[1]))
-							{valid= true;}
-						else{valid = false;}
-					}
-					
-					//Less Then
-					else if(values[i].contains("<"))
-					{
-						temp = values[i].split("<");
-						if(this.valueMap.get(temp[0]).getValue() <= Integer.parseInt(temp[1]))
-							{valid= true;}
-						else{valid = false;}
-					}
-					
-					//Greater Then
-					else if(values[i].contains(">"))
-					{
-						temp = values[i].split(">");
-						if(this.valueMap.get(temp[0]).getValue() > Integer.parseInt(temp[1]))
-							{valid= true;}
-						else{valid = false;}
-					}
-					
-					else
-					{
-						valid = false;
-					}
-					
-				}
-				if(!valid)
-				{	
-					TriggerList.remove(current);
 				}
 			}
 			
+			//Check Control Input
+			StupidClone.clear();
+			StupidClone.addAll(TriggerList);
+			if(TriggerList.size() > 1)
+			{
+				for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
+				{
+					String current = x.next();
+					
+					tri  = this.triggerMap.get(current);
+					boolean inputOn = false;
+					String[] triInputs = tri.getInputControl();
+					for(int i = 0; i < triInputs.length;i++)
+					{
+						if (triInputs[i].equals(inputs.getOn()))
+							{inputOn = true;}
+					}
+					if(!inputOn)
+					{
+						TriggerList.remove(current);
+					}
+				}
+			}
+			
+			//Check history
+			err = 2;
+			StupidClone.clear();
+			StupidClone.addAll(TriggerList);
+			if(TriggerList.size() > 1)
+			{
+				for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
+				{
+					String current = x.next();
+					boolean goodhistory = false;
+					String currHistory = String.valueOf(history);
+					tri = this.triggerMap.get(current);
+					
+					for(int i = 0 ; i <= history.length; i++)
+					{
+						if (tri.getHistory().equals(currHistory))
+						{
+							 //i = Integer.MAX_VALUE;
+							 goodhistory = true;
+							 break;
+						}
+						else if(i != history.length)
+						{
+							currHistory = currHistory.substring(0,currHistory.length()-1);
+						}
+					}
+					if(!goodhistory)
+					{
+						TriggerList.remove(current);
+						//x.remove();
+					}
+				}
+			}
+	
+			//CHECK VALUES
+			err = 3;
+			StupidClone.clear();
+			StupidClone.addAll(TriggerList);
+			if(TriggerList.size() > 1)
+			{
+				for(Iterator<String> x = StupidClone.iterator(); x.hasNext();)
+				{
+					String current = x.next();
+					tri  = this.triggerMap.get(current);
+					boolean valid = true;
+					String[] temp;
+					
+					String[] values = tri.getValueMarkers();
+					for(int i = 0; i < values.length && valid;i++)
+					{
+						//Supported types !=,<=,>=,==,>,<
+						
+						//Not equal
+						if(values[i].contains("!="))
+						{
+							temp = values[i].split("!=");
+							if(Integer.parseInt(temp[0]) != Integer.parseInt(temp[1]))
+								{valid= true;}
+							else{valid = false;}
+						}
+						
+						//Less Then OR Equal
+						else if(values[i].contains("<="))
+						{
+							temp = values[i].split("<=");
+							if(this.valueMap.get(temp[0]).getValue() <= Integer.parseInt(temp[1]))
+								{valid= true;}
+							else{valid = false;}
+						}
+						
+						//Greater Then OR Equal
+						else if(values[i].contains(">="))
+						{
+							temp = values[i].split(">=");
+							if(this.valueMap.get(temp[0]).getValue() >= Integer.parseInt(temp[1]))
+								{valid= true;}
+							else{valid = false;}
+						}
+						
+						//Equal
+						else if(values[i].contains("=="))
+						{
+							temp = values[i].split("==");
+							if(this.valueMap.get(temp[0]).getValue() == Integer.parseInt(temp[1]))
+								{valid= true;}
+							else{valid = false;}
+						}
+						
+						//Less Then
+						else if(values[i].contains("<"))
+						{
+							temp = values[i].split("<");
+							if(this.valueMap.get(temp[0]).getValue() <= Integer.parseInt(temp[1]))
+								{valid= true;}
+							else{valid = false;}
+						}
+						
+						//Greater Then
+						else if(values[i].contains(">"))
+						{
+							temp = values[i].split(">");
+							if(this.valueMap.get(temp[0]).getValue() > Integer.parseInt(temp[1]))
+								{valid= true;}
+							else{valid = false;}
+						}
+						
+						else
+						{
+							valid = false;
+						}
+						
+					}
+					if(!valid)
+					{	
+						TriggerList.remove(current);
+					}
+				}
+				
+			}
+			err = 4;
+			if(!TriggerList.isEmpty()) 
+			{
+				err = 5;
+				tri = this.triggerMap.get(TriggerList.get(0));
+				if(this.currentTrigger == tri.getName()){return;} //This was causing issues
+				
+				
+				this.currentTrigger = tri.getName();
+				firstloop = true;
+				this.isInteruptable = tri.isInteruptable();
+				this.isMoveable = tri.isMoveable();
+				//using 0 for testing John fix this
+				Spark sx = sparksMap.get(tri.getSparks()[0]);
+				col = sx.xloc;
+				colS = sx.xloc;
+				row = sx.yloc;
+				this.timerspeed = sx.speed;
+				colN = sx.length + sx.xloc;
+				this.name = playerSprites.get(sx.Sprite);
+				if(sx.hasHitBox())
+				{
+					this.hasDamageHitbox = true;
+					this.currHitbox = this.HitboxMap.get(sx.getHitBox());
+				}
+				else
+				{
+					this.hasDamageHitbox= false;
+				}
+				this.currstate = this.statesMap.get(tri.getState());
+				for(int i = 0;i < this.masterState.length; i++)
+				{
+					this.valueMap.get(masterState[i]).setValue(this.currstate.getValue(masterState[i]));
+				}
+				this.isInteruptable = tri.isInteruptable();
+			}
 		}
-		if(!TriggerList.isEmpty()) 
+		catch(Exception e)
 		{
-			tri = this.triggerMap.get(TriggerList.get(0));
-			if(this.currentTrigger == tri.getName()){return;} //This was causing issues
-			
-			
-			this.currentTrigger = tri.getName();
-			firstloop = true;
-			this.isInteruptable = tri.isInteruptable();
-			this.isMoveable = tri.isMoveable();
-			//using 0 for testing John fix this
-			Spark sx = sparksMap.get(tri.getSparks()[0]);
-			col = sx.xloc;
-			colS = sx.xloc;
-			row = sx.yloc;
-			this.timerspeed = sx.speed;
-			colN = sx.length + sx.xloc;
-			this.name = playerSprites.get(sx.Sprite);
-			if(sx.hasHitBox())
-			{
-				this.hasDamageHitbox = true;
-				this.currHitbox = this.HitboxMap.get(sx.getHitBox());
-			}
-			else
-			{
-				this.hasDamageHitbox= false;
-			}
-			this.currstate = this.statesMap.get(tri.getState());
-			for(int i = 0;i < this.masterState.length; i++)
-			{
-				this.valueMap.get(masterState[i]).setValue(this.currstate.getValue(masterState[i]));
-			}
-			this.isInteruptable = tri.isInteruptable();
+			System.out.println("Trigger Engine Error - "+err);
 		}
 	}
 	
