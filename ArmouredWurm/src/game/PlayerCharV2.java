@@ -8,16 +8,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Queue;
 
 import javax.imageio.ImageIO;
@@ -143,6 +138,7 @@ public class PlayerCharV2 extends Sprite
 	    	sparkloc = Tools.readlineadv(br);
 	    	attackloc = Tools.readlineadv(br);
 	    	valueloc = Tools.readlineadv(br);
+	    	
 	    	String[] spritefiles = Tools.readlineadv(br).split(";");
 	        	//Close the files 
 	    	reader.closeBR();
@@ -213,7 +209,6 @@ public class PlayerCharV2 extends Sprite
 	        
 	        //Sparks---------------------------------------------------------
 	        err= 5;
-	        if(new File(sparkloc).isFile())
 	    	br = reader.getBR(sparkloc);
 	        this.sparksMap = new HashMap<String,Spark>();
 	        Spark tspark;
@@ -288,6 +283,7 @@ public class PlayerCharV2 extends Sprite
 	    } catch (Exception e) 
 		{
 	    	System.out.println("Im sorry the Player File: "+infile+" or one of its Sub files could not be loaded!\n Error #"+ err + "\n " + e.toString());
+	    	//JOptionPane.showMessageDialog(null,  "Player File: "+infile +"Error:"+err+"\n"+ e.toString() , "Render Error", JOptionPane.ERROR_MESSAGE);
 	    } 
 
         
@@ -565,18 +561,20 @@ public class PlayerCharV2 extends Sprite
 				tri = this.triggerMap.get(TriggerList.get(0));
 				if(this.currentTrigger == tri.getName()){return;} //This was causing issues
 				
-				
 				this.currentTrigger = tri.getName();
 				firstloop = true;
 				this.isInteruptable = tri.isInteruptable();
 				this.isMoveable = tri.isMoveable();
 				//using 0 for testing John fix this
+				err = 7;
 				Spark sx = sparksMap.get(tri.getSparks()[0]);
 				col = sx.xloc;
 				colS = sx.xloc;
 				row = sx.yloc;
 				this.timerspeed = sx.speed;
 				colN = sx.length + sx.xloc;
+				err = 7;
+				
 				this.name = playerSprites.get(sx.Sprite);
 				if(sx.hasHitBox())
 				{
@@ -597,7 +595,8 @@ public class PlayerCharV2 extends Sprite
 		}
 		catch(Exception e)
 		{
-			System.out.println("Trigger Engine Error - "+err);
+			System.out.println( "Trigger Engine Error - "+err+"\n"+ e.toString());
+			//JOptionPane.showMessageDialog(null, "Trigger Engine Error - "+err+"\n"+ e.toString() , "Render Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 	
