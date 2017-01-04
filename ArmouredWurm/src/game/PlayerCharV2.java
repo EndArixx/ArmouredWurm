@@ -222,9 +222,7 @@ public class PlayerCharV2 extends Sprite
 
 	      //Attack hitboxes---------------------------------------------------------
 	        err= 6;
-	        if(new File(attackloc).isFile())
 	    	br = reader.getBR(attackloc);
-	        
 	        this.HitboxMap = new HashMap<String,AttackHitBoxes>();
 	        AttackHitBoxes attackHB;
 	        while((line = Tools.readlineadv(br))!=null)
