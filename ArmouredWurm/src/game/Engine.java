@@ -22,14 +22,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,9 +41,16 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.1.301";
+	public String version = "Version 1.1.303";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
+		//ConsoleCrap
+	private boolean renderConsole = true;
+	private String consoleBuffer;
+	private PrintStream consoleStream;
+	private ByteArrayOutputStream baos;
+	
+	
 	public boolean isEngine;
 		//THESE ARE VARIABLES!
 	public Soldier badguys[];
@@ -645,91 +645,98 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	private void setUp() 
 	{	
-			this.Error = false;
-			soundHandler = new SoundEngine();
-			
-				//window hitbox
-			windowHB[0]= 0;
-			windowHB[1]= 0;
-			windowHB[2]= window.width;
-			windowHB[3]= window.height;
-			
-			this.SavePause = System.currentTimeMillis();
-			
-			lvlspriteData = new HashMap<String,BufferedImage>();
-			permaSprites = new HashMap<String,BufferedImage>();
-			
-				//This is the move History
-			mStack = new MoveStack(5);
-			
-				//SET up menu here 
-			this.inMainMenu = true;
-			this.mme = false;
-			this.mmeh= true;
-			this.mainMenu = new Sprite("res/menu/menuback.png",0,0,permaSprites);
-			this.mainMenuMax = 3;
-			mainMenuButtons = new Sprite[mainMenuMax+1];
-			for(int i = 0;i < this.mainMenuMax + 1; i++)
-			{
-				this.mainMenuButtons[i] = new Sprite("res/menu/menu"+i+".png",0,0,permaSprites);
-			}
-			
-			isLoading = false;
-			isLoadingF = false;
-			loadCont = false;
-			loading = new Sprite("res/loading.png",0,0,permaSprites );
-			loadingF = new Sprite("res/menu/space2cont.png",400,550,permaSprites);
-			
-			//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
-				// the right button if he is still holding left he then starts going left again or visa versa
-			Wh = false;
-			Eh = false;
-				//Jh is used so that when the player presses jump he has to let go and press again to jump again
-				//	instead if him constantly hopping as the player holds jump
-			Jh = true;
-			
-				//Menu needs finalization or automation
-			pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
-				//combat
-			attackL = 0;
-			attackH = 0;
-			attackS = 0;
-			
-			pauseButtons = new Sprite[3];
-			pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
-			pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
-			pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
-			restartdata = new int[5];
-			restartdata[0] =0;
-			restartdata[1] =0;
-			restartdata[2] =0;
-			restartdata[3] =0;
-			ps = false;
-			psh = true;
+		if(this.renderConsole)
+		{
+			this.baos = new ByteArrayOutputStream();
+			consoleStream = new PrintStream(baos);
+			System.setOut(consoleStream);
+			this.consoleBuffer = "";
+		}
+		this.Error = false;
+		soundHandler = new SoundEngine();
+		
+			//window hitbox
+		windowHB[0]= 0;
+		windowHB[1]= 0;
+		windowHB[2]= window.width;
+		windowHB[3]= window.height;
+		
+		this.SavePause = System.currentTimeMillis();
+		
+		lvlspriteData = new HashMap<String,BufferedImage>();
+		permaSprites = new HashMap<String,BufferedImage>();
+		
+			//This is the move History
+		mStack = new MoveStack(5);
+		
+			//SET up menu here 
+		this.inMainMenu = true;
+		this.mme = false;
+		this.mmeh= true;
+		this.mainMenu = new Sprite("res/menu/menuback.png",0,0,permaSprites);
+		this.mainMenuMax = 3;
+		mainMenuButtons = new Sprite[mainMenuMax+1];
+		for(int i = 0;i < this.mainMenuMax + 1; i++)
+		{
+			this.mainMenuButtons[i] = new Sprite("res/menu/menu"+i+".png",0,0,permaSprites);
+		}
+		
+		isLoading = false;
+		isLoadingF = false;
+		loadCont = false;
+		loading = new Sprite("res/loading.png",0,0,permaSprites );
+		loadingF = new Sprite("res/menu/space2cont.png",400,550,permaSprites);
+		
+		//Wh and Eh are used so that when the player is pressing left then presses right, once he lets go of 
+			// the right button if he is still holding left he then starts going left again or visa versa
+		Wh = false;
+		Eh = false;
+			//Jh is used so that when the player presses jump he has to let go and press again to jump again
+			//	instead if him constantly hopping as the player holds jump
+		Jh = true;
+		
+			//Menu needs finalization or automation
+		pauseMenu = new Sprite("res/Pause.png",0,0,permaSprites );
+			//combat
+		attackL = 0;
+		attackH = 0;
+		attackS = 0;
+		
+		pauseButtons = new Sprite[3];
+		pauseButtons[0] = new Sprite("res/pb0.png",135,160,permaSprites);
+		pauseButtons[1] = new Sprite("res/pb1.png",156,274,permaSprites);
+		pauseButtons[2] = new Sprite("res/pb2.png",156,407,permaSprites );
+		restartdata = new int[5];
+		restartdata[0] =0;
+		restartdata[1] =0;
+		restartdata[2] =0;
+		restartdata[3] =0;
+		ps = false;
+		psh = true;
+	
+
 		
 
-			
-
-			gameover = new Sprite("res/gameover.png",0,0,permaSprites );
-			isGameOver = false;
-			
-			
-			player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites);
-			valueNameHP = player2.HPName;
-					//Health bar stuff
-			restartdata[4] = (int) player2.getValue(valueNameHP);
-			this.hx = 50;
-			this.hy = 50;
-			this.hyP = 22;
-			this.hxP = 83;
-			hpPipLen = 20;
-			this.playerHP = new Sprite("res/player/barPlus.png",hx,hy,permaSprites);
-			this.playerHPpips = new Sprite("res/player/barP.png",0,hy + hyP,permaSprites);
-			//this.HPsW = playerHP.width;
-			
-			
-			//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
-			//player.setHitbox(30, 15, 100, 140);	
+		gameover = new Sprite("res/gameover.png",0,0,permaSprites );
+		isGameOver = false;
+		
+		
+		player2 = new PlayerCharV2("res/player/brov6-2.txt",permaSprites);
+		valueNameHP = player2.HPName;
+				//Health bar stuff
+		restartdata[4] = (int) player2.getValue(valueNameHP);
+		this.hx = 50;
+		this.hy = 50;
+		this.hyP = 22;
+		this.hxP = 83;
+		hpPipLen = 20;
+		this.playerHP = new Sprite("res/player/barPlus.png",hx,hy,permaSprites);
+		this.playerHPpips = new Sprite("res/player/barP.png",0,hy + hyP,permaSprites);
+		//this.HPsW = playerHP.width;
+		
+		
+		//player = new PlayerChar("Brodrick","res/50 Brodrick V4 Spritemap.png",0,0,180,180,12,20,permaSprites);
+		//player.setHitbox(30, 15, 100, 140);	
 	}
 	public void saveFile()
 	{
@@ -901,6 +908,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	public  void update()
 	{	
+		if(this.renderConsole)
+		{
+			if(this.baos.size() > 500)
+			{
+				this.consoleBuffer = this.baos.toString().substring(baos.size()-500,baos.size());
+			}
+			else 
+			{
+				this.consoleBuffer = this.baos.toString();
+			}
+			try {this.baos.flush();}
+			catch (IOException e) { e.printStackTrace();}
+		}
 			//This makes the loading screen work.
 		if(start)
 		{
@@ -1335,6 +1355,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 			//ERROR!!!
 			System.out.println("UNKNOWN STATE: render()");
 		}
+		if(this.renderConsole)
+		{
+			String[] temp = consoleBuffer.split("\r\n");
+			for(i = 0 ; i < temp.length;i++)
+			{
+				g.setColor(Color.WHITE);
+				g.drawString(temp[i], 11,10 + i*10 +1);
+				g.setColor(Color.BLACK);
+				g.drawString(temp[i], 10, 10 +  i*10);
+				if(i*10 > this.getHeight()){break;}
+			}
+		}
+		
 			// Get window's graphics object. 
 		g = getGraphics();
 			// Draw backbuffer to window.

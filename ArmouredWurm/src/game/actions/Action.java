@@ -32,15 +32,14 @@ package game.actions;
     
  */
 
-public class action 
+public class Action 
 {
 
-	
 	private String ActionID;
 	private int cooldown;
 	private double priority; 
 	
-	public action(String inActionID)
+	public Action(String inActionID)
 	{
 		this.ActionID = inActionID;
 		
