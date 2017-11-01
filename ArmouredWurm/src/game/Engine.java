@@ -41,11 +41,12 @@ import javax.swing.JPanel;
 public class Engine  extends Applet implements Runnable, KeyListener 
 {
 
-	public String version = "Version 1.1.303";
+	public String version = "Version 1.1.304";
 		//For Testing hitboxes 
 	public final static boolean renderHitBox = false;
 		//ConsoleCrap
-	private boolean renderConsole = true;
+	private boolean renderConsole;
+	private boolean consoleh;
 	private String consoleBuffer;
 	private PrintStream consoleStream;
 	private ByteArrayOutputStream baos;
@@ -645,13 +646,13 @@ public class Engine  extends Applet implements Runnable, KeyListener
 	}
 	private void setUp() 
 	{	
-		if(this.renderConsole)
-		{
-			this.baos = new ByteArrayOutputStream();
-			consoleStream = new PrintStream(baos);
-			System.setOut(consoleStream);
-			this.consoleBuffer = "";
-		}
+		renderConsole = false;
+		consoleh = true;
+		this.baos = new ByteArrayOutputStream();
+		consoleStream = new PrintStream(baos);
+		System.setOut(consoleStream);
+		this.consoleBuffer = "";
+		
 		this.Error = false;
 		soundHandler = new SoundEngine();
 		
@@ -2108,7 +2109,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 				case KeyEvent.VK_O: //switch controls
 					ControlS = 1;
 						break;
-						
+							
 				case KeyEvent.VK_ESCAPE: //Paused
 					if(!inMainMenu && !isLoading && !isGameOver)
 					{
@@ -2312,6 +2313,19 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			switch (key.getKeyCode())
 			{
+				case KeyEvent.VK_C:
+				if(!this.consoleh && this.renderConsole)
+				{
+					this.renderConsole = false;
+					this.consoleh = true;
+				}
+				else if(!this.consoleh)
+				{
+					this.consoleh = true;
+					this.renderConsole = true;
+					try {this.baos.flush();} catch (IOException e) {e.printStackTrace();}
+				}
+				break;
 				//case KeyEvent.VK_SPACE:
 					/*N=true;
 					if(inMainMenu)
@@ -2538,7 +2552,7 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		else if(ControlS == 1)
 		{
 			switch (key.getKeyCode())
-			{
+			{	
 				case KeyEvent.VK_SPACE:
 					N=false;
 					Jh = true;
@@ -2584,6 +2598,9 @@ public class Engine  extends Applet implements Runnable, KeyListener
 		{
 			switch (key.getKeyCode())
 			{
+				case KeyEvent.VK_C:
+					this.consoleh = false;
+				break;
 				/*
 				case KeyEvent.VK_SPACE:
 					N=false;
