@@ -38,11 +38,15 @@ public class Action
 	private String ActionID;
 	private int cooldown;
 	private double priority; 
+	private String name;
 	
 	public Action(String inActionID)
 	{
 		this.ActionID = inActionID;
 		
+		//JOHN PARSE CRAP HERE
+		
+		this.name = "DUMMYPOOP";
 		//Lookup the data? or pass it in with a populator?
 		
 	}
@@ -75,6 +79,10 @@ public class Action
 	public String getActionID()
 	{
 		return this.ActionID;
+	}
+	public String getName()
+	{
+		return this.name;
 	}
 	
 }

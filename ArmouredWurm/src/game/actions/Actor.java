@@ -37,6 +37,9 @@ public class Actor extends game.Platform
 {		
 	private String name;
 	protected String valueloc;
+	protected HashMap<String,Action> actionMap;
+	protected HashMap<String,Value> valueMap;
+	
 	
 	public Actor(String indata,String spriteloc, int x, int y, Map<String, BufferedImage> spriteData) 
 	{
@@ -83,9 +86,24 @@ public class Actor extends game.Platform
 	        String line = Tools.readlineadv(br);
 	    	//reader.closeBR();
 	    	
+	        
+	        
+	        //Actions---------------------------------------------------------
+	        
+	        err= 6;
+	    	br = reader.getBR(valueloc);
+	        
+	        this.actionMap = new HashMap<String,Action>();
+	        Action tAction;
+	        while((line = Tools.readlineadv(br))!=null)
+	        {
+	        	tAction = new Action(line);
+		        this.actionMap.put(tAction.getName(),tAction);
+	        }
+	        reader.closeBR();        
 	    	
 	    	//Values---------------------------------------------------------
-	        /*
+	        
 	        err= 7;
 	    	br = reader.getBR(valueloc);
 	        
@@ -97,7 +115,7 @@ public class Actor extends game.Platform
 		        this.valueMap.put(tValue.getName(),tValue);
 	        }
 	        reader.closeBR();
-	        */
+	        
 	        
 	        
 	    } catch (Exception e) 
