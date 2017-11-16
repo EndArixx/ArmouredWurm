@@ -1,5 +1,6 @@
 package game.actions;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import game.Tools;
+import game.World;
 import game.triggers.Trigger;
 
 //This is the actor controller
@@ -62,5 +64,23 @@ public class ExecutiveDirector
 		
 	}
 	
+	public void update(World theWorld)
+	{
+		//Loop through all actors and update them.
+		for(Actor A : this.CurrentCast)
+		{
+			//This will have to be overloaded, the Actors will do more than just simply update their Position like the platforms do.
+			A.update(theWorld);
+		}
+	}
+	
+	public void Render(Graphics g, Map<String,BufferedImage> spriteData)
+	{
+		//Loop through all the Actors then render them.
+		for(Actor A : this.CurrentCast)
+		{
+			A.render(g, spriteData);
+		}
+	}
 	
 }
