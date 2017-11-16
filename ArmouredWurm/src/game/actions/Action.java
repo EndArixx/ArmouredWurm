@@ -39,6 +39,10 @@ public class Action
 	private int cooldown;
 	private double priority; 
 	private String name;
+	//animation data
+	//damaage data
+	//time data
+	
 	
 	public Action(String inActionID)
 	{

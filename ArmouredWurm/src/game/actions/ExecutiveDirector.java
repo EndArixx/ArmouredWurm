@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
+import game.DamageHitbox;
+import game.Platform;
 import game.Tools;
 import game.World;
 import game.triggers.Trigger;
@@ -64,6 +67,8 @@ public class ExecutiveDirector
 		
 	}
 	
+	
+	// 3 Main parts, Update, Operate, render
 	public void update(World theWorld)
 	{
 		//Loop through all actors and update them.
@@ -71,6 +76,14 @@ public class ExecutiveDirector
 		{
 			//This will have to be overloaded, the Actors will do more than just simply update their Position like the platforms do.
 			A.update(theWorld);
+		}
+	}
+	
+	public void Operate(int[] playerhitbox,Platform[] platforms,Queue<DamageHitbox> damageQ)
+	{
+		for(Actor A : this.CurrentCast)
+		{
+			A.Operate(playerhitbox, platforms, damageQ);
 		}
 	}
 	

@@ -6,15 +6,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
 
 import javax.imageio.ImageIO;
 
+import game.DamageHitbox;
+import game.Platform;
 import game.Tools;
-import game.triggers.AttackHitBoxes;
-import game.triggers.Spark;
-import game.triggers.State;
-import game.triggers.Trigger;
-import game.triggers.Value;
+import game.triggers.*;
 
 
 /*
@@ -123,7 +122,23 @@ public class Actor extends game.Platform
 	    	System.out.println("Im sorry the Actor: "+name+" or one of its files could not be loaded!\n Error #"+ err + "\n " + e.toString());
 	    	//JOptionPane.showMessageDialog(null,  "Player File: "+infile +"Error:"+err+"\n"+ e.toString() , "Render Error", JOptionPane.ERROR_MESSAGE);
 	    } 
+	}
+	
+	public void Operate(int[] playerhitbox,Platform[] platforms,Queue<DamageHitbox> damageQ)
+	{
+		//This is the main control method.
 		
+		//What does it need as an input?
+		//	Map data
+		//	player data
+		//	
+		
+		//what does it do.
+		// chooses when to use skills and movement
+		//		set acceleration
+		//		use 'skills'
+		//		puts damage hitboxes into the queue
 		
 	}
+	
 }
